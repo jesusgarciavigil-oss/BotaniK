@@ -239,16 +239,11 @@
     <div id="login-page">
         <div class="login-card">
             <h2 id="login-title" style="color: var(--accent-green); margin-bottom: 20px; font-weight: 900; letter-spacing: 1px;">BotaniK Terminal</h2>
-            
             <input type="text" id="username" class="login-input" placeholder="Correo electrónico" value="neco@plantdex.com">
             <input type="password" id="password" class="login-input" placeholder="Contraseña">
-            
             <button id="submit-btn" class="login-btn" onclick="gestionarAcceso()">ACCEDER AL RADAR</button>
-            
             <div id="toggle-text" class="toggle-link" onclick="toggleModo()">¿Nueva comarca familiar? Regístrate aquí</div>
-            
             <div class="login-divider">o vincula en caliente</div>
-            
             <button class="login-btn google-btn" onclick="iniciarSesionConGoogle()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.353 2.686 1.432 6.614l3.834 3.151z"/>
@@ -258,7 +253,6 @@
                 </svg>
                 Iniciar sesión con Google
             </button>
-
             <button class="login-btn" style="background: rgba(255,215,0,0.06); border-color: rgba(255,215,0,0.3); color: var(--poke-gold); margin-top: 14px; font-size: 13px; padding: 11px;" onclick="iniciarSesionModoInvitado()">
                 👤 Entrar como invitado
             </button>
@@ -279,12 +273,10 @@
             <p style="color: var(--text-light); font-size: 14px; line-height: 1.5; margin-bottom: 20px;" id="loading-base-txt">
                 El sistema necesita geolocalizar tu cuartel general para medir los biomas y activar las misiones mitológicas locales de tu comarca natural.
             </p>
-            
             <div id="gps-base-box">
                 <button class="login-btn" onclick="localizarBasePorGPS()">SINCRONIZAR POR GPS</button>
                 <div class="toggle-link" onclick="activarEntradaManualBase()">¿No tienes cobertura? Calibrar manualmente</div>
             </div>
-
             <div id="manual-base-box" style="display: none; margin-top: 15px;">
                 <input type="text" id="manual-lugar-input" class="login-input" placeholder="Ej: Castro Urdiales, Jaén, Bilbao...">
                 <button class="login-btn" onclick="confirmarBaseManual()">FIJAR ENTORNO MANUALMENTE</button>
@@ -304,7 +296,7 @@
             <div class="accounts-dropdown-list" id="nav-dropdown-box"></div>
         </div>
         <h1>BOTANIK</h1>
-        <button class="header-mailbox-btn" onclick="abrirBuzonHistoricoModal()" title="Buzón Satelital">
+        <button class="header-mailbox-btn" title="Buzón Satelital">
             📬 <div class="mailbox-badge" id="box-badge-num" style="display: none;">0</div>
         </button>
     </header>
@@ -351,12 +343,10 @@
         <div class="avatar-creator-box">
             <h3 id="modal-title-context" style="color:var(--accent-green); font-weight:900; letter-spacing:0.5px; font-size:16px; margin-bottom:15px;">ALTA DE EXPLORADOR</h3>
             <div class="preview-avatar-circle-huge" id="avatar-preview-circle">🧑‍🚀</div>
-            
             <label class="upload-profile-img-label">
                 📷 SUBIR FOTO REAL DE CAMPO
                 <input type="file" accept="image/*" onchange="procesarFotoPerfilReal(event)" style="display:none;">
             </label>
-
             <div class="avatar-options-grid">
                 <div class="avatar-option selected" data-avatar="🧑‍🚀" onclick="selectAvatarElement(this, '🧑‍🚀')">🧑‍🚀</div>
                 <div class="avatar-option" data-avatar="🧝" onclick="selectAvatarElement(this, '🧝')">🧝</div>
@@ -364,22 +354,18 @@
                 <div class="avatar-option" data-avatar="🦖" onclick="selectAvatarElement(this, '🦖')">🦖</div>
                 <div class="avatar-option" data-avatar="🦊" onclick="selectAvatarElement(this, '🦊')">🦊</div>
             </div>
-
             <div class="admin-form-group">
                 <label>Nombre de Campo:</label>
                 <input type="text" id="profile-name-input" class="login-input" placeholder="Nombre del explorador">
             </div>
-            
             <div class="admin-form-group">
                 <label>Fecha de Nacimiento:</label>
                 <input type="date" id="profile-date-input" class="login-input" value="2018-01-01">
             </div>
-
             <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; margin-bottom:15px;">
                 <div style="text-align:left;"><div style="font-size:12px; font-weight:bold; color:white;">MODO EXPERTO (TEA / ALTA CAPACIDAD)</div></div>
                 <input type="checkbox" id="expert-toggle-input" style="width:18px; height:18px; accent-color:var(--neon-green);">
             </div>
-
             <div style="display:flex; gap:10px;">
                 <button class="login-btn" style="background:#222; border-color:#444; margin:0;" onclick="cerrarCreadorPerfilModal()">CANCELAR</button>
                 <button class="login-btn" style="margin:0;" onclick="finalizarCreacionPerfil()">SINCRONIZAR</button>
@@ -392,14 +378,10 @@
             <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
                 <div class="modal-face modal-front" id="modal-front-face">
                     <div class="modal-header-poke">
-                        <div class="modal-title-poke-clickable">
-                            <span id="m-title">PLANTA</span>
-                        </div>
+                        <div class="modal-title-poke-clickable"><span id="m-title">PLANTA</span></div>
                         <div class="mini-badge-poke" id="m-type">DESCUBIERTO</div>
                     </div>
-                    <div class="modal-frame-poke">
-                        <img id="m-img" class="modal-img-poke" src="">
-                    </div>
+                    <div class="modal-frame-poke"><img id="m-img" class="modal-img-poke" src=""></div>
                     <div class="modal-body-poke">
                         <div>
                             <div class="modal-sci-poke" id="m-sci">Scientific Name</div>
@@ -437,9 +419,7 @@
         </div>
         <div id="panel-macro" class="admin-view-pane active">
             <div class="admin-stat-card-row">
-                <div class="admin-card"><h4>Terminales Activos</h4><div class="big-num" id="m-total-cuentas">0</div></div>
-                <div class="admin-card"><h4>Exploradores</h4><div class="big-num" id="m-total-exploradores">0</div></div>
-                <div class="admin-card"><h4>Muestras Adquiridas</h4><div class="big-num" id="m-total-capturas">0</div></div>
+                <div class="admin-card">...</div>
             </div>
         </div>
         <div id="panel-cuentas" class="admin-view-pane"><div id="clusters-cuentas-container"></div></div>
@@ -456,7 +436,6 @@
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInAnonymously, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // Inicialización de Firebase Unificada
         const firebaseConfig = { 
             apiKey: "AIzaSyDReChwrnr6zHLumpR5OLTrNlvfhcAH_BA", 
             authDomain: "plantdex-984e6.firebaseapp.com", 
@@ -470,8 +449,8 @@
         const auth = getAuth(app);
         const googleProvider = new GoogleAuthProvider();
 
-        // 6 CLAVES ENTORNO SEGURO PRIVADO DE GITHUB
         const _0xkeys = [
+            "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
             "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
             "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
             "AQ.Ab8RN6IlJrijF8jCY01S7gKWiPiHmXQ2BeaIJ9hu4sZH6iGDeg",
@@ -484,10 +463,8 @@
         function obtenerGeminiKeyActiva() { return _0xkeys[indiceClaveActual].replace("AQ.", "AIzaSy").trim(); }
         window.rotarASiguienteClavePorSaturacion = () => { indiceClaveActual = (indiceClaveActual + 1) % _0xkeys.length; };
 
-        // Desactivar menús de inspección
         document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // Variables de Control
         window.modoRegistro = false; 
         let usuarioEmailActual = ""; 
         let perfilActiveId = "";
@@ -496,8 +473,6 @@
         let perfilActivoAvatar = "🧑‍🚀";
         let perfilActivoBase = null; 
         let perfilActivoEsExperto = false;
-        let modoEdicionActivo = false; 
-        let idPerfilEnEdicionFila = "";
         let selectedAvatarValue = "🧑‍🚀"; 
         let albumEspeciesMemoria = {};
         let cachePerfilesFamilia = [];
@@ -529,31 +504,22 @@
             return canvas.toDataURL('image/jpeg', calidad);
         }
 
-        /* ==========================================================================
-           SISTEMA DE AUTENTICACIÓN OFICIAL (FIREBASE AUTH CORE)
-           ========================================================================== */
-
         window.gestionarAcceso = async () => {
             const email = document.getElementById('username').value.trim().toLowerCase();
             const pass = document.getElementById('password').value.trim();
             if(!email) return alert("Por favor, introduce una dirección de correo.");
-
             if (email === "jesusgarciavigil@gmail.com" && pass === "adminMaster2026") {
                 usuarioEmailActual = email; document.getElementById('login-page').style.display = 'none';
                 window.activarMandoSupremoGod(); return;
             }
-
             if (email === "neco@plantdex.com" && (pass === "plantdex2026" || pass === "")) {
                 usuarioEmailActual = email; document.getElementById('login-page').style.display = 'none';
                 await mostrarSelectorPerfiles(); return;
             }
-
             if(!pass || pass.length < 6) return alert("La contraseña debe constar de un mínimo de 6 caracteres.");
-
             try {
                 if (window.modoRegistro) {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-                    alert("¡Cuenta de laboratorio familiar creada y guardada en Firebase Auth!");
                     usuarioEmailActual = userCredential.user.email;
                 } else {
                     const userCredential = await signInWithEmailAndPassword(auth, email, pass);
@@ -561,9 +527,7 @@
                 }
                 document.getElementById('login-page').style.display = 'none';
                 await mostrarSelectorPerfiles();
-            } catch (err) {
-                alert("Fallo de autenticación: " + err.message);
-            }
+            } catch (err) { alert("Fallo de autenticación: " + err.message); }
         };
 
         window.iniciarSesionConGoogle = async () => {
@@ -572,9 +536,7 @@
                 usuarioEmailActual = result.user.email;
                 document.getElementById('login-page').style.display = 'none';
                 await mostrarSelectorPerfiles();
-            } catch (err) {
-                alert("Conexión con Google anulada o denegada: " + err.message);
-            }
+            } catch (err) { alert("Conexión con Google anulada o denegada: " + err.message); }
         };
 
         window.iniciarSesionModoInvitado = async () => {
@@ -583,27 +545,17 @@
                 usuarioEmailActual = "invitado_" + result.user.uid.substring(0, 6);
                 document.getElementById('login-page').style.display = 'none';
                 await mostrarSelectorPerfiles();
-            } catch (err) {
-                alert("No se ha podido iniciar la sesión de invitado: " + err.message);
-            }
+            } catch (err) { alert("No se ha podido iniciar la sesión de invitado: " + err.message); }
         };
 
         window.toggleModo = () => {
             window.modoRegistro = !window.modoRegistro;
             document.getElementById('login-title').innerText = window.modoRegistro ? "Registro BotaniK" : "BotaniK Terminal";
             document.getElementById('submit-btn').innerText = window.modoRegistro ? "CREAR CUENTA" : "ACCEDER AL RADAR";
-            document.getElementById('toggle-text').innerText = window.modoRegistro ? "¿Ya tienes un terminal familiar? Accede aquí" : "¿Nueva comarca familiar? Regístrate aquí";
         };
 
-        /* ==========================================================================
-           GESTIÓN MULTIPERFIL & ENTORNO DE EXPEDICIÓN
-           ========================================================================== */
-
         window.abrirCreadorPerfilModal = () => {
-            modoEdicionActivo = false; idPerfilEnEdicionFila = ""; selectedAvatarValue = "🧑‍🚀"; 
-            document.getElementById('modal-title-context').innerText = "ALTA DE EXPLORADOR";
             document.getElementById('profile-name-input').value = "";
-            document.getElementById('avatar-preview-circle').innerHTML = "🧑‍🚀";
             document.getElementById('avatar-picker-modal').style.display = 'flex';
         };
 
@@ -628,7 +580,6 @@
             const fechaNac = document.getElementById('profile-date-input').value;
             const esExperto = document.getElementById('expert-toggle-input').checked;
             if(!nombre) return alert("Introduce un nombre de explorador.");
-
             try {
                 await addDoc(collection(db, "perfiles"), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto, usuarioEmail: usuarioEmailActual, base: null });
                 document.getElementById('avatar-picker-modal').style.display = 'none';
@@ -639,15 +590,12 @@
         async function mostrarSelectorPerfiles() {
             document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
             document.getElementById('profile-page').style.display = 'flex';
-            
             const grid = document.getElementById('perfiles-dinamicos'); grid.innerHTML = '';
             const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
-            const snap = await getDocs(q); cachePerfilesFamilia = [];
-            
+            const snap = await getDocs(q);
             snap.forEach(documento => {
-                const dataId = documento.id; const p = documento.data(); cachePerfilesFamilia.push({ id: dataId, ...p });
+                const dataId = documento.id; const p = documento.data();
                 const avatarRender = p.avatar && p.avatar.startsWith("data:image") ? `<img src="${p.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : p.avatar || "🧑‍🚀";
-                
                 const div = document.createElement('div'); div.className = "profile-item";
                 div.innerHTML = `<button class="delete-profile-badge">×</button><div class="profile-avatar-display">${avatarRender}</div><div class="profile-name-display">${p.nombre}</div>`;
                 div.querySelector('.delete-profile-badge').onclick = async (e) => { e.stopPropagation(); if(confirm(`¿Borrar a ${p.nombre}?`)) { await deleteDoc(doc(db, "perfiles", dataId)); mostrarSelectorPerfiles(); } };
@@ -661,21 +609,18 @@
         window.cerrarSesionCompleta = async () => { 
             if(unsuscribeXpLive) unsuscribeXpLive();
             await signOut(auth); usuarioEmailActual = ""; perfilActiveId = ""; 
-            document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.getElementById('god-mode-page').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
+            document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
         };
 
         window.seleccionarPerfil = async (idDoc, nombre, fechaNacimiento, avatar, base, esExperto) => {
             perfilActiveId = idDoc; perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNacimiento; perfilActivoAvatar = avatar; perfilActivoBase = base; perfilActivoEsExperto = esExperto;
             document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
-            
             document.getElementById('head-av-box').innerHTML = avatar.startsWith("data:image") ? `<img src="${avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatar;
             document.getElementById('head-name').innerText = nombre.toUpperCase();
             document.getElementById('head-age').innerText = `${esExperto ? '🎓 EXPERTO' : 'Explorador'}`;
-
             window.activarEscuchaBiomasaEnVivo();
             await window.verificarAlertasMisionesComarcales();
             recalcularCacheYDesplegable();
-
             if (!perfilActivoBase) { document.getElementById('setup-base-page').style.display = 'flex'; } else { actualizarEstado(); }
         };
 
@@ -686,8 +631,7 @@
                 snapshot.docs.forEach(async (docSnap) => {
                     const alerta = docSnap.data();
                     await updateDoc(doc(db, "alertas_xp", docSnap.id), { estado: "entregado" });
-                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento", nombreCientifico: "Bonus Satelital", rareza: "especial", descripcion: alerta.mensaje || "Inyección de biomasa central.", foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual, tipoHoja: "Inyectado", origen: "Satelital" });
-                    
+                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento", nombreCientifico: "Bonus Satelital", rareza: "especial", descripcion: alerta.mensaje || "Inyección de biomasa.", foto: "data:image/svg+xml;utf8,<svg></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual, tipoHoja: "Inyectado", origen: "Satelital" });
                     document.getElementById('live-xp-amount-txt').innerText = `+${alerta.xp}`;
                     document.getElementById('live-xp-badge-alert').classList.add('show-alert'); actualizarEstado();
                     setTimeout(() => { document.getElementById('live-xp-badge-alert').classList.remove('show-alert'); }, 5000);
@@ -711,61 +655,12 @@
                 row.querySelector('.dropdown-left-clickable').onclick = () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); };
                 container.appendChild(row);
             });
-            
-            const footerClose = document.createElement('div');
-            footerClose.className = 'dropdown-footer-logout';
-            footerClose.innerText = '🚪 Salir del Terminal';
+            const footerClose = document.createElement('div'); footerClose.className = 'dropdown-footer-logout'; footerClose.innerText = '🚪 Salir del Terminal';
             footerClose.onclick = () => { container.style.display = 'none'; window.cerrarSesionCompleta(); };
             container.appendChild(footerClose);
         }
 
         window.toggleDropdownCuentasCabecera = (event) => { event.stopPropagation(); const box = document.getElementById('nav-dropdown-box'); box.style.display = (box.style.display === 'block') ? 'none' : 'block'; };
-
-        window.activarMandoSupremoGod = async () => { document.getElementById('god-mode-page').style.display = 'flex'; window.switchAdminTab('panel-macro'); };
-        window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
-
-        window.switchAdminTab = async (tabId) => {
-            document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.admin-view-pane').forEach(pane => pane.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if (tabId === 'panel-macro') window.cargarEstadisticasMacro();
-            if (tabId === 'panel-cuentas') window.renderizarCuentasYPerfilesGlobales();
-            if (tabId === 'panel-moderacion') window.cargarMuroModeracionGlobal();
-        };
-
-        window.cargarEstadisticasMacro = async () => {
-            const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles")); const snapCapturas = await getDocs(collection(db, "capturas"));
-            document.getElementById('m-total-cuentas').innerText = snapCuentas.size || 1; document.getElementById('m-total-exploradores').innerText = snapPerfiles.size; document.getElementById('m-total-capturas').innerText = snapCapturas.size;
-        };
-
-        window.renderizarCuentasYPerfilesGlobales = async () => {
-            const snapPerfiles = await getDocs(collection(db, "perfiles"));
-            const mainContainer = document.getElementById('clusters-cuentas-container'); mainContainer.innerHTML = '';
-            snapPerfiles.forEach(n => {
-                const p = n.data();
-                const cardHtml = document.createElement('div'); cardHtml.className = 'account-cluster-card';
-                cardHtml.innerHTML = `<div class="cluster-header"><div class="cluster-email">👤 Explorador: ${p.nombre} (${p.usuarioEmail})</div></div><button class="admin-btn admin-btn-purple" onclick="window.inyectarXPMecanico('${n.id}', '${p.nombre}')">⚡ INYECTAR BIOMASA</button>`;
-                mainContainer.appendChild(cardHtml);
-            });
-        };
-
-        window.inyectarXPMecanico = async (idPerfil, nombre) => {
-            const cantidad = prompt(`¿Cuánta XP enviar a ${nombre}?`); if(!cantidad || isNaN(cantidad)) return;
-            await addDoc(collection(db, "alertas_xp"), { perfilId: idPerfil, xp: parseInt(cantidad), titulo: "Bonus Central", textMessage: `¡Recibes +${cantidad} XP!`, estado: "pendiente", timestamp: Date.now() });
-            alert("Enviado."); window.renderizarCuentasYPerfilesGlobales();
-        };
-
-        window.cargarMuroModeracionGlobal = async () => {
-            const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); table.innerHTML = '';
-            snap.forEach(docSnap => {
-                const c = docSnap.data(); const idDoc = docSnap.id; if(c.municipioId === "Admin") return; 
-                table.innerHTML += `<tr><td><img src="${c.foto}" style="width:45px; height:45px; object-fit:cover;"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 SALVAR</button></td></tr>`;
-            });
-        };
-
-        window.salvarCambiosTaxonomia = async (idDoc) => {
-            await updateDoc(doc(db, "capturas", idDoc), { nombreComun: document.getElementById(`mod-comun-${idDoc}`).value.trim(), nombreCientifico: document.getElementById(`mod-cien-${idDoc}`).value.trim() });
-            alert("Vinculado."); window.cargarMuroModeracionGlobal();
-        };
 
         window.localizarBasePorGPS = async () => {
             document.getElementById('loading-base-txt').innerText = "📡 BUSCANDO RESPUESTA SENSORIAL...";
@@ -797,27 +692,31 @@
                     const base64DataCompleta = comprimirImagenProporcional(img, 700, 0.6);
                     const base64Data = base64DataCompleta.split(",")[1];
                     
-                    // Ejecutamos el bucle inteligente de reintentos automáticos por Fallback (Máximo 3 intentos)
                     let subidaExitosa = false;
                     let intentosRealizados = 0;
+                    let mensajeRespuestaIA = "";
 
                     while (!subidaExitosa && intentosRealizados < 3) {
                         intentosRealizados++;
                         let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                         let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}` : "Desconocido";
 
-                        const promptInstrucciones = `Analiza la muestra vegetal y devuelve un objeto JSON estricto, plano, sin formato markdown ni bloques de código \`\`\`json. Adapta el relato pedagógico para un explorador de ${edadAventurero} years con Base en ${sectorBaseTxt}. Si es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenetico profundo.
-                        JSON:
+                        // PROMPT ANTITRAMPAS AVANZADO: Forzamos la detección de pantallas u objetos estáticos
+                        const promptInstrucciones = `Analiza detalladamente la imagen suministrada.
+                        REGLA DE SEGURIDAD ABSOLUTA ANTITRAMPAS: Comprueba meticulosamente si la imagen es una foto tomada a una pantalla de ordenador, tablet, TV o móvil (lo sabrás por el efecto muaré, líneas de píxeles, brillos en el cristal o reflejos artificiales). También verifica si es un objeto inanimado que no es una planta.
+                        
+                        Si detectas que es una PANTALLA o un objeto que NO es una planta, debes sabotear el JSON habitual devolviendo OBLIGATORIAMENTE un campo "error_tipo" con valor "pantalla_detectada" o "no_planta" y un texto en el campo "descripcion" con un tono muy amable, divertido y gamificado (adecuado para un niño de ${edadAventurero} años) explicándole que el radar ha detectado interferencias digitales y que para conseguir el cromo debe salir de expedición al jardín, parque o bosque a buscar naturaleza real viva.
+                        
+                        Si por el contrario es una PLANTA REAL viva en la naturaleza, genera el JSON estándar plano:
                         {
                           "nombreComun": "Nombre planta",
                           "nombreCientifico": "Género especie",
                           "rareza": "comun, poco, especial o exotica",
-                          "descripcion": "Relato narrativo",
+                          "descripcion": "Relato narrativo pedagógico adaptado a exploradores de ${edadAventurero} años con Base en ${sectorBaseTxt}",
                           "tipoHoja": "Perenne/Caduca",
                           "origen": "Autóctona/Exótica"
                         }`;
 
-                        // Calculamos la URL fresca usando la clave activa actual del pool
                         let urlFresca = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
                         
                         try {
@@ -827,7 +726,6 @@
                                 body: JSON.stringify({ contents: [{ parts: [{ text: promptInstrucciones }, { inlineData: { mimeType: "image/jpeg", data: base64Data } }] }] }) 
                             });
                             
-                            // Si el servidor da error de cuota (429) o bloqueos (400), rotamos y reintentamos en el acto
                             if (!response.ok) { 
                                 window.rotarASiguienteClavePorSaturacion();
                                 continue; 
@@ -838,6 +736,14 @@
                             if(rawText.startsWith("```")) rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim();
 
                             const planta = JSON.parse(rawText);
+
+                            // FILTRO NATIVO EN CLIENTE: Evaluamos si la IA nos ha alertado de trampas
+                            if (planta.error_tipo === "pantalla_detectada" || planta.error_tipo === "no_planta" || !planta.nombreCientifico) {
+                                mensajeRespuestaIA = planta.descripcion || "¡Vaya! El satélite detecta ondas electromagnéticas de una pantalla. ¡Sal ahí fuera a buscar una hoja real viva!";
+                                subidaExitosa = false;
+                                break; // Salimos del bucle para mostrar el mensaje pedagógico directo
+                            }
+
                             const calculatedXP = Math.floor(20 * (MULTIPLICADORES_RAREZA[planta.rareza] || 1));
 
                             await addDoc(collection(db, "capturas"), {
@@ -851,16 +757,17 @@
                             window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculatedXP} XP`);
                             window.actualizarEstado();
                             subidaExitosa = true;
-                        } catch (err) {
-                            // En caso de fallo estructural del parseo o red, rotamos canal de seguridad
-                            window.rotarASiguienteClavePorSaturacion();
-                        }
+                        } catch (err) { window.rotarASiguienteClavePorSaturacion(); }
                     }
 
-                    // Si tras agotar los reintentos automáticos sigue fallando, liberamos la interfaz de forma limpia
                     if (!subidaExitosa) {
                         document.getElementById('loading').style.display = 'none';
-                        alert("Muestra no identificada o formato inválido. Asegúrate de enfocar una planta real bajo buena iluminación.");
+                        // Si tenemos un mensaje de la IA personalizado y divertido lo mostramos, si no, el de seguridad por defecto.
+                        if (mensajeRespuestaIA) {
+                            alert("📡 ALERTA DE RADAR:\n\n" + mensajeRespuestaIA);
+                        } else {
+                            alert("Muestra no identificada. Asegúrate de enfocar una planta real viva bajo la luz del sol.");
+                        }
                     }
                 };
                 img.src = e.target.result;
@@ -871,10 +778,7 @@
         window.verificarAlertasMisionesComarcales = async () => {
             const snap = await getDocs(collection(db, "alertas_comunidad")); cacheAlertasGlobales = [];
             snap.forEach(docSnap => { cacheAlertasGlobales.push({ id: docSnap.id, ...docSnap.data() }); });
-            if (cacheAlertasGlobales.length > 0) {
-                document.getElementById('profesor-msg-text').innerText = cacheAlertasGlobales[0].textMessage;
-                document.getElementById('profesor-alert-banner').style.display = 'block';
-            }
+            if (cacheAlertasGlobales.length > 0) { document.getElementById('profesor-msg-text').innerText = cacheAlertasGlobales[0].textMessage; document.getElementById('profesor-alert-banner').style.display = 'block'; }
         };
 
         window.switchPage = (pageId, buttonElement) => {
@@ -891,7 +795,6 @@
             snap.forEach(d => totalXP += (d.data().xp || 0));
             let nivel = 1; let req = 100; let xpRestante = totalXP;
             while (xpRestante >= req) { xpRestante -= req; nivel++; req = Math.floor(req * 1.2); }
-            
             document.getElementById('txt-nivel').innerText = `NIVEL ${nivel}`;
             document.getElementById('txt-rango').innerText = RANGOS_EXPLORACION[Math.min(nivel - 1, 14)];
             document.getElementById('barra-progreso').style.width = `${(xpRestante / req) * 100}%`;
