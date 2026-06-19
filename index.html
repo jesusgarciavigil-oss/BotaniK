@@ -488,6 +488,9 @@
         const googleProvider = new GoogleAuthProvider();
 
         const _0xkeys = [
+            "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
+            "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
+            "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
             "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
             "AQ.Ab8RN6IlJrijF8jCY01S7gKWiPiHmXQ2BeaIJ9hu4sZH6iGDeg",
             "AQ.Ab8RN6J8M-4szUq3prRTJmmmgtzReKCFbCtTpXSAaJkcKTrPTQ",
@@ -599,7 +602,7 @@
         };
 
         window.iniciarSesionConGoogle = async () => {
-            try { await signInWithPopup(auth, googleProvider); } catch (err) { alert("Conexión con Google anulada: " + err.message); }
+            try { await signInWithPopup(auth, googleProvider); } catch (err) { alert("Conexión con Google annulada: " + err.message); }
         };
 
         window.iniciarSesionModoInvitado = async () => {
@@ -799,7 +802,7 @@
                         const promptInstrucciones = `Analiza detalladamente la imagen suministrada.
                         REGLA DE SEGURIDAD ABSOLUTA ANTITRAMPAS: Comprueba meticulosamente si la imagen es una foto tomada a una pantalla de ordenador, tablet, TV o móvil (lo sabrás por el efecto muaré, líneas de píxeles, brillos en el cristal o reflejos artificiales). También verifica si es un objeto inanimado que no es una planta.
                         
-                        Si detectas que es una PANTALLA o un objeto que NO es una planta, debes sabotagear el JSON habitual devolviendo OBLIGATORIAMENTE un campo "error_tipo" con valor "pantalla_detectada" o "no_planta" y un texto en el campo "descripcion" con un tono muy amable, divertido y gamificado (adecuado para un niño de ${edadAventurero} años) explicándole que el radar ha detectado interferencias digitales y que para conseguir el cromo debe salir de expedición al jardín, parque o bosque a buscar naturaleza real viva.
+                        Si detectas que es una PANTALLA o un objeto que NO es una planta, debes alterar el JSON habitual devolviendo OBLIGATORIAMENTE un campo "error_tipo" con valor "pantalla_detectada" o "no_planta" y un texto en el campo "descripcion" con un tono muy amable, divertido y gamificado (adecuado para un niño de ${edadAventurero} años) explicándole que el radar ha detectado interferencias digitales y que para conseguir el cromo debe salir de expedición al jardín, parque o bosque a buscar naturaleza real viva.
                         
                         Si por el contrario es una PLANTA REAL viva en la naturaleza, genera el JSON estándar plano:
                         {
