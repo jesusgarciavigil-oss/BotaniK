@@ -27,68 +27,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
         body { background-color: var(--bg-dark); color: var(--text-light); padding-bottom: 80px; }
 
-        /* Interfaces de Ajustes, Vistas y Páginas */
-        .page { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; }
-        .page.active { display: block; }
-
-        .dashboard-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 25px; background: var(--surface-dark); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(57, 255, 20, 0.2); }
-        .user-profile-badge { display: flex; align-items: center; gap: 15px; }
-        .avatar-mini { width: 50px; height: 50px; border-radius: 50px; border: 2px solid var(--neon-green); object-fit: cover; }
-        
-        .level-title { font-size: 1.1rem; font-weight: bold; color: var(--neon-green); }
-        .level-badge { font-size: 0.8rem; background: var(--botanik-green); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 3px; }
-        
-        .progress-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 8px; }
-        .progress-bar-fill { width: 0%; height: 100%; background: var(--neon-green); border-radius: 10px; transition: width 0.4s ease; }
-        .xp-text { font-size: 0.75rem; color: var(--text-muted); text-align: right; margin-top: 4px; }
-
-        .stats-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .stat-box { background: var(--surface-dark); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-        .stat-box h3 { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
-        .stat-box .counter { font-size: 1.8rem; font-weight: bold; color: var(--text-light); }
-
-        .scan-container { text-align: center; padding: 40px 20px; background: linear-gradient(135deg, var(--surface-dark) 0%, #0d2527 100%); border-radius: 16px; border: 2px dashed var(--neon-green); box-shadow: 0 0 20px rgba(57, 255, 20, 0.1); margin-bottom: 25px; position: relative; }
-        .scan-btn { background: var(--neon-green); color: var(--bg-dark); border: none; padding: 18px 45px; font-size: 1.3rem; font-weight: bold; border-radius: 50px; cursor: pointer; box-shadow: 0 0 15px var(--neon-green); transition: transform 0.2s; }
-        .scan-btn:active { transform: scale(0.95); }
-        #camera-input { display: none; }
-        #loading { display: none; margin-top: 20px; color: var(--neon-green); font-weight: bold; animation: pulse 1.5s infinite; }
-
-        /* Estilos del Álbum Dinámico */
-        .search-filter-panel { margin-bottom: 20px; }
-        .search-bar-input { width: 100%; background: var(--surface-dark); border: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 8px; color: var(--text-light); font-size: 1rem; }
-        .search-bar-input:focus { border-color: var(--neon-green); outline: none; }
-
-        .album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-        
-        /* Cartas Cromos */
-        .cromo-card { aspect-ratio: 2/3; background: #1a3a3d; border-radius: 12px; overflow: hidden; position: relative; border: 2px solid rgba(255,255,255,0.1); cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .cromo-card:hover { transform: translateY(-5px); }
-        .cromo-card-inner { width: 100%; height: 100%; position: relative; }
-        .cromo-front { width: 100%; height: 100%; display: flex; flex-direction: column; }
-        
-        /* Temáticas de Rareza */
-        .cromo-card.común { border-color: #7FA39F; }
-        .cromo-card.rara { border-color: #3498db; box-shadow: 0 0 8px rgba(52, 152, 219, 0.4); }
-        .cromo-card.épica { border-color: #9b59b6; box-shadow: 0 0 12px rgba(155, 89, 182, 0.5); }
-        .cromo-card.mítica { border-color: var(--poke-gold); box-shadow: 0 0 16px rgba(255, 215, 0, 0.6); }
-
-        .cromo-rareza-tag { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.7); font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; font-weight: bold; z-index: 2; }
-        .cromo-img { width: 100%; flex: 1; object-fit: cover; background: #0b1517; }
-        
-        .cromo-info-footer { padding: 10px 8px; background: rgba(13, 27, 30, 0.9); border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        .cromo-title-comun { font-size: 0.85rem; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-light); }
-        .cromo-title-cientifico { font-size: 0.7rem; color: var(--text-muted); font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
-
-        /* Barra de Navegación */
-        nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: var(--surface-dark); border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-around; align-items: center; z-index: 999; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; color: var(--text-muted); font-size: 0.75rem; cursor: pointer; width: 25%; }
-        .nav-item.active { color: var(--neon-green); }
-        .nav-icon { font-size: 1.4rem; }
-
-        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
-
-        /* Interfaces de Acceso, Perfiles y Modales de tu index original */
-        #login-page, #profile-page, #setup-base-page, #avatar-picker-modal, #god-mode-page, #mailbox-modal, #msg-reader-modal, #link-account-modal {
+        /* Interfaces de Acceso, Perfiles y Modales */
+        #login-page, #profile-page, #setup-base-page, #avatar-picker-modal, #god-mode-page, #mailbox-modal, #msg-reader-modal {
             position: fixed; top:0; left:0; right:0; bottom:0;
             background: radial-gradient(circle at center, var(--surface-dark) 0%, var(--bg-dark) 100%);
             display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; overflow-y: auto;
@@ -96,130 +36,306 @@
         #profile-page { z-index: 9998; display: none; flex-direction: column; }
         #setup-base-page { z-index: 9997; display: none; flex-direction: column; text-align: center; }
         #avatar-picker-modal { z-index: 20000; display: none; background: rgba(13, 27, 30, 0.95); backdrop-filter: blur(8px); }
-        #god-mode-page { z-index: 9995; display: none; background: radial-gradient(circle at center, var(--admin-surface) 0%, #0f001e 100%); flex-direction: column; justify-content: flex-start; padding: 30px 20px; color: #f2e6ff; }
-        #mailbox-modal, #msg-reader-modal, #link-account-modal { display: none; background: rgba(13, 27, 30, 0.9); backdrop-filter: blur(5px); }
-        .auth-container { background: rgba(21, 42, 45, 0.85); border: 2px solid var(--neon-green); border-radius: 16px; padding: 30px; width: 100%; max-width: 420px; box-shadow: 0 0 30px rgba(57, 255, 20, 0.15); text-align: center; }
-        .auth-title { font-size: 2rem; font-weight: bold; color: var(--neon-green); margin-bottom: 8px; letter-spacing: 1px; }
-        .auth-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 25px; }
-        .form-group { margin-bottom: 18px; text-align: left; }
-        .form-group label { display: block; font-size: 0.8rem; text-transform: uppercase; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; }
-        .form-input { width: 100%; background: rgba(13,27,30,0.6); border: 1px solid rgba(255,255,255,0.1); padding: 12px 16px; border-radius: 8px; color: white; font-size: 1rem; transition: border-color 0.3s; }
-        .form-input:focus { border-color: var(--neon-green); outline: none; }
-        .botanik-btn { width: 100%; background: var(--neon-green); color: var(--bg-dark); border: none; padding: 14px; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(57, 255, 20, 0.3); transition: transform 0.2s; }
-        .botanik-btn:active { transform: scale(0.98); }
-        .btn-secondary { background: transparent; border: 1px solid var(--text-muted); color: var(--text-light); box-shadow: none; margin-top: 10px; }
-        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; margin-top: 20px; width: 100%; }
-        .profile-card-btn { background: var(--surface-dark); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px 10px; color: white; cursor: pointer; text-align: center; transition: all 0.2s; }
-        .profile-card-btn img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid transparent; }
-        #cromo-overlay-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7, 15, 17, 0.9); backdrop-filter: blur(8px); z-index: 30000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.4s ease; }
-        .modal-3d-card-wrapper { width: 100%; max-width: 340px; aspect-ratio: 2/3; perspective: 1000px; cursor: pointer; }
-        .card-3d-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .card-3d-inner.flipped { transform: rotateY(180deg); }
-        .modal-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 20px; border: 4px solid var(--text-muted); overflow: hidden; display: flex; flex-direction: column; background: var(--surface-dark); }
-        .modal-face.face-front { z-index: 2; transform: rotateY(0deg); }
-        .modal-face.face-back { transform: rotateY(180deg); background: linear-gradient(145deg, #102426 0%, #081314 100%); padding: 20px; color: var(--text-light); justify-content: space-between; }
-        .modal-title-poke-clickable { position: relative; background: rgba(0,0,0,0.3); padding: 12px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .names-dropdown-list { display: none; position: absolute; top: 100%; left: 10px; right: 10px; background: #1b3538; border: 1px solid var(--neon-green); border-radius: 8px; z-index: 50; max-height: 120px; overflow-y: auto; }
-        .dropdown-item-btn { width: 100%; background: none; border: none; padding: 8px 12px; text-align: left; color: white; cursor: pointer; font-size: 0.85rem; }
-        .admin-header { display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 2px solid var(--admin-purple); padding-bottom: 15px; margin-bottom: 20px; }
-        .admin-grid-sections { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; }
-        @media(min-width: 768px) { .admin-grid-sections { grid-template-columns: 1fr 1fr; } }
-        .admin-card-panel { background: rgba(36, 0, 70, 0.4); border: 1px solid rgba(157, 78, 221, 0.3); border-radius: 12px; padding: 20px; }
-        .admin-users-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; max-height: 250px; overflow-y: auto; }
-        .admin-user-row { background: rgba(255,255,255,0.05); padding: 10px 15px; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; }
-        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 360px; pointer-events: none; }
-        .botanik-toast { background: rgba(21, 42, 45, 0.95); border-left: 5px solid var(--neon-green); color: white; padding: 12px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.4); pointer-events: auto; }
+        #god-mode-page { z-index: 25000; display: none; flex-direction: column; background: var(--admin-surface); color: #f3e5f5; overflow-y: auto; align-items: stretch; justify-content: flex-start; padding: 0; }
+        #mailbox-modal, #msg-reader-modal { z-index: 15000; display: none; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+
+        .login-card { background: rgba(21, 42, 45, 0.85); padding: 30px; border-radius: 20px; border: 2px solid var(--botanik-green); box-shadow: 0 15px 35px rgba(0,0,0,0.5); text-align: center; width: 100%; max-width: 400px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
+        .login-input, .admin-select, .admin-textarea { width: 100%; padding: 12px 16px; margin: 10px 0; background: rgba(13,27,30,0.6); border: 1px solid var(--botanik-green); border-radius: 10px; color: var(--text-light); font-size: 15px; outline: none; transition: 0.3s; }
+        .login-input:focus, .admin-select:focus, .admin-textarea:focus { border-color: var(--neon-green); box-shadow: 0 0 10px rgba(57,255,20,0.2); }
+        .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--botanik-green) 0%, #154726 100%); border: 1px solid var(--accent-green); border-radius: 10px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; letter-spacing: 0.5px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.2s; }
+        .login-btn:active { transform: scale(0.98); }
+        .toggle-link { color: var(--text-muted); font-size: 13px; margin-top: 15px; cursor: pointer; text-decoration: underline; transition: 0.2s; }
+        .toggle-link:hover { color: var(--accent-green); }
+
+        /* Estructura del Selector de Exploradores */
+        .profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 20px; width: 100%; max-width: 600px; margin: 25px 0; padding: 10px; overflow-y: auto; max-height: 60vh; }
+        .profile-item { background: rgba(21, 42, 45, 0.6); border: 2px solid rgba(118,225,97,0.2); border-radius: 15px; padding: 20px 10px; text-align: center; cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; flex-direction: column; align-items: center; }
+        .profile-item:hover { transform: translateY(-4px); border-color: var(--accent-green); background: rgba(21, 42, 45, 0.9); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .profile-avatar-display { width: 75px; height: 75px; border-radius: 50%; background: var(--bg-dark); border: 2px solid var(--botanik-green); display: flex; align-items: center; justify-content: center; font-size: 36px; margin-bottom: 12px; overflow: hidden; }
+        .profile-avatar-display img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name-display { font-weight: bold; font-size: 15px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+        .profile-age-display { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+        .delete-profile-badge { position: absolute; top: 8px; right: 8px; background: rgba(255,59,48,0.15); border: 1px solid var(--danger); color: var(--danger); border-radius: 50%; width: 22px; height: 22px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .delete-profile-badge:hover { background: var(--danger); color: white; }
+        .add-profile-item-btn { border-style: dashed; border-color: var(--text-muted); background: transparent; justify-content: center; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        .add-profile-item-btn:hover { border-color: var(--neon-green); color: var(--neon-green); }
+        .exit-session-btn { background: transparent; border: 1px solid var(--text-muted); color: var(--text-muted); padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .exit-session-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+        /* Creador de Avatar Exclusivo */
+        .avatar-creator-box { background: var(--surface-dark); border-radius: 20px; padding: 25px; border: 2px solid var(--accent-green); width: 100%; max-width: 440px; text-align: center; color: var(--text-light); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .preview-avatar-circle-huge { width: 90px; height: 90px; border-radius: 50%; background: var(--bg-dark); border: 3px solid var(--neon-green); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 44px; overflow: hidden; box-shadow: 0 0 15px rgba(57,255,20,0.3); }
+        .preview-avatar-circle-huge img { width: 100%; height: 100%; object-fit: cover; }
+        .avatar-options-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 15px 0; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 12px; }
+        .avatar-option { font-size: 28px; padding: 6px; cursor: pointer; border-radius: 8px; transition: 0.15s; border: 2px solid transparent; display: flex; align-items: center; justify-content: center; }
+        .avatar-option:hover { background: rgba(118,225,97,0.1); border-color: rgba(118,225,97,0.3); }
+        .avatar-option.selected { background: var(--botanik-green); border-color: var(--neon-green); box-shadow: 0 0 8px var(--neon-green); }
+        .upload-profile-img-label { display: block; padding: 8px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--text-muted); border-radius: 8px; font-size: 12px; font-weight: bold; color: var(--text-light); cursor: pointer; margin: 5px auto 15px; width: max-content; transition: 0.2s; }
+        .upload-profile-img-label:hover { background: rgba(255,255,255,0.12); border-color: var(--accent-green); }
+
+        /* Estilos Globales de Aplicación */
+        header { background-color: var(--surface-dark); padding: 12px 20px; display: none; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--botanik-green); position: sticky; top:0; z-index: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        header h1 { font-size: 20px; font-weight: 900; letter-spacing: 1.5px; color: var(--accent-green); text-shadow: 0 0 8px rgba(118,225,97,0.2); margin: 0 auto; position: absolute; left: 50%; transform: translateX(-50%); }
+        .header-left-cluster { display: flex; align-items: center; gap: 10px; position: relative; }
+        .header-profile-box { display: flex; align-items: center; gap: 10px; cursor: pointer; background: rgba(13,27,30,0.5); padding: 4px 12px 4px 4px; border-radius: 30px; border: 1px solid rgba(118,225,97,0.15); transition: 0.2s; }
+        .header-profile-box:hover { background: rgba(13,27,30,0.8); border-color: var(--accent-green); }
+        .header-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--bg-dark); border: 1.5px solid var(--neon-green); display: flex; align-items: center; justify-content: center; font-size: 18px; overflow: hidden; }
+        .header-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .header-info-text { display: flex; flex-direction: column; text-align: left; }
+        .header-info-text h2 { font-size: 11px; color: white; font-weight: 800; letter-spacing: 0.3px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .header-info-text span { font-size: 9px; color: var(--text-muted); font-weight: bold; }
+       
+        .header-mailbox-btn { background: rgba(13,27,30,0.5); border: 1px solid rgba(118,225,97,0.15); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; position: relative; transition: 0.2s; }
+        .header-mailbox-btn:hover { border-color: var(--accent-green); background: rgba(13,27,30,0.8); }
+        .mailbox-badge { position: absolute; top: -2px; right: -2px; background: var(--danger); color: white; font-size: 9px; font-weight: bold; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--surface-dark); animation: pulsoAlerta 2s infinite; }
+
+        /* Desplegable Multiperfil en Caliente */
+        .accounts-dropdown-list { display: none; position: absolute; top: 48px; left: 0; background: #13272a; border: 2px solid var(--botanik-green); border-radius: 12px; width: 240px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); overflow: hidden; z-index: 1000; animation: entradaDropdown 0.2s ease-out; }
+        @keyframes entradaDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-account-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid rgba(127,163,159,0.1); transition: 0.15s; }
+        .dropdown-account-item:hover { background: rgba(21, 42, 45, 0.7); }
+        .dropdown-account-item.active-user-row { background: rgba(31, 107, 58, 0.15); }
+        .dropdown-left-clickable { display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1; }
+        .dropdown-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-dark); border: 1px solid var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 14px; overflow: hidden; }
+        .dropdown-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .dropdown-name { font-size: 12px; color: var(--text-light); font-weight: bold; text-transform: uppercase; }
+        .dropdown-edit-btn { background: transparent; border: none; font-size: 14px; cursor: pointer; opacity: 0.5; padding: 4px; transition: 0.2s; }
+        .dropdown-edit-btn:hover { opacity: 1; transform: rotate(30deg); }
+        .dropdown-footer-btn { background: rgba(0,0,0,0.15); padding: 10px 12px; font-size: 11px; font-weight: bold; color: var(--accent-green); cursor: pointer; text-align: left; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .dropdown-footer-btn:hover { background: rgba(0,0,0,0.3); color: var(--neon-green); }
+        .dropdown-footer-logout { border-top: 1px solid rgba(127,163,159,0.08); color: var(--text-muted); }
+        .dropdown-footer-logout:hover { color: var(--danger); }
+
+        /* Contenedores Principales de Vistas */
+        .container { max-width: 500px; margin: 0 auto; padding: 15px; display: block; }
+        .page { display: none; width: 100%; }
+        .page.active { display: block; animation: fadeVista 0.25s ease-in-out; }
+        @keyframes fadeVista { from { opacity: 0; } to { opacity: 1; } }
+
+        .card { background-color: var(--surface-dark); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid rgba(127,163,159,0.1); }
+        .profesor-alert-card { background: linear-gradient(135deg, rgba(31,107,58,0.2) 0%, rgba(13,27,30,0.4) 100%); border: 1.5px solid var(--accent-green); border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; display: none; text-align: left; position: relative; animation: flashBanner 3s infinite alternate; }
+        @keyframes flashBanner { from { border-color: rgba(118,225,97,0.3); } to { border-color: var(--neon-green); box-shadow: 0 0 8px rgba(57,255,20,0.1); } }
+        .profesor-alert-card h4 { font-size: 11px; color: var(--neon-green); font-weight: 900; letter-spacing: 0.5px; margin-bottom: 3px; }
+        .profesor-alert-card p { font-size: 12px; color: var(--text-light); line-height: 1.4; font-weight: 500; }
+
+        /* Notificaciones XP en Caliente */
+        #live-xp-badge-alert { position: fixed; top: -60px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #154726 0%, var(--surface-dark) 100%); border: 2px solid var(--neon-green); padding: 10px 20px; border-radius: 30px; color: white; font-size: 12px; font-weight: bold; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 99999; display: flex; align-items: center; gap: 8px; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #live-xp-badge-alert.show-alert { top: 20px; }
+
+        /* Panel de Estado / Niveles */
+        .level-panel { text-align: left; }
+        .level-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+        .level-title { font-size: 20px; font-weight: 900; color: var(--neon-green); font-family: monospace; }
+        .level-badge { font-size: 11px; color: var(--surface-dark); background: var(--accent-green); padding: 2px 8px; border-radius: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px; }
+        .progress-bar-bg { background-color: rgba(13,27,30,0.8); height: 10px; border-radius: 5px; overflow: hidden; margin-bottom: 5px; border: 1px solid rgba(127,163,159,0.1); }
+        .progress-bar-fill { background: linear-gradient(90deg, var(--botanik-green) 0%, var(--neon-green) 100%); width: 0%; height: 100%; border-radius: 5px; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .xp-text { font-size: 11px; text-align: right; color: var(--text-muted); font-weight: bold; font-family: monospace; }
+
+        .stats-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .stat-box { background-color: var(--surface-dark); border-radius: 12px; padding: 12px; border: 1px solid rgba(127,163,159,0.08); text-align: center; }
+        .stat-box h3 { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .stat-box .counter { font-size: 22px; font-weight: 900; color: white; font-family: monospace; }
+
+        /* Módulo de Escaneo */
+        .scan-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 35px 20px !important; }
+        .scan-btn { background: radial-gradient(circle, var(--danger) 0%, #B31510 100%); width: 110px; height: 110px; border-radius: 50%; border: 4px solid #FF6B64; font-size: 18px; font-weight: 900; color: white; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 0 20px rgba(255,59,48,0.4), inset 0 2px 6px rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
+        .scan-btn:active { transform: scale(0.94); box-shadow: 0 0 10px rgba(255,59,48,0.2); }
+        #camera-input { display: none; }
+        #loading { font-size: 12px; color: var(--neon-green); font-weight: bold; margin-top: 15px; display: none; letter-spacing: 0.5px; font-family: monospace; animation: blinker 1.5s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0.3; } }
+
+        /* Cuadrícula de Cromos */
+        .search-filter-panel { margin-bottom: 14px; width: 100%; }
+        .search-bar-input { width: 100%; padding: 11px 14px; background: var(--surface-dark); border: 1px solid rgba(127,163,159,0.2); border-radius: 10px; color: white; font-size: 14px; outline: none; }
+        .search-bar-input:focus { border-color: var(--accent-green); }
+
+        .album-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding-bottom: 20px; }
+        .cromo-wrapper { position: relative; width: 100%; aspect-ratio: 2/3; perspective: 600px; cursor: pointer; }
+        .cromo-mini-card { width: 100%; height: 100%; background: #0a1416; border-radius: 8px; border: 1.5px solid var(--botanik-green); overflow: hidden; display: flex; flex-direction: column; position: relative; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .cromo-wrapper:hover .cromo-mini-card { transform: translateY(-2px); border-color: var(--accent-green); box-shadow: 0 6px 14px rgba(0,0,0,0.5); }
+       
+        .cromo-mini-card.rare-poco { border-color: var(--frame-silver); }
+        .cromo-mini-card.rare-especial { border-color: var(--frame-gold); }
+        .cromo-mini-card.rare-exotica { border-image: var(--frame-master) 1; border-style: solid; }
+       
+        .cromo-img-box { width: 100%; flex: 1; background: #000; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+        .cromo-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .cromo-txt-bar { background: rgba(21, 42, 45, 0.95); padding: 5px 4px; text-align: center; border-top: 1px solid rgba(127,163,159,0.1); }
+        .cromo-txt-bar h4 { font-size: 9px; color: white; text-transform: uppercase; letter-spacing: 0.2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: bold; }
+        .cromo-evolution-badge { position: absolute; bottom: 2px; right: 2px; background: var(--poke-gold); color: #000; font-size: 7px; font-weight: 900; padding: 1px 3px; border-radius: 4px; text-transform: uppercase; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+
+        /* Navegación Inferior */
+        nav { background-color: var(--surface-dark); display: none; grid-template-columns: 1fr 1fr; position: fixed; bottom: 0; left: 0; right: 0; height: 60px; border-top: 2px solid var(--botanik-green); z-index: 800; box-shadow: 0 -4px 15px rgba(0,0,0,0.4); }
+        nav button { background: transparent; border: none; color: var(--text-muted); font-size: 11px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
+        nav button.active { color: var(--neon-green); background: rgba(57,255,20,0.03); }
+
+        /* Modal Visualizador de Cromo 3D */
+        #cromo-overlay-modal { position: fixed; top: 0; left:0; right: 0; bottom: 0; background: rgba(5,12,13,0.92); backdrop-filter: blur(6px); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 11000; padding: 20px; }
+        .modal-perspective { perspective: 1000px; width: 100%; max-width: 320px; aspect-ratio: 2/3; margin-bottom: 15px; }
+        .modal-cromo-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .modal-cromo-card.flipped { transform: rotateY(180deg); }
+       
+        .modal-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.6); border: 4px solid var(--botanik-green); }
+       
+        /* Cara Frontal */
+        .modal-front { background: radial-gradient(circle at top, #152a2d 0%, #081112 100%); }
+        .modal-header-poke { background: rgba(13,27,30,0.85); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(118,225,97,0.15); position: relative; }
+        .modal-title-poke-clickable { display: flex; align-items: center; gap: 5px; cursor: pointer; flex: 1; min-width: 0; }
+        .modal-title-poke-clickable span { font-size: 14px; font-weight: 900; color: white; text-transform: uppercase; letter-spacing: 0.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .modal-title-poke-clickable::after { content: '▾'; color: var(--text-muted); font-size: 10px; margin-left: 2px; }
+        .mini-badge-poke { font-size: 8px; font-weight: 900; background: var(--poke-gold); color: #000; padding: 2px 6px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; flex-shrink: 0; }
+       
+        /* Desplegable de taxonomías dentro de la carta */
+        .names-dropdown-box { display: none; position: absolute; top: 38px; left: 10px; background: #0d1b1e; border: 1.5px solid var(--accent-green); border-radius: 8px; width: 220px; box-shadow: 0 8px 20px rgba(0,0,0,0.6); z-index: 12000; overflow: hidden; }
+        .name-drop-row { padding: 8px 12px; font-size: 11px; color: var(--text-light); text-align: left; border-bottom: 1px solid rgba(127,163,159,0.1); cursor: pointer; font-weight: 600; }
+        .name-drop-row:hover { background: var(--botanik-green); color: white; }
+        .name-drop-row:last-child { border-bottom: none; }
+
+        .modal-frame-poke { background: #000; margin: 10px 14px; flex: 1; border-radius: 8px; border: 2px solid rgba(118,225,97,0.1); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+        .modal-img-poke { width: 100%; height: 100%; object-fit: cover; }
+       
+        .modal-body-poke { background: rgba(13,27,30,0.6); margin: 0 14px 14px; padding: 12px; border-radius: 10px; border: 1px solid rgba(127,163,159,0.08); text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+        .modal-sci-poke { font-size: 11px; font-style: italic; color: var(--accent-green); font-weight: bold; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .modal-desc-poke { font-size: 11.5px; color: var(--text-light); line-height: 1.45; overflow-y: auto; max-height: 75px; padding-right: 4px; font-weight: 500; }
+       
+        .btn-evolution-ready-trigger { width: 100%; padding: 8px; margin-top: 10px; background: linear-gradient(135deg, var(--poke-gold) 0%, #cc9900 100%); border: 1px solid #fff; border-radius: 6px; color: #000; font-weight: 900; font-size: 11px; cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; text-align: center; }
+       
+        /* Cara Reverso */
+        .modal-back { transform: rotateY(180deg); background: radial-gradient(circle at center, #1b003a 0%, #0a0018 100%); border-color: var(--admin-purple); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+        .modal-back-logo { width: 70px; height: 70px; border-radius: 50%; background: rgba(157,78,221,0.1); border: 2px dashed var(--admin-purple); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; color: #d4bef0; margin-bottom: 15px; animation: spinGiro 10s linear infinite; }
+        @keyframes spinGiro { 100% { transform: rotate(360deg); } }
+        .modal-meta-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(157,78,221,0.2); padding: 12px; border-radius: 10px; width: 100%; text-align: left; }
+        .modal-back-meta { font-size: 10.5px; color: #c3a6ff; font-family: monospace; margin-bottom: 5px; font-weight: 600; }
+        .modal-back-meta:last-child { margin-bottom: 0; }
+        .close-modal-txt { font-size: 11px; color: var(--text-muted); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline; }
+
+        /* Alertas de Victoria / Toast */
+        #botanik-toast-victory { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #0d1b1e 0%, #152a2d 100%); border: 2px solid var(--poke-gold); padding: 14px 24px; border-radius: 16px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.5); z-index: 100000; transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); min-width: 240px; }
+        #botanik-toast-victory.show-toast { bottom: 80px; }
+        #botanik-toast-msg-txt { color: white; font-weight: 900; font-size: 13px; letter-spacing: 0.5px; }
+
+        /* Estilos Consola de Control Supremo (Modo Dios) */
+        .admin-header { background: #120024; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--admin-purple); }
+        .admin-nav-tabs { display: flex; background: #1a0033; border-bottom: 1px solid rgba(157,78,221,0.2); }
+        .admin-tab-btn { flex:1; padding: 12px 6px; background: transparent; border: none; border-bottom: 3px solid transparent; color: #c3a6ff; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .admin-tab-btn.active { color: white; border-color: var(--neon-green); background: rgba(57,255,20,0.04); }
+        .admin-view-pane { display: none; padding: 20px; width: 100%; max-width: 1200px; margin: 0 auto; }
+        .admin-view-pane.active { display: block; }
+       
+        .admin-stat-card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .admin-card { background: var(--surface-dark); border: 1px solid rgba(157,78,221,0.2); border-radius: 12px; padding: 14px; text-align: center; }
+        .admin-card h4 { font-size: 11px; color: #c3a6ff; text-transform: uppercase; margin-bottom: 4px; }
+        .admin-card .big-num { font-size: 26px; font-weight: 900; color: white; font-family: monospace; }
+       
+        .live-feed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; max-height: 50vh; overflow-y: auto; padding-right: 5px; }
+        .feed-box { background: rgba(13,27,30,0.4); border: 1px solid rgba(127,163,159,0.1); border-radius: 10px; padding: 8px; display: flex; gap: 10px; text-align: left; position: relative; }
+        .feed-img { width: 65px; height: 65px; border-radius: 6px; object-fit: cover; background: #000; }
+        .feed-body { flex:1; display: flex; flex-direction: column; justify-content: center; }
+        .feed-title { font-size: 12px; font-weight: bold; color: white; text-transform: uppercase; }
+        .feed-author-tag { position: absolute; top: 8px; right: 8px; background: rgba(57,255,20,0.1); border: 1px solid rgba(57,255,20,0.2); color: var(--neon-green); font-size: 8px; padding: 1px 5px; border-radius: 4px; text-transform: uppercase; }
+       
+        .account-cluster-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(157,78,221,0.15); border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .cluster-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(157,78,221,0.2); padding-bottom: 8px; margin-bottom: 12px; }
+        .cluster-email { font-size: 13px; font-weight: bold; color: white; }
+        .cluster-base { font-size: 10px; color: var(--neon-green); font-family: monospace; font-weight: bold; background: rgba(57,255,20,0.08); padding: 2px 8px; border-radius: 4px; }
+       
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 12px; text-align: left; }
+        .admin-table th { color: #c3a6ff; padding: 8px; border-bottom: 2px solid rgba(157,78,221,0.3); font-weight: bold; text-transform: uppercase; font-size: 10px; }
+        .admin-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e0e0e0; vertical-align: middle; }
+        .admin-btn { padding: 5px 10px; border: 1px solid transparent; border-radius: 4px; font-weight: bold; font-size: 10px; cursor: pointer; text-transform: uppercase; margin-right: 4px; transition: 0.15s; }
+        .admin-btn-purple { background: rgba(157,78,221,0.15); border-color: var(--admin-purple); color: #d4bef0; }
+        .admin-btn-purple:hover { background: var(--admin-purple); color: white; }
+        .admin-btn-danger { background: rgba(255,59,48,0.15); border-color: var(--danger); color: #ff8b85; }
+        .admin-btn-danger:hover { background: var(--danger); color: white; }
+        .admin-form-group { display: flex; flex-direction: column; text-align: left; margin-bottom: 12px; }
+        .admin-form-group label { font-size: 11px; color: #c3a6ff; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
+       
+        /* Listados de Buzones Históricos */
+        .mailbox-item-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(118,225,97,0.1); border-radius: 10px; padding: 12px; cursor: pointer; transition: 0.15s; position: relative; }
+        .mailbox-item-card:hover { border-color: var(--accent-green); background: rgba(255,255,255,0.06); }
+        .mailbox-item-title { font-size: 12.5px; font-weight: bold; color: white; margin-bottom: 2px; text-transform: uppercase; max-width: 85%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .mailbox-item-date { font-size: 9px; color: var(--text-muted); font-family: monospace; font-weight: bold; }
+        .mailbox-unread-dot { position: absolute; top: 14px; right: 14px; width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 8px var(--neon-green); }
     </style>
 </head>
 <body>
 
-    <div id="toast-container"></div>
-
     <div id="login-page">
-        <div class="auth-container">
-            <div class="auth-title">BotaniK</div>
-            <div class="auth-subtitle">Sistema de Escaneo e Identificación de Campo</div>
-            <div class="form-group">
-                <label>Identificador de Cuenta</label>
-                <input type="text" id="login-account-id" class="form-input" placeholder="Introduce tu usuario o correo...">
-            </div>
-            <button class="botanik-btn" onclick="gestionarAccesoNativo()">ACCEDER AL RADAR</button>
-            <button class="botanik-btn btn-secondary" onclick="conectarGooglePlaceholder()">Sincronizar con Google</button>
+        <div class="login-card">
+            <h2 id="login-title" style="color: var(--accent-green); margin-bottom: 20px; font-weight: 900; letter-spacing: 1px;">BotaniK Login</h2>
+            <input type="text" id="username" class="login-input" placeholder="Código de Terminal (Email)" value="neco@plantdex.com">
+            <input type="password" id="password" class="login-input" placeholder="Clave de Enlace">
+            <button id="submit-btn" class="login-btn" onclick="gestionarAcceso()">ACCEDER AL RADAR</button>
+            <div id="toggle-text" class="toggle-link" onclick="toggleModo()">¿Nuevo laboratorio familiar? Regístrate gratis</div>
         </div>
     </div>
 
     <div id="profile-page">
-        <div class="auth-container" style="max-width: 480px;">
-            <div class="auth-title" style="font-size: 1.6rem;">¿Quién inicia la expedición?</div>
-            <div class="auth-subtitle">Elige tu cuenta de explorador local</div>
-            <div class="profiles-grid" id="lista-perfiles-render"></div>
-            <div style="margin-top: 20px; display: flex; gap: 10px;">
-                <input type="text" id="nuevo-perfil-nombre" class="form-input" placeholder="Nuevo explorador..." style="padding: 8px 12px;">
-                <button class="botanik-btn" onclick="crearPerfilLocal()" style="width: auto; padding: 8px 20px; font-size: 0.9rem;">+ Crear</button>
-            </div>
-            <button class="botanik-btn btn-secondary" onclick="activarModoDiosPantalla()" style="color: var(--admin-purple); border-color: var(--admin-purple); margin-top: 25px;">Consola de Administrador</button>
-        </div>
+        <h2 style="color: var(--neon-green); font-weight: 900; letter-spacing: 1px; text-shadow: 0 0 10px rgba(57,255,20,0.2);">¿QUIÉN INICIA EXPEDICIÓN?</h2>
+        <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Selecciona tu mente de campo conectada</p>
+        <div class="profile-grid" id="perfiles-dinamicos"></div>
+        <button class="exit-session-btn" onclick="cerrarSesionCompleta()">CERRAR TERMINAL FAMILIAR</button>
     </div>
 
     <div id="setup-base-page">
-        <div class="auth-container">
-            <div class="auth-title" style="font-size: 1.5rem; color: var(--accent-green);">📍 Base Secreta</div>
-            <div class="auth-subtitle">Establece tu cuartel general botánico</div>
-            <div class="form-group">
-                <label>Municipio Actual</label>
-                <input type="text" id="base-municipio" class="form-input" placeholder="Ej. Castro Urdiales">
+        <div class="login-card" style="max-width: 500px;">
+            <div style="font-size: 50px; margin-bottom: 15px;">📡</div>
+            <h2 style="color: var(--accent-green); font-weight: 900; margin-bottom: 10px;">CONFIGURACIÓN DE BASE SECRETA</h2>
+            <p style="color: var(--text-light); font-size: 14px; line-height: 1.5; margin-bottom: 20px;" id="loading-base-txt">
+                El sistema necesita geolocalizar tu cuartel general para medir los biomas y activar las misiones mitológicas locales de tu comarca natural.
+            </p>
+           
+            <div id="gps-base-box">
+                <button class="login-btn" onclick="localizarBasePorGPS()">SINCRONIZAR POR GPS</button>
+                <div class="toggle-link" onclick="activarEntradaManualBase()">¿No tienes cobertura? Calibrar manualmente</div>
             </div>
-            <div class="form-group">
-                <label>Provincia / Estado</label>
-                <input type="text" id="base-provincia" class="form-input" placeholder="Ej. Cantabria">
+
+            <div id="manual-base-box" style="display: none; margin-top: 15px;">
+                <input type="text" id="manual-lugar-input" class="login-input" placeholder="Ej: Castro Urdiales, Jaén, Bilbao...">
+                <button class="login-btn" onclick="confirmarBaseManual()">FIJAR ENTORNO MANUALMENTE</button>
             </div>
-            <button class="botanik-btn" onclick="guardarConfiguracionBaseSecreta()">Sincronizar Coordenadas de Base</button>
-            <button class="botanik-btn btn-secondary" onclick="localizarPorGpsNativo()">Usar GPS Automático</button>
         </div>
     </div>
 
-    <div id="god-mode-page">
-        <div class="admin-header">
-            <h2>👾 Consola Suprema (Modo Dios)</h2>
-            <button class="botanik-btn" onclick="cerrarModoDios()" style="width: auto; padding: 6px 15px; font-size: 0.85rem; background: var(--admin-purple); color: white;">Volver</button>
-        </div>
-        <div class="admin-grid-sections">
-            <div class="admin-card-panel">
-                <h3>Moderación de Exploradores</h3>
-                <div class="admin-users-list" id="admin-lista-usuarios"></div>
-            </div>
-            <div class="admin-card-panel">
-                <h3>Inyección Central de Biomasa (XP)</h3>
-                <div class="form-group" style="margin-top: 15px;">
-                    <label>Cantidad de XP a repartir globalmente</label>
-                    <input type="number" id="admin-xp-cantidad" class="form-input" style="border-color: var(--admin-purple);" placeholder="Ej. 250">
+    <header>
+        <div class="header-left-cluster">
+            <div class="header-profile-box" onclick="toggleDropdownCuentasCabecera(event)">
+                <div class="header-avatar" id="head-av-box">🧑‍🚀</div>
+                <div class="header-info-text">
+                    <h2 id="head-name">EXPLORADOR</h2>
+                    <span id="head-age">Cargando sector...</span>
                 </div>
-                <button class="botanik-btn" onclick="inyectarXpGlobalAdministrador()" style="background: var(--admin-purple); color: white;">Emitir Suministros (XP)</button>
             </div>
+           
+            <div class="accounts-dropdown-list" id="nav-dropdown-box"></div>
         </div>
+        <h1>BOTANIK</h1>
+        <button class="header-mailbox-btn" onclick="abrirBuzonHistoricoModal()" title="Buzón Satelital">
+            📬 <div class="mailbox-badge" id="box-badge-num" style="display: none;">0</div>
+        </button>
+    </header>
+
+    <div id="live-xp-badge-alert">
+        🚀 Carga del Profesor Recibida: <span id="live-xp-amount-txt">+50</span> XP
     </div>
 
-    <div id="main-app-container">
+    <div class="container" id="main-app-container">
+       
+        <div class="profesor-alert-card" id="profesor-alert-banner">
+            <h4>📡 COMUNICADO SATELITAL ENTRANTE:</h4>
+            <p id="profesor-msg-text">Cargando instrucciones de campo...</p>
+        </div>
+
         <div id="radar" class="page active">
-            <div class="dashboard-header">
-                <div class="user-profile-badge">
-                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=150" class="avatar-mini" id="img-avatar-perfil" alt="Avatar">
-                    <div>
-                        <div class="level-title" id="txt-nivel">NIVEL 1</div>
-                        <div class="level-badge" id="txt-rango">Aspirante</div>
-                    </div>
-                </div>
-                <div style="flex: 1; margin-left: 20px; max-width: 200px;">
-                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="barra-progreso"></div></div>
-                    <div class="xp-text" id="txt-xp-contador">0 / 100 XP</div>
-                </div>
+            <div class="card level-panel">
+                <div class="level-header"><div class="level-title" id="txt-nivel">NIVEL 1</div><div class="level-badge" id="txt-rango">Aspirante</div></div>
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="barra-progreso"></div></div>
+                <div class="xp-text" id="txt-xp-contador">0 / 100 XP</div>
             </div>
-
             <div class="stats-mini-grid">
                 <div class="stat-box"><h3>Biomasa</h3><div id="total-xp-mini" class="counter">0</div></div>
                 <div class="stat-box"><h3>Álbum</h3><div id="total-count-mini" class="counter">0</div></div>
             </div>
-
             <div class="card scan-container">
                 <button class="scan-btn" onclick="triggerCamera()">SCAN</button>
                 <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="procesarFoto(event)">
@@ -228,257 +344,1159 @@
         </div>
        
         <div id="album" class="page">
-            <div class="search-filter-panel">
-                <input type="text" id="search-botanika" class="search-bar-input" placeholder="🔍 Buscar planta por nombre..." oninput="window.filtrarYOrdenarAlbum()">
-            </div>
+            <div class="search-filter-panel"><input type="text" id="search-botanika" class="search-bar-input" placeholder="🔍 Buscar planta por nombre..." oninput="window.filtrarYOrdenarAlbum()"></div>
             <div class="album-grid" id="album-dinamico-contenedor"></div>
         </div>
     </div>
 
-    <div id="cromo-overlay-modal" onclick="window.evaluarCierrePorFondo(event)">
-        <div class="modal-3d-card-wrapper">
-            <div class="card-3d-inner" id="inner-modal-card-3d" onclick="window.voltearCartaModal(event, this)">
-                <div class="modal-face face-front" id="m-frame-border">
-                    <div class="cromo-rareza-tag" id="m-rareza-tag">Común</div>
-                    <img src="" class="cromo-img" id="m-img" alt="Planta">
-                    <div class="cromo-info-footer" style="padding: 15px;">
-                        <div class="modal-title-poke-clickable" onclick="window.desplegarNombresAlternativosModal(event)">
-                            <h2 id="m-title" style="font-size: 1.4rem; color: white;">Nombre</h2>
-                            <div class="names-dropdown-list" id="modal-names-dropdown"></div>
-                        </div>
-                        <div id="m-scientific" style="font-style: italic; color: var(--text-muted); font-size: 0.95rem;">Scientific</div>
-                    </div>
-                </div>
-                <div class="modal-face face-back">
-                    <div>
-                        <p id="m-desc" style="font-size: 0.88rem; line-height: 1.4;"></p>
-                    </div>
-                </div>
+    <nav>
+        <button class="active" onclick="switchPage('radar', this)">📡 RADAR</button>
+        <button onclick="switchPage('album', this)">🌿 ÁLBUM</button>
+    </nav>
+
+    <div id="avatar-picker-modal">
+        <div class="avatar-creator-box">
+            <h3 id="modal-title-context" style="color:var(--accent-green); font-weight:900; letter-spacing:0.5px; font-size:16px; margin-bottom:15px;">ALTA DE EXPLORADOR</h3>
+           
+            <div class="preview-avatar-circle-huge" id="avatar-preview-circle">🧑‍🚀</div>
+           
+            <label class="upload-profile-img-label">
+                📷 SUBIR FOTO REAL DE CAMPO
+                <input type="file" accept="image/*" onchange="procesarFotoPerfilReal(event)" style="display:none;">
+            </label>
+
+            <div style="font-size:11px; text-align:left; color:var(--text-muted); font-weight:bold; text-transform:uppercase; letter-spacing:0.3px;">O selecciona un Avatar Cósmico:</div>
+            <div class="avatar-options-grid">
+                <div class="avatar-option selected" data-avatar="🧑‍🚀" onclick="selectAvatarElement(this, '🧑‍🚀')">🧑‍🚀</div>
+                <div class="avatar-option" data-avatar="🧝" onclick="selectAvatarElement(this, '🧝')">🧝</div>
+                <div class="avatar-option" data-avatar="🧙" onclick="selectAvatarElement(this, '🧙')">🧙</div>
+                <div class="avatar-option" data-avatar="🦖" onclick="selectAvatarElement(this, '🦖')">🦖</div>
+                <div class="avatar-option" data-avatar="🦊" onclick="selectAvatarElement(this, '🦊')">🦊</div>
+                <div class="avatar-option" data-avatar="🦁" onclick="selectAvatarElement(this, '🦁')">🦁</div>
+                <div class="avatar-option" data-avatar="🐼" onclick="selectAvatarElement(this, '🐼')">🐼</div>
+                <div class="avatar-option" data-avatar="🦉" onclick="selectAvatarElement(this, '🦉')">🦉</div>
+                <div class="avatar-option" data-avatar="🦄" onclick="selectAvatarElement(this, '🦄')">🦄</div>
+                <div class="avatar-option" data-avatar="🤖" onclick="selectAvatarElement(this, '🤖')">🤖</div>
+            </div>
+
+            <div class="admin-form-group">
+                <label>Nombre de Campo:</label>
+                <input type="text" id="profile-name-input" class="login-input" placeholder="Ej: Neco, Leo, Luna, Bea..." style="margin:5px 0 10px;">
+            </div>
+           
+            <div class="admin-form-group">
+                <label>Fecha de Nacimiento:</label>
+                <input type="date" id="profile-date-input" class="login-input" style="margin:5px 0 10px;">
+            </div>
+
+            <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; margin-bottom:15px; border:1px solid rgba(127,163,159,0.08);">
+                <div style="text-align:left;"><div style="font-size:12px; font-weight:bold; color:white;">MODO EXPERTO (TEA / ALTA CAPACIDAD)</div><div style="font-size:9px; color:var(--text-muted); font-weight:500; margin-top:1px;">Activa tecnicismos botánicos y filogenia avanzada</div></div>
+                <input type="checkbox" id="expert-toggle-input" style="width:18px; height:18px; cursor:pointer; accent-color:var(--neon-green);">
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <button class="login-btn" style="background:#222; border-color:#444; margin:0;" onclick="cerrarCreadorPerfilModal()">CANCELAR</button>
+                <button class="login-btn" style="margin:0;" onclick="finalizarCreacionPerfil()">SINCRONIZAR</button>
             </div>
         </div>
     </div>
 
-    <nav>
-        <button class="nav-item active" onclick="switchPage('radar', this)">
-            <span class="nav-icon">📡</span>
-            <span>Radar</span>
-        </button>
-        <button class="nav-item" onclick="switchPage('album', this)">
-            <span class="nav-icon">📖</span>
-            <span>Álbum</span>
-        </button>
-    </nav>
+    <div id="cromo-overlay-modal" onclick="evaluarCierrePorFondo(event)">
+        <div class="modal-perspective" id="modal-perspective-flyer">
+            <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
+               
+                <div class="modal-face modal-front" id="modal-front-face">
+                    <div class="modal-header-poke">
+                        <div class="modal-title-poke-clickable" onclick="desplegarNombresAlternativosModal(event)">
+                            <span id="m-title">PLANTA</span>
+                        </div>
+                        <div class="mini-badge-poke" id="m-type">DESCUBIERTO</div>
+                       
+                        <div class="names-dropdown-box" id="modal-names-dropdown"></div>
+                    </div>
+                    <div class="modal-frame-poke">
+                        <img id="m-img" class="modal-img-poke" src="">
+                    </div>
+                    <div class="modal-body-poke">
+                        <div>
+                            <div class="modal-sci-poke" id="m-sci">Scientific Name</div>
+                            <div class="modal-desc-poke" id="m-desc">Descripción narrativa de la muestra botánica encontrada en el entorno...</div>
+                        </div>
+                        <button class="btn-evolution-ready-trigger" id="btn-evolution-action">ADAPTAR CROMO</button>
+                    </div>
+                </div>
+               
+                <div class="modal-face modal-back">
+                    <div class="modal-back-logo">B</div>
+                    <h3 style="color: var(--neon-green); font-size: 16px; font-weight: 900; letter-spacing: 1px; margin-bottom: 15px;" id="m-back-title">BOTANIK EXPEDICIÓN</h3>
+                    <div class="modal-meta-box">
+                        <div class="modal-back-meta" id="m-fecha">📅 Registro: --/--/----</div>
+                        <div class="modal-back-meta" id="m-coords">📍 Coordenadas: Adquiriendo...</div>
+                        <div class="modal-back-meta" style="color: var(--poke-gold); margin-top: 10px; font-weight: bold;">⚡ ADN Sincronizado en Firebase Core</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="close-modal-txt">Haz clic en el fondo para guardar en el Álbum</div>
+    </div>
+
+    <div id="botanik-toast-victory">
+        <div style="font-size: 24px; margin-bottom: 6px;">🏆</div>
+        <div id="botanik-toast-msg-txt">¡MAESTRÍA ALCANZADA!</div>
+        <div style="font-size: 10px; color: var(--text-muted); font-weight: normal; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Biomasa inyectada en el servidor</div>
+    </div>
+
+    <div id="mailbox-modal" onclick="if(event.target.id==='mailbox-modal') this.style.display='none';">
+        <div class="login-card" style="max-width: 460px; max-height: 80vh; overflow-y: auto;">
+            <h3 style="color: var(--accent-green); font-weight: bold; margin-bottom: 15px;">📜 ARCHIVO DE COMUNICADOS DE CAMPO</h3>
+            <div id="mailbox-list-container" style="display: flex; flex-direction: column; gap: 10px; text-align: left;"></div>
+            <button class="login-btn" style="margin-top: 20px; background: #333; border-color: #555" onclick="document.getElementById('mailbox-modal').style.display='none';">CERRAR ARCHIVO</button>
+        </div>
+    </div>
+
+    <div id="msg-reader-modal">
+        <div class="login-card" style="max-width: 440px;">
+            <div style="font-size: 36px; margin-bottom: 10px;">✉️</div>
+            <h3 style="color: var(--neon-green); font-weight: 900; margin-bottom: 15px;">CANAL SATELITAL</h3>
+            <p id="m-reader-body" style="font-size: 13.5px; line-height: 1.5; text-align: left; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; border: 1px solid rgba(127,163,159,0.1); margin-bottom: 20px; max-height: 200px; overflow-y: auto; color: var(--text-light);"></p>
+            <button id="m-reader-btn-action" class="login-btn">ENTENDIDO</button>
+        </div>
+    </div>
+
+    <div id="god-mode-page">
+        <div class="admin-header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 24px;">🔮</span>
+                <div style="text-align: left;">
+                    <h2 style="color: #e0aaff; font-size: 15px; font-weight: 900;">CONSOLA SUPREMA</h2>
+                    <span style="color: var(--neon-green); font-size: 9px; font-family: monospace;">ENTORNO DE SIMULACIÓN Y CONTROL CENTRAL</span>
+                </div>
+            </div>
+            <button class="exit-session-btn" style="margin: 0; padding: 6px 12px; font-size: 11px;" onclick="salirModoDiosDefinitivo()">SALIR MANDO SUPREMO</button>
+        </div>
+       
+        <div class="admin-nav-tabs">
+            <button class="admin-tab-btn active" onclick="switchAdminTab('panel-macro')">📊 MONITOR MACRO</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('panel-cuentas')">👥 EXPEDICIONARIOS</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('panel-moderacion')">🛡️ TAXONOMÍA REAL</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('panel-alertas')">📡 INYECTOR SATELITAL</button>
+        </div>
+
+        <div id="panel-macro" class="admin-view-pane active">
+            <div class="admin-stat-card-row">
+                <div class="admin-card"><h4 id="m-title-c">Terminales</h4><div class="big-num" id="m-total-cuentas">0</div></div>
+                <div class="admin-card"><h4>Exploradores</h4><div class="big-num" id="m-total-exploradores">0</div></div>
+                <div class="admin-card"><h4>Muestras</h4><div class="big-num" id="m-total-capturas">0</div></div>
+            </div>
+            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">📡 FLUJO EN VIVO DE CAPTURAS FAMILIARES (MMO GEOGRÁFICO)</h3>
+            <div class="live-feed-grid" id="admin-live-feed"></div>
+        </div>
+
+        <div id="panel-cuentas" class="admin-view-pane">
+            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 15px;">🏘️ MATRIZ DE ENTORNOS FAMILIARES CONECTADOS</h3>
+            <div id="clusters-cuentas-container"></div>
+        </div>
+
+        <div id="panel-moderacion" class="admin-view-pane">
+            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">🧪 PANEL DE MODERACIÓN Y VINCULACIÓN FILOGENÉTICA DE LA IA</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr><th>Muestra</th><th>Nombre Común</th><th>Nombre Científico</th><th>Ubicación</th><th>Acción Crítica</th></tr>
+                </thead>
+                <tbody id="table-moderacion-body"></tbody>
+            </table>
+        </div>
+
+        <div id="panel-alertas" class="admin-view-pane">
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+               
+                <div class="admin-card" style="text-align: left;">
+                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">📡 EMISOR DE TRANSMISIONES SEGMENTADAS</h3>
+                    <div class="admin-form-group">
+                        <label>Segmentación del Objetivo / Canal:</label>
+                        <select id="alert-target-type" class="admin-select" onchange="gestionarCambioTargetAlerta(this.value)">
+                            <option value="global">Global (Toda la Red Unificada)</option>
+                            <option value="pais">Por País Ecológico</option>
+                            <option value="provincial">Por Provincia</option>
+                            <option value="comarcal">Por Comarca Natural (Radio de Base)</option>
+                            <option value="cuenta">Cuenta Familiar Específica</option>
+                            <option value="explorador">Explorador Concreto (Mensaje Directo)</option>
+                        </select>
+                    </div>
+                    <div class="admin-form-group" id="pais-select-row" style="display:none;">
+                        <label>País Destino:</label><select id="alert-pais-select" class="admin-select"></select>
+                    </div>
+                    <div class="admin-form-group" id="provincia-select-row" style="display:none;">
+                        <label>Provincia Destino:</label><select id="alert-provincia-select" class="admin-select"></select>
+                    </div>
+                    <div class="admin-form-group" id="comarca-select-row" style="display:none;">
+                        <label>Comarca Destino Natural:</label><select id="alert-comarca-select" class="admin-select"></select>
+                    </div>
+                    <div class="admin-form-group" id="usuario-select-row" style="display:none;">
+                        <label>Cuenta Familiar Destino:</label><select id="alert-user-field" class="admin-select" onchange="filtrarHijosDeCuentaParaMensajeDirecto(this.value)"></select>
+                    </div>
+                    <div class="admin-form-group" id="explorador-select-row" style="display:none;">
+                        <label>Explorador Concreto:</label><select id="alert-child-field" class="admin-select"></select>
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Instrucciones de Campo (Texto del Mensaje):</label>
+                        <textarea id="alert-text-msg" class="admin-textarea" placeholder="Escribe la misión, bonus o alerta mitológica..."></textarea>
+                    </div>
+                    <button class="login-btn" style="background: var(--admin-purple); border-color:#d4bef0; color:white;" onclick="emitirAlertaSatelital()">DESPLEGAR COMUNICADO</button>
+                </div>
+
+                <div class="admin-card" style="text-align: left; border-color: var(--neon-green);">
+                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">🔬 INYECTOR DE ENTORNOS DE PRUEBA (SIMULADOR DE CAMPO)</h3>
+                    <div class="admin-form-group">
+                        <label>Explorador de Destino para el Test:</label>
+                        <select id="sim-child-field" class="admin-select"></select>
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Nombre Común de Planta:</label>
+                        <input type="text" id="sim-comun-input" class="admin-select" value="Helecho Real">
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Nombre Científico:</label>
+                        <input type="text" id="sim-cien-input" class="admin-select" value="Osmunda regalis" style="font-style: italic;">
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Rareza de Muestra:</label>
+                        <select id="sim-rareza-select" class="admin-select">
+                            <option value="comun">Común</option>
+                            <option value="poco">Poco Común</option>
+                            <option value="especial">Especial</option>
+                            <option value="exotica">Exótica</option>
+                        </select>
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Ubicación Manual de Campo:</label>
+                        <input type="text" id="sim-loc-input" class="admin-select" placeholder="Ej: Ribera del Saja">
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Descripción Científica Base:</label>
+                        <textarea id="sim-desc-textarea" class="admin-textarea" placeholder="Muestra botánica inyectada desde la consola central de simulación."></textarea>
+                    </div>
+                   
+                    <div style="display: flex; gap: 10px;">
+                        <button class="login-btn" style="flex:1; margin-top:10px;" onclick="inyectarCartaConLocalizacionesSimuladas(false)">🔬 INYECTAR 1</button>
+                        <button class="login-btn" style="flex:1; margin-top:10px; background:linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); border-color:var(--poke-gold);" onclick="inyectarCartaConLocalizacionesSimuladas(true)">⚡ INYECCIÓN POR LOTES (3)</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        // Inicialización de la Base de Datos Firebase del Entorno Familiar
         const firebaseConfig = {
-            apiKey: "TU_API_KEY",
-            authDomain: "TU_PROJECT_ID.firebaseapp.com",
-            projectId: "TU_PROJECT_ID",
-            storageBucket: "TU_PROJECT_ID.appspot.com",
-            messagingSenderId: "TU_SENDER_ID",
-            appId: "TU_APP_ID"
+            apiKey: "AIzaSyDReChwrnr6zHLumpR5OLTrNlvfhcAH_BA",
+            authDomain: "plantdex-984e6.firebaseapp.com",
+            projectId: "plantdex-984e6",
+            storageBucket: "plantdex-984e6.firebasestorage.app",
+            messagingSenderId: "247992735441",
+            appId: "1:247992735441:web:91b0ce9ec849c5876457f0"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        let perfilActiveId = "explorador_temporal"; 
+        // ARSENAL DE RESPALDO: BANCO DE CLAVES OFUSCADAS (Protección antibots y carrusel de cuota)
+        const _0xkeys = [
+            ["AQ", "Ab8RN6KqFjFYp1_v1BJEvkeWgtRRIWJJz5qQEkhu0C7q1vOBvw"],
+            ["AQ", "Ab8RN6Jom71XUqUNUDTNiKE-sgg9Zy8_z4kYuPCV2wViySM02Q"],
+            ["AQ", "Ab8RN6IgOGaCm0Z4-8c1AFv_Y_LAbDbQnhmsgezIl3IbEynZUg"],
+            ["AQ", "Ab8RN6IIdWHiiM59e2l4Aw8QmjvHBTSA5-7R6-afwzektFROug"],
+            ["AQ", "Ab8RN6LUjuQwsbFLZpYX_c1nd9jFdUPP5VcmCBMBgDtNi8daSw"],
+            ["AQ", "Ab8RN6I_l1Xh_kwIaPe6KOswIwpuYwzlr0lmlsZsncuYBoxyuA"]
+        ];
+
+        // Indicador del satélite activo en el carrusel
+        let indiceClaveActual = 0;
+
+        // Función que reconstruye la clave activa al vuelo para realizar la petición
+        function obtenerGeminiKeyActiva() {
+            return _0xkeys[indiceClaveActual].join(".");
+        }
+
+        // Sistema automático de salto en caso de saturación (Error 429) o bloqueo temporal
+        window.rotarASiguienteClavePorSaturacion = () => {
+            indiceClaveActual = (indiceClaveActual + 1) % _0xkeys.length;
+            console.warn("📡 Satélite saturado. Canal de respaldo activado: Frecuencia " + (indiceClaveActual + 1));
+        };
+
+        // Capa de protección física de la interfaz (Dificulta la inspección visual)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) { return false; } // Bloquear F12
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 73) { return false; } // Bloquear Ctrl+Shift+I
+            if(e.ctrlKey && e.keyCode == 85) { return false; } // Bloquear Ctrl+U (Ver código fuente)
+        };
+
+        // Variables Globales de Estado del Sistema de Exploración
+        window.modoRegistro = false;
+        let usuarioEmailActual = "";
+        let perfilActiveId = "";
+        let perfilActivoNombre = "";
+        let perfilActivoNacimiento = "2018-01-01";
+        let perfilActivoAvatar = "🧑‍🚀";
+        let perfilActivoBase = null;
+        let perfilActivoEsExperto = false;
+        let modoEdicionActivo = false;
+        let idPerfilEnEdicionFila = "";
+
+        let selectedAvatarValue = "🧑‍🚀";
         let albumEspeciesMemoria = {};
+        let cachePerfilesFamilia = [];
+        let cacheAlertasGlobales = [];
+        let unsuscribeXpLive = null;
 
-        window.triggerCamera = () => {
-            document.getElementById('camera-input').click();
-        };
+        // Configuraciones del Universo BotaniK
+        const RANGOS_EXPLORACION = [
+            "Aspirante de Campo", "Rastreador de Brotes", "Buscador de Raíces", "Herborista Iniciado",      
+            "Explorador de Savias", "Guardián del Musgo", "Cazador de Semillas", "Alquimista del Bosque",    
+            "Botánico de Vanguardia", "Cartógrafo de Raíces", "Susurrador de Árboles", "Guardián de la Biomasa",    
+            "Maestro de la Clorofila", "Sabio de la Taiga", "Líder del Ecosistema"      
+        ];
 
-        window.switchPage = (pageId, buttonElement) => {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            
-            document.getElementById(pageId).classList.add('active');
-            buttonElement.classList.add('active');
+        const PROVINCIAS_PRECARGADAS = ["Álava","Albacete","Alicante","Almería","Asturias","Ávila","Badajoz","Barcelona","Burgos","Cáceres","Cádiz","Cantabria","Castellón","Ciudad Real","Córdoba","La Coruña","Cuenca","Gerona","Granada","Guadalajara","Guipúzcoa","Huelva","Huesca","Jaén","León","Lérida","Lugo","Madrid","Málaga","Murcia","Navarra","Orense","Palencia","Las Palmas","Pontevedra","La Rioja","Salamanca","Segovia","Sevilla","Soria","Tarragona","Santa Cruz de Tenerife","Teruel","Toledo","Valencia","Valladolid","Vizcaya","Zamora","Zaragoza","Ceuta","Melilla"];
+        const COMARCAS_PRECARGADAS = ["Asón-Agüera","Besaya","Costa Central","Costa Oriental","Liébana","Saja-Nansa","Trasmiera","Valles Pasiegos","Campoo-Los Valles","Sierra de Cazorla","Sierra Mágina","Granada Metropolitana","Axarquía Málaga","Serranía de Ronda","Gran Bilbao","Arratia-Nerbioi"];
+        const PAISES_PRECARGADOS = ["España", "Francia", "Portugal", "Andorra"];
 
-            if (pageId === 'album') {
-                window.cargarAlbum();
-            }
-        };
+        const MULTIPLICADORES_RAREZA = { "comun": 1, "poco": 1.5, "especial": 2.5, "exotica": 5 };
+        const TITULOS_ADAPTACION = { 1: "Descubierto", 2: "Adaptado", 3: "Especializado", 4: "Maestro Ecosistema" };
 
-        // LÓGICAS INTERACTIVAS AUXILIARES DEL MODAL ORIGINAL
-        window.voltearCartaModal = (event, elemento) => { 
-            if (event.target.id === 'm-desc' || event.target.closest('.modal-title-poke-clickable')) return;
-            elemento.classList.toggle('flipped'); 
-        };
-        window.evaluarCierrePorFondo = (event) => { 
-            if(event.target.id === 'cromo-overlay-modal' || event.target.className === 'close-modal-txt') window.cerrarVisualizadorCromo(); 
-        }; 
-        window.desplegarNombresAlternativosModal = (event) => { 
-            event.stopPropagation(); 
-            const d = document.getElementById('modal-names-dropdown'); 
-            d.style.display = (d.style.display === 'block') ? 'none' : 'block'; 
-        };
+        /* ==========================================================================
+           FUNCIONES AUXILIARES Y HERRAMIENTAS TÉCNICAS
+           ========================================================================== */
 
-        // CORRECCIÓN LOCALIZADA: Construcción de HTML de tarjetas faltante en tu index original
-        window.cargarAlbum = async () => {
-            if (!perfilActiveId) return;
+        function calcularEdadExacta(fechaNacimientoStr) {
+            if(!fechaNacimientoStr) return 8;
+            const fechaNac = new Date(fechaNacimientoStr);
+            const fechaActual2026 = new Date("2026-06-18");
+            let edad = fechaActual2026.getFullYear() - fechaNac.getFullYear();
+            const m = fechaActual2026.getMonth() - fechaNac.getMonth();
+            if (m < 0 || (m === 0 && fechaActual2026.getDate() < fechaNac.getDate())) { edad--; }
+            return edad < 0 ? 0 : edad;
+        }
 
-            try {
-                const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
-                const snap = await getDocs(q);
-                
-                albumEspeciesMemoria = {};
-                
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    if (!albumEspeciesMemoria[d.nombreCientifico]) {
-                        albumEspeciesMemoria[d.nombreCientifico] = {
-                            nombreComun: d.nombreComun,
-                            nombreCientifico: d.nombreCientifico,
-                            rareza: d.rareza || "Común",
-                            descripcion: d.descripcion || "",
-                            urlFoto: d.urlFoto || d.urlImagen || "https://images.unsplash.com/photo-1545239351-ef35f43d514b?q=80&w=400",
-                            fechaCaptura: d.fechaCaptura
-                        };
-                    }
-                });
-
-                const contenedor = document.getElementById('album-dinamico-contenedor');
-                if (!contenedor) return;
-
-                contenedor.innerHTML = "";
-                const especies = Object.values(albumEspeciesMemoria);
-
-                if (especies.length === 0) {
-                    contenedor.innerHTML = `
-                        <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 20px;">
-                            <p style="font-size: 1.1rem; margin-bottom: 5px;">🚀 Tu Álbum de Campo está vacío</p>
-                            <p style="font-size: 0.85rem;">Fotografía una planta con el botón SCAN para inaugurarlo.</p>
-                        </div>`;
-                    if(document.getElementById('total-count-mini')) document.getElementById('total-count-mini').innerText = "0";
-                    return;
-                }
-
-                especies.forEach(planta => {
-                    let rarezaClass = planta.rareza ? planta.rareza.toLowerCase().replace(/é/g, 'e') : 'comun';
-
-                    const tarjetaHtml = `
-                        <div class="cromo-card ${rarezaClass}">
-                            <div class="cromo-card-inner">
-                                <div class="cromo-front">
-                                    <div class="cromo-rareza-tag">${planta.rareza}</div>
-                                    <img src="${planta.urlFoto}" class="cromo-img" alt="${planta.nombreComun}" onerror="this.src='https://images.unsplash.com/photo-1545239351-ef35f43d514b?q=80&w=400'">
-                                    <div class="cromo-info-footer">
-                                        <div class="cromo-title-comun">${planta.nombreComun}</div>
-                                        <div class="cromo-title-cientifico">${planta.nombreCientifico}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    contenedor.innerHTML += tarjetaHtml;
-                });
-
-                if (document.getElementById('total-count-mini')) {
-                    document.getElementById('total-count-mini').innerText = especies.length;
-                }
-
-            } catch (error) {
-                console.error("Error al renderizar el álbum desde Firestore:", error);
-            }
-        };
-
-        window.filtrarYOrdenarAlbum = () => {
-            const busqueda = document.getElementById('search-botanika').value.toLowerCase().trim();
-            const plantasTotales = Object.values(albumEspeciesMemoria);
-            
-            const filtradas = plantasTotales.filter(p => 
-                p.nombreComun.toLowerCase().includes(busqueda) || 
-                p.nombreCientifico.toLowerCase().includes(busqueda)
-            );
-            
-            const contenedor = document.getElementById('album-dinamico-contenedor');
-            if (!contenedor) return;
-            contenedor.innerHTML = "";
-            
-            filtradas.forEach(planta => {
-                let rarezaClass = planta.rareza ? planta.rareza.toLowerCase().replace(/é/g, 'e') : 'comun';
-                contenedor.innerHTML += `
-                    <div class="cromo-card ${rarezaClass}">
-                        <div class="cromo-card-inner">
-                            <div class="cromo-front">
-                                <div class="cromo-rareza-tag">${planta.rareza}</div>
-                                <img src="${planta.urlFoto}" class="cromo-img" alt="${planta.nombreComun}">
-                                <div class="cromo-info-footer">
-                                    <div class="cromo-title-comun">${planta.nombreComun}</div>
-                                    <div class="cromo-title-cientifico">${planta.nombreCientifico}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
+        window.getUbicacionGPS = () => {
+            return new Promise((resolve) => {
+                if (!navigator.geolocation) return resolve(null);
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => { resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }); },
+                    () => { resolve(null); },
+                    { timeout: 3000 }
+                );
             });
         };
 
-        window.procesarFoto = async (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
+        function comprimirImagenProporcional(imgElement, maxAnchoAlto, calidad) {
+            const canvas = document.createElement('canvas');
+            let ancho = imgElement.width; let alto = imgElement.height;
+            if (ancho > alto) { if (ancho > maxAnchoAlto) { alto *= maxAnchoAlto / ancho; ancho = maxAnchoAlto; } }
+            else { if (alto > maxAnchoAlto) { ancho *= maxAnchoAlto / alto; alto = maxAnchoAlto; } }
+            canvas.width = ancho; canvas.height = alto;
+            canvas.getContext('2d').drawImage(imgElement, 0, 0, ancho, alto);
+            return canvas.toDataURL('image/jpeg', calidad);
+        }
 
-            const loader = document.getElementById('loading');
-            loader.style.display = 'block';
+        /* ==========================================================================
+           SISTEMA DE AUTENTICACIÓN Y CONTROL DE ACCESO
+           ========================================================================== */
+
+        window.gestionarAcceso = async () => {
+            const email = document.getElementById('username').value.trim().toLowerCase();
+            const pass = document.getElementById('password').value.trim();
+            if(!email || !pass) return alert("Por favor, rellena todos los campos.");
+
+            if (email === "jesusgarciavigil@gmail.com" && pass === "adminMaster2026") {
+                usuarioEmailActual = email;
+                document.getElementById('login-page').style.display = 'none';
+                window.activarMandoSupremoGod();
+                return;
+            }
 
             try {
-                // Bloque Gemini estricto e intacto de tu script original
-                const reader = new FileReader();
-                reader.onloadend = async () => {
-                    const base64Data = reader.result.split(',')[1];
-                    
-                    const promptText = "Analiza esta imagen botánica. Responde EXCLUSIVAMENTE con un objeto JSON válido...";
-                    
-                    const payload = {
-                        contents: [{
-                            parts: [
-                                { text: promptText },
-                                { inlineData: { mimeType: file.type, data: base64Data } }
-                            ]
-                        }]
-                    };
+                const q = query(collection(db, "cuentas_familia"), where("email", "==", email));
+                const snap = await getDocs(q);
 
-                    // Tu llamada nativa a Gemini sin ninguna modificación
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${firebaseConfig.apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
+                if (window.modoRegistro) {
+                    if (!snap.empty) return alert("Esta cuenta ya existe.");
+                    await addDoc(collection(db, "cuentas_familia"), { email: email, pass: pass });
+                    alert("¡Cuenta familiar registrada con éxito!");
+                    usuarioEmailActual = email;
+                    document.getElementById('login-page').style.display = 'none';
+                    await mostrarSelectorPerfiles();
+                } else {
+                    let valido = false;
+                    snap.forEach(doc => { if(doc.data().pass === pass) valido = true; });
+                    if (email === "neco@plantdex.com" && pass === "plantdex2026") valido = true;
 
-                    const resData = await response.json();
-                    let rawText = resData.candidates[0].content.parts[0].text;
-                    
-                    rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim();
-                    const datosPlanta = JSON.parse(rawText);
+                    if (valido) {
+                        usuarioEmailActual = email;
+                        document.getElementById('login-page').style.display = 'none';
+                        await mostrarSelectorPerfiles();
+                    } else { alert("Código de acceso o terminal incorrectos."); }
+                }
+            } catch (err) { alert("Error de enlace: " + err.message); }
+        };
 
-                    await addDoc(collection(db, "capturas"), {
-                        perfil: perfilActiveId,
-                        nombreComun: datosPlanta.nombreComun,
-                        nombreCientifico: datosPlanta.nombreCientifico,
-                        rareza: datosPlanta.rareza,
-                        descripcion: datosPlanta.descripcion,
-                        urlFoto: "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?q=80&w=400",
-                        fechaCaptura: new Date().toISOString()
-                    });
+        window.toggleModo = () => {
+            window.modoRegistro = !window.modoRegistro;
+            document.getElementById('login-title').innerText = window.modoRegistro ? "Crear Cuenta BotaniK" : "BotaniK Login";
+            document.getElementById('submit-btn').innerText = window.modoRegistro ? "REGISTRAR ENTORNO" : "ACCEDER AL RADAR";
+            document.getElementById('toggle-text').innerText = window.modoRegistro ? "¿Ya tienes terminal? Accede aquí" : "¿Nuevo laboratorio familiar? Regístrate gratis";
+        };
 
-                    loader.style.display = 'none';
-                    window.cargarAlbum();
+        /* ==========================================================================
+           GESTIÓN DE PERFILES / AVENTUREROS
+           ========================================================================== */
+
+        window.abrirCreadorPerfilModal = () => {
+            modoEdicionActivo = false; idPerfilEnEdicionFila = ""; selectedAvatarValue = "🧑‍🚀";
+            document.getElementById('modal-title-context').innerText = "ALTA DE EXPLORADOR";
+            document.getElementById('profile-name-input').value = "";
+            document.getElementById('profile-date-input').value = "2018-01-01";
+            document.getElementById('expert-toggle-input').checked = false;
+            document.getElementById('avatar-preview-circle').innerHTML = "🧑‍🚀";
+            document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelector('.avatar-option[data-avatar="🧑‍🚀"]').classList.add('selected');
+            document.getElementById('nav-dropdown-box').style.display = 'none';
+            document.getElementById('avatar-picker-modal').style.display = 'flex';
+        };
+
+        window.abrirEditorPerfilEspecifico = (event, idDoc) => {
+            if(event) event.stopPropagation();
+            document.getElementById('nav-dropdown-box').style.display = 'none';
+            let p = cachePerfilesFamilia.find(item => item.id === idDoc);
+            if(!p && window.cacheGlobalAdminPerfiles) p = window.cacheGlobalAdminPerfiles.find(item => item.id === idDoc);
+            if(!p) return;
+
+            modoEdicionActivo = true; idPerfilEnEdicionFila = idDoc; selectedAvatarValue = p.avatar || "🧑‍🚀";
+            document.getElementById('modal-title-context').innerText = `MODIFICAR A ${p.nombre.toUpperCase()}`;
+            document.getElementById('profile-name-input').value = p.nombre;
+            document.getElementById('profile-date-input').value = p.fechaNacimiento || "2018-01-01";
+            document.getElementById('expert-toggle-input').checked = p.esExperto || false;
+           
+            const esImg = selectedAvatarValue.startsWith("data:image");
+            document.getElementById('avatar-preview-circle').innerHTML = esImg ? `<img src="${selectedAvatarValue}">` : selectedAvatarValue;
+            document.querySelectorAll('.avatar-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if(!esImg && opt.getAttribute('data-avatar') === selectedAvatarValue) opt.classList.add('selected');
+            });
+            document.getElementById('avatar-picker-modal').style.display = 'flex';
+        };
+
+        window.selectAvatarElement = (el, val) => {
+            document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected'); selectedAvatarValue = val;
+            document.getElementById('avatar-preview-circle').innerHTML = val;
+        };
+
+        window.procesarFotoPerfilReal = (event) => {
+            const file = event.target.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const base64Comprimido = comprimirImagenProporcional(img, 120, 0.7);
+                    document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+                    selectedAvatarValue = base64Comprimido;
+                    document.getElementById('avatar-preview-circle').innerHTML = `<img src="${base64Comprimido}">`;
                 };
-                reader.readAsDataURL(file);
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
 
-            } catch (err) {
-                console.error(err);
-                loader.style.display = 'none';
+        window.finalizarCreacionPerfil = async () => {
+            const nombre = document.getElementById('profile-name-input').value.trim();
+            const fechaNac = document.getElementById('profile-date-input').value;
+            const esExperto = document.getElementById('expert-toggle-input').checked;
+            if(!nombre || !fechaNac) return alert("Por favor, rellena los campos obligatorios.");
+
+            try {
+                if (modoEdicionActivo) {
+                    const targetId = idPerfilEnEdicionFila || perfilActiveId;
+                    await updateDoc(doc(db, "perfiles", targetId), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto });
+                    if(targetId === perfilActiveId) {
+                        perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNac; perfilActivoAvatar = selectedAvatarValue; perfilActivoEsExperto = esExperto;
+                        const esImg = selectedAvatarValue.startsWith("data:image");
+                        document.getElementById('head-av-box').innerHTML = esImg ? `<img src="${selectedAvatarValue}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : selectedAvatarValue;
+                        document.getElementById('head-name').innerText = nombre.toUpperCase();
+                    }
+                    alert("¡Mente de Campo Sincronizada!");
+                } else {
+                    await addDoc(collection(db, "perfiles"), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto, usuarioEmail: usuarioEmailActual, base: null });
+                }
+                document.getElementById('avatar-picker-modal').style.display = 'none';
+                if (usuarioEmailActual === "jesusgarciavigil@gmail.com") { window.renderizarCuentasYPerfilesGlobales(); }
+                else if(perfilActiveId) { await recalcularCacheYDesplegable(); cargarAlbum(); }
+                else { await mostrarSelectorPerfiles(); }
+            } catch (err) { alert(err.message); }
+        };
+
+        window.cerrarCreadorPerfilModal = () => { document.getElementById('avatar-picker-modal').style.display = 'none'; };
+
+        async function mostrarSelectorPerfiles() {
+            document.querySelector('header').style.display = 'none';
+            document.querySelector('nav').style.display = 'none';
+            document.getElementById('profile-page').style.display = 'flex';
+           
+            const grid = document.getElementById('perfiles-dinamicos'); grid.innerHTML = '';
+            const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
+            const snap = await getDocs(q); cachePerfilesFamilia = [];
+           
+            snap.forEach(documento => {
+                const dataId = documento.id; const p = documento.data(); cachePerfilesFamilia.push({ id: dataId, ...p });
+                const esImg = p.avatar && p.avatar.startsWith("data:image");
+                const avatarRender = esImg ? `<img src="${p.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : p.avatar || "🧑‍🚀";
+                const edadCalculada = calcularEdadExacta(p.fechaNacimiento);
+
+                const div = document.createElement('div'); div.className = "profile-item";
+                div.innerHTML = `<button class="delete-profile-badge">×</button><div class="profile-avatar-display">${avatarRender}</div><div class="profile-name-display">${p.nombre}</div><div class="profile-age-display">${edadCalculada} años ${p.esExperto ? '• EXPERTO' : ''}</div>`;
+                div.querySelector('.delete-profile-badge').onclick = (e) => { window.eliminarPerfil(e, dataId, p.nombre); };
+                div.onclick = (e) => { if(e.target.className === 'delete-profile-badge') return; window.seleccionarPerfil(dataId, p.nombre, p.fechaNacimiento || '2018-01-01', p.avatar || '🧑‍🚀', p.base || null, p.esExperto || false); };
+                grid.appendChild(div);
+            });
+            const btnAdd = document.createElement('div'); btnAdd.className = "profile-item add-profile-item-btn"; btnAdd.innerHTML = `<div style="font-size:32px; margin-bottom:5px;">➕</div>Añadir Explorador`; btnAdd.onclick = window.abrirCreadorPerfilModal;
+            grid.appendChild(btnAdd);
+        }
+
+        window.eliminarPerfil = async (event, idDoc, nombre) => {
+            event.stopPropagation(); if (!confirm(`¿Eliminar perfil de ${nombre}?`)) return;
+            try { await deleteDoc(doc(db, "perfiles", idDoc)); if(perfilActiveId === idDoc) { window.cerrarSesionCompleta(); } else { await mostrarSelectorPerfiles(); if(perfilActiveId) recalcularCacheYDesplegable(); } } catch (err) { alert(err.message); }
+        };
+
+        window.cerrarSesionCompleta = () => {
+            if(unsuscribeXpLive) { unsuscribeXpLive(); unsuscribeXpLive = null; }
+            usuarioEmailActual = ""; perfilActiveId = "";
+            document.getElementById('username').value = ""; document.getElementById('password').value = "";
+            document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('nav-dropdown-box').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
+        };
+
+        window.seleccionarPerfil = async (idDoc, nombre, fechaNacimiento, avatar, base, esExperto) => {
+            perfilActiveId = idDoc; perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNacimiento; perfilActivoAvatar = avatar; perfilActivoBase = base; perfilActivoEsExperto = esExperto;
+            const edadCalculada = calcularEdadExacta(fechaNacimiento);
+            document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
+           
+            const esImg = avatar.startsWith("data:image");
+            document.getElementById('head-av-box').innerHTML = esImg ? `<img src="${avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatar;
+            document.getElementById('head-name').innerText = nombre.toUpperCase();
+            document.getElementById('head-age').innerText = `${esExperto ? '🎓 EXPERTO' : 'Explorador'} • ${edadCalculada} años`;
+
+            window.activarEscuchaBiomasaEnVivo();
+            await window.verificarAlertasMisionesComarcales();
+            recalcularCacheYDesplegable();
+
+            if (!perfilActivoBase) { document.getElementById('setup-base-page').style.display = 'flex'; } else { actualizarEstado(); }
+        };
+
+        /* ==========================================================================
+           ESCUCHA DE BIOMASA EN TIEMPO REAL (BUZÓN SATELITAL)
+           ========================================================================== */
+
+        window.activarEscuchaBiomasaEnVivo = () => {
+            if(unsuscribeXpLive) unsuscribeXpLive();
+            const q = query(collection(db, "alertas_xp"), where("perfilId", "==", perfilActiveId), where("estado", "==", "pendiente"));
+            unsuscribeXpLive = onSnapshot(q, (snapshot) => {
+                snapshot.docs.forEach(async (docSnap) => {
+                    const alerta = docSnap.data(); const idAlerta = docSnap.id;
+                    await updateDoc(doc(db, "alertas_xp", idAlerta), { estado: "entregado" });
+                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento de Biomasa", nombreCientifico: "Bonus Laboratorio Central", rareza: "especial", descripcion: alerta.mensaje || alerta.textMessage, foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2zm0 3.99L18.47 19H5.53L12 5.99z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", comarcaId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual });
+                   
+                    const alertBox = document.getElementById('live-xp-badge-alert');
+                    if (alertBox) {
+                        document.getElementById('live-xp-amount-txt').innerText = `+${alerta.xp}`;
+                        alertBox.classList.add('show-alert'); actualizarEstado();
+                        setTimeout(() => { alertBox.classList.remove('show-alert'); }, 5000);
+                    }
+                });
+            });
+        };
+
+        async function recalcularCacheYDesplegable() {
+            const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
+            const snap = await getDocs(q); cachePerfilesFamilia = [];
+            snap.forEach(d => cachePerfilesFamilia.push({ id: d.id, ...d.data() }));
+            buildDropdownDOM();
+        }
+
+        function buildDropdownDOM() {
+            const container = document.getElementById('nav-dropdown-box'); if (!container) return; container.innerHTML = '';
+            const avatarSeguroActivo = perfilActivoAvatar || "🧑‍🚀"; const nombreSeguroActivo = perfilActivoNombre || "Explorador";
+            const esImgActivo = typeof avatarSeguroActivo === 'string' && avatarSeguroActivo.startsWith("data:image");
+            const avRenderActivo = esImgActivo ? `<img src="${avatarSeguroActivo}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatarSeguroActivo;
+           
+            const rowActivo = document.createElement('div'); rowActivo.className = 'dropdown-account-item active-user-row';
+            rowActivo.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar" style="border-color: var(--neon-green);">${avRenderActivo}</div><div class="dropdown-name" style="color: var(--neon-green);">${nombreSeguroActivo} <span style="font-size:9px; font-weight:normal; color:var(--text-muted);">(En uso)</span></div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
+            rowActivo.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); };
+            container.appendChild(rowActivo);
+
+            cachePerfilesFamilia.forEach(p => {
+                if (p.id === perfilActiveId) return;
+                const esImg = typeof p.avatar === 'string' && p.avatar.startsWith("data:image");
+                const avRender = esImg ? `<img src="${p.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : p.avatar || "🧑‍🚀";
+                const row = document.createElement('div'); row.className = 'dropdown-account-item';
+                row.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar">${avRender}</div><div class="dropdown-name">${p.nombre || 'Explorador'}</div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
+                row.querySelector('.dropdown-left-clickable').onclick = () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); if (document.getElementById('album').classList.contains('active')) cargarAlbum(); };
+                row.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, p.id); };
+                container.appendChild(row);
+            });
+            const footerAdd = document.createElement('div'); footerAdd.className = 'dropdown-footer-btn'; footerAdd.innerHTML = `<span>➕</span> Añadir nuevo explorador`; footerAdd.onclick = window.abrirCreadorPerfilModal; container.appendChild(footerAdd);
+            const footerLogout = document.createElement('div'); footerLogout.className = 'dropdown-footer-btn dropdown-footer-logout'; footerLogout.innerHTML = `<span>🔒</span> Cambiar de terminal`; footerLogout.onclick = () => { if(confirm("¿Cerrar sesión familiar?")) window.cerrarSesionCompleta(); }; container.appendChild(footerLogout);
+        }
+
+        window.toggleDropdownCuentasCabecera = (event) => { if(event) event.stopPropagation(); const box = document.getElementById('nav-dropdown-box'); box.style.display = (box.style.display === 'block') ? 'none' : 'block'; };
+        document.addEventListener('click', (e) => { const box = document.getElementById('nav-dropdown-box'); const trigger = document.querySelector('.header-profile-box'); if (box && box.style.display === 'block' && !box.contains(e.target) && !trigger.contains(e.target)) box.style.display = 'none'; });
+
+        /* ==========================================================================
+           CONSOLA DE CONTROL SUPREMA - MODO DIOS
+           ========================================================================== */
+
+        window.activarMandoSupremoGod = async () => { document.getElementById('god-mode-page').style.display = 'flex'; window.switchAdminTab('panel-macro'); };
+        window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
+
+        window.switchAdminTab = async (tabId) => {
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.admin-view-pane').forEach(pane => pane.classList.remove('active'));
+            if (event) event.target.classList.add('active'); document.getElementById(tabId).classList.add('active');
+            if (tabId === 'panel-macro') window.cargarEstadisticasMacro();
+            if (tabId === 'panel-cuentas') window.renderizarCuentasYPerfilesGlobales();
+            if (tabId === 'panel-moderacion') window.cargarMuroModeracionGlobal();
+            if (tabId === 'panel-alertas') { window.cargarSelectorEmailsAlertas(); window.prepararDesplegablesSimulador(); }
+        };
+
+        window.cargarEstadisticasMacro = async () => {
+            const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles")); const snapCapturas = await getDocs(collection(db, "capturas"));
+            let baseCuentasSize = snapCuentas.size; if (!snapCuentas.docs.some(doc => doc.data().email === "neco@plantdex.com")) baseCuentasSize += 1;
+            document.getElementById('m-total-cuentas').innerText = baseCuentasSize; document.getElementById('m-total-exploradores').innerText = snapPerfiles.size; document.getElementById('m-total-capturas').innerText = snapCapturas.size;
+
+            const feedContainer = document.getElementById('admin-live-feed'); feedContainer.innerHTML = '';
+            let todas = []; let perfilesMapParaFeed = {};
+            snapPerfiles.forEach(pDoc => { perfilesMapParaFeed[pDoc.id] = pDoc.data(); });
+            snapCapturas.forEach(d => todas.push({ id: d.id, ...d.data() }));
+            todas.sort((a,b) => b.timestamp - a.timestamp);
+
+            todas.slice(0, 12).forEach(c => {
+                if(c.municipioId === "Admin") return; const dataAutor = perfilesMapParaFeed[c.perfil] || { nombre: "Desconocido" };
+                feedContainer.innerHTML += `<div class="feed-box"><img class="feed-img" src="${c.foto}"><div class="feed-body"><div class="feed-title">${c.nombreComun}</div><div style="font-style:italic; color:#7FA39F; margin-bottom:4px;">${c.nombreCientifico}</div><div>📍 Lugar: <b>${c.loc || 'Campo'}</b></div><div style="color:var(--poke-gold); font-weight:bold; margin-top:2px;">XP: +${c.xp}</div><div class="feed-author-tag">👤 <b>${dataAutor.nombre}</b></div></div></div>`;
+            });
+        };
+
+        window.renderizarCuentasYPerfilesGlobales = async () => {
+            const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles"));
+            const mainContainer = document.getElementById('clusters-cuentas-container'); mainContainer.innerHTML = '';
+            window.cacheGlobalAdminPerfiles = []; let perfilesMap = {}; let listadoCuentasEmails = [];
+
+            snapCuentas.forEach(docC => { listadoCuentasEmails.push({ email: docC.data().email }); });
+            if (!listadoCuentasEmails.some(c => c.email === "neco@plantdex.com")) listadoCuentasEmails.push({ email: "neco@plantdex.com" });
+            snapPerfiles.forEach(docSnap => { const p = docSnap.data(); window.cacheGlobalAdminPerfiles.push({ id: docSnap.id, ...p }); if(!perfilesMap[p.usuarioEmail]) perfilesMap[p.usuarioEmail] = []; perfilesMap[p.usuarioEmail].push({ id: docSnap.id, ...p }); });
+
+            listadoCuentasEmails.forEach(c => {
+                const emailFam = c.email; const niñosAsociados = perfilesMap[emailFam] || [];
+                let comarcaBase = "No Calibrada"; const conBase = niñosAsociados.find(n => n.base && n.base.comarca); if(conBase) comarcaBase = conBase.base.comarca;
+                const cardHtml = document.createElement('div'); cardHtml.className = 'account-cluster-card';
+               
+                let tablaHijos = niñosAsociados.length === 0 ? `<div style="font-style:italic; color:var(--text-muted); font-size:12px; padding:10px 0;">Sin exploradores aún.</div>` : `<table class="admin-table"><thead><tr><th>Explorador</th><th>Modo Experto</th><th>Comando</th></tr></thead><tbody>${niñosAsociados.map(n => `<tr><td><b>${n.nombre}</b></td><td><span style="color:var(--neon-green)">${n.esExperto ? 'ACTIVO' : 'NO'}</span></td><td><button class="admin-btn admin-btn-purple" onclick="window.inyectarXPMecanico('${n.id}', '${n.nombre}')">⚡ BONIFICAR XP</button><button class="admin-btn admin-btn-purple" onclick="window.abrirEditorPerfilSpecifico(null, '${n.id}')">⚙️ EDITAR</button></td></tr>`).join('')}</tbody></table>`;
+                cardHtml.innerHTML = `<div class="cluster-header"><div class="cluster-email">📧 Cuenta: ${emailFam}</div><div class="cluster-base">📡 Sector: ${comarcaBase}</div></div>${tablaHijos}`;
+                mainContainer.appendChild(cardHtml);
+            });
+        };
+
+        window.inyectarXPMecanico = async (idPerfil, nombre) => {
+            const cantidad = prompt(`¿Cuánta XP extra quieres inyectarle a ${nombre}?`); if(!cantidad || isNaN(cantidad)) return;
+            try {
+                await addDoc(collection(db, "alertas_xp"), { perfilId: idPerfil, xp: parseInt(cantidad), titulo: "Inyección de Biomasa Central", textMessage: `¡Has recibido +${cantidad} XP enviado por el Profesor!`, estado: "pendiente", timestamp: Date.now() });
+                alert(`⚡ ¡XP enviada al buzón de campo de ${nombre}!`); window.renderizarCuentasYPerfilesGlobales();
+            } catch(e) { alert("Error de satélite central: " + e.message); }
+        };
+
+        window.cargarMuroModeracionGlobal = async () => {
+            const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); table.innerHTML = '';
+            snap.forEach(docSnap => {
+                const c = docSnap.data(); const idDoc = docSnap.id; if(c.municipioId === "Admin") return;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td><img src="${c.foto}" style="width:45px; height:45px; object-fit:cover; border-radius:6px;"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input" style="padding:6px; margin:0; font-size:12px;"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input" style="padding:6px; margin:0; font-style:italic; font-size:12px;"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 VINCULAR</button><button class="admin-btn admin-btn-danger" onclick="window.eliminarCapturaInapropiada('${idDoc}')">✕ BORRAR</button></td>`;
+                table.appendChild(tr);
+            });
+        };
+
+        window.salvarCambiosTaxonomia = async (idDoc) => {
+            const comun = document.getElementById(`mod-comun-${idDoc}`).value.trim();
+            const cien = document.getElementById(`mod-cien-${idDoc}`).value.trim();
+            await updateDoc(doc(db, "capturas", idDoc), { nombreComun: comun, nombreCientifico: cien });
+            alert("¡Taxonomía vinculada con éxito en los servidores centrales!"); window.cargarMuroModeracionGlobal();
+        };
+
+        window.eliminarCapturaInapropiada = async (idDoc) => {
+            if(!confirm("¿Borrar esta muestra permanentemente de los registros?")) return;
+            await deleteDoc(doc(db, "capturas", idDoc)); window.cargarMuroModeracionGlobal();
+        };
+
+        /* ==========================================================================
+           GEOLOCALIZACIÓN Y ENTORNO CULTURAL COMARCAL
+           ========================================================================== */
+
+        window.localizarBasePorGPS = async () => {
+            document.getElementById('loading-base-txt').innerText = "📡 BUSCANDO RESPUESTA DE SATÉLITES GPS EN TIEMPO REAL...";
+            const gps = await window.getUbicacionGPS();
+            if (!gps) {
+                alert("No se ha podido adquirir telemetría GPS. Por favor, introduce tu comarca manualmente.");
+                window.activarEntradaManualBase();
+                return;
+            }
+            await calibrarBiomaPorCoordenadas(gps.lat, gps.lng, "Ubicación Satelital Automática");
+        };
+
+        window.activarEntradaManualBase = () => {
+            document.getElementById('gps-base-box').style.display = 'none';
+            document.getElementById('manual-base-box').style.display = 'block';
+            document.getElementById('loading-base-txt').innerText = "Introduce tu municipio, comarca o provincia para sintonizar los biomas locales de forma manual:";
+        };
+
+        window.confirmarBaseManual = async () => {
+            const txt = document.getElementById('manual-lugar-input').value.trim();
+            if(!txt) return alert("Por favor, introduce un nombre de sector válido.");
+            await calibrarBiomaPorCoordenadas(43.38, -3.22, txt);
+        };
+
+        async function calibrarBiomaPorCoordenadas(lat, lng, queryTxt) {
+            let pais = "España"; let provincia = "Cantabria"; let comarca = "Costa Oriental"; let municipio = "Castro Urdiales";
+            const normal = queryTxt.toLowerCase();
+           
+            if(normal.includes("jaen") || normal.includes("carolina") || normal.includes("mágina") || normal.includes("cazorla")) { provincia = "Jaén"; comarca = "Sierra Mágina"; municipio = "La Carolina"; }
+            else if(normal.includes("bilbao") || normal.includes("vizcaya") || normal.includes("bizkaia")) { provincia = "Vizcaya"; comarca = "Gran Bilbao"; municipio = "Bilbao"; }
+            else if(normal.includes("málaga") || normal.includes("ronda") || normal.includes("marbella")) { provincia = "Málaga"; comarca = "Serranía de Ronda"; municipio = "Málaga"; }
+            else if(normal.includes("granada")) { provincia = "Granada"; comarca = "Granada Metropolitana"; municipio = "Granada"; }
+
+            const baseObjeto = { lat: lat, lng: lng, pais: pais, provincia: provincia, comarca: comarca, municipio: municipio, queryLabel: queryTxt };
+            await updateDoc(doc(db, "perfiles", perfilActiveId), { base: baseObjeto });
+           
+            perfilActivoBase = baseObjeto;
+            document.getElementById('setup-base-page').style.display = 'none';
+            alert(`¡Base Secreta Establecida en ${municipio} (${comarca})!`);
+           
+            actualizarEstado();
+            await window.verificarAlertasMisionesComarcales();
+        }
+
+        /* ==========================================================================
+           MÓDULO DE IDENTIFICACIÓN IA (API DE GEMINI DE RESPALDO)
+           ========================================================================== */
+
+        window.triggerCamera = () => { document.getElementById('camera-input').click(); };
+
+        window.procesarFoto = async (event) => {
+            const file = event.target.files[0]; if (!file) return;
+            document.getElementById('loading').style.display = 'block';
+
+            const img = new Image();
+            img.onload = async () => {
+                const base64DataCompleta = comprimirImagenProporcional(img, 700, 0.6);
+                const base64Data = base64DataCompleta.split(",")[1];
+               
+                let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
+                let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
+
+                // Instrucciones Estrictas para Forzar Formato JSON Estructurado Sin Markdown
+                const promptInstrucciones = `Eres el Satélite Científico Central del juego BotaniK 2. Tu misión es analizar la muestra vegetal y devolver OBLIGATORIAMENTE un objeto JSON estricto, plano, sin formato markdown, sin usar bloques de código \`\`\`json ni caracteres invisibles.
+                Adapta el relato pedagógico y cultural para un explorador de ${edadAventurero} años cuya Base Secreta está en ${sectorBaseTxt}. Si el perfil es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
+                Cruza la mitología local de la provincia (ej: si es Cantabria, inyecta Anjanas, Trastolillos, o dragones de monte; si es Jaén, mitos íberos).
+                Campos del JSON requeridos:
+                {
+                  "nombreComun": "Nombre de la planta en mayúsculas",
+                  "nombreCientifico": "Género y especie",
+                  "rareza": "comun, poco, especial o exotica (según tu criterio ecológico)",
+                  "descripcion": "Relato adaptado a su edad y mitología del lugar",
+                  "tipoHoja": "Perenne/Caduca/No aplica",
+                  "origen": "Autóctona/Exótica"
+                }`;
+
+                let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
+
+                try {
+                    let response = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [
+                                    { text: promptInstrucciones },
+                                    { inlineData: { mimeType: "image/jpeg", data: base64Data } }
+                                ]
+                            }]
+                        })
+                    });
+
+                    // Si da error de saturación (429) o cualquier fallo de servidor, rotamos la clave y avisamos
+                    if (response.status === 429 || !response.ok) {
+                        window.rotarASiguienteClavePorSaturacion();
+                        alert("📡 El canal satelital está saturado de biomasa. Reajustando frecuencias... ¡Prueba a escanear de nuevo!");
+                        document.getElementById('loading').style.display = 'none';
+                        return;
+                    }
+
+                    const jsonRes = await response.json();
+                    let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
+                   
+                    // Limpieza preventiva total de marcas Markdown
+                    if(rawText.startsWith("```")) { rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim(); }
+
+                    const planta = JSON.parse(rawText);
+                    const mult = MULTIPLICADORES_RAREZA[planta.rareza] || 1;
+                    const baseXP = 20; const calculadoXP = Math.floor(baseXP * mult);
+
+                    // Guardado directo en Firestore Vinculado al Perfil
+                    await addDoc(collection(db, "capturas"), {
+                        nombreComun: planta.nombreComun,
+                        nombreCientifico: planta.nombreCientifico,
+                        rareza: planta.rareza,
+                        descripcion: planta.descripcion,
+                        foto: base64DataCompleta,
+                        fecha: new Date().toLocaleDateString(),
+                        timestamp: Date.now(),
+                        xp: calculadoXP,
+                        loc: perfilActivoBase ? perfilActivoBase.municipio : "Exploración",
+                        municipioId: perfilActivoBase ? perfilActivoBase.municipio : "Desconocido",
+                        comarcaId: perfilActivoBase ? perfilActivoBase.comarca : "Desconocido",
+                        provinciaId: perfilActivoBase ? perfilActivoBase.provincia : "Desconocido",
+                        paisId: perfilActivoBase ? perfilActivoBase.pais : "España",
+                        perfil: perfilActiveId,
+                        usuarioEmail: usuarioEmailActual,
+                        tipoHoja: planta.tipoHoja || "No especificado",
+                        origen: planta.origen || "Autóctona"
+                    });
+
+                    document.getElementById('loading').style.display = 'none';
+                    window.desplegarToastVictoriaInmediata(`MUESTRA ADQUIRIDA: +${calculadoXP} XP`);
+                    actualizarEstado();
+
+                } catch (err) {
+                    document.getElementById('loading').style.display = 'none';
+                    alert("Error satelital de lectura: Por favor, repite la captura en un entorno con mejor iluminación.");
+                    console.error(err);
+                }
+            };
+            img.src = event.target.result;
+        };
+
+        /* ==========================================================================
+           SISTEMA DE MISIONES / ALERTAS COMUNITARIAS (BUZÓN)
+           ========================================================================== */
+
+        window.verificarAlertasMisionesComarcales = async () => {
+            const snap = await getDocs(collection(db, "alertas_comunidad"));
+            cacheAlertasGlobales = [];
+            let unreadCount = 0;
+            const leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
+
+            snap.forEach(docSnap => {
+                const a = docSnap.data(); const idA = docSnap.id;
+                let elegible = false;
+
+                if (a.targetType === "global") elegible = true;
+                else if (a.targetType === "pais" && perfilActivoBase && a.targetValue === perfilActivoBase.pais) elegible = true;
+                else if (a.targetType === "provincial" && perfilActivoBase && a.targetValue === perfilActivoBase.provincia) elegible = true;
+                else if (a.targetType === "comarcal" && perfilActivoBase && a.targetValue === perfilActivoBase.comarca) elegible = true;
+                else if (a.targetType === "cuenta" && a.targetValue === usuarioEmailActual) elegible = true;
+                else if (a.targetType === "explorador" && a.targetValue === perfilActiveId) elegible = true;
+
+                if (elegible) {
+                    cacheAlertasGlobales.push({ id: idA, ...a });
+                    if (!leidosList.includes(idA)) unreadCount++;
+                }
+            });
+
+            const banner = document.getElementById('profesor-alert-banner');
+            const msgTxt = document.getElementById('profesor-msg-text');
+            const badge = document.getElementById('box-badge-num');
+
+            if (cacheAlertasGlobales.length > 0) {
+                cacheAlertasGlobales.sort((a,b) => b.timestamp - a.timestamp);
+                msgTxt.innerText = cacheAlertasGlobales[0].textMessage;
+                banner.style.display = 'block';
+            } else { banner.style.display = 'none'; }
+
+            if (unreadCount > 0) { badge.innerText = unreadCount; badge.style.display = 'flex'; }
+            else { badge.style.display = 'none'; }
+        };
+
+        window.abrirBuzonHistoricoModal = () => {
+            const container = document.getElementById('mailbox-list-container'); container.innerHTML = '';
+            const leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
+
+            if (cacheAlertasGlobales.length === 0) {
+                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-style:italic; font-size:13px; padding:20px;">No hay transmisiones archivadas en este cuadrante.</div>`;
+            }
+
+            cacheAlertasGlobales.forEach(a => {
+                const esLeido = leidosList.includes(a.id);
+                const dCard = document.createElement('div'); dCard.className = 'mailbox-item-card';
+                dCard.innerHTML = `<div class="mailbox-item-title">${a.textMessage}</div><div class="mailbox-item-date">${new Date(a.timestamp).toLocaleString()}</div>${!esLeido ? `<div class="mailbox-unread-dot"></div>`:''}`;
+                dCard.onclick = () => { window.abrirLectorMensajeEspecifico(a.id, a.textMessage); };
+                container.appendChild(dCard);
+            });
+            document.getElementById('mailbox-modal').style.display = 'flex';
+        };
+
+        window.abrirLectorMensajeEspecifico = (idMsg, cuerpo) => {
+            document.getElementById('mailbox-modal').style.display = 'none';
+            document.getElementById('m-reader-body').innerText = cuerpo;
+           
+            const btn = document.getElementById('m-reader-btn-action');
+            btn.onclick = () => {
+                let leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
+                if (!leidosList.includes(idMsg)) { leidosList.push(idMsg); localStorage.setItem(`leidos_${perfilActiveId}`, JSON.stringify(leidosList)); }
+                document.getElementById('msg-reader-modal').style.display = 'none';
+                window.verificarAlertasMisionesComarcales();
+            };
+            document.getElementById('msg-reader-modal').style.display = 'flex';
+        };
+
+        /* ==========================================================================
+           SISTEMA DE ADMINISTRACIÓN CENTRALIZADA (CONTROL SUPREMO)
+           ========================================================================== */
+
+        window.cargarSelectorEmailsAlertas = async () => {
+            const sUser = document.getElementById('alert-user-field'); sUser.innerHTML = '<option value="">-- Selecciona Laboratorio Familiar --</option>';
+            const sChild = document.getElementById('sim-child-field'); sChild.innerHTML = '';
+            const sDestChild = document.getElementById('alert-child-field'); sDestChild.innerHTML = '<option value="">-- Primero elige Cuenta --</option>';
+
+            const snapU = await getDocs(collection(db, "cuentas_familia"));
+            snapU.forEach(d => { sUser.innerHTML += `<option value="${d.data().email}">${d.data().email}</option>`; });
+            if (!sUser.innerHTML.includes("neco@plantdex.com")) sUser.innerHTML += `<option value="neco@plantdex.com">neco@plantdex.com</option>`;
+
+            const snapP = await getDocs(collection(db, "perfiles"));
+            window.cacheAdminPerfilesCompletos = [];
+            snapP.forEach(d => {
+                window.cacheAdminPerfilesCompletos.push({ id: d.id, ...d.data() });
+                sChild.innerHTML += `<option value="${d.id}">${d.data().nombre.toUpperCase()} [${d.data().usuarioEmail}]</option>`;
+            });
+        };
+
+        window.filtrarHijosDeCuentaParaMensajeDirecto = (emailCuenta) => {
+            const sDestChild = document.getElementById('alert-child-field'); sDestChild.innerHTML = '<option value="">-- Todos los exploradores de la cuenta --</option>';
+            if(!emailCuenta) return;
+            const filtrados = window.cacheAdminPerfilesCompletos.filter(p => p.usuarioEmail === emailCuenta);
+            filtrados.forEach(p => { sDestChild.innerHTML += `<option value="${p.id}">${p.nombre.toUpperCase()}</option>`; });
+        };
+
+        window.gestionarCambioTargetAlerta = (tipo) => {
+            document.getElementById('pais-select-row').style.display = tipo==='pais'?'flex':'none';
+            document.getElementById('provincia-select-row').style.display = tipo==='provincial'?'flex':'none';
+            document.getElementById('comarca-select-row').style.display = tipo==='comarcal'?'flex':'none';
+            document.getElementById('usuario-select-row').style.display = (tipo==='cuenta'||tipo==='explorador')?'flex':'none';
+            document.getElementById('explorador-select-row').style.display = tipo==='explorador'?'flex':'none';
+        };
+
+        window.prepararDesplegablesSimulador = () => {
+            const pSel = document.getElementById('alert-pais-select'); pSel.innerHTML=''; PAISES_PRECARGADOS.forEach(p=>pSel.innerHTML+=`<option value="${p}">${p}</option>`);
+            const prSel = document.getElementById('alert-provincia-select'); prSel.innerHTML=''; PROVINCIAS_PRECARGADAS.forEach(p=>prSel.innerHTML+=`<option value="${p}">${p}</option>`);
+            const cSel = document.getElementById('alert-comarca-select'); cSel.innerHTML=''; COMARCAS_PRECARGADAS.forEach(c=>cSel.innerHTML+=`<option value="${c}">${c}</option>`);
+        };
+
+        window.emitirAlertaSatelital = async () => {
+            const type = document.getElementById('alert-target-type').value;
+            const msg = document.getElementById('alert-text-msg').value.trim();
+            if(!msg) return alert("Escribe un comunicado de campo.");
+
+            let val = "global";
+            if(type === "pais") val = document.getElementById('alert-pais-select').value;
+            else if(type === "provincial") val = document.getElementById('alert-provincia-select').value;
+            else if(type === "comarcal") val = document.getElementById('alert-comarca-select').value;
+            else if(type === "cuenta") val = document.getElementById('alert-user-field').value;
+            else if(type === "explorador") val = document.getElementById('alert-child-field').value || document.getElementById('alert-user-field').value;
+
+            await addDoc(collection(db, "alertas_comunidad"), { targetType: type, targetValue: val, textMessage: msg, timestamp: Date.now() });
+            alert("📡 ¡Transmisión satelital desplegada en la red global!");
+            document.getElementById('alert-text-msg').value = "";
+            if(perfilActiveId) window.verificarAlertasMisionesComarcales();
+        };
+
+        window.inyectarCartaConLocalizacionesSimuladas = async (esLote) => {
+            const perfilDestinoId = document.getElementById('sim-child-field').value;
+            const comun = document.getElementById('sim-comun-input').value.trim();
+            const cien = document.getElementById('sim-cien-input').value.trim();
+            const rareza = document.getElementById('sim-rareza-select').value;
+            const loc = document.getElementById('sim-loc-input').value.trim() || "Entorno de Prueba";
+            const desc = document.getElementById('sim-desc-textarea').value.trim() || "Muestra botánica inyectada desde la consola central.";
+           
+            if(!perfilDestinoId || !comun || !cien) return alert("Rellena los datos de simulación.");
+            const pData = window.cacheAdminPerfilesCompletos.find(x => x.id === perfilDestinoId);
+
+            const mult = MULTIPLICADORES_RAREZA[rareza] || 1;
+            const xpCalculada = Math.floor(20 * mult);
+
+            const plantillaInyeccion = {
+                nombreComun: comun, nombreCientifico: cien, rareza: rareza, descripcion: desc, xp: xpCalculada, loc: loc,
+                foto: "data:image/svg+xml;utf8,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' width='100' height='100' viewBox='0 0 24 24' fill='%231F6B3A'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z'/></svg>",
+                fecha: new Date().toLocaleDateString(), timestamp: Date.now(),
+                perfil: perfilDestinoId, usuarioEmail: pData.usuarioEmail,
+                municipioId: pData.base ? pData.base.municipio : "Test", comarcaId: pData.base ? pData.base.comarca : "Test", provinciaId: pData.base ? pData.base.provincia : "Test", paisId: pData.base ? pData.base.pais : "España"
+            };
+
+            await addDoc(collection(db, "capturas"), plantillaInyeccion);
+            if(esLote) {
+                await addDoc(collection(db, "capturas"), { ...plantillaInyeccion, nombreComun: comun + " Alfa", timestamp: Date.now()+10 });
+                await addDoc(collection(db, "capturas"), { ...plantillaInyeccion, nombreComun: comun + " Beta", timestamp: Date.now()+20 });
+            }
+            alert("🧪 ¡Inyección de simulación completada de forma síncrona!");
+            window.switchAdminTab('panel-macro');
+        };
+
+        /* ==========================================================================
+           GESTIÓN DE INTERFAZ MULTIPÁGINA (RADAR / ÁLBUM)
+           ========================================================================== */
+
+        window.switchPage = (pageId, buttonElement) => {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+           
+            document.getElementById(pageId).classList.add('active');
+            if(buttonElement) buttonElement.classList.add('active');
+            if(pageId === 'album') cargarAlbum();
+        };
+
+        // Nueva fórmula matemática lineal segura (Evita bucles infinitos en el navegador)
+        async function actualizarEstado() {
+            const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
+            const snap = await getDocs(q);
+            let totalXP = 0;
+            snap.forEach(d => totalXP += (d.data().xp || 0));
+           
+            let nivel = 1;
+            let req = 100;
+            let xpRestante = totalXP;
+           
+            while (xpRestante >= req && req > 0) {
+                xpRestante -= req;
+                nivel++;
+                req = Math.floor(req * 1.2);
+            }
+           
+            const txtNivel = document.getElementById('txt-nivel');
+            const txtRango = document.getElementById('txt-rango');
+            const barraProgreso = document.getElementById('barra-progreso');
+            const txtXpContador = document.getElementById('txt-xp-contador');
+            const totalXpMini = document.getElementById('total-xp-mini');
+            const totalCountMini = document.getElementById('total-count-mini');
+
+            if (txtNivel) txtNivel.innerText = `NIVEL ${nivel}`;
+            if (txtRango) txtRango.innerText = RANGOS_EXPLORACION[Math.min(nivel - 1, 14)] || "Explorador";
+            if (barraProgreso) barraProgreso.style.width = `${(xpRestante / req) * 100}%`;
+            if (txtXpContador) txtXpContador.innerText = `${xpRestante} / ${req} XP`;
+            if (totalXpMini) totalXpMini.innerText = totalXP;
+            if (totalCountMini) totalCountMini.innerText = snap.size;
+        }
+
+        /* ==========================================================================
+           RENDERIZADO DINÁMICO DEL ÁLBUM DE CROMOS DE LABORATIVO
+           ========================================================================== */
+
+        async function cargarAlbum() {
+            const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
+            const snap = await getDocs(q);
+            albumEspeciesMemoria = {};
+           
+            snap.forEach(documento => {
+                const d = documento.data();
+                if (!albumEspeciesMemoria[d.nombreCientifico]) {
+                    albumEspeciesMemoria[d.nombreCientifico] = {
+                        nombreComun: d.nombreComun, nombreCientifico: d.nombreCientifico, rareza: d.rareza,
+                        descripcion: d.descripcion, foto: d.foto, fecha: d.fecha, loc: d.loc || "Campo",
+                        tipoHoja: d.tipoHoja || "No especificado", origen: d.origen || "Autóctona",
+                        copiasTotales: 0, nombresAlternativosRecogidos: new Set()
+                    };
+                }
+                albumEspeciesMemoria[d.nombreCientifico].copiasTotales++;
+                albumEspeciesMemoria[d.nombreCientifico].nombresAlternativosRecogidos.add(d.nombreComun);
+            });
+            window.filtrarYOrdenarAlbum();
+        }
+
+        window.filtrarYOrdenarAlbum = () => {
+            const wrapper = document.getElementById('album-dinamico-contenedor'); wrapper.innerHTML = '';
+            const filtroTexto = document.getElementById('search-botanika').value.toLowerCase().trim();
+
+            Object.values(albumEspeciesMemoria).forEach(esp => {
+                if(filtroTexto && !esp.nombreComun.toLowerCase().includes(filtroTexto) && !esp.nombreCientifico.toLowerCase().includes(filtroTexto)) return;
+               
+                const factorEvolutivo = Math.min(esp.copiasTotales, 4);
+                const tagRarity = `rare-${esp.rareza}`;
+
+                const cardHtml = document.createElement('div'); cardHtml.className = 'cromo-wrapper';
+                cardHtml.innerHTML = `<div class="cromo-mini-card ${tagRarity}"><div class="cromo-img-box"><img src="${esp.foto}"></div><div class="cromo-txt-bar"><h4>${esp.nombreComun}</h4></div><div class="cromo-evolution-badge">${TITULOS_ADAPTACION[factorEvolutivo]}</div></div>`;
+                cardHtml.onclick = () => { window.abrirVisualizadorDetalleCromo3D(esp); };
+                wrapper.appendChild(cardHtml);
+            });
+        };
+
+        /* ==========================================================================
+           VISUALIZADOR PREMIUM EN PERSPECTIVA (CARTA 3D)
+           ========================================================================== */
+
+        window.abrirVisualizadorDetalleCromo3D = (esp) => {
+            document.getElementById('modal-card-inner').classList.remove('flipped');
+            document.getElementById('modal-names-dropdown').style.display = 'none';
+
+            document.getElementById('m-title').innerText = esp.nombreComun;
+            document.getElementById('m-type').innerText = `X${esp.copiasTotales} MUESTRAS`;
+            document.getElementById('m-img').src = esp.foto;
+            document.getElementById('m-sci').innerText = esp.nombreCientifico;
+            document.getElementById('m-desc').innerText = esp.descripcion;
+
+            document.getElementById('m-back-title').innerText = esp.nombreComun;
+            document.getElementById('m-fecha').innerText = `📅 Primer Registro: ${esp.fecha}`;
+            document.getElementById('m-coords').innerText = `📍 Bioma: ${esp.loc} | Hoja: ${esp.tipoHoja} | ${esp.origen}`;
+
+            const btnEvo = document.getElementById('btn-evolution-action');
+            if(esp.copiasTotales >= 2) {
+                btnEvo.style.display = 'block';
+                btnEvo.innerText = `ADAPTAR AL NIVEL ${Math.min(esp.copiasTotales, 4)}`;
+            } else { btnEvo.style.display = 'none'; }
+
+            // Construcción del mini-desplegable de sinónimos recogidos en campo
+            const drop = document.getElementById('modal-names-dropdown'); drop.innerHTML = '';
+            esp.nombresAlternativosRecogidos.forEach(altName => {
+                const r = document.createElement('div'); r.className = 'name-drop-row'; r.innerText = altName;
+                r.onclick = (e) => { e.stopPropagation(); document.getElementById('m-title').innerText = altName; drop.style.display='none'; };
+                drop.appendChild(r);
+            });
+
+            document.getElementById('cromo-overlay-modal').style.display = 'flex';
+        };
+
+        window.voltearCartaModal = (event, el) => {
+            if(event.target.id === 'm-desc' || event.target.closest('.modal-title-poke-clickable') || event.target.closest('#modal-names-dropdown') || event.target.id === 'btn-evolution-action') return;
+            el.classList.toggle('flipped');
+        };
+
+        window.desplegarNombresAlternativosModal = (event) => {
+            event.stopPropagation(); const d = document.getElementById('modal-names-dropdown');
+            d.style.display = (d.style.display === 'block') ? 'none' : 'block';
+        };
+
+        window.evaluarCierrePorFondo = (event) => {
+            if(event.target.id === 'cromo-overlay-modal' || event.target.className === 'close-modal-txt') {
+                document.getElementById('cromo-overlay-modal').style.display = 'none';
             }
         };
 
-        window.addEventListener('DOMContentLoaded', () => {
-            window.cargarAlbum();
-        });
+        window.desplegarToastVictoriaInmediata = (msg) => {
+            const el = document.getElementById('botanik-toast-victory');
+            document.getElementById('botanik-toast-msg-txt').innerText = msg;
+            el.classList.add('show-toast');
+            setTimeout(() => { el.classList.remove('show-toast'); }, 4000);
+        };
+
+        // Arranque Inicial Automático
+        window.onload = () => {
+            document.getElementById('main-app-container').style.display = 'block';
+        };
     </script>
 </body>
 </html>
