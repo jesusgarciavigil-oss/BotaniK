@@ -105,11 +105,13 @@
         @keyframes entradaDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .dropdown-account-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid rgba(127,163,159,0.1); transition: 0.15s; }
         .dropdown-account-item:hover { background: rgba(21, 42, 45, 0.7); }
-        .dropdown-account-item.active-user-row { background: rgba(31, 107, 58, 0.15); }
         .dropdown-left-clickable { display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1; }
         .dropdown-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-dark); border: 1px solid var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 14px; overflow: hidden; }
         .dropdown-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .dropdown-name { font-size: 12px; color: var(--text-light); font-weight: bold; text-transform: uppercase; }
+        
+        .dropdown-footer-logout { background: rgba(0,0,0,0.2); padding: 10px 12px; font-size: 11px; font-weight: bold; color: var(--text-muted); cursor: pointer; text-align: left; border-top: 1px solid rgba(127,163,159,0.1); transition: 0.2s; }
+        .dropdown-footer-logout:hover { color: var(--danger); background: rgba(255,59,48,0.05); }
 
         /* Contenedores Principales de Vistas */
         .container { max-width: 500px; margin: 0 auto; padding: 15px; display: block; }
@@ -468,7 +470,7 @@
         const auth = getAuth(app);
         const googleProvider = new GoogleAuthProvider();
 
-        // 6 NUEVAS CLAVES ENTORNO SEGURO PRIVADO DE GITHUB
+        // 6 CLAVES ENTORNO SEGURO PRIVADO DE GITHUB
         const _0xkeys = [
             "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
             "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
@@ -580,7 +582,7 @@
         window.iniciarSesionModoInvitado = async () => {
             try {
                 const result = await signInAnonymously(auth);
-                usuarioEmailActual = "invitado_" + result.user.uid.substring(0, 6) + "@botanik.net";
+                usuarioEmailActual = "invitado_" + result.user.uid.substring(0, 6);
                 document.getElementById('login-page').style.display = 'none';
                 await mostrarSelectorPerfiles();
             } catch (err) {
@@ -711,6 +713,13 @@
                 row.querySelector('.dropdown-left-clickable').onclick = () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); };
                 container.appendChild(row);
             });
+            
+            // Botón directo para cerrar terminal desde la cabecera
+            const footerClose = document.createElement('div');
+            footerClose.className = 'dropdown-footer-logout';
+            footerClose.innerText = '🚪 Salir del Terminal';
+            footerClose.onclick = () => { container.style.display = 'none'; window.cerrarSesionCompleta(); };
+            container.appendChild(footerClose);
         }
 
         window.toggleDropdownCuentasCabecera = (event) => { event.stopPropagation(); const box = document.getElementById('nav-dropdown-box'); box.style.display = (box.style.display === 'block') ? 'none' : 'block'; };
@@ -807,7 +816,13 @@
                     let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
                     try {
                         let response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: promptInstrucciones }, { inlineData: { mimeType: "image/jpeg", data: base64Data } }] }] }) });
-                        if (!response.ok) { window.rotarASiguienteClavePorSaturacion(); return; }
+                        
+                        if (!response.ok) { 
+                            document.getElementById('loading').style.display = 'none';
+                            window.rotarASiguienteClavePorSaturacion(); 
+                            alert("Satélite en calibración. Pulsa SCAN otra vez para reintentar.");
+                            return; 
+                        }
 
                         const jsonRes = await response.json();
                         let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
@@ -828,7 +843,7 @@
                         window.actualizarEstado();
                     } catch (err) {
                         document.getElementById('loading').style.display = 'none';
-                        alert("Sincronización reajustada. Intenta escanear apuntando bien a la luz.");
+                        alert("Muestra no identificada o formato inválido. Asegúrate de enfocar una planta real.");
                         window.rotarASiguienteClavePorSaturacion();
                     }
                 };
