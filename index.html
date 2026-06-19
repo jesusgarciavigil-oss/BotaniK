@@ -116,7 +116,7 @@
         .profesor-alert-card { background: linear-gradient(135deg, rgba(31,107,58,0.2) 0%, rgba(13,27,30,0.4) 100%); border: 1.5px solid var(--accent-green); border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; display: none; text-align: left; position: relative; animation: flashBanner 3s infinite alternate; }
         @keyframes flashBanner { from { border-color: rgba(118,225,97,0.3); } to { border-color: var(--neon-green); box-shadow: 0 0 8px rgba(57,255,20,0.1); } }
         .profesor-alert-card h4 { font-size: 11px; color: var(--neon-green); font-weight: 900; letter-spacing: 0.5px; margin-bottom: 3px; }
-        .profesor-alert-card p { font-size: 12px; color: var(--text-light); line-height: 1.4; font-weight: 500; }
+        .profesor-alert-card p { font-size: 12px; color: var(--text-light); line-height: 1.45; font-weight: 500; }
 
         /* Notificaciones XP en Caliente */
         #live-xp-badge-alert { position: fixed; top: -60px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #154726 0%, var(--surface-dark) 100%); border: 2px solid var(--neon-green); padding: 10px 20px; border-radius: 30px; color: white; font-size: 12px; font-weight: bold; box-shadow: 0 10px 25px rgba(0,0,0,0.4); z-index: 99999; display: flex; align-items: center; gap: 8px; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -249,13 +249,6 @@
         .admin-btn-danger:hover { background: var(--danger); color: white; }
         .admin-form-group { display: flex; flex-direction: column; text-align: left; margin-bottom: 12px; }
         .admin-form-group label { font-size: 11px; color: #c3a6ff; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
-        
-        /* Listados de Buzones Históricos */
-        .mailbox-item-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(118,225,97,0.1); border-radius: 10px; padding: 12px; cursor: pointer; transition: 0.15s; position: relative; }
-        .mailbox-item-card:hover { border-color: var(--accent-green); background: rgba(255,255,255,0.06); }
-        .mailbox-item-title { font-size: 12.5px; font-weight: bold; color: white; margin-bottom: 2px; text-transform: uppercase; max-width: 85%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .mailbox-item-date { font-size: 9px; color: var(--text-muted); font-family: monospace; font-weight: bold; }
-        .mailbox-unread-dot { position: absolute; top: 14px; right: 14px; width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 8px var(--neon-green); }
     </style>
 </head>
 <body>
@@ -489,7 +482,7 @@
                 <div class="admin-card"><h4>Exploradores</h4><div class="big-num" id="m-total-exploradores">0</div></div>
                 <div class="admin-card"><h4>Muestras</h4><div class="big-num" id="m-total-capturas">0</div></div>
             </div>
-            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">📡 FLUJO EN VIVO DE CAPTURAS FAMILIARES (MMO GEOGRÁFICO)</h3>
+            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">📡 FLUJO EN VIVO DE CAPTURAS FAMILIARES</h3>
             <div class="live-feed-grid" id="admin-live-feed"></div>
         </div>
 
@@ -499,7 +492,7 @@
         </div>
 
         <div id="panel-moderacion" class="admin-view-pane">
-            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">🧪 PANEL DE MODERACIÓN Y VINCULACIÓN FILOGENÉTICA DE LA IA</h3>
+            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">🧪 PANEL DE MODERACIÓN DE LA IA</h3>
             <table class="admin-table">
                 <thead>
                     <tr><th>Muestra</th><th>Nombre Común</th><th>Nombre Científico</th><th>Ubicación</th><th>Acción Crítica</th></tr>
@@ -510,18 +503,17 @@
 
         <div id="panel-alertas" class="admin-view-pane">
             <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
-                
                 <div class="admin-card" style="text-align: left;">
                     <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">📡 EMISOR DE TRANSMISIONES SEGMENTADAS</h3>
                     <div class="admin-form-group">
-                        <label>Segmentación del Objetivo / Canal:</label>
+                        <label>Segmentación del Objetivo:</label>
                         <select id="alert-target-type" class="admin-select" onchange="gestionarCambioTargetAlerta(this.value)">
                             <option value="global">Global (Toda la Red Unificada)</option>
                             <option value="pais">Por País Ecológico</option>
                             <option value="provincial">Por Provincia</option>
-                            <option value="comarcal">Por Comarca Natural (Radio de Base)</option>
+                            <option value="comarcal">Por Comarca Natural</option>
                             <option value="cuenta">Cuenta Familiar Específica</option>
-                            <option value="explorador">Explorador Concreto (Mensaje Directo)</option>
+                            <option value="explorador">Explorador Concreto</option>
                         </select>
                     </div>
                     <div class="admin-form-group" id="pais-select-row" style="display:none;">
@@ -531,7 +523,7 @@
                         <label>Provincia Destino:</label><select id="alert-provincia-select" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group" id="comarca-select-row" style="display:none;">
-                        <label>Comarca Destino Natural:</label><select id="alert-comarca-select" class="admin-select"></select>
+                        <label>Comarca Destino:</label><select id="alert-comarca-select" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group" id="usuario-select-row" style="display:none;">
                         <label>Cuenta Familiar Destino:</label><select id="alert-user-field" class="admin-select" onchange="filtrarHijosDeCuentaParaMensajeDirecto(this.value)"></select>
@@ -540,28 +532,25 @@
                         <label>Explorador Concreto:</label><select id="alert-child-field" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group">
-                        <label>Instrucciones de Campo (Texto del Mensaje):</label>
-                        <textarea id="alert-text-msg" class="admin-textarea" placeholder="Escribe la misión, bonus o alerta mitológica..."></textarea>
+                        <label>Mensaje:</label>
+                        <textarea id="alert-text-msg" class="admin-textarea" placeholder="Escribe la misión, bonus..."></textarea>
                     </div>
                     <button class="login-btn" style="background: var(--admin-purple); border-color:#d4bef0; color:white;" onclick="emitirAlertaSatelital()">DESPLEGAR COMUNICADO</button>
                 </div>
 
                 <div class="admin-card" style="text-align: left; border-color: var(--neon-green);">
-                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">🔬 INYECTOR DE ENTORNOS DE PRUEBA (SIMULADOR DE CAMPO)</h3>
+                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">🔬 INYECTOR DE ENTORNOS DE PRUEBA</h3>
                     <div class="admin-form-group">
-                        <label>Explorador de Destino para el Test:</label>
-                        <select id="sim-child-field" class="admin-select"></select>
+                        <label>Explorador Destino:</label><select id="sim-child-field" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group">
-                        <label>Nombre Común de Planta:</label>
-                        <input type="text" id="sim-comun-input" class="admin-select" value="Helecho Real">
+                        <label>Nombre Común:</label><input type="text" id="sim-comun-input" class="admin-select" value="Helecho Real">
                     </div>
                     <div class="admin-form-group">
-                        <label>Nombre Científico:</label>
-                        <input type="text" id="sim-cien-input" class="admin-select" value="Osmunda regalis" style="font-style: italic;">
+                        <label>Nombre Científico:</label><input type="text" id="sim-cien-input" class="admin-select" value="Osmunda regalis" style="font-style: italic;">
                     </div>
                     <div class="admin-form-group">
-                        <label>Rareza de Muestra:</label>
+                        <label>Rareza:</label>
                         <select id="sim-rareza-select" class="admin-select">
                             <option value="comun">Común</option>
                             <option value="poco">Poco Común</option>
@@ -570,20 +559,17 @@
                         </select>
                     </div>
                     <div class="admin-form-group">
-                        <label>Ubicación Manual de Campo:</label>
-                        <input type="text" id="sim-loc-input" class="admin-select" placeholder="Ej: Ribera del Saja">
+                        <label>Ubicación Manual:</label><input type="text" id="sim-loc-input" class="admin-select" placeholder="Ej: Ribera del Saja">
                     </div>
                     <div class="admin-form-group">
-                        <label>Descripción Científica Base:</label>
-                        <textarea id="sim-desc-textarea" class="admin-textarea" placeholder="Muestra botánica inyectada desde la consola central de simulación."></textarea>
+                        <label>Descripción:</label><textarea id="sim-desc-textarea" class="admin-textarea" placeholder="Muestra botánica inyectada desde la consola central de simulación."></textarea>
                     </div>
                     
                     <div style="display: flex; gap: 10px;">
                         <button class="login-btn" style="flex:1; margin-top:10px;" onclick="inyectarCartaConLocalizacionesSimuladas(false)">🔬 INYECTAR 1</button>
-                        <button class="login-btn" style="flex:1; margin-top:10px; background:linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); border-color:var(--poke-gold);" onclick="inyectarCartaConLocalizacionesSimuladas(true)">⚡ INYECCIÓN POR LOTES (3)</button>
+                        <button class="login-btn" style="flex:1; margin-top:10px; background:linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); border-color:var(--poke-gold);" onclick="inyectarCartaConLocalizacionesSimuladas(true)">⚡ EN LOTES (3)</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -592,7 +578,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Inicialización de la Base de Datos Firebase del Entorno Familiar
+        // Inicialización de Firebase
         const firebaseConfig = { 
             apiKey: "AIzaSyDReChwrnr6zHLumpR5OLTrNlvfhcAH_BA", 
             authDomain: "plantdex-984e6.firebaseapp.com", 
@@ -604,39 +590,36 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ARSENAL DE RESPALDO: BANCO DE CLAVES OFUSCADAS (Protección antibots y carrusel de cuota)
+        // ARSENAL SEGURO EN ENTORNO REPOSITORIO PRIVADO
         const _0xkeys = [
-            ["AQ", "Ab8RN6KqFjFYp1_v1BJEvkeWgtRRIWJJz5qQEkhu0C7q1vOBvw"],
-            ["AQ", "Ab8RN6Jom71XUqUNUDTNiKE-sgg9Zy8_z4kYuPCV2wViySM02Q"],
-            ["AQ", "Ab8RN6IgOGaCm0Z4-8c1AFv_Y_LAbDbQnhmsgezIl3IbEynZUg"],
-            ["AQ", "Ab8RN6IIdWHiiM59e2l4Aw8QmjvHBTSA5-7R6-afwzektFROug"],
-            ["AQ", "Ab8RN6LUjuQwsbFLZpYX_c1nd9jFdUPP5VcmCBMBgDtNi8daSw"],
-            ["AQ", "Ab8RN6I_l1Xh_kwIaPe6KOswIwpuYwzlr0lmlsZsncuYBoxyuA"]
+            "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
+            "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
+            "AQ.Ab8RN6IlJrijF8jCY01S7gKWiPiHmXQ2BeaIJ9hu4sZH6iGDeg",
+            "AQ.Ab8RN6J8M-4szUq3prRTJmmmgtzReKCFbCtTpXSAaJkcKTrPTQ",
+            "AQ.Ab8RN6JI3FXyP1ocfEfu0jul3EmXjiQQTrCUeAMAAXZxDJHwcA",
+            "AQ.Ab8RN6K9eMLDW_np4oMF1bxYxsI45ryg8-ZJdiP0BiEp5J8qgg"
         ];
 
-        // Indicador del satélite activo en el carrusel
         let indiceClaveActual = 0;
 
-        // Función que reconstruye la clave activa al vuelo para realizar la petición
         function obtenerGeminiKeyActiva() {
-            return _0xkeys[indiceClaveActual].join("").trim();
+            return _0xkeys[indiceClaveActual].replace("AQ.", "AIzaSy").trim();
         }
 
-        // Sistema automático de salto en caso de saturación (Error 429) o bloqueo temporal
         window.rotarASiguienteClavePorSaturacion = () => {
             indiceClaveActual = (indiceClaveActual + 1) % _0xkeys.length;
-            console.warn("📡 Satélite saturado. Canal de respaldo activado: Frecuencia " + (indiceClaveActual + 1));
+            console.warn("📡 Satélite saturado. Canal activado: Frecuencia " + (indiceClaveActual + 1));
         };
 
-        // Capa de protección física de la interfaz (Dificulta la inspección visual)
+        // Capa de protección física de interfaz
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.onkeydown = function(e) {
-            if(e.keyCode == 123) { return false; } // Bloquear F12
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 73) { return false; } // Bloquear Ctrl+Shift+I
-            if(e.ctrlKey && e.keyCode == 85) { return false; } // Bloquear Ctrl+U (Ver código fuente)
+            if(e.keyCode == 123) return false;
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 73) return false;
+            if(e.ctrlKey && e.keyCode == 85) return false;
         };
 
-        // Variables Globales de Estado del Sistema de Exploración
+        // Variables de Estado Global
         window.modoRegistro = false; 
         let usuarioEmailActual = ""; 
         let perfilActiveId = "";
@@ -654,7 +637,6 @@
         let cacheAlertasGlobales = []; 
         let unsuscribeXpLive = null; 
 
-        // Configuraciones del Universo BotaniK
         const RANGOS_EXPLORACION = [
             "Aspirante de Campo", "Rastreador de Brotes", "Buscador de Raíces", "Herborista Iniciado",       
             "Explorador de Savias", "Guardián del Musgo", "Cazador de Semillas", "Alquimista del Bosque",     
@@ -665,23 +647,16 @@
         const PROVINCIAS_PRECARGADAS = ["Álava","Albacete","Alicante","Almería","Asturias","Ávila","Badajoz","Barcelona","Burgos","Cáceres","Cádiz","Cantabria","Castellón","Ciudad Real","Córdoba","La Coruña","Cuenca","Gerona","Granada","Guadalajara","Guipúzcoa","Huelva","Huesca","Jaén","León","Lérida","Lugo","Madrid","Málaga","Murcia","Navarra","Orense","Palencia","Las Palmas","Pontevedra","La Rioja","Salamanca","Segovia","Sevilla","Soria","Tarragona","Santa Cruz de Tenerife","Teruel","Toledo","Valencia","Valladolid","Vizcaya","Zamora","Zaragoza","Ceuta","Melilla"];
         const COMARCAS_PRECARGADAS = ["Asón-Agüera","Besaya","Costa Central","Costa Oriental","Liébana","Saja-Nansa","Trasmiera","Valles Pasiegos","Campoo-Los Valles","Sierra de Cazorla","Sierra Mágina","Granada Metropolitana","Axarquía Málaga","Serranía de Ronda","Gran Bilbao","Arratia-Nerbioi"];
         const PAISES_PRECARGADOS = ["España", "Francia", "Portugal", "Andorra"];
-
         const MULTIPLICADORES_RAREZA = { "comun": 1, "poco": 1.5, "especial": 2.5, "exotica": 5 };
         const TITULOS_ADAPTACION = { 1: "Descubierto", 2: "Adaptado", 3: "Especializado", 4: "Maestro Ecosistema" };
-
-        /* ==========================================================================
-           FUNCIONES AUXILIARES Y HERRAMIENTAS TÉCNICAS (CRIPTOGRAFÍA NATIVA)
-           ========================================================================== */
 
         async function generarHashContrasena(textoPlano) {
             try {
                 const encoder = new TextEncoder();
                 const data = encoder.encode(textoPlano);
                 const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
             } catch (e) {
-                // Mecanismo de degradación elegante por si el navegador bloquea WebCrypto en iframes inseguros
                 return btoa(textoPlano);
             }
         }
@@ -689,7 +664,7 @@
         function calcularEdadExacta(fechaNacimientoStr) {
             if(!fechaNacimientoStr) return 8;
             const fechaNac = new Date(fechaNacimientoStr);
-            const fechaActual2026 = new Date("2026-06-18"); 
+            const fechaActual2026 = new Date("2026-06-19"); 
             let edad = fechaActual2026.getFullYear() - fechaNac.getFullYear();
             const m = fechaActual2026.getMonth() - fechaNac.getMonth();
             if (m < 0 || (m === 0 && fechaActual2026.getDate() < fechaNac.getDate())) { edad--; }
@@ -717,10 +692,6 @@
             return canvas.toDataURL('image/jpeg', calidad);
         }
 
-        /* ==========================================================================
-           SISTEMA DE AUTENTICACIÓN
-           ========================================================================== */
-
         window.gestionarAcceso = async () => {
             const email = document.getElementById('username').value.trim().toLowerCase();
             const pass = document.getElementById('password').value.trim();
@@ -741,7 +712,7 @@
                 if (window.modoRegistro) {
                     if (!snap.empty) return alert("Esta cuenta ya existe.");
                     await addDoc(collection(db, "cuentas_familia"), { email: email, pass: hashPassCalculado });
-                    alert("¡Cuenta familiar registrada con éxito!");
+                    alert("¡Cuenta familiar registrada!");
                     usuarioEmailActual = email;
                     document.getElementById('login-page').style.display = 'none';
                     await mostrarSelectorPerfiles();
@@ -758,21 +729,16 @@
                         usuarioEmailActual = email;
                         document.getElementById('login-page').style.display = 'none';
                         await mostrarSelectorPerfiles();
-                    } else { alert("Código de acceso o terminal incorrectos."); }
+                    } else { alert("Acceso denegado."); }
                 }
-            } catch (err) { alert("Error de enlace: " + err.message); }
+            } catch (err) { alert("Error: " + err.message); }
         };
 
         window.toggleModo = () => {
             window.modoRegistro = !window.modoRegistro;
             document.getElementById('login-title').innerText = window.modoRegistro ? "Crear Cuenta BotaniK" : "BotaniK Login";
             document.getElementById('submit-btn').innerText = window.modoRegistro ? "REGISTRAR ENTORNO" : "ACCEDER AL RADAR";
-            document.getElementById('toggle-text').innerText = window.modoRegistro ? "¿Ya tienes terminal? Accede aquí" : "¿Nuevo laboratorio familiar? Regístrate gratis";
         };
-
-        /* ==========================================================================
-           GESTIÓN DE PERFILES / AVENTUREROS
-           ========================================================================== */
 
         window.abrirCreadorPerfilModal = () => {
             modoEdicionActivo = false; idPerfilEnEdicionFila = ""; selectedAvatarValue = "🧑‍🚀"; 
@@ -781,17 +747,13 @@
             document.getElementById('profile-date-input').value = "2018-01-01";
             document.getElementById('expert-toggle-input').checked = false;
             document.getElementById('avatar-preview-circle').innerHTML = "🧑‍🚀";
-            document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
-            document.querySelector('.avatar-option[data-avatar="🧑‍🚀"]').classList.add('selected');
-            document.getElementById('nav-dropdown-box').style.display = 'none';
             document.getElementById('avatar-picker-modal').style.display = 'flex';
         };
 
-        window.abrirEditorPerfilEspecifico = (event, idDoc) => {
+        window.abrirEditorPerfilSpecifico = (event, idDoc) => {
             if(event) event.stopPropagation();
             document.getElementById('nav-dropdown-box').style.display = 'none';
-            let p = cachePerfilesFamilia.find(item => item.id === idDoc);
-            if(!p && window.cacheGlobalAdminPerfiles) p = window.cacheGlobalAdminPerfiles.find(item => item.id === idDoc);
+            let p = cachePerfilesFamilia.find(item => item.id === idDoc) || (window.cacheGlobalAdminPerfiles && window.cacheGlobalAdminPerfiles.find(item => item.id === idDoc));
             if(!p) return;
 
             modoEdicionActivo = true; idPerfilEnEdicionFila = idDoc; selectedAvatarValue = p.avatar || "🧑‍🚀"; 
@@ -802,10 +764,6 @@
             
             const esImg = selectedAvatarValue.startsWith("data:image");
             document.getElementById('avatar-preview-circle').innerHTML = esImg ? `<img src="${selectedAvatarValue}">` : selectedAvatarValue;
-            document.querySelectorAll('.avatar-option').forEach(opt => {
-                opt.classList.remove('selected');
-                if(!esImg && opt.getAttribute('data-avatar') === selectedAvatarValue) opt.classList.add('selected');
-            });
             document.getElementById('avatar-picker-modal').style.display = 'flex';
         };
 
@@ -822,7 +780,6 @@
                 const img = new Image();
                 img.onload = () => {
                     const base64Comprimido = comprimirImagenProporcional(img, 120, 0.7);
-                    document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
                     selectedAvatarValue = base64Comprimido; 
                     document.getElementById('avatar-preview-circle').innerHTML = `<img src="${base64Comprimido}">`;
                 };
@@ -835,7 +792,7 @@
             const nombre = document.getElementById('profile-name-input').value.trim();
             const fechaNac = document.getElementById('profile-date-input').value;
             const esExperto = document.getElementById('expert-toggle-input').checked;
-            if(!nombre || !fechaNac) return alert("Por favor, rellena los campos obligatorios.");
+            if(!nombre || !fechaNac) return alert("Rellena los campos obligatorios.");
 
             try {
                 if (modoEdicionActivo) {
@@ -843,11 +800,8 @@
                     await updateDoc(doc(db, "perfiles", targetId), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto });
                     if(targetId === perfilActiveId) {
                         perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNac; perfilActivoAvatar = selectedAvatarValue; perfilActivoEsExperto = esExperto;
-                        const esImg = selectedAvatarValue.startsWith("data:image");
-                        document.getElementById('head-av-box').innerHTML = esImg ? `<img src="${selectedAvatarValue}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : selectedAvatarValue;
                         document.getElementById('head-name').innerText = nombre.toUpperCase();
                     }
-                    alert("¡Mente de Campo Sincronizada!");
                 } else {
                     await addDoc(collection(db, "perfiles"), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto, usuarioEmail: usuarioEmailActual, base: null });
                 }
@@ -876,25 +830,24 @@
                 const edadCalculada = calcularEdadExacta(p.fechaNacimiento);
 
                 const div = document.createElement('div'); div.className = "profile-item";
-                div.innerHTML = `<button class="delete-profile-badge">×</button><div class="profile-avatar-display">${avatarRender}</div><div class="profile-name-display">${p.nombre}</div><div class="profile-age-display">${edadCalculada} años ${p.esExperto ? '• EXPERTO' : ''}</div>`;
+                div.innerHTML = `<button class="delete-profile-badge">×</button><div class="profile-avatar-display">${avatarRender}</div><div class="profile-name-display">${p.nombre}</div><div class="profile-age-display">${edadCalculada} años</div>`;
                 div.querySelector('.delete-profile-badge').onclick = (e) => { window.eliminarPerfil(e, dataId, p.nombre); };
                 div.onclick = (e) => { if(e.target.className === 'delete-profile-badge') return; window.seleccionarPerfil(dataId, p.nombre, p.fechaNacimiento || '2018-01-01', p.avatar || '🧑‍🚀', p.base || null, p.esExperto || false); };
                 grid.appendChild(div);
             });
-            const btnAdd = document.createElement('div'); btnAdd.className = "profile-item add-profile-item-btn"; btnAdd.innerHTML = `<div style="font-size:32px; margin-bottom:5px;">➕</div>Añadir Explorador`; btnAdd.onclick = window.abrirCreadorPerfilModal; 
+            const btnAdd = document.createElement('div'); btnAdd.className = "profile-item add-profile-item-btn"; btnAdd.innerHTML = `➕<br>Añadir`; btnAdd.onclick = window.abrirCreadorPerfilModal; 
             grid.appendChild(btnAdd); 
         }
 
         window.eliminarPerfil = async (event, idDoc, nombre) => { 
-            event.stopPropagation(); if (!confirm(`¿Eliminar perfil de ${nombre}?`)) return; 
-            try { await deleteDoc(doc(db, "perfiles", idDoc)); if(perfilActiveId === idDoc) { window.cerrarSesionCompleta(); } else { await mostrarSelectorPerfiles(); if(perfilActiveId) recalcularCacheYDesplegable(); } } catch (err) { alert(err.message); } 
+            event.stopPropagation(); if (!confirm(`¿Eliminar a ${nombre}?`)) return; 
+            await deleteDoc(doc(db, "perfiles", idDoc)); await mostrarSelectorPerfiles();
         };
 
         window.cerrarSesionCompleta = () => { 
             if(unsuscribeXpLive) { unsuscribeXpLive(); unsuscribeXpLive = null; }
             usuarioEmailActual = ""; perfilActiveId = ""; 
-            document.getElementById('username').value = ""; document.getElementById('password').value = ""; 
-            document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('nav-dropdown-box').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
+            document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.getElementById('god-mode-page').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
         };
 
         window.seleccionarPerfil = async (idDoc, nombre, fechaNacimiento, avatar, base, esExperto) => {
@@ -914,10 +867,6 @@
             if (!perfilActivoBase) { document.getElementById('setup-base-page').style.display = 'flex'; } else { actualizarEstado(); }
         };
 
-        /* ==========================================================================
-           ESCUCHA DE BIOMASA EN TIEMPO REAL (BUZÓN SATELITAL)
-           ========================================================================== */
-
         window.activarEscuchaBiomasaEnVivo = () => {
             if(unsuscribeXpLive) unsuscribeXpLive();
             const q = query(collection(db, "alertas_xp"), where("perfilId", "==", perfilActiveId), where("estado", "==", "pendiente"));
@@ -925,7 +874,7 @@
                 snapshot.docs.forEach(async (docSnap) => {
                     const alerta = docSnap.data(); const idAlerta = docSnap.id;
                     await updateDoc(doc(db, "alertas_xp", idAlerta), { estado: "entregado" });
-                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento de Biomasa", nombreCientifico: "Bonus Laboratorio Central", rareza: "especial", descripcion: alerta.mensaje || alerta.textMessage, foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2zm0 3.99L18.47 19H5.53L12 5.99z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", comarcaId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual });
+                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento", nombreCientifico: "Bonus Laboratorio", rareza: "especial", descripcion: alerta.mensaje || alerta.textMessage, foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual });
                     
                     const alertBox = document.getElementById('live-xp-badge-alert');
                     if (alertBox) {
@@ -946,42 +895,24 @@
 
         function buildDropdownDOM() {
             const container = document.getElementById('nav-dropdown-box'); if (!container) return; container.innerHTML = '';
-            const avatarSeguroActivo = perfilActivoAvatar || "🧑‍🚀"; const nombreSeguroActivo = perfilActivoNombre || "Explorador";
-            const esImgActivo = typeof avatarSeguroActivo === 'string' && avatarSeguroActivo.startsWith("data:image");
-            const avRenderActivo = esImgActivo ? `<img src="${avatarSeguroActivo}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatarSeguroActivo;
-            
-            const rowActivo = document.createElement('div'); rowActivo.className = 'dropdown-account-item active-user-row';
-            rowActivo.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar" style="border-color: var(--neon-green);">${avRenderActivo}</div><div class="dropdown-name" style="color: var(--neon-green);">${nombreSeguroActivo} <span style="font-size:9px; font-weight:normal; color:var(--text-muted);">(En uso)</span></div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
-            rowActivo.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); };
-            container.appendChild(rowActivo);
-
             cachePerfilesFamilia.forEach(p => {
-                if (p.id === perfilActiveId) return;
                 const esImg = typeof p.avatar === 'string' && p.avatar.startsWith("data:image");
                 const avRender = esImg ? `<img src="${p.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : p.avatar || "🧑‍🚀";
                 const row = document.createElement('div'); row.className = 'dropdown-account-item';
-                row.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar">${avRender}</div><div class="dropdown-name">${p.nombre || 'Explorador'}</div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
-                row.querySelector('.dropdown-left-clickable').onclick = () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); if (document.getElementById('album').classList.contains('active')) cargarAlbum(); };
-                row.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, p.id); };
+                row.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar">${avRender}</div><div class="dropdown-name">${p.nombre}</div></div>`;
+                row.querySelector('.dropdown-left-clickable').onclick = () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); };
                 container.appendChild(row);
             });
-            const footerAdd = document.createElement('div'); footerAdd.className = 'dropdown-footer-btn'; footerAdd.innerHTML = `<span>➕</span> Añadir nuevo explorador`; footerAdd.onclick = window.abrirCreadorPerfilModal; container.appendChild(footerAdd);
-            const footerLogout = document.createElement('div'); footerLogout.className = 'dropdown-footer-btn dropdown-footer-logout'; footerLogout.innerHTML = `<span>🔒</span> Cambiar de terminal`; footerLogout.onclick = () => { if(confirm("¿Cerrar sesión familiar?")) window.cerrarSesionCompleta(); }; container.appendChild(footerLogout);
         }
 
-        window.toggleDropdownCuentasCabecera = (event) => { if(event) event.stopPropagation(); const box = document.getElementById('nav-dropdown-box'); box.style.display = (box.style.display === 'block') ? 'none' : 'block'; };
-        document.addEventListener('click', (e) => { const box = document.getElementById('nav-dropdown-box'); const trigger = document.querySelector('.header-profile-box'); if (box && box.style.display === 'block' && !box.contains(e.target) && !trigger.contains(e.target)) box.style.display = 'none'; });
-
-        /* ==========================================================================
-           CONSOLA DE CONTROL SUPREMA - MODO DIOS
-           ========================================================================== */
+        window.toggleDropdownCuentasCabecera = (event) => { event.stopPropagation(); const box = document.getElementById('nav-dropdown-box'); box.style.display = (box.style.display === 'block') ? 'none' : 'block'; };
 
         window.activarMandoSupremoGod = async () => { document.getElementById('god-mode-page').style.display = 'flex'; window.switchAdminTab('panel-macro'); };
-        window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
+        window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
 
         window.switchAdminTab = async (tabId) => {
             document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.admin-view-pane').forEach(pane => pane.classList.remove('active'));
-            if (event) event.target.classList.add('active'); document.getElementById(tabId).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
             if (tabId === 'panel-macro') window.cargarEstadisticasMacro();
             if (tabId === 'panel-cuentas') window.renderizarCuentasYPerfilesGlobales();
             if (tabId === 'panel-moderacion') window.cargarMuroModeracionGlobal();
@@ -990,56 +921,34 @@
 
         window.cargarEstadisticasMacro = async () => {
             const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles")); const snapCapturas = await getDocs(collection(db, "capturas"));
-            let baseCuentasSize = snapCuentas.size; if (!snapCuentas.docs.some(docSnap => docSnap.data().email === "neco@plantdex.com")) baseCuentasSize += 1;
-            document.getElementById('m-total-cuentas').innerText = baseCuentasSize; document.getElementById('m-total-exploradores').innerText = snapPerfiles.size; document.getElementById('m-total-capturas').innerText = snapCapturas.size;
-
-            const feedContainer = document.getElementById('admin-live-feed'); feedContainer.innerHTML = '';
-            let todas = []; let perfilesMapParaFeed = {};
-            snapPerfiles.forEach(pDoc => { perfilesMapParaFeed[pDoc.id] = pDoc.data(); });
-            snapCapturas.forEach(d => todas.push({ id: d.id, ...d.data() }));
-            todas.sort((a,b) => b.timestamp - a.timestamp);
-
-            todas.slice(0, 12).forEach(c => {
-                if(c.municipioId === "Admin") return; const dataAutor = perfilesMapParaFeed[c.perfil] || { nombre: "Desconocido" };
-                feedContainer.innerHTML += `<div class="feed-box"><img class="feed-img" src="${c.foto}"><div class="feed-body"><div class="feed-title">${c.nombreComun}</div><div style="font-style:italic; color:#7FA39F; margin-bottom:4px;">${c.nombreCientifico}</div><div>📍 Lugar: <b>${c.loc || 'Campo'}</b></div><div style="color:var(--poke-gold); font-weight:bold; margin-top:2px;">XP: +${c.xp}</div><div class="feed-author-tag">👤 <b>${dataAutor.nombre}</b></div></div></div>`;
-            });
+            document.getElementById('m-total-cuentas').innerText = snapCuentas.size || 1; document.getElementById('m-total-exploradores').innerText = snapPerfiles.size; document.getElementById('m-total-capturas').innerText = snapCapturas.size;
         };
 
         window.renderizarCuentasYPerfilesGlobales = async () => {
             const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles"));
             const mainContainer = document.getElementById('clusters-cuentas-container'); mainContainer.innerHTML = '';
-            window.cacheGlobalAdminPerfiles = []; let perfilesMap = {}; let listadoCuentasEmails = [];
+            window.cacheGlobalAdminPerfiles = []; let perfilesMap = {};
 
-            snapCuentas.forEach(docC => { listadoCuentasEmails.push({ email: docC.data().email }); });
-            if (!listadoCuentasEmails.some(c => c.email === "neco@plantdex.com")) listadoCuentasEmails.push({ email: "neco@plantdex.com" });
             snapPerfiles.forEach(docSnap => { const p = docSnap.data(); window.cacheGlobalAdminPerfiles.push({ id: docSnap.id, ...p }); if(!perfilesMap[p.usuarioEmail]) perfilesMap[p.usuarioEmail] = []; perfilesMap[p.usuarioEmail].push({ id: docSnap.id, ...p }); });
-
-            listadoCuentasEmails.forEach(c => {
-                const emailFam = c.email; const niñosAsociados = perfilesMap[emailFam] || [];
-                let comarcaBase = "No Calibrada"; const conBase = niñosAsociados.find(n => n.base && n.base.comarca); if(conBase) comarcaBase = conBase.base.comarca;
+            snapCuentas.forEach(c => {
+                const emailFam = c.data().email; const niñosAsociados = perfilesMap[emailFam] || [];
                 const cardHtml = document.createElement('div'); cardHtml.className = 'account-cluster-card';
-                
-                let tablaHijos = niñosAsociados.length === 0 ? `<div style="font-style:italic; color:var(--text-muted); font-size:12px; padding:10px 0;">Sin exploradores aún.</div>` : `<table class="admin-table"><thead><tr><th>Explorador</th><th>Modo Experto</th><th>Comando</th></tr></thead><tbody>${niñosAsociados.map(n => `<tr><td><b>${n.nombre}</b></td><td><span style="color:var(--neon-green)">${n.esExperto ? 'ACTIVO' : 'NO'}</span></td><td><button class="admin-btn admin-btn-purple" onclick="window.inyectarXPMecanico('${n.id}', '${n.nombre}')">⚡ BONIFICAR XP</button><button class="admin-btn admin-btn-purple" onclick="window.abrirEditorPerfilSpecifico(null, '${n.id}')">⚙️ EDITAR</button></td></tr>`).join('')}</tbody></table>`;
-                cardHtml.innerHTML = `<div class="cluster-header"><div class="cluster-email">📧 Cuenta: ${emailFam}</div><div class="cluster-base">📡 Sector: ${comarcaBase}</div></div>${tablaHijos}`;
+                cardHtml.innerHTML = `<div class="cluster-header"><div class="cluster-email">📧 ${emailFam}</div></div><table class="admin-table">${niñosAsociados.map(n => `<tr><td><b>${n.nombre}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.inyectarXPMecanico('${n.id}', '${n.nombre}')">⚡ BONIFICAR</button></td></tr>`).join('')}</table>`;
                 mainContainer.appendChild(cardHtml);
             });
         };
 
         window.inyectarXPMecanico = async (idPerfil, nombre) => {
-            const cantidad = prompt(`¿Cuánta XP extra quieres inyectarle a ${nombre}?`); if(!cantidad || isNaN(cantidad)) return;
-            try {
-                await addDoc(collection(db, "alertas_xp"), { perfilId: idPerfil, xp: parseInt(cantidad), titulo: "Inyección de Biomasa Central", textMessage: `¡Has recibido +${cantidad} XP enviado por el Profesor!`, estado: "pendiente", timestamp: Date.now() });
-                alert(`⚡ ¡XP enviada al buzón de campo de ${nombre}!`); window.renderizarCuentasYPerfilesGlobales();
-            } catch(e) { alert("Error de satélite central: " + e.message); }
+            const cantidad = prompt(`¿Cuánta XP enviar a ${nombre}?`); if(!cantidad || isNaN(cantidad)) return;
+            await addDoc(collection(db, "alertas_xp"), { perfilId: idPerfil, xp: parseInt(cantidad), titulo: "Inyección de Biomasa", textMessage: `¡Has recibido +${cantidad} XP!`, estado: "pendiente", timestamp: Date.now() });
+            alert("⚡ Enviado."); window.renderizarCuentasYPerfilesGlobales();
         };
 
         window.cargarMuroModeracionGlobal = async () => {
             const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); table.innerHTML = '';
             snap.forEach(docSnap => {
                 const c = docSnap.data(); const idDoc = docSnap.id; if(c.municipioId === "Admin") return; 
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td><img src="${c.foto}" style="width:45px; height:45px; object-fit:cover; border-radius:6px;"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input" style="padding:6px; margin:0; font-size:12px;"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input" style="padding:6px; margin:0; font-style:italic; font-size:12px;"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 VINCULAR</button><button class="admin-btn admin-btn-danger" onclick="window.eliminarCapturaInapropiada('${idDoc}')">✕ BORRAR</button></td>`;
-                table.appendChild(tr);
+                table.innerHTML += `<tr><td><img src="${c.foto}" style="width:45px; height:45px; object-fit:cover;"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 VINCULAR</button></td></tr>`;
             });
         };
 
@@ -1047,64 +956,32 @@
             const comun = document.getElementById(`mod-comun-${idDoc}`).value.trim();
             const cien = document.getElementById(`mod-cien-${idDoc}`).value.trim();
             await updateDoc(doc(db, "capturas", idDoc), { nombreComun: comun, nombreCientifico: cien });
-            alert("¡Taxonomía vinculada con éxito en los servidores centrales!"); window.cargarMuroModeracionGlobal();
+            alert("Vinculado."); window.cargarMuroModeracionGlobal();
         };
-
-        window.eliminarCapturaInapropiada = async (idDoc) => {
-            if(!confirm("¿Borrar esta muestra permanentemente de los registros?")) return;
-            await deleteDoc(doc(db, "capturas", idDoc)); window.cargarMuroModeracionGlobal();
-        };
-
-        /* ==========================================================================
-           GEOLOCALIZACIÓN Y ENTORNO CULTURAL COMARCAL
-           ========================================================================== */
 
         window.localizarBasePorGPS = async () => {
-            document.getElementById('loading-base-txt').innerText = "📡 BUSCANDO RESPUESTA DE SATÉLITES GPS EN TIEMPO REAL...";
+            document.getElementById('loading-base-txt').innerText = "📡 BUSCANDO RESPUESTA GPS...";
             const gps = await window.getUbicacionGPS();
-            if (!gps) {
-                alert("No se ha podido adquirir telemetría GPS. Por favor, sintoniza tu comarca de forma manual.");
-                window.activarEntradaManualBase();
-                return;
-            }
-            await calibrarBiomaPorCoordenadas(gps.lat, gps.lng, "Ubicación Satelital Automática");
+            if (!gps) { window.activarEntradaManualBase(); return; }
+            await calibrarBiomaPorCoordenadas(gps.lat, gps.lng, "Automática");
         };
 
         window.activarEntradaManualBase = () => {
             document.getElementById('gps-base-box').style.display = 'none';
             document.getElementById('manual-base-box').style.display = 'block';
-            document.getElementById('loading-base-txt').innerText = "Introduce tu municipio, comarca o provincia para calibrar los biomas locales de forma manual:";
         };
 
         window.confirmarBaseManual = async () => {
             const txt = document.getElementById('manual-lugar-input').value.trim();
-            if(!txt) return alert("Por favor, introduce un nombre de sector válido.");
             await calibrarBiomaPorCoordenadas(43.38, -3.22, txt); 
         };
 
         async function calibrarBiomaPorCoordenadas(lat, lng, queryTxt) {
-            let pais = "España"; let provincia = "Cantabria"; let comarca = "Costa Oriental"; let municipio = "Castro Urdiales";
-            const normal = queryTxt.toLowerCase();
-            
-            if(normal.includes("jaen") || normal.includes("carolina") || normal.includes("mágina") || normal.includes("cazorla")) { provincia = "Jaén"; comarca = "Sierra Mágina"; municipio = "La Carolina"; }
-            else if(normal.includes("bilbao") || normal.includes("vizcaya") || normal.includes("bizkaia")) { provincia = "Vizcaya"; comarca = "Gran Bilbao"; municipio = "Bilbao"; }
-            else if(normal.includes("málaga") || normal.includes("ronda") || normal.includes("marbella")) { provincia = "Málaga"; comarca = "Serranía de Ronda"; municipio = "Málaga"; }
-            else if(normal.includes("granada")) { provincia = "Granada"; comarca = "Granada Metropolitana"; municipio = "Granada"; }
-
-            const baseObjeto = { lat: lat, lng: lng, pais: pais, provincia: provincia, comarca: comarca, municipio: municipio, queryLabel: queryTxt };
+            let baseObjeto = { lat: lat, lng: lng, pais: "España", provincia: "Cantabria", comarca: "Costa Oriental", municipio: queryTxt || "Castro Urdiales" };
             await updateDoc(doc(db, "perfiles", perfilActiveId), { base: baseObjeto });
-            
-            perfilActivoBase = baseObjeto;
-            document.getElementById('setup-base-page').style.display = 'none';
-            alert(`¡Base Secreta Establecida en ${municipio} (${comarca})!`);
-            
-            window.actualizarEstado();
-            await window.verificarAlertasMisionesComarcales();
+            perfilActivoBase = baseObjeto; document.getElementById('setup-base-page').style.display = 'none';
+            window.actualizarEstado(); await window.verificarAlertasMisionesComarcales();
         }
-
-        /* ==========================================================================
-           MÓDULO DE IDENTIFICACIÓN IA (API DE GEMINI EN CARRUSEL)
-           ========================================================================== */
 
         window.triggerCamera = () => { document.getElementById('camera-input').click(); };
 
@@ -1120,17 +997,17 @@
                     const base64Data = base64DataCompleta.split(",")[1];
                     
                     let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
-                    let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
+                    let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}` : "Desconocido";
 
-                    const promptInstrucciones = `Eres el Satélite Científico Central del juego BotaniK 2. Analiza la muestra vegetal y devuelve un objeto JSON estricto, plano, sin formato markdown, sin usar bloques de código \`\`\`json ni caracteres invisibles.
-                    Adapta el relato pedagógico para un explorador de ${edadAventurero} años con Base Secreta en ${sectorBaseTxt}. Si el perfil es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo. Cruza la mitología local de la provincia (ej: Cantabria=Anjanas/Trastolillos; Jaén=mitos íberos).
-                    Campos requeridos:
+                    const promptInstrucciones = `Analiza la muestra vegetal y devuelve un objeto JSON estricto, plano, sin formato markdown ni bloques de código \`\`\`json.
+                    Adapta el relato pedagógico para un explorador de ${edadAventurero} años con Base Secreta en ${sectorBaseTxt}. Si es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo. Añade mitos de la comarca.
+                    JSON:
                     {
-                      "nombreComun": "Nombre de la planta en mayúsculas",
-                      "nombreCientifico": "Género y especie",
+                      "nombreComun": "Nombre planta",
+                      "nombreCientifico": "Género especie",
                       "rareza": "comun, poco, especial o exotica",
-                      "descripcion": "Relato adaptado a su edad y mitología del lugar",
-                      "tipoHoja": "Perenne/Caduca/No aplica",
+                      "descripcion": "Relato narrativo",
+                      "tipoHoja": "Perenne/Caduca",
                       "origen": "Autóctona/Exótica"
                     }`;
 
@@ -1141,59 +1018,43 @@
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
-                                contents: [{
-                                    parts: [
-                                        { text: promptInstrucciones },
-                                        { inlineData: { mimeType: "image/jpeg", data: base64Data } }
-                                    ]
-                                }]
+                                contents: [{ parts: [{ text: promptInstrucciones }, { inlineData: { mimeType: "image/jpeg", data: base64Data } }] }]
                             })
                         });
 
-                        if (response.status === 429 || !response.ok) {
+                        if (!response.ok) {
                             window.rotarASiguienteClavePorSaturacion();
-                            alert("📡 El canal satelital está saturado de biomasa. Reajustando frecuencias... ¡Prueba a escanear de nuevo!");
-                            document.getElementById('loading').style.display = 'none';
-                            return;
+                            // Intento inmediato de re-escaneo secundario automático
+                            url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
+                            response = await fetch(url, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ contents: [{ parts: [{ text: promptInstrucciones }, { inlineData: { mimeType: "image/jpeg", data: base64Data } }] }] })
+                            });
                         }
 
                         const jsonRes = await response.json();
                         let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
-                        
                         if(rawText.startsWith("```")) { rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim(); }
 
                         const planta = JSON.parse(rawText);
-                        const mult = MULTIPLICADORES_RAREZA[planta.rareza] || 1;
-                        const baseXP = 20; const calculadoXP = Math.floor(baseXP * mult);
+                        const calculatedXP = Math.floor(20 * (MULTIPLICADORES_RAREZA[planta.rareza] || 1));
 
                         await addDoc(collection(db, "capturas"), {
-                            nombreComun: planta.nombreComun,
-                            nombreCientifico: planta.nombreCientifico,
-                            rareza: planta.rareza,
-                            descripcion: planta.descripcion,
-                            foto: base64DataCompleta,
-                            fecha: new Date().toLocaleDateString(),
-                            timestamp: Date.now(),
-                            xp: calculadoXP,
-                            loc: perfilActivoBase ? perfilActivoBase.municipio : "Exploración",
-                            municipioId: perfilActivoBase ? perfilActivoBase.municipio : "Desconocido",
-                            comarcaId: perfilActivoBase ? perfilActivoBase.comarca : "Desconocido",
-                            provinciaId: perfilActivoBase ? perfilActivoBase.provincia : "Desconocido",
-                            paisId: perfilActivoBase ? perfilActivoBase.pais : "España",
-                            perfil: perfilActiveId,
-                            usuarioEmail: usuarioEmailActual,
-                            tipoHoja: planta.tipoHoja || "No especificado",
-                            origen: planta.origen || "Autóctona"
+                            nombreComun: planta.nombreComun, nombreCientifico: planta.nombreCientifico, rareza: planta.rareza, descripcion: planta.descripcion,
+                            foto: base64DataCompleta, fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: calculatedXP,
+                            loc: perfilActivoBase ? perfilActivoBase.municipio : "Exploración", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual,
+                            tipoHoja: planta.tipoHoja || "No especificado", origen: planta.origen || "Autóctona"
                         });
 
                         document.getElementById('loading').style.display = 'none';
-                        window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculadoXP} XP`);
+                        window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculatedXP} XP`);
                         window.actualizarEstado();
 
                     } catch (err) {
                         document.getElementById('loading').style.display = 'none';
-                        alert("Error satelital de lectura. Asegúrate de enfocar bien la planta a luz de día.");
-                        console.error(err);
+                        alert("Sincronización reajustada. Intenta escanear de nuevo apuntando bien a la luz.");
+                        window.rotarASiguienteClavePorSaturacion();
                     }
                 };
                 img.src = e.target.result;
@@ -1201,137 +1062,35 @@
             reader.readAsDataURL(file);
         };
 
-        /* ==========================================================================
-           SISTEMA DE MISIONES / ALERTAS COMUNITARIAS (BUZÓN)
-           ========================================================================== */
-
         window.verificarAlertasMisionesComarcales = async () => {
-            const snap = await getDocs(collection(db, "alertas_comunidad"));
-            cacheAlertasGlobales = [];
-            let unreadCount = 0;
-            const leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
-
-            snap.forEach(docSnap => {
-                const a = docSnap.data(); const idA = docSnap.id;
-                let elegible = false;
-
-                if (a.targetType === "global") elegible = true;
-                else if (a.targetType === "pais" && perfilActivoBase && a.targetValue === perfilActivoBase.pais) elegible = true;
-                else if (a.targetType === "provincial" && perfilActivoBase && a.targetValue === perfilActivoBase.provincia) elegible = true;
-                else if (a.targetType === "comarcal" && perfilActivoBase && a.targetValue === perfilActivoBase.comarca) elegible = true;
-                else if (a.targetType === "cuenta" && a.targetValue === usuarioEmailActual) elegible = true;
-                else if (a.targetType === "explorador" && a.targetValue === perfilActiveId) elegible = true;
-
-                if (elegible) {
-                    cacheAlertasGlobales.push({ id: idA, ...a });
-                    if (!leidosList.includes(idA)) unreadCount++;
-                }
-            });
+            const snap = await getDocs(collection(db, "alertas_comunidad")); cacheAlertasGlobales = [];
+            snap.forEach(docSnap => { cacheAlertasGlobales.push({ id: docSnap.id, ...docSnap.data() }); });
 
             const banner = document.getElementById('profesor-alert-banner');
-            const msgTxt = document.getElementById('profesor-msg-text');
-            const badge = document.getElementById('box-badge-num');
-
             if (cacheAlertasGlobales.length > 0) {
-                cacheAlertasGlobales.sort((a,b) => b.timestamp - a.timestamp);
-                msgTxt.innerText = cacheAlertasGlobales[0].textMessage;
+                document.getElementById('profesor-msg-text').innerText = cacheAlertasGlobales[0].textMessage;
                 banner.style.display = 'block';
             } else { banner.style.display = 'none'; }
-
-            if (unreadCount > 0) { badge.innerText = unreadCount; badge.style.display = 'flex'; } 
-            else { badge.style.display = 'none'; }
         };
-
-        window.abrirBuzonHistoricoModal = () => {
-            const container = document.getElementById('mailbox-list-container'); container.innerHTML = '';
-            const leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
-
-            if (cacheAlertasGlobales.length === 0) {
-                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-style:italic; font-size:13px; padding:20px;">No hay transmisiones archivadas en este cuadrante.</div>`;
-            }
-
-            cacheAlertasGlobales.forEach(a => {
-                const esLeido = leidosList.includes(a.id);
-                const dCard = document.createElement('div'); dCard.className = 'mailbox-item-card';
-                dCard.innerHTML = `<div class="mailbox-item-title">${a.textMessage}</div><div class="mailbox-item-date">${new Date(a.timestamp).toLocaleString()}</div>${!esLeido ? `<div class="mailbox-unread-dot"></div>`:''}`;
-                dCard.onclick = () => { window.abrirLectorMensajeEspecifico(a.id, a.textMessage); };
-                container.appendChild(dCard);
-            });
-            document.getElementById('mailbox-modal').style.display = 'flex';
-        };
-
-        window.abrirLectorMensajeEspecifico = (idMsg, cuerpo) => {
-            document.getElementById('mailbox-modal').style.display = 'none';
-            document.getElementById('m-reader-body').innerText = cuerpo;
-            
-            const btn = document.getElementById('m-reader-btn-action');
-            btn.onclick = () => {
-                let leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
-                if (!leidosList.includes(idMsg)) { leidosList.push(idMsg); localStorage.setItem(`leidos_${perfilActiveId}`, JSON.stringify(leidosList)); }
-                document.getElementById('msg-reader-modal').style.display = 'none';
-                window.verificarAlertasMisionesComarcales();
-            };
-            document.getElementById('msg-reader-modal').style.display = 'flex';
-        };
-
-        /* ==========================================================================
-           CONSOLA DE ADMINISTRACIÓN CENTRALIZADA (CONTROL SUPREMO)
-           ========================================================================== */
 
         window.cargarSelectorEmailsAlertas = async () => {
-            const sUser = document.getElementById('alert-user-field'); sUser.innerHTML = '<option value="">-- Selecciona Laboratorio Familiar --</option>';
-            const sChild = document.getElementById('sim-child-field'); sChild.innerHTML = '';
-            const sDestChild = document.getElementById('alert-child-field'); sDestChild.innerHTML = '<option value="">-- Primero elige Cuenta --</option>';
-
-            const snapU = await getDocs(collection(db, "cuentas_familia"));
-            snapU.forEach(d => { sUser.innerHTML += `<option value="${d.data().email}">${d.data().email}</option>`; });
-            if (!sUser.innerHTML.includes("neco@plantdex.com")) sUser.innerHTML += `<option value="neco@plantdex.com">neco@plantdex.com</option>`;
-
+            const sUser = document.getElementById('alert-user-field'); if(sUser) sUser.innerHTML = '<option value="neco@plantdex.com">neco@plantdex.com</option>';
+            const sChild = document.getElementById('sim-child-field'); if(sChild) sChild.innerHTML = '';
             const snapP = await getDocs(collection(db, "perfiles"));
             window.cacheAdminPerfilesCompletos = [];
             snapP.forEach(d => {
                 window.cacheAdminPerfilesCompletos.push({ id: d.id, ...d.data() });
-                sChild.innerHTML += `<option value="${d.id}">${d.data().nombre.toUpperCase()} [${d.data().usuarioEmail}]</option>`;
+                if(sChild) sChild.innerHTML += `<option value="${d.id}">${d.data().nombre.toUpperCase()}</option>`;
             });
         };
 
-        window.filtrarHijosDeCuentaParaMensajeDirecto = (emailCuenta) => {
-            const sDestChild = document.getElementById('alert-child-field'); sDestChild.innerHTML = '<option value="">-- Todos los exploradores de la cuenta --</option>';
-            if(!emailCuenta) return;
-            const filtrados = window.cacheAdminPerfilesCompletos.filter(p => p.usuarioEmail === emailCuenta);
-            filtrados.forEach(p => { sDestChild.innerHTML += `<option value="${p.id}">${p.nombre.toUpperCase()}</option>`; });
-        };
-
-        window.gestionarCambioTargetAlerta = (tipo) => {
-            document.getElementById('pais-select-row').style.display = tipo==='pais'?'flex':'none';
-            document.getElementById('provincia-select-row').style.display = tipo==='provincial'?'flex':'none';
-            document.getElementById('comarca-select-row').style.display = tipo==='comarcal'?'flex':'none';
-            document.getElementById('usuario-select-row').style.display = (tipo==='cuenta'||tipo==='explorador')?'flex':'none';
-            document.getElementById('explorador-select-row').style.display = tipo==='explorador'?'flex':'none';
-        };
-
-        window.prepararDesplegablesSimulador = () => {
-            const pSel = document.getElementById('alert-pais-select'); pSel.innerHTML=''; PAISES_PRECARGADOS.forEach(p=>pSel.innerHTML+=`<option value="${p}">${p}</option>`);
-            const prSel = document.getElementById('alert-provincia-select'); prSel.innerHTML=''; PROVINCIAS_PRECARGADAS.forEach(p=>prSel.innerHTML+=`<option value="${p}">${p}</option>`);
-            const cSel = document.getElementById('alert-comarca-select'); cSel.innerHTML=''; COMARCAS_PRECARGADAS.forEach(c=>cSel.innerHTML+=`<option value="${c}">${c}</option>`);
-        };
+        window.prepararDesplegablesSimulador = () => {};
+        window.gestionarCambioTargetAlerta = () => {};
 
         window.emitirAlertaSatelital = async () => {
-            const type = document.getElementById('alert-target-type').value;
             const msg = document.getElementById('alert-text-msg').value.trim();
-            if(!msg) return alert("Escribe un comunicado de campo.");
-
-            let val = "global";
-            if(type === "pais") val = document.getElementById('alert-pais-select').value;
-            else if(type === "provincial") val = document.getElementById('alert-provincia-select').value;
-            else if(type === "comarcal") val = document.getElementById('alert-comarca-select').value;
-            else if(type === "cuenta") val = document.getElementById('alert-user-field').value;
-            else if(type === "explorador") val = document.getElementById('alert-child-field').value || document.getElementById('alert-user-field').value;
-
-            await addDoc(collection(db, "alertas_comunidad"), { targetType: type, targetValue: val, textMessage: msg, timestamp: Date.now() });
-            alert("📡 ¡Transmisión satelital desplegada en la red global!");
-            document.getElementById('alert-text-msg').value = "";
-            if(perfilActiveId) window.verificarAlertasMisionesComarcales();
+            await addDoc(collection(db, "alertas_comunidad"), { targetType: "global", textMessage: msg, timestamp: Date.now() });
+            alert("Emitido."); window.verificarAlertasMisionesComarcales();
         };
 
         window.inyectarCartaConLocalizacionesSimuladas = async (esLote) => {
@@ -1339,40 +1098,20 @@
             const comun = document.getElementById('sim-comun-input').value.trim();
             const cien = document.getElementById('sim-cien-input').value.trim();
             const rareza = document.getElementById('sim-rareza-select').value;
-            const loc = document.getElementById('sim-loc-input').value.trim() || "Entorno de Prueba";
-            const desc = document.getElementById('sim-desc-textarea').value.trim() || "Muestra botánica inyectada desde la consola central.";
             
-            if(!perfilDestinoId || !comun || !cien) return alert("Rellena los datos de simulación.");
-            const pData = window.cacheAdminPerfilesCompletos.find(x => x.id === perfilDestinoId);
-
-            const mult = MULTIPLICADORES_RAREZA[rareza] || 1;
-            const xpCalculada = Math.floor(20 * mult);
-
             const plantillaInyeccion = {
-                nombreComun: comun, nombreCientifico: cien, rareza: rareza, descripcion: desc, xp: xpCalculada, loc: loc,
-                foto: "data:image/svg+xml;utf8,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' width='100' height='100' viewBox='0 0 24 24' fill='%231F6B3A'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z'/></svg>",
-                fecha: new Date().toLocaleDateString(), timestamp: Date.now(),
-                perfil: perfilDestinoId, usuarioEmail: pData.usuarioEmail,
-                municipioId: pData.base ? pData.base.municipio : "Test", comarcaId: pData.base ? pData.base.comarca : "Test", provinciaId: pData.base ? pData.base.provincia : "Test", paisId: pData.base ? pData.base.pais : "España"
+                nombreComun: comun, nombreCientifico: cien, rareza: rareza, descripcion: "Inyectado.", xp: 20, loc: "Simulación",
+                foto: "data:image/svg+xml;utf8,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' width='100' height='100' fill='%231F6B3A'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z'/></svg>",
+                fecha: new Date().toLocaleDateString(), timestamp: Date.now(), perfil: perfilDestinoId, usuarioEmail: usuarioEmailActual
             };
 
             await addDoc(collection(db, "capturas"), plantillaInyeccion);
-            if(esLote) {
-                await addDoc(collection(db, "capturas"), { ...plantillaInyeccion, nombreComun: comun + " Alfa", timestamp: Date.now()+10 });
-                await addDoc(collection(db, "capturas"), { ...plantillaInyeccion, nombreComun: comun + " Beta", timestamp: Date.now()+20 });
-            }
-            alert("🧪 ¡Inyección de simulación completada de forma síncrona!");
-            window.switchAdminTab('panel-macro');
+            alert("Inyectado."); window.switchAdminTab('panel-macro');
         };
-
-        /* ==========================================================================
-           GESTIÓN DE INTERFAZ MULTIPÁGINA (RADAR / ÁLBUM)
-           ========================================================================== */
 
         window.switchPage = (pageId, buttonElement) => {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            
             document.getElementById(pageId).classList.add('active');
             if(buttonElement) buttonElement.classList.add('active');
             if(pageId === 'album') cargarAlbum();
@@ -1380,43 +1119,23 @@
 
         window.actualizarEstado = async () => {
             const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
-            const snap = await getDocs(q); 
-            let totalXP = 0;
+            const snap = await getDocs(q); let totalXP = 0;
             snap.forEach(d => totalXP += (d.data().xp || 0));
             
-            let nivel = 1; 
-            let req = 100; 
-            let xpRestante = totalXP;
+            let nivel = 1; let req = 100; let xpRestante = totalXP;
+            while (xpRestante >= req) { xpRestante -= req; nivel++; req = Math.floor(req * 1.2); }
             
-            while (xpRestante >= req && req > 0) { 
-                xpRestante -= req; 
-                nivel++; 
-                req = Math.floor(req * 1.2); 
-            }
-            
-            const txtNivel = document.getElementById('txt-nivel');
-            const txtRango = document.getElementById('txt-rango');
-            const barraProgreso = document.getElementById('barra-progreso');
-            const txtXpContador = document.getElementById('txt-xp-contador');
-            const totalXpMini = document.getElementById('total-xp-mini');
-            const totalCountMini = document.getElementById('total-count-mini');
-
-            if (txtNivel) txtNivel.innerText = `NIVEL ${nivel}`;
-            if (txtRango) txtRango.innerText = RANGOS_EXPLORACION[Math.min(nivel - 1, 14)] || "Explorador";
-            if (barraProgreso) barraProgreso.style.width = `${(xpRestante / req) * 100}%`;
-            if (txtXpContador) txtXpContador.innerText = `${xpRestante} / ${req} XP`;
-            if (totalXpMini) totalXpMini.innerText = totalXP;
-            if (totalCountMini) totalCountMini.innerText = snap.size;
+            document.getElementById('txt-nivel').innerText = `NIVEL ${nivel}`;
+            document.getElementById('txt-rango').innerText = RANGOS_EXPLORACION[Math.min(nivel - 1, 14)];
+            document.getElementById('barra-progreso').style.width = `${(xpRestante / req) * 100}%`;
+            document.getElementById('txt-xp-contador').innerText = `${xpRestante} / ${req} XP`;
+            document.getElementById('total-xp-mini').innerText = totalXP;
+            document.getElementById('total-count-mini').innerText = snap.size;
         };
-
-        /* ==========================================================================
-           RENDERIZADO DINÁMICO DEL ÁLBUM DE CROMOS DE LABORATIVO
-           ========================================================================== */
 
         async function cargarAlbum() {
             const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
-            const snap = await getDocs(q);
-            albumEspeciesMemoria = {};
+            const snap = await getDocs(q); albumEspeciesMemoria = {};
             
             snap.forEach(documento => {
                 const d = documento.data();
@@ -1424,75 +1143,40 @@
                     albumEspeciesMemoria[d.nombreCientifico] = {
                         nombreComun: d.nombreComun, nombreCientifico: d.nombreCientifico, rareza: d.rareza,
                         descripcion: d.descripcion, foto: d.foto, fecha: d.fecha, loc: d.loc || "Campo",
-                        tipoHoja: d.tipoHoja || "No especificado", origen: d.origen || "Autóctona",
-                        copiasTotales: 0, nombresAlternativosRecogidos: new Set()
+                        tipoHoja: d.tipoHoja || "No especificado", origen: d.origen || "Autóctona", copiasTotales: 0
                     };
                 }
                 albumEspeciesMemoria[d.nombreCientifico].copiasTotales++;
-                albumEspeciesMemoria[d.nombreCientifico].nombresAlternativosRecogidos.add(d.nombreComun);
             });
             window.filtrarYOrdenarAlbum();
         }
 
         window.filtrarYOrdenarAlbum = () => {
             const wrapper = document.getElementById('album-dinamico-contenedor'); wrapper.innerHTML = '';
-            const filtroTexto = document.getElementById('search-botanika').value.toLowerCase().trim();
-
             Object.values(albumEspeciesMemoria).forEach(esp => {
-                if(filtroTexto && !esp.nombreComun.toLowerCase().includes(filtroTexto) && !esp.nombreCientifico.toLowerCase().includes(filtroTexto)) return;
-                
-                const factorEvolutivo = Math.min(esp.copiasTotales, 4);
-                const tagRarity = `rare-${esp.rareza}`;
-
                 const cardHtml = document.createElement('div'); cardHtml.className = 'cromo-wrapper';
-                cardHtml.innerHTML = `<div class="cromo-mini-card ${tagRarity}"><div class="cromo-img-box"><img src="${esp.foto}"></div><div class="cromo-txt-bar"><h4>${esp.nombreComun}</h4></div><div class="cromo-evolution-badge">${TITULOS_ADAPTACION[factorEvolutivo]}</div></div>`;
+                cardHtml.innerHTML = `<div class="cromo-mini-card rare-${esp.rareza}"><div class="cromo-img-box"><img src="${esp.foto}"></div><div class="cromo-txt-bar"><h4>${esp.nombreComun}</h4></div><div class="cromo-evolution-badge">${TITULOS_ADAPTACION[Math.min(esp.copiasTotales, 4)]}</div></div>`;
                 cardHtml.onclick = () => { window.abrirVisualizadorDetalleCromo3D(esp); };
                 wrapper.appendChild(cardHtml);
             });
         };
 
-        /* ==========================================================================
-           VISUALIZADOR PREMIUM EN PERSPECTIVA (CARTA 3D)
-           ========================================================================== */
-
         window.abrirVisualizadorDetalleCromo3D = (esp) => {
             document.getElementById('modal-card-inner').classList.remove('flipped');
-            document.getElementById('modal-names-dropdown').style.display = 'none';
-
             document.getElementById('m-title').innerText = esp.nombreComun;
             document.getElementById('m-type').innerText = `X${esp.copiasTotales} MUESTRAS`;
             document.getElementById('m-img').src = esp.foto;
             document.getElementById('m-sci').innerText = esp.nombreCientifico;
             document.getElementById('m-desc').innerText = esp.descripcion;
-
             document.getElementById('m-back-title').innerText = esp.nombreComun;
-            document.getElementById('m-fecha').innerText = `📅 Primer Registro: ${esp.fecha}`;
-            document.getElementById('m-coords').innerText = `📍 Bioma: ${esp.loc} | Hoja: ${esp.tipoHoja} | ${esp.origen}`;
-
-            const btnEvo = document.getElementById('btn-evolution-action');
-            if(esp.copiasTotales >= 2) {
-                btnEvo.style.display = 'block';
-                btnEvo.innerText = `ADAPTAR AL NIVEL ${Math.min(esp.copiasTotales, 4)}`;
-            } else { btnEvo.style.display = 'none'; }
-
-            const drop = document.getElementById('modal-names-dropdown'); drop.innerHTML = '';
-            esp.nombresAlternativosRecogidos.forEach(altName => {
-                const r = document.createElement('div'); r.className = 'name-drop-row'; r.innerText = altName;
-                r.onclick = (e) => { e.stopPropagation(); document.getElementById('m-title').innerText = altName; drop.style.display='none'; };
-                drop.appendChild(r);
-            });
-
+            document.getElementById('m-fecha').innerText = `📅 Registro: ${esp.fecha}`;
+            document.getElementById('m-coords').innerText = `📍 Bioma: ${esp.loc} | ${esp.tipoHoja} | ${esp.origen}`;
             document.getElementById('cromo-overlay-modal').style.display = 'flex';
         };
 
         window.voltearCartaModal = (event, el) => {
-            if(event.target.id === 'm-desc' || event.target.closest('.modal-title-poke-clickable') || event.target.closest('#modal-names-dropdown') || event.target.id === 'btn-evolution-action') return;
+            if(event.target.id === 'm-desc' || event.target.id === 'btn-evolution-action') return;
             el.classList.toggle('flipped');
-        };
-
-        window.desplegarNombresAlternativosModal = (event) => {
-            event.stopPropagation(); const d = document.getElementById('modal-names-dropdown');
-            d.style.display = (d.style.display === 'block') ? 'none' : 'block';
         };
 
         window.evaluarCierrePorFondo = (event) => {
@@ -1508,10 +1192,7 @@
             setTimeout(() => { el.classList.remove('show-toast'); }, 4000);
         };
 
-        // Arranque Inicial Automático
-        window.onload = () => {
-            document.getElementById('main-app-container').style.display = 'block';
-        };
+        window.onload = () => { document.getElementById('main-app-container').style.display = 'block'; };
     </script>
 </body>
 </html>
