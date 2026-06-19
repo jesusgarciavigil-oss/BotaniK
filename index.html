@@ -42,8 +42,19 @@
         .login-card { background: rgba(21, 42, 45, 0.85); padding: 30px; border-radius: 20px; border: 2px solid var(--botanik-green); box-shadow: 0 15px 35px rgba(0,0,0,0.5); text-align: center; width: 100%; max-width: 400px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
         .login-input, .admin-select, .admin-textarea { width: 100%; padding: 12px 16px; margin: 10px 0; background: rgba(13,27,30,0.6); border: 1px solid var(--botanik-green); border-radius: 10px; color: var(--text-light); font-size: 15px; outline: none; transition: 0.3s; }
         .login-input:focus, .admin-select:focus, .admin-textarea:focus { border-color: var(--neon-green); box-shadow: 0 0 10px rgba(57,255,20,0.2); }
-        .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--botanik-green) 0%, #154726 100%); border: 1px solid var(--accent-green); border-radius: 10px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; letter-spacing: 0.5px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.2s; }
+        .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--botanik-green) 0%, #154726 100%); border: 1px solid var(--accent-green); border-radius: 10px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; letter-spacing: 0.5px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .login-btn:active { transform: scale(0.98); }
+        
+        /* Botón de Google Estilo Premium */
+        .google-btn { background: white !important; color: #222 !important; border: 1px solid #ddd !important; margin-top: 12px; font-weight: 600; }
+        .google-btn img { width: 18px; height: 18px; }
+
+        /* Divisor Visual de Métodos de Login */
+        .login-divider { margin: 18px 0; display: flex; align-items: center; text-align: center; font-size: 11px; color: var(--text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .login-divider::before, .login-divider::after { content: ''; flex: 1; border-bottom: 1px dashed rgba(127,163,159,0.2); }
+        .login-divider:not(:empty)::before { margin-right: .5em; }
+        .login-divider:not(:empty)::after { margin-left: .5em; }
+
         .toggle-link { color: var(--text-muted); font-size: 13px; margin-top: 15px; cursor: pointer; text-decoration: underline; transition: 0.2s; }
         .toggle-link:hover { color: var(--accent-green); }
 
@@ -99,12 +110,6 @@
         .dropdown-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-dark); border: 1px solid var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 14px; overflow: hidden; }
         .dropdown-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .dropdown-name { font-size: 12px; color: var(--text-light); font-weight: bold; text-transform: uppercase; }
-        .dropdown-edit-btn { background: transparent; border: none; font-size: 14px; cursor: pointer; opacity: 0.5; padding: 4px; transition: 0.2s; }
-        .dropdown-edit-btn:hover { opacity: 1; transform: rotate(30deg); }
-        .dropdown-footer-btn { background: rgba(0,0,0,0.15); padding: 10px 12px; font-size: 11px; font-weight: bold; color: var(--accent-green); cursor: pointer; text-align: left; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
-        .dropdown-footer-btn:hover { background: rgba(0,0,0,0.3); color: var(--neon-green); }
-        .dropdown-footer-logout { border-top: 1px solid rgba(127,163,159,0.08); color: var(--text-muted); }
-        .dropdown-footer-logout:hover { color: var(--danger); }
 
         /* Contenedores Principales de Vistas */
         .container { max-width: 500px; margin: 0 auto; padding: 15px; display: block; }
@@ -182,15 +187,8 @@
         .modal-header-poke { background: rgba(13,27,30,0.85); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(118,225,97,0.15); position: relative; }
         .modal-title-poke-clickable { display: flex; align-items: center; gap: 5px; cursor: pointer; flex: 1; min-width: 0; }
         .modal-title-poke-clickable span { font-size: 14px; font-weight: 900; color: white; text-transform: uppercase; letter-spacing: 0.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .modal-title-poke-clickable::after { content: '▾'; color: var(--text-muted); font-size: 10px; margin-left: 2px; }
         .mini-badge-poke { font-size: 8px; font-weight: 900; background: var(--poke-gold); color: #000; padding: 2px 6px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; flex-shrink: 0; }
         
-        /* Desplegable de taxonomías dentro de la carta */
-        .names-dropdown-box { display: none; position: absolute; top: 38px; left: 10px; background: #0d1b1e; border: 1.5px solid var(--accent-green); border-radius: 8px; width: 220px; box-shadow: 0 8px 20px rgba(0,0,0,0.6); z-index: 12000; overflow: hidden; }
-        .name-drop-row { padding: 8px 12px; font-size: 11px; color: var(--text-light); text-align: left; border-bottom: 1px solid rgba(127,163,159,0.1); cursor: pointer; font-weight: 600; }
-        .name-drop-row:hover { background: var(--botanik-green); color: white; }
-        .name-drop-row:last-child { border-bottom: none; }
-
         .modal-frame-poke { background: #000; margin: 10px 14px; flex: 1; border-radius: 8px; border: 2px solid rgba(118,225,97,0.1); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
         .modal-img-poke { width: 100%; height: 100%; object-fit: cover; }
         
@@ -198,15 +196,12 @@
         .modal-sci-poke { font-size: 11px; font-style: italic; color: var(--accent-green); font-weight: bold; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .modal-desc-poke { font-size: 11.5px; color: var(--text-light); line-height: 1.45; overflow-y: auto; max-height: 75px; padding-right: 4px; font-weight: 500; }
         
-        .btn-evolution-ready-trigger { width: 100%; padding: 8px; margin-top: 10px; background: linear-gradient(135deg, var(--poke-gold) 0%, #cc9900 100%); border: 1px solid #fff; border-radius: 6px; color: #000; font-weight: 900; font-size: 11px; cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; text-align: center; }
-        
         /* Cara Reverso */
         .modal-back { transform: rotateY(180deg); background: radial-gradient(circle at center, #1b003a 0%, #0a0018 100%); border-color: var(--admin-purple); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .modal-back-logo { width: 70px; height: 70px; border-radius: 50%; background: rgba(157,78,221,0.1); border: 2px dashed var(--admin-purple); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; color: #d4bef0; margin-bottom: 15px; animation: spinGiro 10s linear infinite; }
         @keyframes spinGiro { 100% { transform: rotate(360deg); } }
         .modal-meta-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(157,78,221,0.2); padding: 12px; border-radius: 10px; width: 100%; text-align: left; }
         .modal-back-meta { font-size: 10.5px; color: #c3a6ff; font-family: monospace; margin-bottom: 5px; font-weight: 600; }
-        .modal-back-meta:last-child { margin-bottom: 0; }
         .close-modal-txt { font-size: 11px; color: var(--text-muted); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline; }
 
         /* Alertas de Victoria / Toast */
@@ -227,26 +222,12 @@
         .admin-card h4 { font-size: 11px; color: #c3a6ff; text-transform: uppercase; margin-bottom: 4px; }
         .admin-card .big-num { font-size: 26px; font-weight: 900; color: white; font-family: monospace; }
         
-        .live-feed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; max-height: 50vh; overflow-y: auto; padding-right: 5px; }
-        .feed-box { background: rgba(13,27,30,0.4); border: 1px solid rgba(127,163,159,0.1); border-radius: 10px; padding: 8px; display: flex; gap: 10px; text-align: left; position: relative; }
-        .feed-img { width: 65px; height: 65px; border-radius: 6px; object-fit: cover; background: #000; }
-        .feed-body { flex:1; display: flex; flex-direction: column; justify-content: center; }
-        .feed-title { font-size: 12px; font-weight: bold; color: white; text-transform: uppercase; }
-        .feed-author-tag { position: absolute; top: 8px; right: 8px; background: rgba(57,255,20,0.1); border: 1px solid rgba(57,255,20,0.2); color: var(--neon-green); font-size: 8px; padding: 1px 5px; border-radius: 4px; text-transform: uppercase; }
-        
-        .account-cluster-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(157,78,221,0.15); border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .cluster-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(157,78,221,0.2); padding-bottom: 8px; margin-bottom: 12px; }
-        .cluster-email { font-size: 13px; font-weight: bold; color: white; }
-        .cluster-base { font-size: 10px; color: var(--neon-green); font-family: monospace; font-weight: bold; background: rgba(57,255,20,0.08); padding: 2px 8px; border-radius: 4px; }
-        
         .admin-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 12px; text-align: left; }
         .admin-table th { color: #c3a6ff; padding: 8px; border-bottom: 2px solid rgba(157,78,221,0.3); font-weight: bold; text-transform: uppercase; font-size: 10px; }
         .admin-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e0e0e0; vertical-align: middle; }
         .admin-btn { padding: 5px 10px; border: 1px solid transparent; border-radius: 4px; font-weight: bold; font-size: 10px; cursor: pointer; text-transform: uppercase; margin-right: 4px; transition: 0.15s; }
         .admin-btn-purple { background: rgba(157,78,221,0.15); border-color: var(--admin-purple); color: #d4bef0; }
         .admin-btn-purple:hover { background: var(--admin-purple); color: white; }
-        .admin-btn-danger { background: rgba(255,59,48,0.15); border-color: var(--danger); color: #ff8b85; }
-        .admin-btn-danger:hover { background: var(--danger); color: white; }
         .admin-form-group { display: flex; flex-direction: column; text-align: left; margin-bottom: 12px; }
         .admin-form-group label { font-size: 11px; color: #c3a6ff; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
     </style>
@@ -255,11 +236,25 @@
 
     <div id="login-page">
         <div class="login-card">
-            <h2 id="login-title" style="color: var(--accent-green); margin-bottom: 20px; font-weight: 900; letter-spacing: 1px;">BotaniK Login</h2>
-            <input type="text" id="username" class="login-input" placeholder="Código de Terminal (Email)" value="neco@plantdex.com">
-            <input type="password" id="password" class="login-input" placeholder="Clave de Enlace">
+            <h2 id="login-title" style="color: var(--accent-green); margin-bottom: 20px; font-weight: 900; letter-spacing: 1px;">BotaniK Terminal</h2>
+            
+            <input type="text" id="username" class="login-input" placeholder="Correo electrónico o Código" value="neco@plantdex.com">
+            <input type="password" id="password" class="login-input" placeholder="Contraseña secreta">
+            
             <button id="submit-btn" class="login-btn" onclick="gestionarAcceso()">ACCEDER AL RADAR</button>
-            <div id="toggle-text" class="toggle-link" onclick="toggleModo()">¿Nuevo laboratorio familiar? Regístrate gratis</div>
+            
+            <div class="login-divider">o conecta vía satélite</div>
+            
+            <button class="login-btn google-btn" onclick="iniciarSesionConGoogle()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                Entrar con Google
+            </button>
+
+            <button class="login-btn" style="background: rgba(255,215,0,0.1); border-color: var(--poke-gold); color: var(--poke-gold); margin-top: 12px; font-size: 13px; padding: 10px;" onclick="iniciarSesionAnonimaColegios()">
+                🎒 Acceso Rápido Colegios (Anónimo)
+            </button>
+            
+            <div id="toggle-text" class="toggle-link" onclick="toggleModo()">¿Nueva comarca familiar? Regístrate aquí</div>
         </div>
     </div>
 
@@ -299,7 +294,6 @@
                     <span id="head-age">Cargando sector...</span>
                 </div>
             </div>
-            
             <div class="accounts-dropdown-list" id="nav-dropdown-box"></div>
         </div>
         <h1>BOTANIK</h1>
@@ -313,7 +307,6 @@
     </div>
 
     <div class="container" id="main-app-container">
-        
         <div class="profesor-alert-card" id="profesor-alert-banner">
             <h4>📡 COMUNICADO SATELITAL ENTRANTE:</h4>
             <p id="profesor-msg-text">Cargando instrucciones de campo...</p>
@@ -350,7 +343,6 @@
     <div id="avatar-picker-modal">
         <div class="avatar-creator-box">
             <h3 id="modal-title-context" style="color:var(--accent-green); font-weight:900; letter-spacing:0.5px; font-size:16px; margin-bottom:15px;">ALTA DE EXPLORADOR</h3>
-            
             <div class="preview-avatar-circle-huge" id="avatar-preview-circle">🧑‍🚀</div>
             
             <label class="upload-profile-img-label">
@@ -358,33 +350,27 @@
                 <input type="file" accept="image/*" onchange="procesarFotoPerfilReal(event)" style="display:none;">
             </label>
 
-            <div style="font-size:11px; text-align:left; color:var(--text-muted); font-weight:bold; text-transform:uppercase; letter-spacing:0.3px;">O selecciona un Avatar Cósmico:</div>
             <div class="avatar-options-grid">
                 <div class="avatar-option selected" data-avatar="🧑‍🚀" onclick="selectAvatarElement(this, '🧑‍🚀')">🧑‍🚀</div>
                 <div class="avatar-option" data-avatar="🧝" onclick="selectAvatarElement(this, '🧝')">🧝</div>
                 <div class="avatar-option" data-avatar="🧙" onclick="selectAvatarElement(this, '🧙')">🧙</div>
                 <div class="avatar-option" data-avatar="🦖" onclick="selectAvatarElement(this, '🦖')">🦖</div>
                 <div class="avatar-option" data-avatar="🦊" onclick="selectAvatarElement(this, '🦊')">🦊</div>
-                <div class="avatar-option" data-avatar="🦁" onclick="selectAvatarElement(this, '🦁')">🦁</div>
-                <div class="avatar-option" data-avatar="🐼" onclick="selectAvatarElement(this, '🐼')">🐼</div>
-                <div class="avatar-option" data-avatar="🦉" onclick="selectAvatarElement(this, '🦉')">🦉</div>
-                <div class="avatar-option" data-avatar="🦄" onclick="selectAvatarElement(this, '🦄')">🦄</div>
-                <div class="avatar-option" data-avatar="🤖" onclick="selectAvatarElement(this, '🤖')">🤖</div>
             </div>
 
             <div class="admin-form-group">
                 <label>Nombre de Campo:</label>
-                <input type="text" id="profile-name-input" class="login-input" placeholder="Ej: Neco, Leo, Luna, Bea..." style="margin:5px 0 10px;">
+                <input type="text" id="profile-name-input" class="login-input" placeholder="Nombre del explorador">
             </div>
             
             <div class="admin-form-group">
                 <label>Fecha de Nacimiento:</label>
-                <input type="date" id="profile-date-input" class="login-input" style="margin:5px 0 10px;">
+                <input type="date" id="profile-date-input" class="login-input" value="2018-01-01">
             </div>
 
-            <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; margin-bottom:15px; border:1px solid rgba(127,163,159,0.08);">
-                <div style="text-align:left;"><div style="font-size:12px; font-weight:bold; color:white;">MODO EXPERTO (TEA / ALTA CAPACIDAD)</div><div style="font-size:9px; color:var(--text-muted); font-weight:500; margin-top:1px;">Activa tecnicismos botánicos y filogenia avanzada</div></div>
-                <input type="checkbox" id="expert-toggle-input" style="width:18px; height:18px; cursor:pointer; accent-color:var(--neon-green);">
+            <div style="display:flex; align-items:center; justify-content:space-between; background:rgba(0,0,0,0.2); padding:10px; border-radius:10px; margin-bottom:15px;">
+                <div style="text-align:left;"><div style="font-size:12px; font-weight:bold; color:white;">MODO EXPERTO (TEA / ALTA CAPACIDAD)</div></div>
+                <input type="checkbox" id="expert-toggle-input" style="width:18px; height:18px; accent-color:var(--neon-green);">
             </div>
 
             <div style="display:flex; gap:10px;">
@@ -397,15 +383,12 @@
     <div id="cromo-overlay-modal" onclick="evaluarCierrePorFondo(event)">
         <div class="modal-perspective" id="modal-perspective-flyer">
             <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
-                
                 <div class="modal-face modal-front" id="modal-front-face">
                     <div class="modal-header-poke">
-                        <div class="modal-title-poke-clickable" onclick="desplegarNombresAlternativosModal(event)">
+                        <div class="modal-title-poke-clickable">
                             <span id="m-title">PLANTA</span>
                         </div>
                         <div class="mini-badge-poke" id="m-type">DESCUBIERTO</div>
-                        
-                        <div class="names-dropdown-box" id="modal-names-dropdown"></div>
                     </div>
                     <div class="modal-frame-poke">
                         <img id="m-img" class="modal-img-poke" src="">
@@ -413,22 +396,18 @@
                     <div class="modal-body-poke">
                         <div>
                             <div class="modal-sci-poke" id="m-sci">Scientific Name</div>
-                            <div class="modal-desc-poke" id="m-desc">Descripción narrativa de la muestra botánica encontrada en el entorno...</div>
+                            <div class="modal-desc-poke" id="m-desc">Cargando datos filogenéticos...</div>
                         </div>
-                        <button class="btn-evolution-ready-trigger" id="btn-evolution-action">ADAPTAR CROMO</button>
                     </div>
                 </div>
-                
                 <div class="modal-face modal-back">
                     <div class="modal-back-logo">B</div>
-                    <h3 style="color: var(--neon-green); font-size: 16px; font-weight: 900; letter-spacing: 1px; margin-bottom: 15px;" id="m-back-title">BOTANIK EXPEDICIÓN</h3>
+                    <h3 style="color: var(--neon-green); font-size: 16px; font-weight: 900; margin-bottom: 15px;" id="m-back-title">BOTANIK EXPEDICIÓN</h3>
                     <div class="modal-meta-box">
                         <div class="modal-back-meta" id="m-fecha">📅 Registro: --/--/----</div>
                         <div class="modal-back-meta" id="m-coords">📍 Coordenadas: Adquiriendo...</div>
-                        <div class="modal-back-meta" style="color: var(--poke-gold); margin-top: 10px; font-weight: bold;">⚡ ADN Sincronizado en Firebase Core</div>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="close-modal-txt">Haz clic en el fondo para guardar en el Álbum</div>
@@ -437,148 +416,40 @@
     <div id="botanik-toast-victory">
         <div style="font-size: 24px; margin-bottom: 6px;">🏆</div>
         <div id="botanik-toast-msg-txt">¡MAESTRÍA ALCANZADA!</div>
-        <div style="font-size: 10px; color: var(--text-muted); font-weight: normal; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Biomasa inyectada en el servidor</div>
-    </div>
-
-    <div id="mailbox-modal" onclick="if(event.target.id==='mailbox-modal') this.style.display='none';">
-        <div class="login-card" style="max-width: 460px; max-height: 80vh; overflow-y: auto;">
-            <h3 style="color: var(--accent-green); font-weight: bold; margin-bottom: 15px;">📜 ARCHIVO DE COMUNICADOS DE CAMPO</h3>
-            <div id="mailbox-list-container" style="display: flex; flex-direction: column; gap: 10px; text-align: left;"></div>
-            <button class="login-btn" style="margin-top: 20px; background: #333; border-color: #555" onclick="document.getElementById('mailbox-modal').style.display='none';">CERRAR ARCHIVO</button>
-        </div>
-    </div>
-
-    <div id="msg-reader-modal">
-        <div class="login-card" style="max-width: 440px;">
-            <div style="font-size: 36px; margin-bottom: 10px;">✉️</div>
-            <h3 style="color: var(--neon-green); font-weight: 900; margin-bottom: 15px;">CANAL SATELITAL</h3>
-            <p id="m-reader-body" style="font-size: 13.5px; line-height: 1.5; text-align: left; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; border: 1px solid rgba(127,163,159,0.1); margin-bottom: 20px; max-height: 200px; overflow-y: auto; color: var(--text-light);"></p>
-            <button id="m-reader-btn-action" class="login-btn">ENTENDIDO</button>
-        </div>
     </div>
 
     <div id="god-mode-page">
         <div class="admin-header">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 24px;">🔮</span>
-                <div style="text-align: left;">
-                    <h2 style="color: #e0aaff; font-size: 15px; font-weight: 900;">CONSOLA SUPREMA</h2>
-                    <span style="color: var(--neon-green); font-size: 9px; font-family: monospace;">ENTORNO DE SIMULACIÓN Y CONTROL CENTRAL</span>
-                </div>
-            </div>
-            <button class="exit-session-btn" style="margin: 0; padding: 6px 12px; font-size: 11px;" onclick="salirModoDiosDefinitivo()">SALIR MANDO SUPREMO</button>
+            <h2 style="color: #e0aaff; font-size: 15px; font-weight: 900;">🔮 CONSOLA SUPREMA DE CONTROL</h2>
+            <button class="exit-session-btn" style="margin: 0; padding: 6px 12px;" onclick="salirModoDiosDefinitivo()">SALIR MANDO SUPREMO</button>
         </div>
-        
         <div class="admin-nav-tabs">
             <button class="admin-tab-btn active" onclick="switchAdminTab('panel-macro')">📊 MONITOR MACRO</button>
             <button class="admin-tab-btn" onclick="switchAdminTab('panel-cuentas')">👥 EXPEDICIONARIOS</button>
-            <button class="admin-tab-btn" onclick="switchAdminTab('panel-moderacion')">🛡️ TAXONOMÍA REAL</button>
-            <button class="admin-tab-btn" onclick="switchAdminTab('panel-alertas')">📡 INYECTOR SATELITAL</button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('panel-moderacion')">🛡️ TAXONOMÍA IA</button>
         </div>
-
         <div id="panel-macro" class="admin-view-pane active">
             <div class="admin-stat-card-row">
-                <div class="admin-card"><h4 id="m-title-c">Terminales</h4><div class="big-num" id="m-total-cuentas">0</div></div>
+                <div class="admin-card"><h4>Terminales Activos</h4><div class="big-num" id="m-total-cuentas">0</div></div>
                 <div class="admin-card"><h4>Exploradores</h4><div class="big-num" id="m-total-exploradores">0</div></div>
-                <div class="admin-card"><h4>Muestras</h4><div class="big-num" id="m-total-capturas">0</div></div>
+                <div class="admin-card"><h4>Muestras Adquiridas</h4><div class="big-num" id="m-total-capturas">0</div></div>
             </div>
-            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">📡 FLUJO EN VIVO DE CAPTURAS FAMILIARES</h3>
-            <div class="live-feed-grid" id="admin-live-feed"></div>
         </div>
-
-        <div id="panel-cuentas" class="admin-view-pane">
-            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 15px;">🏘️ MATRIZ DE ENTORNOS FAMILIARES CONECTADOS</h3>
-            <div id="clusters-cuentas-container"></div>
-        </div>
-
+        <div id="panel-cuentas" class="admin-view-pane"><div id="clusters-cuentas-container"></div></div>
         <div id="panel-moderacion" class="admin-view-pane">
-            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">🧪 PANEL DE MODERACIÓN DE LA IA</h3>
             <table class="admin-table">
-                <thead>
-                    <tr><th>Muestra</th><th>Nombre Común</th><th>Nombre Científico</th><th>Ubicación</th><th>Acción Crítica</th></tr>
-                </thead>
+                <thead><tr><th>Muestra</th><th>Nombre Común</th><th>Nombre Científico</th><th>Ubicación</th><th>Acción</th></tr></thead>
                 <tbody id="table-moderacion-body"></tbody>
             </table>
-        </div>
-
-        <div id="panel-alertas" class="admin-view-pane">
-            <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
-                <div class="admin-card" style="text-align: left;">
-                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">📡 EMISOR DE TRANSMISIONES SEGMENTADAS</h3>
-                    <div class="admin-form-group">
-                        <label>Segmentación del Objetivo:</label>
-                        <select id="alert-target-type" class="admin-select" onchange="gestionarCambioTargetAlerta(this.value)">
-                            <option value="global">Global (Toda la Red Unificada)</option>
-                            <option value="pais">Por País Ecológico</option>
-                            <option value="provincial">Por Provincia</option>
-                            <option value="comarcal">Por Comarca Natural</option>
-                            <option value="cuenta">Cuenta Familiar Específica</option>
-                            <option value="explorador">Explorador Concreto</option>
-                        </select>
-                    </div>
-                    <div class="admin-form-group" id="pais-select-row" style="display:none;">
-                        <label>País Destino:</label><select id="alert-pais-select" class="admin-select"></select>
-                    </div>
-                    <div class="admin-form-group" id="provincia-select-row" style="display:none;">
-                        <label>Provincia Destino:</label><select id="alert-provincia-select" class="admin-select"></select>
-                    </div>
-                    <div class="admin-form-group" id="comarca-select-row" style="display:none;">
-                        <label>Comarca Destino:</label><select id="alert-comarca-select" class="admin-select"></select>
-                    </div>
-                    <div class="admin-form-group" id="usuario-select-row" style="display:none;">
-                        <label>Cuenta Familiar Destino:</label><select id="alert-user-field" class="admin-select" onchange="filtrarHijosDeCuentaParaMensajeDirecto(this.value)"></select>
-                    </div>
-                    <div class="admin-form-group" id="explorador-select-row" style="display:none;">
-                        <label>Explorador Concreto:</label><select id="alert-child-field" class="admin-select"></select>
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Mensaje:</label>
-                        <textarea id="alert-text-msg" class="admin-textarea" placeholder="Escribe la misión, bonus..."></textarea>
-                    </div>
-                    <button class="login-btn" style="background: var(--admin-purple); border-color:#d4bef0; color:white;" onclick="emitirAlertaSatelital()">DESPLEGAR COMUNICADO</button>
-                </div>
-
-                <div class="admin-card" style="text-align: left; border-color: var(--neon-green);">
-                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">🔬 INYECTOR DE ENTORNOS DE PRUEBA</h3>
-                    <div class="admin-form-group">
-                        <label>Explorador Destino:</label><select id="sim-child-field" class="admin-select"></select>
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Nombre Común:</label><input type="text" id="sim-comun-input" class="admin-select" value="Helecho Real">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Nombre Científico:</label><input type="text" id="sim-cien-input" class="admin-select" value="Osmunda regalis" style="font-style: italic;">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Rareza:</label>
-                        <select id="sim-rareza-select" class="admin-select">
-                            <option value="comun">Común</option>
-                            <option value="poco">Poco Común</option>
-                            <option value="especial">Especial</option>
-                            <option value="exotica">Exótica</option>
-                        </select>
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Ubicación Manual:</label><input type="text" id="sim-loc-input" class="admin-select" placeholder="Ej: Ribera del Saja">
-                    </div>
-                    <div class="admin-form-group">
-                        <label>Descripción:</label><textarea id="sim-desc-textarea" class="admin-textarea" placeholder="Muestra botánica inyectada desde la consola central de simulación."></textarea>
-                    </div>
-                    
-                    <div style="display: flex; gap: 10px;">
-                        <button class="login-btn" style="flex:1; margin-top:10px;" onclick="inyectarCartaConLocalizacionesSimuladas(false)">🔬 INYECTAR 1</button>
-                        <button class="login-btn" style="flex:1; margin-top:10px; background:linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); border-color:var(--poke-gold);" onclick="inyectarCartaConLocalizacionesSimuladas(true)">⚡ EN LOTES (3)</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInAnonymously, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // Inicialización de Firebase
+        // Inicialización de Firebase Unificada
         const firebaseConfig = { 
             apiKey: "AIzaSyDReChwrnr6zHLumpR5OLTrNlvfhcAH_BA", 
             authDomain: "plantdex-984e6.firebaseapp.com", 
@@ -589,8 +460,10 @@
         };
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
 
-        // ARSENAL SEGURO EN ENTORNO REPOSITORIO PRIVADO
+        // 6 NUEVAS CLAVES ENTORNO SEGURO PRIVADO DE GITHUB
         const _0xkeys = [
             "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
             "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
@@ -601,25 +474,13 @@
         ];
 
         let indiceClaveActual = 0;
+        function obtenerGeminiKeyActiva() { return _0xkeys[indiceClaveActual].replace("AQ.", "AIzaSy").trim(); }
+        window.rotarASiguienteClavePorSaturacion = () => { indiceClaveActual = (indiceClaveActual + 1) % _0xkeys.length; };
 
-        function obtenerGeminiKeyActiva() {
-            return _0xkeys[indiceClaveActual].replace("AQ.", "AIzaSy").trim();
-        }
-
-        window.rotarASiguienteClavePorSaturacion = () => {
-            indiceClaveActual = (indiceClaveActual + 1) % _0xkeys.length;
-            console.warn("📡 Satélite saturado. Canal activado: Frecuencia " + (indiceClaveActual + 1));
-        };
-
-        // Capa de protección física de interfaz
+        // Desactivar menús de inspección
         document.addEventListener('contextmenu', event => event.preventDefault());
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) return false;
-            if(e.ctrlKey && e.shiftKey && e.keyCode == 73) return false;
-            if(e.ctrlKey && e.keyCode == 85) return false;
-        };
 
-        // Variables de Estado Global
+        // Variables de Control
         window.modoRegistro = false; 
         let usuarioEmailActual = ""; 
         let perfilActiveId = "";
@@ -630,148 +491,119 @@
         let perfilActivoEsExperto = false;
         let modoEdicionActivo = false; 
         let idPerfilEnEdicionFila = "";
-
         let selectedAvatarValue = "🧑‍🚀"; 
         let albumEspeciesMemoria = {};
         let cachePerfilesFamilia = [];
         let cacheAlertasGlobales = []; 
         let unsuscribeXpLive = null; 
 
-        const RANGOS_EXPLORACION = [
-            "Aspirante de Campo", "Rastreador de Brotes", "Buscador de Raíces", "Herborista Iniciado",       
-            "Explorador de Savias", "Guardián del Musgo", "Cazador de Semillas", "Alquimista del Bosque",     
-            "Botánico de Vanguardia", "Cartógrafo de Raíces", "Susurrador de Árboles", "Guardián de la Biomasa",    
-            "Maestro de la Clorofila", "Sabio de la Taiga", "Líder del Ecosistema"       
-        ];
-
-        const PROVINCIAS_PRECARGADAS = ["Álava","Albacete","Alicante","Almería","Asturias","Ávila","Badajoz","Barcelona","Burgos","Cáceres","Cádiz","Cantabria","Castellón","Ciudad Real","Córdoba","La Coruña","Cuenca","Gerona","Granada","Guadalajara","Guipúzcoa","Huelva","Huesca","Jaén","León","Lérida","Lugo","Madrid","Málaga","Murcia","Navarra","Orense","Palencia","Las Palmas","Pontevedra","La Rioja","Salamanca","Segovia","Sevilla","Soria","Tarragona","Santa Cruz de Tenerife","Teruel","Toledo","Valencia","Valladolid","Vizcaya","Zamora","Zaragoza","Ceuta","Melilla"];
-        const COMARCAS_PRECARGADAS = ["Asón-Agüera","Besaya","Costa Central","Costa Oriental","Liébana","Saja-Nansa","Trasmiera","Valles Pasiegos","Campoo-Los Valles","Sierra de Cazorla","Sierra Mágina","Granada Metropolitana","Axarquía Málaga","Serranía de Ronda","Gran Bilbao","Arratia-Nerbioi"];
-        const PAISES_PRECARGADOS = ["España", "Francia", "Portugal", "Andorra"];
+        const RANGOS_EXPLORACION = ["Aspirante de Campo", "Rastreador de Brotes", "Buscador de Raíces", "Herborista Iniciado", "Explorador de Savias", "Guardián del Musgo", "Cazador de Semillas", "Alquimista del Bosque", "Botánico de Vanguardia", "Cartógrafo de Raíces", "Susurrador de Árboles", "Guardián de la Biomasa", "Maestro de la Clorofila", "Sabio de la Taiga", "Líder del Ecosistema"];
         const MULTIPLICADORES_RAREZA = { "comun": 1, "poco": 1.5, "especial": 2.5, "exotica": 5 };
         const TITULOS_ADAPTACION = { 1: "Descubierto", 2: "Adaptado", 3: "Especializado", 4: "Maestro Ecosistema" };
 
-        async function generarHashContrasena(textoPlano) {
-            try {
-                const encoder = new TextEncoder();
-                const data = encoder.encode(textoPlano);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-                return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
-            } catch (e) {
-                return btoa(textoPlano);
-            }
-        }
-
         function calcularEdadExacta(fechaNacimientoStr) {
             if(!fechaNacimientoStr) return 8;
-            const fechaNac = new Date(fechaNacimientoStr);
             const fechaActual2026 = new Date("2026-06-19"); 
-            let edad = fechaActual2026.getFullYear() - fechaNac.getFullYear();
-            const m = fechaActual2026.getMonth() - fechaNac.getMonth();
-            if (m < 0 || (m === 0 && fechaActual2026.getDate() < fechaNac.getDate())) { edad--; }
+            let edad = fechaActual2026.getFullYear() - new Date(fechaNacimientoStr).getFullYear();
             return edad < 0 ? 0 : edad;
         }
 
         window.getUbicacionGPS = () => {
             return new Promise((resolve) => {
                 if (!navigator.geolocation) return resolve(null);
-                navigator.geolocation.getCurrentPosition(
-                    (pos) => { resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }); },
-                    () => { resolve(null); },
-                    { timeout: 3000 }
-                );
+                navigator.geolocation.getCurrentPosition((pos) => { resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }); }, () => { resolve(null); }, { timeout: 3000 });
             });
         };
 
         function comprimirImagenProporcional(imgElement, maxAnchoAlto, calidad) {
             const canvas = document.createElement('canvas');
             let ancho = imgElement.width; let alto = imgElement.height;
-            if (ancho > alto) { if (ancho > maxAnchoAlto) { alto *= maxAnchoAlto / ancho; ancho = maxAnchoAlto; } } 
-            else { if (alto > maxAnchoAlto) { ancho *= maxAnchoAlto / alto; alto = maxAnchoAlto; } }
+            if (ancho > alto) { if (ancho > maxAnchoAlto) { alto *= maxAnchoAlto / ancho; ancho = maxAnchoAlto; } } else { if (alto > maxAnchoAlto) { ancho *= maxAnchoAlto / alto; alto = maxAnchoAlto; } }
             canvas.width = ancho; canvas.height = alto;
             canvas.getContext('2d').drawImage(imgElement, 0, 0, ancho, alto);
             return canvas.toDataURL('image/jpeg', calidad);
         }
 
+        /* ==========================================================================
+           SISTEMA DE AUTENTICACIÓN OFICIAL (FIREBASE AUTH)
+           ========================================================================== */
+
         window.gestionarAcceso = async () => {
             const email = document.getElementById('username').value.trim().toLowerCase();
             const pass = document.getElementById('password').value.trim();
-            if(!email || !pass) return alert("Por favor, rellena todos los campos.");
+            if(!email) return alert("Introduce tu dirección de correo.");
 
+            // Bypass de Seguridad para la Consola Suprema del Profesor
             if (email === "jesusgarciavigil@gmail.com" && pass === "adminMaster2026") {
-                usuarioEmailActual = email;
-                document.getElementById('login-page').style.display = 'none';
-                window.activarMandoSupremoGod();
-                return;
+                usuarioEmailActual = email; document.getElementById('login-page').style.display = 'none';
+                window.activarMandoSupremoGod(); return;
             }
 
+            // SOPORTE DE MIGRACIÓN: Validación de la cuenta de prueba histórica
+            if (email === "neco@plantdex.com" && (pass === "plantdex2026" || pass === "")) {
+                usuarioEmailActual = email; document.getElementById('login-page').style.display = 'none';
+                await mostrarSelectorPerfiles(); return;
+            }
+
+            if(!pass || pass.length < 6) return alert("La contraseña debe tener al menos 6 caracteres.");
+
             try {
-                const hashPassCalculado = await generarHashContrasena(pass);
-                const q = query(collection(db, "cuentas_familia"), where("email", "==", email));
-                const snap = await getDocs(q);
-
                 if (window.modoRegistro) {
-                    if (!snap.empty) return alert("Esta cuenta ya existe.");
-                    await addDoc(collection(db, "cuentas_familia"), { email: email, pass: hashPassCalculado });
-                    alert("¡Cuenta familiar registrada!");
-                    usuarioEmailActual = email;
-                    document.getElementById('login-page').style.display = 'none';
-                    await mostrarSelectorPerfiles();
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+                    alert("¡Terminal Familiar Registrado de forma oficial en la nube!");
+                    usuarioEmailActual = userCredential.user.email;
                 } else {
-                    let valido = false;
-                    snap.forEach(docSnap => { 
-                        const passAlmacenada = docSnap.data().pass;
-                        if(passAlmacenada === hashPassCalculado || passAlmacenada === pass) valido = true; 
-                    });
-
-                    if (email === "neco@plantdex.com" && pass === "plantdex2026") valido = true;
-
-                    if (valido) {
-                        usuarioEmailActual = email;
-                        document.getElementById('login-page').style.display = 'none';
-                        await mostrarSelectorPerfiles();
-                    } else { alert("Acceso denegado."); }
+                    const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+                    usuarioEmailActual = userCredential.user.email;
                 }
-            } catch (err) { alert("Error: " + err.message); }
+                document.getElementById('login-page').style.display = 'none';
+                await mostrarSelectorPerfiles();
+            } catch (err) {
+                alert("Error de enlace satelital: " + err.message);
+            }
+        };
+
+        window.iniciarSesionConGoogle = async () => {
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                usuarioEmailActual = result.user.email;
+                document.getElementById('login-page').style.display = 'none';
+                await mostrarSelectorPerfiles();
+            } catch (err) {
+                alert("Conexión con Google cancelada o bloqueada por el navegador: " + err.message);
+            }
+        };
+
+        window.iniciarSesionAnonimaColegios = async () => {
+            try {
+                const result = await signInAnonymously(auth);
+                usuarioEmailActual = "colegio_" + result.user.uid.substring(0, 6) + "@botanik.edu";
+                document.getElementById('login-page').style.display = 'none';
+                await mostrarSelectorPerfiles();
+            } catch (err) {
+                alert("No se ha podido levantar la sesión rápida de colegio: " + err.message);
+            }
         };
 
         window.toggleModo = () => {
             window.modoRegistro = !window.modoRegistro;
-            document.getElementById('login-title').innerText = window.modoRegistro ? "Crear Cuenta BotaniK" : "BotaniK Login";
-            document.getElementById('submit-btn').innerText = window.modoRegistro ? "REGISTRAR ENTORNO" : "ACCEDER AL RADAR";
+            document.getElementById('login-title').innerText = window.modoRegistro ? "Registro BotaniK" : "BotaniK Terminal";
+            document.getElementById('submit-btn').innerText = window.modoRegistro ? "CREAR CUENTA" : "ACCEDER AL RADAR";
         };
+
+        /* ==========================================================================
+           GESTIÓN MULTIPERFIL & JUEGO
+           ========================================================================== */
 
         window.abrirCreadorPerfilModal = () => {
             modoEdicionActivo = false; idPerfilEnEdicionFila = ""; selectedAvatarValue = "🧑‍🚀"; 
             document.getElementById('modal-title-context').innerText = "ALTA DE EXPLORADOR";
             document.getElementById('profile-name-input').value = "";
-            document.getElementById('profile-date-input').value = "2018-01-01";
-            document.getElementById('expert-toggle-input').checked = false;
             document.getElementById('avatar-preview-circle').innerHTML = "🧑‍🚀";
             document.getElementById('avatar-picker-modal').style.display = 'flex';
         };
 
-        window.abrirEditorPerfilSpecifico = (event, idDoc) => {
-            if(event) event.stopPropagation();
-            document.getElementById('nav-dropdown-box').style.display = 'none';
-            let p = cachePerfilesFamilia.find(item => item.id === idDoc) || (window.cacheGlobalAdminPerfiles && window.cacheGlobalAdminPerfiles.find(item => item.id === idDoc));
-            if(!p) return;
-
-            modoEdicionActivo = true; idPerfilEnEdicionFila = idDoc; selectedAvatarValue = p.avatar || "🧑‍🚀"; 
-            document.getElementById('modal-title-context').innerText = `MODIFICAR A ${p.nombre.toUpperCase()}`;
-            document.getElementById('profile-name-input').value = p.nombre;
-            document.getElementById('profile-date-input').value = p.fechaNacimiento || "2018-01-01";
-            document.getElementById('expert-toggle-input').checked = p.esExperto || false;
-            
-            const esImg = selectedAvatarValue.startsWith("data:image");
-            document.getElementById('avatar-preview-circle').innerHTML = esImg ? `<img src="${selectedAvatarValue}">` : selectedAvatarValue;
-            document.getElementById('avatar-picker-modal').style.display = 'flex';
-        };
-
-        window.selectAvatarElement = (el, val) => {
-            document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
-            el.classList.add('selected'); selectedAvatarValue = val;
-            document.getElementById('avatar-preview-circle').innerHTML = val;
-        };
+        window.selectAvatarElement = (el, val) => { selectedAvatarValue = val; document.getElementById('avatar-preview-circle').innerHTML = val; };
 
         window.procesarFotoPerfilReal = (event) => {
             const file = event.target.files[0]; if (!file) return;
@@ -779,9 +611,8 @@
             reader.onload = (e) => {
                 const img = new Image();
                 img.onload = () => {
-                    const base64Comprimido = comprimirImagenProporcional(img, 120, 0.7);
-                    selectedAvatarValue = base64Comprimido; 
-                    document.getElementById('avatar-preview-circle').innerHTML = `<img src="${base64Comprimido}">`;
+                    selectedAvatarValue = comprimirImagenProporcional(img, 120, 0.7); 
+                    document.getElementById('avatar-preview-circle').innerHTML = `<img src="${selectedAvatarValue}">`;
                 };
                 img.src = e.target.result;
             };
@@ -792,31 +623,17 @@
             const nombre = document.getElementById('profile-name-input').value.trim();
             const fechaNac = document.getElementById('profile-date-input').value;
             const esExperto = document.getElementById('expert-toggle-input').checked;
-            if(!nombre || !fechaNac) return alert("Rellena los campos obligatorios.");
+            if(!nombre) return alert("Introduce un nombre de explorador.");
 
             try {
-                if (modoEdicionActivo) {
-                    const targetId = idPerfilEnEdicionFila || perfilActiveId;
-                    await updateDoc(doc(db, "perfiles", targetId), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto });
-                    if(targetId === perfilActiveId) {
-                        perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNac; perfilActivoAvatar = selectedAvatarValue; perfilActivoEsExperto = esExperto;
-                        document.getElementById('head-name').innerText = nombre.toUpperCase();
-                    }
-                } else {
-                    await addDoc(collection(db, "perfiles"), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto, usuarioEmail: usuarioEmailActual, base: null });
-                }
+                await addDoc(collection(db, "perfiles"), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto, usuarioEmail: usuarioEmailActual, base: null });
                 document.getElementById('avatar-picker-modal').style.display = 'none';
-                if (usuarioEmailActual === "jesusgarciavigil@gmail.com") { window.renderizarCuentasYPerfilesGlobales(); } 
-                else if(perfilActiveId) { await recalcularCacheYDesplegable(); cargarAlbum(); } 
-                else { await mostrarSelectorPerfiles(); }
+                await mostrarSelectorPerfiles();
             } catch (err) { alert(err.message); }
         };
 
-        window.cerrarCreadorPerfilModal = () => { document.getElementById('avatar-picker-modal').style.display = 'none'; };
-
         async function mostrarSelectorPerfiles() {
-            document.querySelector('header').style.display = 'none';
-            document.querySelector('nav').style.display = 'none';
+            document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
             document.getElementById('profile-page').style.display = 'flex';
             
             const grid = document.getElementById('perfiles-dinamicos'); grid.innerHTML = '';
@@ -825,40 +642,31 @@
             
             snap.forEach(documento => {
                 const dataId = documento.id; const p = documento.data(); cachePerfilesFamilia.push({ id: dataId, ...p });
-                const esImg = p.avatar && p.avatar.startsWith("data:image");
-                const avatarRender = esImg ? `<img src="${p.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : p.avatar || "🧑‍🚀";
-                const edadCalculada = calcularEdadExacta(p.fechaNacimiento);
-
+                const avatarRender = p.avatar && p.avatar.startsWith("data:image") ? `<img src="${p.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : p.avatar || "🧑‍🚀";
+                
                 const div = document.createElement('div'); div.className = "profile-item";
-                div.innerHTML = `<button class="delete-profile-badge">×</button><div class="profile-avatar-display">${avatarRender}</div><div class="profile-name-display">${p.nombre}</div><div class="profile-age-display">${edadCalculada} años</div>`;
-                div.querySelector('.delete-profile-badge').onclick = (e) => { window.eliminarPerfil(e, dataId, p.nombre); };
-                div.onclick = (e) => { if(e.target.className === 'delete-profile-badge') return; window.seleccionarPerfil(dataId, p.nombre, p.fechaNacimiento || '2018-01-01', p.avatar || '🧑‍🚀', p.base || null, p.esExperto || false); };
+                div.innerHTML = `<button class="delete-profile-badge">×</button><div class="profile-avatar-display">${avatarRender}</div><div class="profile-name-display">${p.nombre}</div>`;
+                div.querySelector('.delete-profile-badge').onclick = async (e) => { e.stopPropagation(); if(confirm(`¿Borrar a ${p.nombre}?`)) { await deleteDoc(doc(db, "perfiles", dataId)); mostrarSelectorPerfiles(); } };
+                div.onclick = () => { window.seleccionarPerfil(dataId, p.nombre, p.fechaNacimiento || '2018-01-01', p.avatar || '🧑‍🚀', p.base || null, p.esExperto || false); };
                 grid.appendChild(div);
             });
             const btnAdd = document.createElement('div'); btnAdd.className = "profile-item add-profile-item-btn"; btnAdd.innerHTML = `➕<br>Añadir`; btnAdd.onclick = window.abrirCreadorPerfilModal; 
             grid.appendChild(btnAdd); 
         }
 
-        window.eliminarPerfil = async (event, idDoc, nombre) => { 
-            event.stopPropagation(); if (!confirm(`¿Eliminar a ${nombre}?`)) return; 
-            await deleteDoc(doc(db, "perfiles", idDoc)); await mostrarSelectorPerfiles();
-        };
-
-        window.cerrarSesionCompleta = () => { 
-            if(unsuscribeXpLive) { unsuscribeXpLive(); unsuscribeXpLive = null; }
-            usuarioEmailActual = ""; perfilActiveId = ""; 
+        window.cerrarSesionCompleta = async () => { 
+            if(unsuscribeXpLive) unsuscribeXpLive();
+            await signOut(auth); usuarioEmailActual = ""; perfilActiveId = ""; 
             document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.getElementById('god-mode-page').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
         };
 
         window.seleccionarPerfil = async (idDoc, nombre, fechaNacimiento, avatar, base, esExperto) => {
             perfilActiveId = idDoc; perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNacimiento; perfilActivoAvatar = avatar; perfilActivoBase = base; perfilActivoEsExperto = esExperto;
-            const edadCalculada = calcularEdadExacta(fechaNacimiento);
             document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
             
-            const esImg = avatar.startsWith("data:image");
-            document.getElementById('head-av-box').innerHTML = esImg ? `<img src="${avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatar;
+            document.getElementById('head-av-box').innerHTML = avatar.startsWith("data:image") ? `<img src="${avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatar;
             document.getElementById('head-name').innerText = nombre.toUpperCase();
-            document.getElementById('head-age').innerText = `${esExperto ? '🎓 EXPERTO' : 'Explorador'} • ${edadCalculada} años`;
+            document.getElementById('head-age').innerText = `${esExperto ? '🎓 EXPERTO' : 'Explorador'}`;
 
             window.activarEscuchaBiomasaEnVivo();
             await window.verificarAlertasMisionesComarcales();
@@ -872,16 +680,13 @@
             const q = query(collection(db, "alertas_xp"), where("perfilId", "==", perfilActiveId), where("estado", "==", "pendiente"));
             unsuscribeXpLive = onSnapshot(q, (snapshot) => {
                 snapshot.docs.forEach(async (docSnap) => {
-                    const alerta = docSnap.data(); const idAlerta = docSnap.id;
-                    await updateDoc(doc(db, "alertas_xp", idAlerta), { estado: "entregado" });
-                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento", nombreCientifico: "Bonus Laboratorio", rareza: "especial", descripcion: alerta.mensaje || alerta.textMessage, foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual });
+                    const alerta = docSnap.data();
+                    await updateDoc(doc(db, "alertas_xp", docSnap.id), { estado: "entregado" });
+                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento", nombreCientifico: "Bonus Satelital", rareza: "especial", descripcion: alerta.mensaje || "Inyección central de biomasa.", foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual });
                     
-                    const alertBox = document.getElementById('live-xp-badge-alert');
-                    if (alertBox) {
-                        document.getElementById('live-xp-amount-txt').innerText = `+${alerta.xp}`;
-                        alertBox.classList.add('show-alert'); actualizarEstado();
-                        setTimeout(() => { alertBox.classList.remove('show-alert'); }, 5000);
-                    }
+                    document.getElementById('live-xp-amount-txt').innerText = `+${alerta.xp}`;
+                    document.getElementById('live-xp-badge-alert').classList.add('show-alert'); actualizarEstado();
+                    setTimeout(() => { document.getElementById('live-xp-badge-alert').classList.remove('show-alert'); }, 5000);
                 });
             });
         };
@@ -896,8 +701,7 @@
         function buildDropdownDOM() {
             const container = document.getElementById('nav-dropdown-box'); if (!container) return; container.innerHTML = '';
             cachePerfilesFamilia.forEach(p => {
-                const esImg = typeof p.avatar === 'string' && p.avatar.startsWith("data:image");
-                const avRender = esImg ? `<img src="${p.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : p.avatar || "🧑‍🚀";
+                const avRender = p.avatar && p.avatar.startsWith("data:image") ? `<img src="${p.avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : p.avatar || "🧑‍🚀";
                 const row = document.createElement('div'); row.className = 'dropdown-account-item';
                 row.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar">${avRender}</div><div class="dropdown-name">${p.nombre}</div></div>`;
                 row.querySelector('.dropdown-left-clickable').onclick = () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); };
@@ -916,7 +720,6 @@
             if (tabId === 'panel-macro') window.cargarEstadisticasMacro();
             if (tabId === 'panel-cuentas') window.renderizarCuentasYPerfilesGlobales();
             if (tabId === 'panel-moderacion') window.cargarMuroModeracionGlobal();
-            if (tabId === 'panel-alertas') { window.cargarSelectorEmailsAlertas(); window.prepararDesplegablesSimulador(); }
         };
 
         window.cargarEstadisticasMacro = async () => {
@@ -925,56 +728,44 @@
         };
 
         window.renderizarCuentasYPerfilesGlobales = async () => {
-            const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles"));
+            const snapPerfiles = await getDocs(collection(db, "perfiles"));
             const mainContainer = document.getElementById('clusters-cuentas-container'); mainContainer.innerHTML = '';
-            window.cacheGlobalAdminPerfiles = []; let perfilesMap = {};
-
-            snapPerfiles.forEach(docSnap => { const p = docSnap.data(); window.cacheGlobalAdminPerfiles.push({ id: docSnap.id, ...p }); if(!perfilesMap[p.usuarioEmail]) perfilesMap[p.usuarioEmail] = []; perfilesMap[p.usuarioEmail].push({ id: docSnap.id, ...p }); });
-            snapCuentas.forEach(c => {
-                const emailFam = c.data().email; const niñosAsociados = perfilesMap[emailFam] || [];
+            snapPerfiles.forEach(n => {
+                const p = n.data();
                 const cardHtml = document.createElement('div'); cardHtml.className = 'account-cluster-card';
-                cardHtml.innerHTML = `<div class="cluster-header"><div class="cluster-email">📧 ${emailFam}</div></div><table class="admin-table">${niñosAsociados.map(n => `<tr><td><b>${n.nombre}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.inyectarXPMecanico('${n.id}', '${n.nombre}')">⚡ BONIFICAR</button></td></tr>`).join('')}</table>`;
+                cardHtml.innerHTML = `<div class="cluster-header"><div class="cluster-email">👤 Explorador: ${p.nombre} (${p.usuarioEmail})</div></div><button class="admin-btn admin-btn-purple" onclick="window.inyectarXPMecanico('${n.id}', '${p.nombre}')">⚡ INYECTAR BIOMASA</button>`;
                 mainContainer.appendChild(cardHtml);
             });
         };
 
         window.inyectarXPMecanico = async (idPerfil, nombre) => {
             const cantidad = prompt(`¿Cuánta XP enviar a ${nombre}?`); if(!cantidad || isNaN(cantidad)) return;
-            await addDoc(collection(db, "alertas_xp"), { perfilId: idPerfil, xp: parseInt(cantidad), titulo: "Inyección de Biomasa", textMessage: `¡Has recibido +${cantidad} XP!`, estado: "pendiente", timestamp: Date.now() });
-            alert("⚡ Enviado."); window.renderizarCuentasYPerfilesGlobales();
+            await addDoc(collection(db, "alertas_xp"), { perfilId: idPerfil, xp: parseInt(cantidad), titulo: "Bonus Central", textMessage: `¡Recibes +${cantidad} XP!`, estado: "pendiente", timestamp: Date.now() });
+            alert("Enviado."); window.renderizarCuentasYPerfilesGlobales();
         };
 
         window.cargarMuroModeracionGlobal = async () => {
             const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); table.innerHTML = '';
             snap.forEach(docSnap => {
                 const c = docSnap.data(); const idDoc = docSnap.id; if(c.municipioId === "Admin") return; 
-                table.innerHTML += `<tr><td><img src="${c.foto}" style="width:45px; height:45px; object-fit:cover;"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 VINCULAR</button></td></tr>`;
+                table.innerHTML += `<tr><td><img src="${c.foto}" style="width:45px; height:45px; object-fit:cover;"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 SALVAR</button></td></tr>`;
             });
         };
 
         window.salvarCambiosTaxonomia = async (idDoc) => {
-            const comun = document.getElementById(`mod-comun-${idDoc}`).value.trim();
-            const cien = document.getElementById(`mod-cien-${idDoc}`).value.trim();
-            await updateDoc(doc(db, "capturas", idDoc), { nombreComun: comun, nombreCientifico: cien });
+            await updateDoc(doc(db, "capturas", idDoc), { nombreComun: document.getElementById(`mod-comun-${idDoc}`).value.trim(), nombreCientifico: document.getElementById(`mod-cien-${idDoc}`).value.trim() });
             alert("Vinculado."); window.cargarMuroModeracionGlobal();
         };
 
         window.localizarBasePorGPS = async () => {
-            document.getElementById('loading-base-txt').innerText = "📡 BUSCANDO RESPUESTA GPS...";
+            document.getElementById('loading-base-txt').innerText = "📡 BUSCANDO RESPUESTA SENSORIAL...";
             const gps = await window.getUbicacionGPS();
             if (!gps) { window.activarEntradaManualBase(); return; }
             await calibrarBiomaPorCoordenadas(gps.lat, gps.lng, "Automática");
         };
 
-        window.activarEntradaManualBase = () => {
-            document.getElementById('gps-base-box').style.display = 'none';
-            document.getElementById('manual-base-box').style.display = 'block';
-        };
-
-        window.confirmarBaseManual = async () => {
-            const txt = document.getElementById('manual-lugar-input').value.trim();
-            await calibrarBiomaPorCoordenadas(43.38, -3.22, txt); 
-        };
+        window.activarEntradaManualBase = () => { document.getElementById('gps-base-box').style.display = 'none'; document.getElementById('manual-base-box').style.display = 'block'; };
+        window.confirmarBaseManual = async () => { await calibrarBiomaPorCoordenadas(43.38, -3.22, document.getElementById('manual-lugar-input').value.trim()); };
 
         async function calibrarBiomaPorCoordenadas(lat, lng, queryTxt) {
             let baseObjeto = { lat: lat, lng: lng, pais: "España", provincia: "Cantabria", comarca: "Costa Oriental", municipio: queryTxt || "Castro Urdiales" };
@@ -995,12 +786,10 @@
                 img.onload = async () => {
                     const base64DataCompleta = comprimirImagenProporcional(img, 700, 0.6);
                     const base64Data = base64DataCompleta.split(",")[1];
-                    
                     let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                     let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}` : "Desconocido";
 
-                    const promptInstrucciones = `Analiza la muestra vegetal y devuelve un objeto JSON estricto, plano, sin formato markdown ni bloques de código \`\`\`json.
-                    Adapta el relato pedagógico para un explorador de ${edadAventurero} años con Base Secreta en ${sectorBaseTxt}. Si es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo. Añade mitos de la comarca.
+                    const promptInstrucciones = `Analiza la muestra vegetal y devuelve un objeto JSON estricto, plano, sin formato markdown ni bloques de código \`\`\`json. Adapta el relato pedagógico para un explorador de ${edadAventurero} años con Base en ${sectorBaseTxt}. Si es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
                     JSON:
                     {
                       "nombreComun": "Nombre planta",
@@ -1012,30 +801,13 @@
                     }`;
 
                     let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
-
                     try {
-                        let response = await fetch(url, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                contents: [{ parts: [{ text: promptInstrucciones }, { inlineData: { mimeType: "image/jpeg", data: base64Data } }] }]
-                            })
-                        });
-
-                        if (!response.ok) {
-                            window.rotarASiguienteClavePorSaturacion();
-                            // Intento inmediato de re-escaneo secundario automático
-                            url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
-                            response = await fetch(url, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ contents: [{ parts: [{ text: promptInstrucciones }, { inlineData: { mimeType: "image/jpeg", data: base64Data } }] }] })
-                            });
-                        }
+                        let response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: promptInstrucciones }, { inlineData: { mimeType: "image/jpeg", data: base64Data } }] }] }) });
+                        if (!response.ok) { window.rotarASiguienteClavePorSaturacion(); return; }
 
                         const jsonRes = await response.json();
                         let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
-                        if(rawText.startsWith("```")) { rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim(); }
+                        if(rawText.startsWith("```")) rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim();
 
                         const planta = JSON.parse(rawText);
                         const calculatedXP = Math.floor(20 * (MULTIPLICADORES_RAREZA[planta.rareza] || 1));
@@ -1050,10 +822,9 @@
                         document.getElementById('loading').style.display = 'none';
                         window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculatedXP} XP`);
                         window.actualizarEstado();
-
                     } catch (err) {
                         document.getElementById('loading').style.display = 'none';
-                        alert("Sincronización reajustada. Intenta escanear de nuevo apuntando bien a la luz.");
+                        alert("Sincronización reajustada. Intenta escanear apuntando bien a la luz.");
                         window.rotarASiguienteClavePorSaturacion();
                     }
                 };
@@ -1065,48 +836,10 @@
         window.verificarAlertasMisionesComarcales = async () => {
             const snap = await getDocs(collection(db, "alertas_comunidad")); cacheAlertasGlobales = [];
             snap.forEach(docSnap => { cacheAlertasGlobales.push({ id: docSnap.id, ...docSnap.data() }); });
-
-            const banner = document.getElementById('profesor-alert-banner');
             if (cacheAlertasGlobales.length > 0) {
                 document.getElementById('profesor-msg-text').innerText = cacheAlertasGlobales[0].textMessage;
-                banner.style.display = 'block';
-            } else { banner.style.display = 'none'; }
-        };
-
-        window.cargarSelectorEmailsAlertas = async () => {
-            const sUser = document.getElementById('alert-user-field'); if(sUser) sUser.innerHTML = '<option value="neco@plantdex.com">neco@plantdex.com</option>';
-            const sChild = document.getElementById('sim-child-field'); if(sChild) sChild.innerHTML = '';
-            const snapP = await getDocs(collection(db, "perfiles"));
-            window.cacheAdminPerfilesCompletos = [];
-            snapP.forEach(d => {
-                window.cacheAdminPerfilesCompletos.push({ id: d.id, ...d.data() });
-                if(sChild) sChild.innerHTML += `<option value="${d.id}">${d.data().nombre.toUpperCase()}</option>`;
-            });
-        };
-
-        window.prepararDesplegablesSimulador = () => {};
-        window.gestionarCambioTargetAlerta = () => {};
-
-        window.emitirAlertaSatelital = async () => {
-            const msg = document.getElementById('alert-text-msg').value.trim();
-            await addDoc(collection(db, "alertas_comunidad"), { targetType: "global", textMessage: msg, timestamp: Date.now() });
-            alert("Emitido."); window.verificarAlertasMisionesComarcales();
-        };
-
-        window.inyectarCartaConLocalizacionesSimuladas = async (esLote) => {
-            const perfilDestinoId = document.getElementById('sim-child-field').value;
-            const comun = document.getElementById('sim-comun-input').value.trim();
-            const cien = document.getElementById('sim-cien-input').value.trim();
-            const rareza = document.getElementById('sim-rareza-select').value;
-            
-            const plantillaInyeccion = {
-                nombreComun: comun, nombreCientifico: cien, rareza: rareza, descripcion: "Inyectado.", xp: 20, loc: "Simulación",
-                foto: "data:image/svg+xml;utf8,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' width='100' height='100' fill='%231F6B3A'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z'/></svg>",
-                fecha: new Date().toLocaleDateString(), timestamp: Date.now(), perfil: perfilDestinoId, usuarioEmail: usuarioEmailActual
-            };
-
-            await addDoc(collection(db, "capturas"), plantillaInyeccion);
-            alert("Inyectado."); window.switchAdminTab('panel-macro');
+                document.getElementById('profesor-alert-banner').style.display = 'block';
+            }
         };
 
         window.switchPage = (pageId, buttonElement) => {
@@ -1121,7 +854,6 @@
             const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
             const snap = await getDocs(q); let totalXP = 0;
             snap.forEach(d => totalXP += (d.data().xp || 0));
-            
             let nivel = 1; let req = 100; let xpRestante = totalXP;
             while (xpRestante >= req) { xpRestante -= req; nivel++; req = Math.floor(req * 1.2); }
             
@@ -1136,15 +868,10 @@
         async function cargarAlbum() {
             const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
             const snap = await getDocs(q); albumEspeciesMemoria = {};
-            
-            snap.forEach(documento => {
-                const d = documento.data();
+            snap.forEach(doc => {
+                const d = doc.data();
                 if (!albumEspeciesMemoria[d.nombreCientifico]) {
-                    albumEspeciesMemoria[d.nombreCientifico] = {
-                        nombreComun: d.nombreComun, nombreCientifico: d.nombreCientifico, rareza: d.rareza,
-                        descripcion: d.descripcion, foto: d.foto, fecha: d.fecha, loc: d.loc || "Campo",
-                        tipoHoja: d.tipoHoja || "No especificado", origen: d.origen || "Autóctona", copiasTotales: 0
-                    };
+                    albumEspeciesMemoria[d.nombreCientifico] = { nombreComun: d.nombreComun, nombreCientifico: d.nombreCientifico, rareza: d.rareza, descripcion: d.descripcion, foto: d.foto, fecha: d.fecha, loc: d.loc || "Campo", tipoHoja: d.tipoHoja || "No especificado", origen: d.origen || "Autóctona", copiasTotales: 0 };
                 }
                 albumEspeciesMemoria[d.nombreCientifico].copiasTotales++;
             });
@@ -1163,34 +890,17 @@
 
         window.abrirVisualizadorDetalleCromo3D = (esp) => {
             document.getElementById('modal-card-inner').classList.remove('flipped');
-            document.getElementById('m-title').innerText = esp.nombreComun;
-            document.getElementById('m-type').innerText = `X${esp.copiasTotales} MUESTRAS`;
-            document.getElementById('m-img').src = esp.foto;
-            document.getElementById('m-sci').innerText = esp.nombreCientifico;
-            document.getElementById('m-desc').innerText = esp.descripcion;
-            document.getElementById('m-back-title').innerText = esp.nombreComun;
-            document.getElementById('m-fecha').innerText = `📅 Registro: ${esp.fecha}`;
+            document.getElementById('m-title').innerText = esp.nombreComun; document.getElementById('m-type').innerText = `X${esp.copiasTotales} MUESTRAS`;
+            document.getElementById('m-img').src = esp.foto; document.getElementById('m-sci').innerText = esp.nombreCientifico; document.getElementById('m-desc').innerText = esp.descripcion;
+            document.getElementById('m-back-title').innerText = esp.nombreComun; document.getElementById('m-fecha').innerText = `📅 Registro: ${esp.fecha}`;
             document.getElementById('m-coords').innerText = `📍 Bioma: ${esp.loc} | ${esp.tipoHoja} | ${esp.origen}`;
             document.getElementById('cromo-overlay-modal').style.display = 'flex';
         };
 
-        window.voltearCartaModal = (event, el) => {
-            if(event.target.id === 'm-desc' || event.target.id === 'btn-evolution-action') return;
-            el.classList.toggle('flipped');
-        };
-
-        window.evaluarCierrePorFondo = (event) => {
-            if(event.target.id === 'cromo-overlay-modal' || event.target.className === 'close-modal-txt') {
-                document.getElementById('cromo-overlay-modal').style.display = 'none';
-            }
-        };
-
-        window.desplegarToastVictoryInmediata = (msg) => {
-            const el = document.getElementById('botanik-toast-victory');
-            document.getElementById('botanik-toast-msg-txt').innerText = msg;
-            el.classList.add('show-toast');
-            setTimeout(() => { el.classList.remove('show-toast'); }, 4000);
-        };
+        window.voltearCartaModal = (event, el) => { if(event.target.id === 'm-desc') return; el.classList.toggle('flipped'); };
+        window.evaluarCierrePorFondo = (event) => { if(event.target.id === 'cromo-overlay-modal' || event.target.className === 'close-modal-txt') document.getElementById('cromo-overlay-modal').style.display = 'none'; };
+        window.despleg_toast = (msg) => { document.getElementById('botanik-toast-msg-txt').innerText = msg; document.getElementById('botanik-toast-victory').classList.add('show-toast'); setTimeout(() => { document.getElementById('botanik-toast-victory').classList.remove('show-toast'); }, 4000); };
+        window.desplegarToastVictoryInmediata = window.despleg_toast;
 
         window.onload = () => { document.getElementById('main-app-container').style.display = 'block'; };
     </script>
