@@ -28,7 +28,7 @@
         body { background-color: var(--bg-dark); color: var(--text-light); padding-bottom: 80px; }
 
         /* Interfaces de Acceso, Perfiles y Modales */
-        #login-page, #profile-page, #setup-base-page, #avatar-picker-modal, #god-mode-page, #mailbox-modal, #msg-reader-modal {
+        #login-page, #profile-page, #setup-base-page, #avatar-picker-modal, #god-mode-page, #mailbox-modal, #msg-reader-modal, #link-account-modal {
             position: fixed; top:0; left:0; right:0; bottom:0;
             background: radial-gradient(circle at center, var(--surface-dark) 0%, var(--bg-dark) 100%);
             display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 20px; overflow-y: auto;
@@ -38,6 +38,7 @@
         #avatar-picker-modal { z-index: 20000; display: none; background: rgba(13, 27, 30, 0.95); backdrop-filter: blur(8px); }
         #god-mode-page { z-index: 25000; display: none; flex-direction: column; background: var(--admin-surface); color: #f3e5f5; overflow-y: auto; align-items: stretch; justify-content: flex-start; padding: 0; }
         #mailbox-modal, #msg-reader-modal { z-index: 15000; display: none; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+        #link-account-modal { z-index: 22000; display: none; background: rgba(13, 27, 30, 0.95); backdrop-filter: blur(8px); }
 
         .login-card { background: rgba(21, 42, 45, 0.85); padding: 30px; border-radius: 20px; border: 2px solid var(--botanik-green); box-shadow: 0 15px 35px rgba(0,0,0,0.5); text-align: center; width: 100%; max-width: 400px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
         .login-input, .admin-select, .admin-textarea { width: 100%; padding: 12px 16px; margin: 10px 0; background: rgba(13,27,30,0.6); border: 1px solid var(--botanik-green); border-radius: 10px; color: var(--text-light); font-size: 15px; outline: none; transition: 0.3s; }
@@ -66,7 +67,7 @@
         .profile-avatar-display { width: 75px; height: 75px; border-radius: 50%; background: var(--bg-dark); border: 2px solid var(--botanik-green); display: flex; align-items: center; justify-content: center; font-size: 36px; margin-bottom: 12px; overflow: hidden; }
         .profile-avatar-display img { width: 100%; height: 100%; object-fit: cover; }
         .profile-name-display { font-weight: bold; font-size: 15px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
-        .delete-profile-badge { position: absolute; top: 8px; right: 8px; background: rgba(255,59,48,0.15); border: 1px solid var(--danger); color: var(--danger); border-radius: 50%; width: 22px; height: 22px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .delete-profile-badge { position: absolute; top: 8px; right: 8px; background: rgba(255,59,48,0.15); border: 1px solid var(--danger); color: var(--danger); border-radius: 50%; width: 22px; height: 22px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; z-index: 10; }
         .delete-profile-badge:hover { background: var(--danger); color: white; }
         .add-profile-item-btn { border-style: dashed; border-color: var(--text-muted); background: transparent; justify-content: center; color: var(--text-muted); font-weight: bold; font-size: 13px; }
         .add-profile-item-btn:hover { border-color: var(--neon-green); color: var(--neon-green); }
@@ -96,6 +97,9 @@
         .header-info-text h2 { font-size: 11px; color: white; font-weight: 800; letter-spacing: 0.3px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .header-info-text span { font-size: 9px; color: var(--text-muted); font-weight: bold; }
         
+        .header-sync-cuenta-btn { display: none; background: linear-gradient(135deg, #154726 0%, var(--botanik-green) 100%); border: 1px solid var(--neon-green); color: white; font-size: 10px; font-weight: bold; padding: 6px 12px; border-radius: 20px; cursor: pointer; animation: pulseGlow 2s infinite; }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(57,255,20,0.4); } 70% { box-shadow: 0 0 0 8px rgba(57,255,20,0); } 100% { box-shadow: 0 0 0 0 rgba(57,255,20,0); } }
+
         .header-mailbox-btn { background: rgba(13,27,30,0.5); border: 1px solid rgba(118,225,97,0.15); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; position: relative; transition: 0.2s; }
         .header-mailbox-btn:hover { border-color: var(--accent-green); background: rgba(13,27,30,0.8); }
         .mailbox-badge { position: absolute; top: -2px; right: -2px; background: var(--danger); color: white; font-size: 9px; font-weight: bold; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--surface-dark); animation: pulsoAlerta 2s infinite; }
@@ -145,7 +149,7 @@
 
         /* Módulo de Escaneo */
         .scan-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 35px 20px !important; }
-        .scan-btn { width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle, var(--danger) 0%, #B31510 100%); border: 4px solid #FF6B64; font-size: 18px; font-weight: 900; color: white; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 0 20px rgba(255,59,48,0.4), inset 0 2px 6px rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
+        .scan-btn { background: radial-gradient(circle, var(--danger) 0%, #B31510 100%); width: 110px; height: 110px; border-radius: 50%; border: 4px solid #FF6B64; font-size: 18px; font-weight: 900; color: white; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 0 20px rgba(255,59,48,0.4), inset 0 2px 6px rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
         .scan-btn:active { transform: scale(0.94); box-shadow: 0 0 10px rgba(255,59,48,0.2); }
         #camera-input { display: none; }
         #loading { font-size: 12px; color: var(--neon-green); font-weight: bold; margin-top: 15px; display: none; letter-spacing: 0.5px; font-family: monospace; animation: blinker 1.5s linear infinite; }
@@ -161,7 +165,6 @@
         .cromo-mini-card { width: 100%; height: 100%; background: #0a1416; border-radius: 8px; border: 1.5px solid var(--botanik-green); overflow: hidden; display: flex; flex-direction: column; position: relative; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .cromo-wrapper:hover .cromo-mini-card { transform: translateY(-2px); border-color: var(--accent-green); box-shadow: 0 6px 14px rgba(0,0,0,0.5); }
         
-        .cromo-mini-card.rare-comun { border-color: var(--botanik-green); }
         .cromo-mini-card.rare-poco { border-color: var(--frame-silver); }
         .cromo-mini-card.rare-especial { border-color: var(--frame-gold); }
         .cromo-mini-card.rare-exotica { border-image: var(--frame-master) 1; border-style: solid; }
@@ -172,7 +175,7 @@
         .cromo-txt-bar h4 { font-size: 9px; color: white; text-transform: uppercase; letter-spacing: 0.2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: bold; }
         .cromo-evolution-badge { position: absolute; bottom: 2px; right: 2px; background: var(--poke-gold); color: #000; font-size: 7px; font-weight: 900; padding: 1px 3px; border-radius: 4px; text-transform: uppercase; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
 
-        /* Marcador de Repetidos Exclusivo */
+        /* Marcador de Repetidos Bubble */
         .cromo-repeats-counter-bubble { position: absolute; top: -5px; left: -5px; background: linear-gradient(135deg, #ff9e00 0%, #ff6d00 100%); color: white; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 8px; border: 1px solid white; box-shadow: 0 3px 6px rgba(0,0,0,0.4); z-index: 10; font-family: monospace; }
 
         /* Navegación Inferior */
@@ -240,6 +243,7 @@
 </head>
 <body>
 
+    <!-- LOG IN TERMINAL -->
     <div id="login-page">
         <div class="login-card">
             <h2 id="login-title" style="color: var(--accent-green); margin-bottom: 20px; font-weight: 900; letter-spacing: 1px;">BotaniK Terminal</h2>
@@ -263,6 +267,7 @@
         </div>
     </div>
 
+    <!-- SELECCIÓN DE EXPLORADOR -->
     <div id="profile-page">
         <h2 style="color: var(--neon-green); font-weight: 900; letter-spacing: 1px; text-shadow: 0 0 10px rgba(57,255,20,0.2);">¿QUIÉN INICIA EXPEDICIÓN?</h2>
         <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Selecciona tu mente de campo conectada</p>
@@ -270,6 +275,7 @@
         <button class="exit-session-btn" onclick="cerrarSesionCompleta()">CERRAR TERMINAL FAMILIAR</button>
     </div>
 
+    <!-- CONFIGURACIÓN BASE SECRETA -->
     <div id="setup-base-page">
         <div class="login-card" style="max-width: 500px;">
             <div style="font-size: 50px; margin-bottom: 15px;">📡</div>
@@ -288,6 +294,25 @@
         </div>
     </div>
 
+    <!-- MODAL DE SINCRONIZACIÓN DE CUENTA -->
+    <div id="link-account-modal">
+        <div class="login-card">
+            <h3 style="color: var(--poke-gold); font-weight: 900; margin-bottom: 10px;">🔄 SINCRONIZAR CUENTA</h3>
+            <p style="color: var(--text-light); font-size: 13px; margin-bottom: 20px; line-height: 1.4;">
+                Vincula tu sesión temporal a un acceso definitivo. De esta forma, tus datos quedarán guardados de forma permanente en la nube y podrás entrar desde cualquier dispositivo.
+            </p>
+            <input type="text" id="link-email" class="login-input" placeholder="Tu correo electrónico">
+            <input type="password" id="link-password" class="login-input" placeholder="Nueva contraseña (mín. 6 caracteres)">
+            <button class="login-btn" onclick="vincularInvitadoConCorreo()">ESTABLECER ACCESO PERMANENTE</button>
+            <div class="login-divider">o vinculación directa</div>
+            <button class="login-btn google-btn" onclick="vincularInvitadoConGoogle()">
+                G Sincronizar con cuenta de Google
+            </button>
+            <div class="toggle-link" onclick="document.getElementById('link-account-modal').style.display='none'">Volver al juego</div>
+        </div>
+    </div>
+
+    <!-- CABECERA GLOBAL -->
     <header>
         <div class="header-left-cluster">
             <div class="header-profile-box" onclick="toggleDropdownCuentasCabecera(event)">
@@ -300,15 +325,19 @@
             <div class="accounts-dropdown-list" id="nav-dropdown-box"></div>
         </div>
         <h1>BOTANIK</h1>
-        <button class="header-mailbox-btn" title="Buzón Satelital">
-            📬 <div class="mailbox-badge" id="box-badge-num" style="display: none;">0</div>
-        </button>
+        <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="header-sync-cuenta-btn" id="save-progress-header-trigger" onclick="document.getElementById('link-account-modal').style.display='flex'">🔄 SINCRONIZAR CUENTA</button>
+            <button class="header-mailbox-btn" title="Buzón Satelital">
+                📬 <div class="mailbox-badge" id="box-badge-num" style="display: none;">0</div>
+            </button>
+        </div>
     </header>
 
     <div id="live-xp-badge-alert">
         🚀 Carga del Profesor Recibida: <span id="live-xp-amount-txt">+50</span> XP
     </div>
 
+    <!-- INTERFAZ CENTRAL -->
     <div class="container" id="main-app-container">
         <div class="profesor-alert-card" id="profesor-alert-banner">
             <h4>📡 COMUNICADO SATELITAL ENTRANTE:</h4>
@@ -338,11 +367,13 @@
         </div>
     </div>
 
+    <!-- MENÚ NAV -->
     <nav>
         <button class="active" onclick="switchPage('radar', this)">📡 RADAR</button>
         <button onclick="switchPage('album', this)">🌿 ÁLBUM</button>
     </nav>
 
+    <!-- FORMULARIO CREACIÓN PERFIL -->
     <div id="avatar-picker-modal">
         <div class="avatar-creator-box">
             <h3 id="modal-title-context" style="color:var(--accent-green); font-weight:900; letter-spacing:0.5px; font-size:16px; margin-bottom:15px;">ALTA DE EXPLORADOR</h3>
@@ -377,6 +408,7 @@
         </div>
     </div>
 
+    <!-- VISUALIZADOR 3D -->
     <div id="cromo-overlay-modal" onclick="evaluarCierrePorFondo(event)">
         <div class="modal-perspective" id="modal-perspective-flyer">
             <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
@@ -411,10 +443,11 @@
         <div id="botanik-toast-msg-txt">¡MAESTRÍA ALCANZADA!</div>
     </div>
 
+    <!-- INTERFAZ CONSOLA MANDO SUPREMO -->
     <div id="god-mode-page">
         <div class="admin-header">
             <h2 style="color: #e0aaff; font-size: 15px; font-weight: 900;">🔮 CONSOLA SUPREMA DE CONTROL</h2>
-            <button class="exit-session-btn" style="margin: 0; padding: 6px 12px;" onclick="salirModoDiosDefinitivo()">SALIR MANDO SUPREMO</button>
+            <button class="exit-session-btn" style="margin: 0; padding: 6px 12px;" onclick="cerrarSesionCompleta()">SALIR MANDO SUPREMO</button>
         </div>
         <div class="admin-nav-tabs">
             <button class="admin-tab-btn active" onclick="switchAdminTab('panel-macro')">📊 MONITOR MACRO</button>
@@ -435,10 +468,11 @@
         </div>
     </div>
 
+    <!-- MOTOR DE CÓDIGO CORE (FIREBASE & GEMINI IA) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInAnonymously, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInAnonymously, signOut, onAuthStateChanged, linkWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyDReChwrnr6zHLumpR5OLTrNlvfhcAH_BA", 
@@ -455,7 +489,8 @@
 
         const _0xkeys = [
             "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
-            "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
+            "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
+            "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
             "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
             "AQ.Ab8RN6IlJrijF8jCY01S7gKWiPiHmXQ2BeaIJ9hu4sZH6iGDeg",
             "AQ.Ab8RN6J8M-4szUq3prRTJmmmgtzReKCFbCtTpXSAaJkcKTrPTQ",
@@ -487,11 +522,29 @@
         const MULTIPLICADORES_RAREZA = { "comun": 1, "poco": 1.5, "especial": 2.5, "exotica": 5 };
         const TITULOS_ADAPTACION = { 1: "Descubierto", 2: "Adaptado", 3: "Especializado", 4: "Maestro Ecosistema" };
 
-        // Observador de Persistencia de Sesión Automatizado
+        // 1. OBSERVADOR DE AUTENTICACIÓN CENTRAL (PARCHE CORREGIDO)
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioEmailActual = user.email || "invitado_" + user.uid.substring(0, 6);
+                
+                // PARCHE MODO DIOS INMEDIATO: Si eres tú, rompe el código y ve al panel morado
+                if (user.email === "jesusgarciavigil@gmail.com") {
+                    document.getElementById('login-page').style.display = 'none';
+                    document.getElementById('profile-page').style.display = 'none';
+                    document.getElementById('god-mode-page').style.display = 'flex';
+                    return; 
+                }
+
                 document.getElementById('login-page').style.display = 'none';
+                
+                // Mostrar botón de vinculación solo si es cuenta invitada
+                if (user.isAnonymous) {
+                    document.getElementById('save-progress-header-trigger').style.display = 'block';
+                } else {
+                    document.getElementById('save-progress-header-trigger').style.display = 'none';
+                }
+
+                // PARCHE DE MEMORIA LOCAL: ¿Había un explorador activo en este navegador?
                 const savedProfileId = localStorage.getItem(`active_profile_${user.uid}`);
                 if (savedProfileId) {
                     const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
@@ -511,6 +564,7 @@
             } else {
                 document.getElementById('login-page').style.display = 'flex';
                 document.getElementById('profile-page').style.display = 'none';
+                document.getElementById('god-mode-page').style.display = 'none';
                 document.querySelector('header').style.display = 'none';
                 document.querySelector('nav').style.display = 'none';
             }
@@ -541,15 +595,7 @@
             const email = document.getElementById('username').value.trim().toLowerCase();
             const pass = document.getElementById('password').value.trim();
             if(!email) return alert("Por favor, introduce una dirección de correo.");
-            if (email === "jesusgarciavigil@gmail.com" && pass === "adminMaster2026") {
-                usuarioEmailActual = email; document.getElementById('login-page').style.display = 'none';
-                window.activarMandoSupremoGod(); return;
-            }
-            if (email === "neco@plantdex.com" && (pass === "plantdex2026" || pass === "")) {
-                usuarioEmailActual = email; document.getElementById('login-page').style.display = 'none';
-                await mostrarSelectorPerfiles(); return;
-            }
-            if(!pass || pass.length < 6) return alert("La contraseña debe constar de un mínimo de 6 caracteres.");
+            
             try {
                 if (window.modoRegistro) {
                     await createUserWithEmailAndPassword(auth, email, pass);
@@ -560,15 +606,37 @@
         };
 
         window.iniciarSesionConGoogle = async () => {
-            try {
-                await signInWithPopup(auth, googleProvider);
-            } catch (err) { alert("Conexión con Google anulada o denegada: " + err.message); }
+            try { await signInWithPopup(auth, googleProvider); } catch (err) { alert("Conexión con Google anulada: " + err.message); }
         };
 
         window.iniciarSesionModoInvitado = async () => {
+            try { await signInAnonymously(auth); } catch (err) { alert("Error de Invitado: " + err.message); }
+        };
+
+        window.vincularInvitadoConCorreo = async () => {
+            const email = document.getElementById('link-email').value.trim().toLowerCase();
+            const pass = document.getElementById('link-password').value.trim();
+            if (!email || pass.length < 6) return alert("Datos de registro inválidos (mín. 6 letras).");
             try {
-                await signInAnonymously(auth);
-            } catch (err) { alert("No se ha podido iniciar la sesión de invitado: " + err.message); }
+                const credencial = EmailAuthProvider.credential(email, pass);
+                await linkWithCredential(auth.currentUser, credencial);
+                usuarioEmailActual = email;
+                document.getElementById('link-account-modal').style.display = 'none';
+                document.getElementById('save-progress-header-trigger').style.display = 'none';
+                alert("¡Sincronización de cuenta completada!");
+                await mostrarSelectorPerfiles();
+            } catch (err) { alert("Fallo al enlazar: " + err.message); }
+        };
+
+        window.vincularInvitadoConGoogle = async () => {
+            try {
+                await linkWithCredential(auth.currentUser, googleProvider);
+                usuarioEmailActual = auth.currentUser.email;
+                document.getElementById('link-account-modal').style.display = 'none';
+                document.getElementById('save-progress-header-trigger').style.display = 'none';
+                alert("¡Cuenta sincronizada con Google exitosamente!");
+                await mostrarSelectorPerfiles();
+            } catch (err) { alert("Fallo al enlazar Google: " + err.message); }
         };
 
         window.toggleModo = () => {
@@ -639,11 +707,15 @@
             if(unsuscribeXpLive) unsuscribeXpLive();
             if (auth.currentUser) localStorage.removeItem(`active_profile_${auth.currentUser.uid}`);
             await signOut(auth); usuarioEmailActual = ""; perfilActiveId = ""; 
+            location.reload();
         };
 
         window.seleccionarPerfil = async (idDoc, nombre, fechaNacimiento, avatar, base, esExperto) => {
             perfilActiveId = idDoc; perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNacimiento; perfilActivoAvatar = avatar; perfilActivoBase = base; perfilActivoEsExperto = esExperto;
+            
+            // Guardado persistente de sesión de juego en local
             if (auth.currentUser) localStorage.setItem(`active_profile_${auth.currentUser.uid}`, idDoc);
+            
             document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
             document.getElementById('head-av-box').innerHTML = avatar.startsWith("data:image") ? `<img src="${avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatar;
             document.getElementById('head-name').innerText = nombre.toUpperCase();
@@ -762,7 +834,8 @@
 
                             const jsonRes = await response.json();
                             let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
-                            if(rawText.startsWith("```")) rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim();
+                            if(rawText.startsWith("```")) rawText = rawText.replace(/^
+```json/i, "").replace(/```$/, "").trim();
 
                             const planta = JSON.parse(rawText);
 
@@ -816,13 +889,12 @@
             if(pageId === 'album') cargarAlbum();
         };
 
-        // Algoritmo de Progresión Exponencial Dinámica Recalibrado
         window.actualizarEstado = async () => {
             const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
             const snap = await getDocs(q); let totalXP = 0;
             snap.forEach(d => totalXP += (d.data().xp || 0));
-            let nivel = 1; let xpNecesaria = 100; let xpAcumuladaPasada = 0;
             
+            let nivel = 1; let xpNecesaria = 100; let xpAcumuladaPasada = 0;
             while (totalXP >= xpAcumuladaPasada + xpNecesaria) {
                 xpAcumuladaPasada += xpNecesaria;
                 nivel++;
@@ -851,7 +923,6 @@
             window.filtrarYOrdenarAlbum();
         }
 
-        // Renderizado del Álbum Dinámico con Burbuja de Contador Integrado
         window.filtrarYOrdenarAlbum = () => {
             const wrapper = document.getElementById('album-dinamico-contenedor'); wrapper.innerHTML = '';
             const filtroText = document.getElementById('search-botanika').value.toLowerCase().trim();
@@ -860,7 +931,6 @@
                 if (filtroText && !esp.nombreComun.toLowerCase().includes(filtroText) && !esp.nombreCientifico.toLowerCase().includes(filtroText)) return;
                 
                 const cardHtml = document.createElement('div'); cardHtml.className = 'cromo-wrapper';
-                
                 let repeatsBadge = esp.copiasTotales > 1 ? `<div class="cromo-repeats-counter-bubble">x${esp.copiasTotales}</div>` : '';
                 
                 cardHtml.innerHTML = `${repeatsBadge}<div class="cromo-mini-card rare-${esp.rareza}"><div class="cromo-img-box"><img src="${esp.foto}"></div><div class="cromo-txt-bar"><h4>${esp.nombreComun}</h4></div><div class="cromo-evolution-badge">${TITULOS_ADAPTACION[Math.min(esp.copiasTotales, 4)]}</div></div>`;
