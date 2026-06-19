@@ -45,17 +45,18 @@
         .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--botanik-green) 0%, #154726 100%); border: 1px solid var(--accent-green); border-radius: 10px; color: white; font-weight: bold; font-size: 16px; cursor: pointer; letter-spacing: 0.5px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .login-btn:active { transform: scale(0.98); }
         
-        /* Botón de Google Estilo Premium */
-        .google-btn { background: white !important; color: #222 !important; border: 1px solid #ddd !important; margin-top: 12px; font-weight: 600; }
-        .google-btn img { width: 18px; height: 18px; }
+        /* Botón de Google Premium Moderno */
+        .google-btn { background: #FFFFFF !important; color: #1F2937 !important; border: 1px solid #D1D5DB !important; margin-top: 15px; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .google-btn:hover { background: #F9FAFB !important; }
+        .google-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 
-        /* Divisor Visual de Métodos de Login */
-        .login-divider { margin: 18px 0; display: flex; align-items: center; text-align: center; font-size: 11px; color: var(--text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .login-divider::before, .login-divider::after { content: ''; flex: 1; border-bottom: 1px dashed rgba(127,163,159,0.2); }
-        .login-divider:not(:empty)::before { margin-right: .5em; }
-        .login-divider:not(:empty)::after { margin-left: .5em; }
+        /* Divisor de Flujo de Autenticación */
+        .login-divider { margin: 22px 0 10px 0; display: flex; align-items: center; text-align: center; font-size: 11px; color: var(--text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 1.2px; }
+        .login-divider::before, .login-divider::after { content: ''; flex: 1; border-bottom: 1px dashed rgba(127,163,159,0.25); }
+        .login-divider:not(:empty)::before { margin-right: .7em; }
+        .login-divider:not(:empty)::after { margin-left: .7em; }
 
-        .toggle-link { color: var(--text-muted); font-size: 13px; margin-top: 15px; cursor: pointer; text-decoration: underline; transition: 0.2s; }
+        .toggle-link { color: var(--text-muted); font-size: 13px; margin-top: 15px; display: inline-block; cursor: pointer; text-decoration: underline; transition: 0.2s; }
         .toggle-link:hover { color: var(--accent-green); }
 
         /* Estructura del Selector de Exploradores */
@@ -65,7 +66,6 @@
         .profile-avatar-display { width: 75px; height: 75px; border-radius: 50%; background: var(--bg-dark); border: 2px solid var(--botanik-green); display: flex; align-items: center; justify-content: center; font-size: 36px; margin-bottom: 12px; overflow: hidden; }
         .profile-avatar-display img { width: 100%; height: 100%; object-fit: cover; }
         .profile-name-display { font-weight: bold; font-size: 15px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
-        .profile-age-display { font-size: 11px; color: var(--text-muted); font-weight: 600; }
         .delete-profile-badge { position: absolute; top: 8px; right: 8px; background: rgba(255,59,48,0.15); border: 1px solid var(--danger); color: var(--danger); border-radius: 50%; width: 22px; height: 22px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
         .delete-profile-badge:hover { background: var(--danger); color: white; }
         .add-profile-item-btn { border-style: dashed; border-color: var(--text-muted); background: transparent; justify-content: center; color: var(--text-muted); font-weight: bold; font-size: 13px; }
@@ -197,7 +197,7 @@
         .modal-desc-poke { font-size: 11.5px; color: var(--text-light); line-height: 1.45; overflow-y: auto; max-height: 75px; padding-right: 4px; font-weight: 500; }
         
         /* Cara Reverso */
-        .modal-back { transform: rotateY(180deg); background: radial-gradient(circle at center, #1b003a 0%, #0a0018 100%); border-color: var(--admin-purple); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+        .modal-face .modal-back { transform: rotateY(180deg); background: radial-gradient(circle at center, #1b003a 0%, #0a0018 100%); border-color: var(--admin-purple); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .modal-back-logo { width: 70px; height: 70px; border-radius: 50%; background: rgba(157,78,221,0.1); border: 2px dashed var(--admin-purple); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; color: #d4bef0; margin-bottom: 15px; animation: spinGiro 10s linear infinite; }
         @keyframes spinGiro { 100% { transform: rotate(360deg); } }
         .modal-meta-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(157,78,221,0.2); padding: 12px; border-radius: 10px; width: 100%; text-align: left; }
@@ -209,7 +209,7 @@
         #botanik-toast-victory.show-toast { bottom: 80px; }
         #botanik-toast-msg-txt { color: white; font-weight: 900; font-size: 13px; letter-spacing: 0.5px; }
 
-        /* Estilos Consola de Control Supremo (Modo Dios) */
+        /* Estilos Consola de Control Supremo */
         .admin-header { background: #120024; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--admin-purple); }
         .admin-nav-tabs { display: flex; background: #1a0033; border-bottom: 1px solid rgba(157,78,221,0.2); }
         .admin-tab-btn { flex:1; padding: 12px 6px; background: transparent; border: none; border-bottom: 3px solid transparent; color: #c3a6ff; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; }
@@ -238,23 +238,28 @@
         <div class="login-card">
             <h2 id="login-title" style="color: var(--accent-green); margin-bottom: 20px; font-weight: 900; letter-spacing: 1px;">BotaniK Terminal</h2>
             
-            <input type="text" id="username" class="login-input" placeholder="Correo electrónico o Código" value="neco@plantdex.com">
-            <input type="password" id="password" class="login-input" placeholder="Contraseña secreta">
+            <input type="text" id="username" class="login-input" placeholder="Correo electrónico" value="neco@plantdex.com">
+            <input type="password" id="password" class="login-input" placeholder="Contraseña">
             
             <button id="submit-btn" class="login-btn" onclick="gestionarAcceso()">ACCEDER AL RADAR</button>
             
-            <div class="login-divider">o conecta vía satélite</div>
+            <div id="toggle-text" class="toggle-link" onclick="toggleModo()">¿Nueva comarca familiar? Regístrate aquí</div>
+            
+            <div class="login-divider">o vincula en caliente</div>
             
             <button class="login-btn google-btn" onclick="iniciarSesionConGoogle()">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
-                Entrar con Google
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.353 2.686 1.432 6.614l3.834 3.151z"/>
+                    <path fill="#4285F4" d="M23.49 12.275c0-.818-.073-1.604-.21-2.364H12v4.473h6.445a5.509 5.509 0 0 1-2.391 3.605l3.714 2.882c2.173-2.005 3.432-4.955 3.432-8.596z"/>
+                    <path fill="#FBBC05" d="M1.432 6.614A7.164 7.164 0 0 0 1 12c0 1.93.764 3.682 2.01 4.973l3.854-2.99a4.72 4.72 0 0 1-.617-2.218c0-.795.195-1.545.541-2.214L1.432 6.614z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.955-1.077 7.94-2.914l-3.713-2.882a4.673 4.673 0 0 1-2.814.787 4.743 4.743 0 0 1-4.437-3.236l-3.854 2.99C3.353 21.314 7.33 24 12 24z"/>
+                </svg>
+                Iniciar sesión con Google
             </button>
 
-            <button class="login-btn" style="background: rgba(255,215,0,0.1); border-color: var(--poke-gold); color: var(--poke-gold); margin-top: 12px; font-size: 13px; padding: 10px;" onclick="iniciarSesionAnonimaColegios()">
-                🎒 Acceso Rápido Colegios (Anónimo)
+            <button class="login-btn" style="background: rgba(255,215,0,0.06); border-color: rgba(255,215,0,0.3); color: var(--poke-gold); margin-top: 14px; font-size: 13px; padding: 11px;" onclick="iniciarSesionModoInvitado()">
+                👤 Entrar como invitado
             </button>
-            
-            <div id="toggle-text" class="toggle-link" onclick="toggleModo()">¿Nueva comarca familiar? Regístrate aquí</div>
         </div>
     </div>
 
@@ -503,9 +508,7 @@
 
         function calcularEdadExacta(fechaNacimientoStr) {
             if(!fechaNacimientoStr) return 8;
-            const fechaActual2026 = new Date("2026-06-19"); 
-            let edad = fechaActual2026.getFullYear() - new Date(fechaNacimientoStr).getFullYear();
-            return edad < 0 ? 0 : edad;
+            return 2026 - new Date(fechaNacimientoStr).getFullYear();
         }
 
         window.getUbicacionGPS = () => {
@@ -525,15 +528,15 @@
         }
 
         /* ==========================================================================
-           SISTEMA DE AUTENTICACIÓN OFICIAL (FIREBASE AUTH)
+           SISTEMA DE AUTENTICACIÓN OFICIAL (FIREBASE AUTH CORE)
            ========================================================================== */
 
         window.gestionarAcceso = async () => {
             const email = document.getElementById('username').value.trim().toLowerCase();
             const pass = document.getElementById('password').value.trim();
-            if(!email) return alert("Introduce tu dirección de correo.");
+            if(!email) return alert("Por favor, introduce una dirección de correo.");
 
-            // Bypass de Seguridad para la Consola Suprema del Profesor
+            // Bypass de Seguridad de la Consola Suprema del Profesor Master
             if (email === "jesusgarciavigil@gmail.com" && pass === "adminMaster2026") {
                 usuarioEmailActual = email; document.getElementById('login-page').style.display = 'none';
                 window.activarMandoSupremoGod(); return;
@@ -545,12 +548,12 @@
                 await mostrarSelectorPerfiles(); return;
             }
 
-            if(!pass || pass.length < 6) return alert("La contraseña debe tener al menos 6 caracteres.");
+            if(!pass || pass.length < 6) return alert("La contraseña debe constar de un mínimo de 6 caracteres.");
 
             try {
                 if (window.modoRegistro) {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-                    alert("¡Terminal Familiar Registrado de forma oficial en la nube!");
+                    alert("¡Cuenta de laboratorio familiar creada y guardada en Firebase Auth!");
                     usuarioEmailActual = userCredential.user.email;
                 } else {
                     const userCredential = await signInWithEmailAndPassword(auth, email, pass);
@@ -559,7 +562,7 @@
                 document.getElementById('login-page').style.display = 'none';
                 await mostrarSelectorPerfiles();
             } catch (err) {
-                alert("Error de enlace satelital: " + err.message);
+                alert("Fallo de autenticación: " + err.message);
             }
         };
 
@@ -570,18 +573,18 @@
                 document.getElementById('login-page').style.display = 'none';
                 await mostrarSelectorPerfiles();
             } catch (err) {
-                alert("Conexión con Google cancelada o bloqueada por el navegador: " + err.message);
+                alert("Conexión con Google anulada o denegada: " + err.message);
             }
         };
 
-        window.iniciarSesionAnonimaColegios = async () => {
+        window.iniciarSesionModoInvitado = async () => {
             try {
                 const result = await signInAnonymously(auth);
-                usuarioEmailActual = "colegio_" + result.user.uid.substring(0, 6) + "@botanik.edu";
+                usuarioEmailActual = "invitado_" + result.user.uid.substring(0, 6) + "@botanik.net";
                 document.getElementById('login-page').style.display = 'none';
                 await mostrarSelectorPerfiles();
             } catch (err) {
-                alert("No se ha podido levantar la sesión rápida de colegio: " + err.message);
+                alert("No se ha podido iniciar la sesión de invitado: " + err.message);
             }
         };
 
@@ -589,10 +592,11 @@
             window.modoRegistro = !window.modoRegistro;
             document.getElementById('login-title').innerText = window.modoRegistro ? "Registro BotaniK" : "BotaniK Terminal";
             document.getElementById('submit-btn').innerText = window.modoRegistro ? "CREAR CUENTA" : "ACCEDER AL RADAR";
+            document.getElementById('toggle-text').innerText = window.modoRegistro ? "¿Ya tienes un terminal familiar? Accede aquí" : "¿Nueva comarca familiar? Regístrate aquí";
         };
 
         /* ==========================================================================
-           GESTIÓN MULTIPERFIL & JUEGO
+           GESTIÓN MULTIPERFIL & ENTORNO DE EXPEDICIÓN
            ========================================================================== */
 
         window.abrirCreadorPerfilModal = () => {
@@ -682,7 +686,7 @@
                 snapshot.docs.forEach(async (docSnap) => {
                     const alerta = docSnap.data();
                     await updateDoc(doc(db, "alertas_xp", docSnap.id), { estado: "entregado" });
-                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento", nombreCientifico: "Bonus Satelital", rareza: "especial", descripcion: alerta.mensaje || "Inyección central de biomasa.", foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual });
+                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento", nombreCientifico: "Bonus Satelital", rareza: "especial", descripcion: alerta.mensaje || "Inyección de biomasa central.", foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual, tipoHoja: "Inyectado", origen: "Satelital" });
                     
                     document.getElementById('live-xp-amount-txt').innerText = `+${alerta.xp}`;
                     document.getElementById('live-xp-badge-alert').classList.add('show-alert'); actualizarEstado();
