@@ -538,13 +538,11 @@
             const pass = document.getElementById('password').value.trim();
             if(!email) return alert("Por favor, introduce una dirección de correo.");
 
-            // Bypass de Seguridad de la Consola Suprema del Profesor Master
             if (email === "jesusgarciavigil@gmail.com" && pass === "adminMaster2026") {
                 usuarioEmailActual = email; document.getElementById('login-page').style.display = 'none';
                 window.activarMandoSupremoGod(); return;
             }
 
-            // SOPORTE DE MIGRACIÓN: Validación de la cuenta de prueba histórica
             if (email === "neco@plantdex.com" && (pass === "plantdex2026" || pass === "")) {
                 usuarioEmailActual = email; document.getElementById('login-page').style.display = 'none';
                 await mostrarSelectorPerfiles(); return;
@@ -714,7 +712,6 @@
                 container.appendChild(row);
             });
             
-            // Botón directo para cerrar terminal desde la cabecera
             const footerClose = document.createElement('div');
             footerClose.className = 'dropdown-footer-logout';
             footerClose.innerText = '🚪 Salir del Terminal';
@@ -799,52 +796,71 @@
                 img.onload = async () => {
                     const base64DataCompleta = comprimirImagenProporcional(img, 700, 0.6);
                     const base64Data = base64DataCompleta.split(",")[1];
-                    let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
-                    let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}` : "Desconocido";
+                    
+                    // Ejecutamos el bucle inteligente de reintentos automáticos por Fallback (Máximo 3 intentos)
+                    let subidaExitosa = false;
+                    let intentosRealizados = 0;
 
-                    const promptInstrucciones = `Analiza la muestra vegetal y devuelve un objeto JSON estricto, plano, sin formato markdown ni bloques de código \`\`\`json. Adapta el relato pedagógico para un explorador de ${edadAventurero} años con Base en ${sectorBaseTxt}. Si es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
-                    JSON:
-                    {
-                      "nombreComun": "Nombre planta",
-                      "nombreCientifico": "Género especie",
-                      "rareza": "comun, poco, especial o exotica",
-                      "descripcion": "Relato narrativo",
-                      "tipoHoja": "Perenne/Caduca",
-                      "origen": "Autóctona/Exótica"
-                    }`;
+                    while (!subidaExitosa && intentosRealizados < 3) {
+                        intentosRealizados++;
+                        let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
+                        let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}` : "Desconocido";
 
-                    let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
-                    try {
-                        let response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: promptInstrucciones }, { inlineData: { mimeType: "image/jpeg", data: base64Data } }] }] }) });
+                        const promptInstrucciones = `Analiza la muestra vegetal y devuelve un objeto JSON estricto, plano, sin formato markdown ni bloques de código \`\`\`json. Adapta el relato pedagógico para un explorador de ${edadAventurero} years con Base en ${sectorBaseTxt}. Si es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenetico profundo.
+                        JSON:
+                        {
+                          "nombreComun": "Nombre planta",
+                          "nombreCientifico": "Género especie",
+                          "rareza": "comun, poco, especial o exotica",
+                          "descripcion": "Relato narrativo",
+                          "tipoHoja": "Perenne/Caduca",
+                          "origen": "Autóctona/Exótica"
+                        }`;
+
+                        // Calculamos la URL fresca usando la clave activa actual del pool
+                        let urlFresca = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
                         
-                        if (!response.ok) { 
+                        try {
+                            let response = await fetch(urlFresca, { 
+                                method: "POST", 
+                                headers: { "Content-Type": "application/json" }, 
+                                body: JSON.stringify({ contents: [{ parts: [{ text: promptInstrucciones }, { inlineData: { mimeType: "image/jpeg", data: base64Data } }] }] }) 
+                            });
+                            
+                            // Si el servidor da error de cuota (429) o bloqueos (400), rotamos y reintentamos en el acto
+                            if (!response.ok) { 
+                                window.rotarASiguienteClavePorSaturacion();
+                                continue; 
+                            }
+
+                            const jsonRes = await response.json();
+                            let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
+                            if(rawText.startsWith("```")) rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim();
+
+                            const planta = JSON.parse(rawText);
+                            const calculatedXP = Math.floor(20 * (MULTIPLICADORES_RAREZA[planta.rareza] || 1));
+
+                            await addDoc(collection(db, "capturas"), {
+                                nombreComun: planta.nombreComun, nombreCientifico: planta.nombreCientifico, rareza: planta.rareza, descripcion: planta.descripcion,
+                                foto: base64DataCompleta, fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: calculatedXP,
+                                loc: perfilActivoBase ? perfilActivoBase.municipio : "Exploración", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual,
+                                tipoHoja: planta.tipoHoja || "No especificado", origen: planta.origen || "Autóctona"
+                            });
+
                             document.getElementById('loading').style.display = 'none';
-                            window.rotarASiguienteClavePorSaturacion(); 
-                            alert("Satélite en calibración. Pulsa SCAN otra vez para reintentar.");
-                            return; 
+                            window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculatedXP} XP`);
+                            window.actualizarEstado();
+                            subidaExitosa = true;
+                        } catch (err) {
+                            // En caso de fallo estructural del parseo o red, rotamos canal de seguridad
+                            window.rotarASiguienteClavePorSaturacion();
                         }
+                    }
 
-                        const jsonRes = await response.json();
-                        let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
-                        if(rawText.startsWith("```")) rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim();
-
-                        const planta = JSON.parse(rawText);
-                        const calculatedXP = Math.floor(20 * (MULTIPLICADORES_RAREZA[planta.rareza] || 1));
-
-                        await addDoc(collection(db, "capturas"), {
-                            nombreComun: planta.nombreComun, nombreCientifico: planta.nombreCientifico, rareza: planta.rareza, descripcion: planta.descripcion,
-                            foto: base64DataCompleta, fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: calculatedXP,
-                            loc: perfilActivoBase ? perfilActivoBase.municipio : "Exploración", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual,
-                            tipoHoja: planta.tipoHoja || "No especificado", origen: planta.origen || "Autóctona"
-                        });
-
+                    // Si tras agotar los reintentos automáticos sigue fallando, liberamos la interfaz de forma limpia
+                    if (!subidaExitosa) {
                         document.getElementById('loading').style.display = 'none';
-                        window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculatedXP} XP`);
-                        window.actualizarEstado();
-                    } catch (err) {
-                        document.getElementById('loading').style.display = 'none';
-                        alert("Muestra no identificada o formato inválido. Asegúrate de enfocar una planta real.");
-                        window.rotarASiguienteClavePorSaturacion();
+                        alert("Muestra no identificada o formato inválido. Asegúrate de enfocar una planta real bajo buena iluminación.");
                     }
                 };
                 img.src = e.target.result;
