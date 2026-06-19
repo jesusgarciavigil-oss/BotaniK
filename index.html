@@ -17,7 +17,7 @@
             --poke-gold: #FFD700;
             --admin-purple: #9D4EDD;
             --admin-surface: #240046;
-           
+            
             /* Marcos Temáticos de Evolución / Adaptación */
             --frame-silver: #A9A9A9;
             --frame-gold: #FFD700;
@@ -145,7 +145,7 @@
 
         /* Módulo de Escaneo */
         .scan-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 35px 20px !important; }
-        .scan-btn { background: radial-gradient(circle, var(--danger) 0%, #B31510 100%); width: 110px; height: 110px; border-radius: 50%; border: 4px solid #FF6B64; font-size: 18px; font-weight: 900; color: white; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 0 20px rgba(255,59,48,0.4), inset 0 2px 6px rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
+        .scan-btn { width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle, var(--danger) 0%, #B31510 100%); border: 4px solid #FF6B64; font-size: 18px; font-weight: 900; color: white; cursor: pointer; letter-spacing: 0.5px; box-shadow: 0 0 20px rgba(255,59,48,0.4), inset 0 2px 6px rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; -webkit-tap-highlight-color: transparent; }
         .scan-btn:active { transform: scale(0.94); box-shadow: 0 0 10px rgba(255,59,48,0.2); }
         #camera-input { display: none; }
         #loading { font-size: 12px; color: var(--neon-green); font-weight: bold; margin-top: 15px; display: none; letter-spacing: 0.5px; font-family: monospace; animation: blinker 1.5s linear infinite; }
@@ -161,6 +161,7 @@
         .cromo-mini-card { width: 100%; height: 100%; background: #0a1416; border-radius: 8px; border: 1.5px solid var(--botanik-green); overflow: hidden; display: flex; flex-direction: column; position: relative; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .cromo-wrapper:hover .cromo-mini-card { transform: translateY(-2px); border-color: var(--accent-green); box-shadow: 0 6px 14px rgba(0,0,0,0.5); }
         
+        .cromo-mini-card.rare-comun { border-color: var(--botanik-green); }
         .cromo-mini-card.rare-poco { border-color: var(--frame-silver); }
         .cromo-mini-card.rare-especial { border-color: var(--frame-gold); }
         .cromo-mini-card.rare-exotica { border-image: var(--frame-master) 1; border-style: solid; }
@@ -170,6 +171,9 @@
         .cromo-txt-bar { background: rgba(21, 42, 45, 0.95); padding: 5px 4px; text-align: center; border-top: 1px solid rgba(127,163,159,0.1); }
         .cromo-txt-bar h4 { font-size: 9px; color: white; text-transform: uppercase; letter-spacing: 0.2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: bold; }
         .cromo-evolution-badge { position: absolute; bottom: 2px; right: 2px; background: var(--poke-gold); color: #000; font-size: 7px; font-weight: 900; padding: 1px 3px; border-radius: 4px; text-transform: uppercase; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+
+        /* Marcador de Repetidos Exclusivo */
+        .cromo-repeats-counter-bubble { position: absolute; top: -5px; left: -5px; background: linear-gradient(135deg, #ff9e00 0%, #ff6d00 100%); color: white; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 8px; border: 1px solid white; box-shadow: 0 3px 6px rgba(0,0,0,0.4); z-index: 10; font-family: monospace; }
 
         /* Navegación Inferior */
         nav { background-color: var(--surface-dark); display: none; grid-template-columns: 1fr 1fr; position: fixed; bottom: 0; left: 0; right: 0; height: 60px; border-top: 2px solid var(--botanik-green); z-index: 800; box-shadow: 0 -4px 15px rgba(0,0,0,0.4); }
@@ -199,12 +203,12 @@
         .modal-desc-poke { font-size: 11.5px; color: var(--text-light); line-height: 1.45; overflow-y: auto; max-height: 75px; padding-right: 4px; font-weight: 500; }
         
         /* Cara Reverso */
-        .modal-face .modal-back { transform: rotateY(180deg); background: radial-gradient(circle at center, #1b003a 0%, #0a0018 100%); border-color: var(--admin-purple); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+        .modal-back { transform: rotateY(180deg); background: radial-gradient(circle at center, #1b003a 0%, #0a0018 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .modal-back-logo { width: 70px; height: 70px; border-radius: 50%; background: rgba(157,78,221,0.1); border: 2px dashed var(--admin-purple); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; color: #d4bef0; margin-bottom: 15px; animation: spinGiro 10s linear infinite; }
         @keyframes spinGiro { 100% { transform: rotate(360deg); } }
         .modal-meta-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(157,78,221,0.2); padding: 12px; border-radius: 10px; width: 100%; text-align: left; }
         .modal-back-meta { font-size: 10.5px; color: #c3a6ff; font-family: monospace; margin-bottom: 5px; font-weight: 600; }
-        .close-modal-txt { font-size: 11px; color: var(--text-muted); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline; }
+        .close-modal-txt { font-size: 11px; color: var(--text-muted); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline; margin-top: 5px;}
 
         /* Alertas de Victoria / Toast */
         #botanik-toast-victory { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #0d1b1e 0%, #152a2d 100%); border: 2px solid var(--poke-gold); padding: 14px 24px; border-radius: 16px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.5); z-index: 100000; transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); min-width: 240px; }
@@ -327,7 +331,7 @@
                 <div id="loading">Sincronizando satélite...</div>
             </div>
         </div>
-       
+        
         <div id="album" class="page">
             <div class="search-filter-panel"><input type="text" id="search-botanika" class="search-bar-input" placeholder="🔍 Buscar planta por nombre..." oninput="window.filtrarYOrdenarAlbum()"></div>
             <div class="album-grid" id="album-dinamico-contenedor"></div>
@@ -367,7 +371,7 @@
                 <input type="checkbox" id="expert-toggle-input" style="width:18px; height:18px; accent-color:var(--neon-green);">
             </div>
             <div style="display:flex; gap:10px;">
-                <button class="login-btn" style="background:#222; border-color:#444; margin:0;" onclick="cerrarCreadorPerfilModal()">CANCELAR</button>
+                <button class="login-btn" style="background:#222; border-color:#444; margin:0;" onclick="document.getElementById('avatar-picker-modal').style.display='none'">CANCELAR</button>
                 <button class="login-btn" style="margin:0;" onclick="finalizarCreacionPerfil()">SINCRONIZAR</button>
             </div>
         </div>
@@ -434,7 +438,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInAnonymously, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInAnonymously, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = { 
             apiKey: "AIzaSyDReChwrnr6zHLumpR5OLTrNlvfhcAH_BA", 
@@ -483,6 +487,35 @@
         const MULTIPLICADORES_RAREZA = { "comun": 1, "poco": 1.5, "especial": 2.5, "exotica": 5 };
         const TITULOS_ADAPTACION = { 1: "Descubierto", 2: "Adaptado", 3: "Especializado", 4: "Maestro Ecosistema" };
 
+        // Observador de Persistencia de Sesión Automatizado
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                usuarioEmailActual = user.email || "invitado_" + user.uid.substring(0, 6);
+                document.getElementById('login-page').style.display = 'none';
+                const savedProfileId = localStorage.getItem(`active_profile_${user.uid}`);
+                if (savedProfileId) {
+                    const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
+                    const snap = await getDocs(q);
+                    let found = false;
+                    snap.forEach(docSnap => {
+                        if (docSnap.id === savedProfileId) {
+                            const p = docSnap.data();
+                            found = true;
+                            window.seleccionarPerfil(docSnap.id, p.nombre, p.fechaNacimiento, p.avatar, p.base, p.esExperto);
+                        }
+                    });
+                    if (!found) await mostrarSelectorPerfiles();
+                } else {
+                    await mostrarSelectorPerfiles();
+                }
+            } else {
+                document.getElementById('login-page').style.display = 'flex';
+                document.getElementById('profile-page').style.display = 'none';
+                document.querySelector('header').style.display = 'none';
+                document.querySelector('nav').style.display = 'none';
+            }
+        });
+
         function calcularEdadExacta(fechaNacimientoStr) {
             if(!fechaNacimientoStr) return 8;
             return 2026 - new Date(fechaNacimientoStr).getFullYear();
@@ -519,32 +552,22 @@
             if(!pass || pass.length < 6) return alert("La contraseña debe constar de un mínimo de 6 caracteres.");
             try {
                 if (window.modoRegistro) {
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-                    usuarioEmailActual = userCredential.user.email;
+                    await createUserWithEmailAndPassword(auth, email, pass);
                 } else {
-                    const userCredential = await signInWithEmailAndPassword(auth, email, pass);
-                    usuarioEmailActual = userCredential.user.email;
+                    await signInWithEmailAndPassword(auth, email, pass);
                 }
-                document.getElementById('login-page').style.display = 'none';
-                await mostrarSelectorPerfiles();
             } catch (err) { alert("Fallo de autenticación: " + err.message); }
         };
 
         window.iniciarSesionConGoogle = async () => {
             try {
-                const result = await signInWithPopup(auth, googleProvider);
-                usuarioEmailActual = result.user.email;
-                document.getElementById('login-page').style.display = 'none';
-                await mostrarSelectorPerfiles();
+                await signInWithPopup(auth, googleProvider);
             } catch (err) { alert("Conexión con Google anulada o denegada: " + err.message); }
         };
 
         window.iniciarSesionModoInvitado = async () => {
             try {
-                const result = await signInAnonymously(auth);
-                usuarioEmailActual = "invitado_" + result.user.uid.substring(0, 6);
-                document.getElementById('login-page').style.display = 'none';
-                await mostrarSelectorPerfiles();
+                await signInAnonymously(auth);
             } catch (err) { alert("No se ha podido iniciar la sesión de invitado: " + err.message); }
         };
 
@@ -559,7 +582,12 @@
             document.getElementById('avatar-picker-modal').style.display = 'flex';
         };
 
-        window.selectAvatarElement = (el, val) => { selectedAvatarValue = val; document.getElementById('avatar-preview-circle').innerHTML = val; };
+        window.selectAvatarElement = (el, val) => { 
+            selectedAvatarValue = val; 
+            document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById('avatar-preview-circle').innerHTML = val; 
+        };
 
         window.procesarFotoPerfilReal = (event) => {
             const file = event.target.files[0]; if (!file) return;
@@ -588,6 +616,7 @@
         };
 
         async function mostrarSelectorPerfiles() {
+            if (auth.currentUser) localStorage.removeItem(`active_profile_${auth.currentUser.uid}`);
             document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
             document.getElementById('profile-page').style.display = 'flex';
             const grid = document.getElementById('perfiles-dinamicos'); grid.innerHTML = '';
@@ -608,12 +637,13 @@
 
         window.cerrarSesionCompleta = async () => { 
             if(unsuscribeXpLive) unsuscribeXpLive();
+            if (auth.currentUser) localStorage.removeItem(`active_profile_${auth.currentUser.uid}`);
             await signOut(auth); usuarioEmailActual = ""; perfilActiveId = ""; 
-            document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
         };
 
         window.seleccionarPerfil = async (idDoc, nombre, fechaNacimiento, avatar, base, esExperto) => {
             perfilActiveId = idDoc; perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNacimiento; perfilActivoAvatar = avatar; perfilActivoBase = base; perfilActivoEsExperto = esExperto;
+            if (auth.currentUser) localStorage.setItem(`active_profile_${auth.currentUser.uid}`, idDoc);
             document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
             document.getElementById('head-av-box').innerHTML = avatar.startsWith("data:image") ? `<img src="${avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatar;
             document.getElementById('head-name').innerText = nombre.toUpperCase();
@@ -701,7 +731,6 @@
                         let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                         let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}` : "Desconocido";
 
-                        // PROMPT ANTITRAMPAS AVANZADO: Forzamos la detección de pantallas u objetos estáticos
                         const promptInstrucciones = `Analiza detalladamente la imagen suministrada.
                         REGLA DE SEGURIDAD ABSOLUTA ANTITRAMPAS: Comprueba meticulosamente si la imagen es una foto tomada a una pantalla de ordenador, tablet, TV o móvil (lo sabrás por el efecto muaré, líneas de píxeles, brillos en el cristal o reflejos artificiales). También verifica si es un objeto inanimado que no es una planta.
                         
@@ -737,11 +766,10 @@
 
                             const planta = JSON.parse(rawText);
 
-                            // FILTRO NATIVO EN CLIENTE: Evaluamos si la IA nos ha alertado de trampas
                             if (planta.error_tipo === "pantalla_detectada" || planta.error_tipo === "no_planta" || !planta.nombreCientifico) {
                                 mensajeRespuestaIA = planta.descripcion || "¡Vaya! El satélite detecta ondas electromagnéticas de una pantalla. ¡Sal ahí fuera a buscar una hoja real viva!";
                                 subidaExitosa = false;
-                                break; // Salimos del bucle para mostrar el mensaje pedagógico directo
+                                break; 
                             }
 
                             const calculatedXP = Math.floor(20 * (MULTIPLICADORES_RAREZA[planta.rareza] || 1));
@@ -762,7 +790,6 @@
 
                     if (!subidaExitosa) {
                         document.getElementById('loading').style.display = 'none';
-                        // Si tenemos un mensaje de la IA personalizado y divertido lo mostramos, si no, el de seguridad por defecto.
                         if (mensajeRespuestaIA) {
                             alert("📡 ALERTA DE RADAR:\n\n" + mensajeRespuestaIA);
                         } else {
@@ -789,16 +816,24 @@
             if(pageId === 'album') cargarAlbum();
         };
 
+        // Algoritmo de Progresión Exponencial Dinámica Recalibrado
         window.actualizarEstado = async () => {
             const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
             const snap = await getDocs(q); let totalXP = 0;
             snap.forEach(d => totalXP += (d.data().xp || 0));
-            let nivel = 1; let req = 100; let xpRestante = totalXP;
-            while (xpRestante >= req) { xpRestante -= req; nivel++; req = Math.floor(req * 1.2); }
+            let nivel = 1; let xpNecesaria = 100; let xpAcumuladaPasada = 0;
+            
+            while (totalXP >= xpAcumuladaPasada + xpNecesaria) {
+                xpAcumuladaPasada += xpNecesaria;
+                nivel++;
+                xpNecesaria = Math.floor(xpNecesaria * 1.5);
+            }
+            
+            let xpEnNivelActual = totalXP - xpAcumuladaPasada;
             document.getElementById('txt-nivel').innerText = `NIVEL ${nivel}`;
             document.getElementById('txt-rango').innerText = RANGOS_EXPLORACION[Math.min(nivel - 1, 14)];
-            document.getElementById('barra-progreso').style.width = `${(xpRestante / req) * 100}%`;
-            document.getElementById('txt-xp-contador').innerText = `${xpRestante} / ${req} XP`;
+            document.getElementById('barra-progreso').style.width = `${(xpEnNivelActual / xpNecesaria) * 100}%`;
+            document.getElementById('txt-xp-contador').innerText = `${xpEnNivelActual} / ${xpNecesaria} XP`;
             document.getElementById('total-xp-mini').innerText = totalXP;
             document.getElementById('total-count-mini').innerText = snap.size;
         };
@@ -816,11 +851,19 @@
             window.filtrarYOrdenarAlbum();
         }
 
+        // Renderizado del Álbum Dinámico con Burbuja de Contador Integrado
         window.filtrarYOrdenarAlbum = () => {
             const wrapper = document.getElementById('album-dinamico-contenedor'); wrapper.innerHTML = '';
+            const filtroText = document.getElementById('search-botanika').value.toLowerCase().trim();
+            
             Object.values(albumEspeciesMemoria).forEach(esp => {
+                if (filtroText && !esp.nombreComun.toLowerCase().includes(filtroText) && !esp.nombreCientifico.toLowerCase().includes(filtroText)) return;
+                
                 const cardHtml = document.createElement('div'); cardHtml.className = 'cromo-wrapper';
-                cardHtml.innerHTML = `<div class="cromo-mini-card rare-${esp.rareza}"><div class="cromo-img-box"><img src="${esp.foto}"></div><div class="cromo-txt-bar"><h4>${esp.nombreComun}</h4></div><div class="cromo-evolution-badge">${TITULOS_ADAPTACION[Math.min(esp.copiasTotales, 4)]}</div></div>`;
+                
+                let repeatsBadge = esp.copiasTotales > 1 ? `<div class="cromo-repeats-counter-bubble">x${esp.copiasTotales}</div>` : '';
+                
+                cardHtml.innerHTML = `${repeatsBadge}<div class="cromo-mini-card rare-${esp.rareza}"><div class="cromo-img-box"><img src="${esp.foto}"></div><div class="cromo-txt-bar"><h4>${esp.nombreComun}</h4></div><div class="cromo-evolution-badge">${TITULOS_ADAPTACION[Math.min(esp.copiasTotales, 4)]}</div></div>`;
                 cardHtml.onclick = () => { window.abrirVisualizadorDetalleCromo3D(esp); };
                 wrapper.appendChild(cardHtml);
             });
