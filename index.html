@@ -249,10 +249,10 @@
             <h2 id="login-title" style="color: var(--accent-green); margin-bottom: 20px; font-weight: 900; letter-spacing: 1px;">BotaniK Terminal</h2>
             <input type="text" id="username" class="login-input" placeholder="Correo electrónico" value="neco@plantdex.com">
             <input type="password" id="password" class="login-input" placeholder="Contraseña">
-            <button id="submit-btn" class="login-btn" onclick="gestionarAcceso()">ACCEDER AL RADAR</button>
-            <div id="toggle-text" class="toggle-link" onclick="toggleModo()">¿Nueva comarca familiar? Regístrate aquí</div>
+            <button id="submit-btn" class="login-btn" onclick="window.gestionarAcceso()">ACCEDER AL RADAR</button>
+            <div id="toggle-text" class="toggle-link" onclick="window.toggleModo()">¿Nueva comarca familiar? Regístrate aquí</div>
             <div class="login-divider">o vincula en caliente</div>
-            <button class="login-btn google-btn" onclick="iniciarSesionConGoogle()">
+            <button class="login-btn google-btn" onclick="window.iniciarSesionConGoogle()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.353 2.686 1.432 6.614l3.834 3.151z"/>
                     <path fill="#4285F4" d="M23.49 12.275c0-.818-.073-1.604-.21-2.364H12v4.473h6.445a5.509 5.509 0 0 1-2.391 3.605l3.714 2.882c2.173-2.005 3.432-4.955 3.432-8.596z"/>
@@ -261,7 +261,7 @@
                 </svg>
                 Iniciar sesión con Google
             </button>
-            <button class="login-btn" style="background: rgba(255,215,0,0.06); border-color: rgba(255,215,0,0.3); color: var(--poke-gold); margin-top: 14px; font-size: 13px; padding: 11px;" onclick="iniciarSesionModoInvitado()">
+            <button class="login-btn" style="background: rgba(255,215,0,0.06); border-color: rgba(255,215,0,0.3); color: var(--poke-gold); margin-top: 14px; font-size: 13px; padding: 11px;" onclick="window.iniciarSesionModoInvitado()">
                 👤 Entrar como invitado
             </button>
         </div>
@@ -272,7 +272,7 @@
         <h2 style="color: var(--neon-green); font-weight: 900; letter-spacing: 1px; text-shadow: 0 0 10px rgba(57,255,20,0.2);">¿QUIÉN INICIA EXPEDICIÓN?</h2>
         <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Selecciona tu mente de campo conectada</p>
         <div class="profile-grid" id="perfiles-dinamicos"></div>
-        <button class="exit-session-btn" onclick="cerrarSesionCompleta()">CERRAR TERMINAL FAMILIAR</button>
+        <button class="exit-session-btn" onclick="window.cerrarSesionCompleta()">CERRAR TERMINAL FAMILIAR</button>
     </div>
 
     <!-- CONFIGURACIÓN BASE SECRETA -->
@@ -284,12 +284,12 @@
                 El sistema necesita geolocalizar tu cuartel general para medir los biomas y activar las misiones mitológicas locales de tu comarca natural.
             </p>
             <div id="gps-base-box">
-                <button class="login-btn" onclick="localizarBasePorGPS()">SINCRONIZAR POR GPS</button>
-                <div class="toggle-link" onclick="activarEntradaManualBase()">¿No tienes cobertura? Calibrar manualmente</div>
+                <button class="login-btn" onclick="window.localizarBasePorGPS()">SINCRONIZAR POR GPS</button>
+                <div class="toggle-link" onclick="window.activarEntradaManualBase()">¿No tienes cobertura? Calibrar manualmente</div>
             </div>
             <div id="manual-base-box" style="display: none; margin-top: 15px;">
                 <input type="text" id="manual-lugar-input" class="login-input" placeholder="Ej: Castro Urdiales, Jaén, Bilbao...">
-                <button class="login-btn" onclick="confirmarBaseManual()">FIJAR ENTORNO MANUALMENTE</button>
+                <button class="login-btn" onclick="window.confirmarBaseManual()">FIJAR ENTORNO MANUALMENTE</button>
             </div>
         </div>
     </div>
@@ -303,9 +303,9 @@
             </p>
             <input type="text" id="link-email" class="login-input" placeholder="Tu correo electrónico">
             <input type="password" id="link-password" class="login-input" placeholder="Nueva contraseña (mín. 6 caracteres)">
-            <button class="login-btn" onclick="vincularInvitadoConCorreo()">ESTABLECER ACCESO PERMANENTE</button>
+            <button class="login-btn" onclick="window.vincularInvitadoConCorreo()">ESTABLECER ACCESO PERMANENTE</button>
             <div class="login-divider">o vinculación directa</div>
-            <button class="login-btn google-btn" onclick="vincularInvitadoConGoogle()">
+            <button class="login-btn google-btn" onclick="window.vincularInvitadoConGoogle()">
                 G Sincronizar con cuenta de Google
             </button>
             <div class="toggle-link" onclick="document.getElementById('link-account-modal').style.display='none'">Volver al juego</div>
@@ -315,7 +315,7 @@
     <!-- CABECERA GLOBAL -->
     <header>
         <div class="header-left-cluster">
-            <div class="header-profile-box" onclick="toggleDropdownCuentasCabecera(event)">
+            <div class="header-profile-box" onclick="window.toggleDropdownCuentasCabecera(event)">
                 <div class="header-avatar" id="head-av-box">🧑‍🚀</div>
                 <div class="header-info-text">
                     <h2 id="head-name">EXPLORADOR</h2>
@@ -355,8 +355,8 @@
                 <div class="stat-box"><h3>Álbum</h3><div id="total-count-mini" class="counter">0</div></div>
             </div>
             <div class="card scan-container">
-                <button class="scan-btn" onclick="triggerCamera()">SCAN</button>
-                <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="procesarFoto(event)">
+                <button class="scan-btn" onclick="window.triggerCamera()">SCAN</button>
+                <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="window.procesarFoto(event)">
                 <div id="loading">Sincronizando satélite...</div>
             </div>
         </div>
@@ -369,8 +369,8 @@
 
     <!-- MENÚ NAV -->
     <nav>
-        <button class="active" onclick="switchPage('radar', this)">📡 RADAR</button>
-        <button onclick="switchPage('album', this)">🌿 ÁLBUM</button>
+        <button class="active" onclick="window.switchPage('radar', this)">📡 RADAR</button>
+        <button onclick="window.switchPage('album', this)">🌿 ÁLBUM</button>
     </nav>
 
     <!-- FORMULARIO CREACIÓN PERFIL -->
@@ -380,14 +380,14 @@
             <div class="preview-avatar-circle-huge" id="avatar-preview-circle">🧑‍🚀</div>
             <label class="upload-profile-img-label">
                 📷 SUBIR FOTO REAL DE CAMPO
-                <input type="file" accept="image/*" onchange="procesarFotoPerfilReal(event)" style="display:none;">
+                <input type="file" accept="image/*" onchange="window.procesarFotoPerfilReal(event)" style="display:none;">
             </label>
             <div class="avatar-options-grid">
-                <div class="avatar-option selected" data-avatar="🧑‍🚀" onclick="selectAvatarElement(this, '🧑‍🚀')">🧑‍🚀</div>
-                <div class="avatar-option" data-avatar="🧝" onclick="selectAvatarElement(this, '🧝')">🧝</div>
-                <div class="avatar-option" data-avatar="🧙" onclick="selectAvatarElement(this, '🧙')">🧙</div>
-                <div class="avatar-option" data-avatar="🦖" onclick="selectAvatarElement(this, '🦖')">🦖</div>
-                <div class="avatar-option" data-avatar="🦊" onclick="selectAvatarElement(this, '🦊')">🦊</div>
+                <div class="avatar-option selected" data-avatar="🧑‍🚀" onclick="window.selectAvatarElement(this, '🧑‍🚀')">🧑‍🚀</div>
+                <div class="avatar-option" data-avatar="🧝" onclick="window.selectAvatarElement(this, '🧝')">🧝</div>
+                <div class="avatar-option" data-avatar="🧙" onclick="window.selectAvatarElement(this, '🧙')">🧙</div>
+                <div class="avatar-option" data-avatar="🦖" onclick="window.selectAvatarElement(this, '🦖')">🦖</div>
+                <div class="avatar-option" data-avatar="🦊" onclick="window.selectAvatarElement(this, '🦊')">🦊</div>
             </div>
             <div class="admin-form-group">
                 <label>Nombre de Campo:</label>
@@ -403,15 +403,15 @@
             </div>
             <div style="display:flex; gap:10px;">
                 <button class="login-btn" style="background:#222; border-color:#444; margin:0;" onclick="document.getElementById('avatar-picker-modal').style.display='none'">CANCELAR</button>
-                <button class="login-btn" style="margin:0;" onclick="finalizarCreacionPerfil()">SINCRONIZAR</button>
+                <button class="login-btn" style="margin:0;" onclick="window.finalizarCreacionPerfil()">SINCRONIZAR</button>
             </div>
         </div>
     </div>
 
     <!-- VISUALIZADOR 3D -->
-    <div id="cromo-overlay-modal" onclick="evaluarCierrePorFondo(event)">
+    <div id="cromo-overlay-modal" onclick="window.evaluarCierrePorFondo(event)">
         <div class="modal-perspective" id="modal-perspective-flyer">
-            <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
+            <div class="modal-cromo-card" id="modal-card-inner" onclick="window.voltearCartaModal(event, this)">
                 <div class="modal-face modal-front" id="modal-front-face">
                     <div class="modal-header-poke">
                         <div class="modal-title-poke-clickable"><span id="m-title">PLANTA</span></div>
@@ -447,7 +447,7 @@
     <div id="god-mode-page">
         <div class="admin-header">
             <h2 style="color: #e0aaff; font-size: 15px; font-weight: 900;">🔮 CONSOLA SUPREMA DE CONTROL</h2>
-            <button class="exit-session-btn" style="margin: 0; padding: 6px 12px;" onclick="cerrarSesionCompleta()">SALIR MANDO SUPREMO</button>
+            <button class="exit-session-btn" style="margin: 0; padding: 6px 12px;" onclick="window.cerrarSesionCompleta()">SALIR MANDO SUPREMO</button>
         </div>
         <div class="admin-nav-tabs">
             <button class="admin-tab-btn active" onclick="switchAdminTab('panel-macro')">📊 MONITOR MACRO</button>
@@ -488,9 +488,6 @@
         const googleProvider = new GoogleAuthProvider();
 
         const _0xkeys = [
-            "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
-            "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
-            "AQ.Ab8RN6LettersCombinationHere_ExampleKey_Fix1",
             "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg",
             "AQ.Ab8RN6IlJrijF8jCY01S7gKWiPiHmXQ2BeaIJ9hu4sZH6iGDeg",
             "AQ.Ab8RN6J8M-4szUq3prRTJmmmgtzReKCFbCtTpXSAaJkcKTrPTQ",
@@ -501,8 +498,6 @@
         let indiceClaveActual = 0;
         function obtenerGeminiKeyActiva() { return _0xkeys[indiceClaveActual].replace("AQ.", "AIzaSy").trim(); }
         window.rotarASiguienteClavePorSaturacion = () => { indiceClaveActual = (indiceClaveActual + 1) % _0xkeys.length; };
-
-        document.addEventListener('contextmenu', event => event.preventDefault());
 
         window.modoRegistro = false; 
         let usuarioEmailActual = ""; 
@@ -522,12 +517,12 @@
         const MULTIPLICADORES_RAREZA = { "comun": 1, "poco": 1.5, "especial": 2.5, "exotica": 5 };
         const TITULOS_ADAPTACION = { 1: "Descubierto", 2: "Adaptado", 3: "Especializado", 4: "Maestro Ecosistema" };
 
-        // 1. OBSERVADOR DE AUTENTICACIÓN CENTRAL (PARCHE CORREGIDO)
+        // 1. OBSERVADOR DE AUTENTICACIÓN CENTRAL
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 usuarioEmailActual = user.email || "invitado_" + user.uid.substring(0, 6);
                 
-                // PARCHE MODO DIOS INMEDIATO: Si eres tú, rompe el código y ve al panel morado
+                // MODO DIOS INMEDIATO: Si eres tú, rompe el código y ve al panel morado
                 if (user.email === "jesusgarciavigil@gmail.com") {
                     document.getElementById('login-page').style.display = 'none';
                     document.getElementById('profile-page').style.display = 'none';
@@ -537,14 +532,12 @@
 
                 document.getElementById('login-page').style.display = 'none';
                 
-                // Mostrar botón de vinculación solo si es cuenta invitada
                 if (user.isAnonymous) {
                     document.getElementById('save-progress-header-trigger').style.display = 'block';
                 } else {
                     document.getElementById('save-progress-header-trigger').style.display = 'none';
                 }
 
-                // PARCHE DE MEMORIA LOCAL: ¿Había un explorador activo en este navegador?
                 const savedProfileId = localStorage.getItem(`active_profile_${user.uid}`);
                 if (savedProfileId) {
                     const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
@@ -702,6 +695,7 @@
             const btnAdd = document.createElement('div'); btnAdd.className = "profile-item add-profile-item-btn"; btnAdd.innerHTML = `➕<br>Añadir`; btnAdd.onclick = window.abrirCreadorPerfilModal; 
             grid.appendChild(btnAdd); 
         }
+        window.mostrarSelectorPerfiles = mostrarSelectorPerfiles;
 
         window.cerrarSesionCompleta = async () => { 
             if(unsuscribeXpLive) unsuscribeXpLive();
@@ -713,7 +707,6 @@
         window.seleccionarPerfil = async (idDoc, nombre, fechaNacimiento, avatar, base, esExperto) => {
             perfilActiveId = idDoc; perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNacimiento; perfilActivoAvatar = avatar; perfilActivoBase = base; perfilActivoEsExperto = esExperto;
             
-            // Guardado persistente de sesión de juego en local
             if (auth.currentUser) localStorage.setItem(`active_profile_${auth.currentUser.uid}`, idDoc);
             
             document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
@@ -806,7 +799,7 @@
                         const promptInstrucciones = `Analiza detalladamente la imagen suministrada.
                         REGLA DE SEGURIDAD ABSOLUTA ANTITRAMPAS: Comprueba meticulosamente si la imagen es una foto tomada a una pantalla de ordenador, tablet, TV o móvil (lo sabrás por el efecto muaré, líneas de píxeles, brillos en el cristal o reflejos artificiales). También verifica si es un objeto inanimado que no es una planta.
                         
-                        Si detectas que es una PANTALLA o un objeto que NO es una planta, debes sabotear el JSON habitual devolviendo OBLIGATORIAMENTE un campo "error_tipo" con valor "pantalla_detectada" o "no_planta" y un texto en el campo "descripcion" con un tono muy amable, divertido y gamificado (adecuado para un niño de ${edadAventurero} años) explicándole que el radar ha detectado interferencias digitales y que para conseguir el cromo debe salir de expedición al jardín, parque o bosque a buscar naturaleza real viva.
+                        Si detectas que es una PANTALLA o un objeto que NO es una planta, debes sabotagear el JSON habitual devolviendo OBLIGATORIAMENTE un campo "error_tipo" con valor "pantalla_detectada" o "no_planta" y un texto en el campo "descripcion" con un tono muy amable, divertido y gamificado (adecuado para un niño de ${edadAventurero} años) explicándole que el radar ha detectado interferencias digitales y que para conseguir el cromo debe salir de expedición al jardín, parque o bosque a buscar naturaleza real viva.
                         
                         Si por el contrario es una PLANTA REAL viva en la naturaleza, genera el JSON estándar plano:
                         {
