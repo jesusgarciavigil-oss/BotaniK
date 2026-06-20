@@ -234,6 +234,7 @@
             touch-action: pan-y !important; /* Le dice al móvil: "Aquí el dedo solo sirve para subir y bajar texto" */
             -webkit-overflow-scrolling: touch !important; /* Hace que el scroll vaya suave */
             transform: translateZ(10px); /* Despega el texto para que el móvil lo detecte primero */
+            pointer-events: auto !important; /* Obliga al móvil a detectar el dedo aquí y no en el fondo */   
         }
         
         .btn-evolution-ready-trigger { width: 100%; padding: 8px; margin-top: 10px; background: linear-gradient(135deg, var(--poke-gold) 0%, #cc9900 100%); border: 1px solid #fff; border-radius: 6px; color: #000; font-weight: 900; font-size: 11px; cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; text-align: center; }
