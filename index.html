@@ -591,7 +591,21 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        
+// RADAR GLOBAL DE EMERGENCIA: Captura cualquier error en cualquier parte del código
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(`🚨 ERROR DE SISTEMA GLOBAL:\n\nMensaje: ${message}\nLínea: ${lineno}\nArchivo: ${source}`);
+            const loadingEl = document.getElementById('loading');
+            if (loadingEl) loadingEl.style.display = 'none';
+            return false;
+        };
 
+        window.addEventListener('unhandledrejection', function (event) {
+            alert(`📡 FALLO SATELITAL ASÍNCRONO (Promesa rechazada):\n\nMotivo: ${event.reason}`);
+            const loadingEl = document.getElementById('loading');
+            if (loadingEl) loadingEl.style.display = 'none';
+        });
+        
         // Inicialización de la Base de Datos Firebase del Entorno Familiar
         const firebaseConfig = {
             apiKey: "AIzaSyDReChwrnr6zHLumpR5OLTrNlvfhcAH_BA",
@@ -1096,29 +1110,28 @@
 
             const img = new Image();
             img.onload = async () => {
-                const base64DataCompleta = comprimirImagenProporcional(img, 700, 0.6);
-                const base64Data = base64DataCompleta.split(",")[1];
-               
-                let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
-                let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
-
-                // Instrucciones Estrictas para Forzar Formato JSON Estructurado Sin Markdown
-                const promptInstrucciones = `Eres el Satélite Científico Central del juego BotaniK 2. Tu misión es analizar la muestra vegetal y devolver OBLIGATORIAMENTE un objeto JSON estricto, plano, sin formato markdown, sin usar bloques de código \`\`\`json ni caracteres invisibles.
-                Adapta el relato pedagógico y cultural para un explorador de ${edadAventurero} años cuya Base Secreta está en ${sectorBaseTxt}. Si el perfil es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
-                Cruza la mitología local de la provincia (ej: si es Cantabria, inyecta Anjanas, Trastolillos, o dragones de monte; si es Jaén, mitos íberos).
-                Campos del JSON requeridos:
-                {
-                  "nombreComun": "Nombre de la planta en mayúsculas",
-                  "nombreCientifico": "Género y especie",
-                  "rareza": "comun, poco, especial o exotica (según tu criterio ecológico)",
-                  "descripcion": "Relato adaptado a su edad y mitología del lugar",
-                  "tipoHoja": "Perenne/Caduca/No aplica",
-                  "origen": "Autóctona/Exótica"
-                }`;
-
-                let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
-
                 try {
+                    const base64DataCompleta = comprimirImagenProporcional(img, 700, 0.6);
+                    const base64Data = base64DataCompleta.split(",")[1];
+                    
+                    let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
+                    let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
+
+                    const promptInstrucciones = `Eres el Satélite Científico Central del juego BotaniK 2. Tu misión es analizar la muestra vegetal y devolver OBLIGATORIAMENTE un objeto JSON estricto, plano, sin formato markdown, sin usar bloques de código \`\`\`json ni caracteres invisibles.
+                    Adapta el relato pedagógico y cultural para un explorador de ${edadAventurero} años cuya Base Secreta está en ${sectorBaseTxt}. Si el perfil es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
+                    Cruza la mitología local de la provincia (ej: si es Cantabria, inyecta Anjanas, Trastolillos, o dragones de monte; si es Jaén, mitos íberos).
+                    Campos del JSON requeridos:
+                    {
+                      "nombreComun": "Nombre de la planta en mayúsculas",
+                      "nombreCientifico": "Género y especie",
+                      "rareza": "comun, poco, especial o exotica (según tu criterio ecológico)",
+                      "descripcion": "Relato adaptado a su edad y mitología del lugar",
+                      "tipoHoja": "Perenne/Caduca/No aplica",
+                      "origen": "Autóctona/Exótica"
+                    }`;
+
+                    let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
+
                     let response = await fetch(url, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
@@ -1132,25 +1145,39 @@
                         })
                     });
 
-                    // Si da error de saturación (429) o cualquier fallo de servidor, rotamos la clave y avisamos
                     if (response.status === 429 || !response.ok) {
+                        const errorTextoTexto = await response.text();
                         window.rotarASiguienteClavePorSaturacion();
-                        alert("📡 El canal satelital está saturado de biomasa. Reajustando frecuencias... ¡Prueba a escanear de nuevo!");
+                        alert(`📡 HTTP ERROR ${response.status}: Servidor Gemini rechazó la petición.\nDetalle: ${errorTextoTexto}`);
                         document.getElementById('loading').style.display = 'none';
                         return;
                     }
 
                     const jsonRes = await response.json();
+                    
+                    // Validar si la estructura de candidatos llegó vacía (Filtros de seguridad de Google o foto no reconocida)
+                    if (!jsonRes.candidates || jsonRes.candidates.length === 0) {
+                        alert(`⚠️ EL SATÉLITE BLOQUEÓ LA IMAGEN:\n\nGoogle Gemini no generó candidatos. Esto ocurre si la foto no contiene elementos válidos o se activaron los filtros de seguridad de la IA.\n\nJSON recibido: ${JSON.stringify(jsonRes)}`);
+                        document.getElementById('loading').style.display = 'none';
+                        return;
+                    }
+
                     let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
-                   
-                    // Limpieza preventiva total de marcas Markdown
+                    
                     if(rawText.startsWith("```")) { rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim(); }
 
-                    const planta = JSON.parse(rawText);
+                    let planta;
+                    try {
+                        planta = JSON.parse(rawText);
+                    } catch (jsonErr) {
+                        alert(`❌ ERROR DE PARSEO BOTÁNICO:\n\nGemini no devolvió un JSON limpio. Devolvió texto que rompió el sistema.\n\nTexto crudo recibido:\n${rawText}`);
+                        document.getElementById('loading').style.display = 'none';
+                        return;
+                    }
+
                     const mult = MULTIPLICADORES_RAREZA[planta.rareza] || 1;
                     const baseXP = 20; const calculadoXP = Math.floor(baseXP * mult);
 
-                    // Guardado directo en Firestore Vinculado al Perfil
                     await addDoc(collection(db, "capturas"), {
                         nombreComun: planta.nombreComun,
                         nombreCientifico: planta.nombreCientifico,
@@ -1177,7 +1204,7 @@
 
                 } catch (err) {
                     document.getElementById('loading').style.display = 'none';
-                    alert("Error satelital de lectura: Por favor, repite la captura en un entorno con mejor iluminación.");
+                    alert(`💥 CRASH EN PROCESAR FOTO (Lógica Interna):\n\nDetalle: ${err.name} - ${err.message}\n\nRevisa si Firebase está conectado o si hay problemas de red.`);
                     console.error(err);
                 }
             };
