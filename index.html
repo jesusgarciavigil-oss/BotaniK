@@ -1181,25 +1181,26 @@
                         const mult = MULTIPLICADORES_RAREZA[planta.rareza] || 1;
                         const baseXP = 20; const calculadoXP = Math.floor(baseXP * mult);
 
-                        await addDoc(collection(db, "capturas"), {
-                            nombreComun: planta.nombreComun,
-                            nombreCientifico: planta.nombreCientifico,
-                            rareza: planta.rareza,
-                            descripcion: planta.descripcion,
-                            foto: base64DataCompleta,
-                            fecha: new Date().toLocaleDateString(),
-                            timestamp: Date.now(),
-                            xp: calculadoXP,
-                            loc: perfilActivoBase ? perfilActivoBase.municipio : "Exploración",
-                            municipioId: perfilActivoBase ? perfilActivoBase.municipio : "Desconocido",
-                            comarcaId: perfilActivoBase ? perfilActivoBase.comarca : "Desconocido",
-                            provinciaId: perfilActivoBase ? perfilActivoBase.provincia : "Desconocido",
-                            paisId: perfilActivoBase ? perfilActivoBase.pais : "España",
-                            perfil: perfilActiveId,
-                            usuarioEmail: usuarioEmailActual,
-                            tipoHoja: planta.tipoHoja || "No especificado",
-                            origen: planta.origen || "Autóctona"
-                        });
+                    await addDoc(collection(db, "capturas"), {
+                        nombreComun: planta.nombreComun,
+                        nombreCientifico: planta.nombreCientifico,
+                        rareza: planta.rareza,
+                        descripcion: planta.descripcion,
+                        foto: base64DataCompleta,
+                        fecha: new Date().toLocaleDateString(),
+                        timestamp: Date.now(),
+                        xp: calculadoXP,
+                        // ESTE ES EL ARREGLO: Si no hay base, pone un texto por defecto de forma segura
+                        loc: perfilActivoBase?.municipio || "Exploración",
+                        municipioId: perfilActivoBase?.municipio || "Desconocido",
+                        comarcaId: perfilActivoBase?.comarca || "Desconocido",
+                        provinciaId: perfilActivoBase?.provincia || "Desconocido",
+                        paisId: perfilActivoBase?.pais || "España",
+                        perfil: perfilActiveId,
+                        usuarioEmail: usuarioEmailActual,
+                        tipoHoja: planta.tipoHoja || "No especificado",
+                        origen: planta.origen || "Autóctona"
+                    });
 
                         document.getElementById('loading').style.display = 'none';
                         window.desplegarToastVictoriaInmediata(`MUESTRA ADQUIRIDA: +${calculadoXP} XP`);
