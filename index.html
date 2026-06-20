@@ -164,7 +164,7 @@
         .cromo-txt-bar h4 { font-size: 9px; color: white; text-transform: uppercase; letter-spacing: 0.2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: bold; }
         .cromo-evolution-badge { position: absolute; bottom: 2px; right: 2px; background: var(--poke-gold); color: #000; font-size: 7px; font-weight: 900; padding: 1px 3px; border-radius: 4px; text-transform: uppercase; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
 
-        /* Navegación Inferior */
+        /* -Navegación Inferior */
         nav { background-color: var(--surface-dark); display: none; grid-template-columns: 1fr 1fr; position: fixed; bottom: 0; left: 0; right: 0; height: 60px; border-top: 2px solid var(--botanik-green); z-index: 800; box-shadow: 0 -4px 15px rgba(0,0,0,0.4); }
         nav button { background: transparent; border: none; color: var(--text-muted); font-size: 11px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; transition: 0.2s; -webkit-tap-highlight-color: transparent; }
         nav button.active { color: var(--neon-green); background: rgba(57,255,20,0.03); }
@@ -948,7 +948,7 @@
             
             const rowActivo = document.createElement('div'); rowActivo.className = 'dropdown-account-item active-user-row';
             rowActivo.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar" style="border-color: var(--neon-green);">${avRenderActivo}</div><div class="dropdown-name" style="color: var(--neon-green);">${nombreSeguroActivo} <span style="font-size:9px; font-weight:normal; color:var(--text-muted);">(En uso)</span></div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
-            rowActivo.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilEspecifico(e, perfilActiveId); };
+            rowActivo.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); };
             container.appendChild(rowActivo);
 
             cachePerfilesFamilia.forEach(p => {
@@ -973,7 +973,7 @@
            ========================================================================== */
 
         window.activarMandoSupremoGod = async () => { document.getElementById('god-mode-page').style.display = 'flex'; window.switchAdminTab('panel-macro'); };
-        window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
+        window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'flex'; document.getElementById('login-page').style.display = 'none'; };
 
         window.switchAdminTab = async (tabId) => {
             document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.admin-view-pane').forEach(pane => pane.classList.remove('active'));
@@ -1083,7 +1083,7 @@
             const normal = queryTxt.toLowerCase();
             
             if(normal.includes("jaen") || normal.includes("carolina") || normal.includes("mágina") || normal.includes("cazorla")) { provincia = "Jaén"; comarca = "Sierra Mágina"; municipio = "La Carolina"; }
-            else if(normal.includes("bilbao") || normal.includes("vizcaya") || normal.includes("bizkaia")) { provincia = "Vizcaya"; comarca = "Gran Bilbao"; municipio = "Bilbao"; }
+            else if(normal.includes("bilbao") || normal.includes("viazcaya") || normal.includes("bizkaia")) { provincia = "Vizcaya"; comarca = "Gran Bilbao"; municipio = "Bilbao"; }
             else if(normal.includes("málaga") || normal.includes("ronda") || normal.includes("marbella")) { provincia = "Málaga"; comarca = "Serranía de Ronda"; municipio = "Málaga"; }
             else if(normal.includes("granada")) { provincia = "Granada"; comarca = "Granada Metropolitana"; municipio = "Granada"; }
 
@@ -1197,7 +1197,6 @@
                         const mult = MULTIPLICADORES_RAREZA[planta.rareza] || 1;
                         const baseXP = 20; const calculadoXP = Math.floor(baseXP * mult);
 
-// Guardamos en la base de datos central
                         await addDoc(collection(db, "capturas"), {
                             nombreComun: planta.nombreComun,
                             nombreCientifico: planta.nombreCientifico,
@@ -1218,16 +1217,11 @@
                             origen: planta.origen || "Autóctona"
                         });
 
-                        // Ocultamos el indicador de carga del satélite
                         document.getElementById('loading').style.display = 'none';
-                        
-                        // Lanzamos el aviso sónico/visual de biomasa ganada
                         window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculadoXP} XP`);
-                        
-                        // Actualizamos los contadores de nivel del radar en segundo plano
                         actualizarEstado();
 
-                        // PREPARACIÓN DEL CROMO EN VIVO: Reconstruimos el objeto para el visualizador 3D
+                        // PREPARACIÓN Y DETONACIÓN DEL CROMO 3D EN LA CARA DEL JUGADOR
                         const muestraRecienCapturada = {
                             nombreComun: planta.nombreComun,
                             nombreCientifico: planta.nombreCientifico,
@@ -1238,18 +1232,11 @@
                             loc: perfilActivoBase?.municipio || "Exploración",
                             tipoHoja: planta.tipoHoja || "No especificado",
                             origen: planta.origen || "Autóctona",
-                            copiasTotales: 1, // Al ser la captura en vivo, le seteamos 1 de forma estática para el badge
+                            copiasTotales: 1, 
                             nombresAlternativosRecogidos: new Set([planta.nombreComun])
                         };
 
-                        // ¡ACCIÓN! Forzamos al renderizador a abrir el cromo interactivo en la cara del niño
                         window.abrirVisualizadorDetalleCromo3D(muestraRecienCapturada);
-
-                    } catch (err) {
-                        document.getElementById('loading').style.display = 'none';
-                        alert(`💥 CRASH EN PROCESAR FOTO (Lógica Interna):\n\nDetalle: ${err.name} - ${err.message}`);
-                        console.error(err);
-                    }
 
                     } catch (err) {
                         document.getElementById('loading').style.display = 'none';
@@ -1395,7 +1382,6 @@
             if(perfilActiveId) window.verificarAlertasMisionesComarcales();
         };
 
-        // CORRECCIÓN TÉCNICA: Se eliminó el enlace Markdown roto de la URL XML del SVG
         window.inyectarCartaConLocalizacionesSimuladas = async (esLote) => {
             const perfilDestinoId = document.getElementById('sim-child-field').value;
             const comun = document.getElementById('sim-comun-input').value.trim();
