@@ -1570,7 +1570,8 @@
         };
 
         window.voltearCartaModal = (event, el) => {
-            if(event.target.id === 'm-desc' || event.target.closest('.modal-title-poke-clickable') || event.target.closest('#modal-names-dropdown') || event.target.id === 'btn-evolution-action') return;
+            // Si el clic o toque se hace en la descripción, el botón o los desplegables, NO volteamos la carta
+            if(event.target.id === 'm-desc' || event.target.className === 'modal-desc-poke' || event.target.closest('.modal-title-poke-clickable') || event.target.closest('#modal-names-dropdown') || event.target.id === 'btn-evolution-action') return;
             el.classList.toggle('flipped');
         };
 
