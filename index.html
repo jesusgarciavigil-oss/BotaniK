@@ -17,7 +17,7 @@
             --poke-gold: #FFD700;
             --admin-purple: #9D4EDD;
             --admin-surface: #240046;
-           
+            
             /* Marcos Temáticos de Evolución / Adaptación */
             --frame-silver: #A9A9A9;
             --frame-gold: #FFD700;
@@ -84,7 +84,7 @@
         .header-info-text { display: flex; flex-direction: column; text-align: left; }
         .header-info-text h2 { font-size: 11px; color: white; font-weight: 800; letter-spacing: 0.3px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .header-info-text span { font-size: 9px; color: var(--text-muted); font-weight: bold; }
-       
+        
         .header-mailbox-btn { background: rgba(13,27,30,0.5); border: 1px solid rgba(118,225,97,0.15); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; position: relative; transition: 0.2s; }
         .header-mailbox-btn:hover { border-color: var(--accent-green); background: rgba(13,27,30,0.8); }
         .mailbox-badge { position: absolute; top: -2px; right: -2px; background: var(--danger); color: white; font-size: 9px; font-weight: bold; border-radius: 50%; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--surface-dark); animation: pulsoAlerta 2s infinite; }
@@ -153,11 +153,11 @@
         .cromo-wrapper { position: relative; width: 100%; aspect-ratio: 2/3; perspective: 600px; cursor: pointer; }
         .cromo-mini-card { width: 100%; height: 100%; background: #0a1416; border-radius: 8px; border: 1.5px solid var(--botanik-green); overflow: hidden; display: flex; flex-direction: column; position: relative; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .cromo-wrapper:hover .cromo-mini-card { transform: translateY(-2px); border-color: var(--accent-green); box-shadow: 0 6px 14px rgba(0,0,0,0.5); }
-       
+        
         .cromo-mini-card.rare-poco { border-color: var(--frame-silver); }
         .cromo-mini-card.rare-especial { border-color: var(--frame-gold); }
         .cromo-mini-card.rare-exotica { border-image: var(--frame-master) 1; border-style: solid; }
-       
+        
         .cromo-img-box { width: 100%; flex: 1; background: #000; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
         .cromo-img-box img { width: 100%; height: 100%; object-fit: cover; }
         .cromo-txt-bar { background: rgba(21, 42, 45, 0.95); padding: 5px 4px; text-align: center; border-top: 1px solid rgba(127,163,159,0.1); }
@@ -174,9 +174,9 @@
         .modal-perspective { perspective: 1000px; width: 100%; max-width: 320px; aspect-ratio: 2/3; margin-bottom: 15px; }
         .modal-cromo-card { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .modal-cromo-card.flipped { transform: rotateY(180deg); }
-       
+        
         .modal-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 15px 35px rgba(0,0,0,0.6); border: 4px solid var(--botanik-green); }
-       
+        
         /* Cara Frontal */
         .modal-front { background: radial-gradient(circle at top, #152a2d 0%, #081112 100%); }
         .modal-header-poke { background: rgba(13,27,30,0.85); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(118,225,97,0.15); position: relative; }
@@ -184,7 +184,7 @@
         .modal-title-poke-clickable span { font-size: 14px; font-weight: 900; color: white; text-transform: uppercase; letter-spacing: 0.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .modal-title-poke-clickable::after { content: '▾'; color: var(--text-muted); font-size: 10px; margin-left: 2px; }
         .mini-badge-poke { font-size: 8px; font-weight: 900; background: var(--poke-gold); color: #000; padding: 2px 6px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.3px; flex-shrink: 0; }
-       
+        
         /* Desplegable de taxonomías dentro de la carta */
         .names-dropdown-box { display: none; position: absolute; top: 38px; left: 10px; background: #0d1b1e; border: 1.5px solid var(--accent-green); border-radius: 8px; width: 220px; box-shadow: 0 8px 20px rgba(0,0,0,0.6); z-index: 12000; overflow: hidden; }
         .name-drop-row { padding: 8px 12px; font-size: 11px; color: var(--text-light); text-align: left; border-bottom: 1px solid rgba(127,163,159,0.1); cursor: pointer; font-weight: 600; }
@@ -193,13 +193,13 @@
 
         .modal-frame-poke { background: #000; margin: 10px 14px; flex: 1; border-radius: 8px; border: 2px solid rgba(118,225,97,0.1); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
         .modal-img-poke { width: 100%; height: 100%; object-fit: cover; }
-       
+        
         .modal-body-poke { background: rgba(13,27,30,0.6); margin: 0 14px 14px; padding: 12px; border-radius: 10px; border: 1px solid rgba(127,163,159,0.08); text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
         .modal-sci-poke { font-size: 11px; font-style: italic; color: var(--accent-green); font-weight: bold; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .modal-desc-poke { font-size: 11.5px; color: var(--text-light); line-height: 1.45; overflow-y: auto; max-height: 75px; padding-right: 4px; font-weight: 500; }
-       
+        
         .btn-evolution-ready-trigger { width: 100%; padding: 8px; margin-top: 10px; background: linear-gradient(135deg, var(--poke-gold) 0%, #cc9900 100%); border: 1px solid #fff; border-radius: 6px; color: #000; font-weight: 900; font-size: 11px; cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; text-align: center; }
-       
+        
         /* Cara Reverso */
         .modal-back { transform: rotateY(180deg); background: radial-gradient(circle at center, #1b003a 0%, #0a0018 100%); border-color: var(--admin-purple); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .modal-back-logo { width: 70px; height: 70px; border-radius: 50%; background: rgba(157,78,221,0.1); border: 2px dashed var(--admin-purple); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; color: #d4bef0; margin-bottom: 15px; animation: spinGiro 10s linear infinite; }
@@ -221,24 +221,24 @@
         .admin-tab-btn.active { color: white; border-color: var(--neon-green); background: rgba(57,255,20,0.04); }
         .admin-view-pane { display: none; padding: 20px; width: 100%; max-width: 1200px; margin: 0 auto; }
         .admin-view-pane.active { display: block; }
-       
+        
         .admin-stat-card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .admin-card { background: var(--surface-dark); border: 1px solid rgba(157,78,221,0.2); border-radius: 12px; padding: 14px; text-align: center; }
         .admin-card h4 { font-size: 11px; color: #c3a6ff; text-transform: uppercase; margin-bottom: 4px; }
         .admin-card .big-num { font-size: 26px; font-weight: 900; color: white; font-family: monospace; }
-       
+        
         .live-feed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; max-height: 50vh; overflow-y: auto; padding-right: 5px; }
         .feed-box { background: rgba(13,27,30,0.4); border: 1px solid rgba(127,163,159,0.1); border-radius: 10px; padding: 8px; display: flex; gap: 10px; text-align: left; position: relative; }
         .feed-img { width: 65px; height: 65px; border-radius: 6px; object-fit: cover; background: #000; }
         .feed-body { flex:1; display: flex; flex-direction: column; justify-content: center; }
         .feed-title { font-size: 12px; font-weight: bold; color: white; text-transform: uppercase; }
         .feed-author-tag { position: absolute; top: 8px; right: 8px; background: rgba(57,255,20,0.1); border: 1px solid rgba(57,255,20,0.2); color: var(--neon-green); font-size: 8px; padding: 1px 5px; border-radius: 4px; text-transform: uppercase; }
-       
+        
         .account-cluster-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(157,78,221,0.15); border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .cluster-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(157,78,221,0.2); padding-bottom: 8px; margin-bottom: 12px; }
         .cluster-email { font-size: 13px; font-weight: bold; color: white; }
         .cluster-base { font-size: 10px; color: var(--neon-green); font-family: monospace; font-weight: bold; background: rgba(57,255,20,0.08); padding: 2px 8px; border-radius: 4px; }
-       
+        
         .admin-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 12px; text-align: left; }
         .admin-table th { color: #c3a6ff; padding: 8px; border-bottom: 2px solid rgba(157,78,221,0.3); font-weight: bold; text-transform: uppercase; font-size: 10px; }
         .admin-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e0e0e0; vertical-align: middle; }
@@ -249,7 +249,7 @@
         .admin-btn-danger:hover { background: var(--danger); color: white; }
         .admin-form-group { display: flex; flex-direction: column; text-align: left; margin-bottom: 12px; }
         .admin-form-group label { font-size: 11px; color: #c3a6ff; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
-       
+        
         /* Listados de Buzones Históricos */
         .mailbox-item-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(118,225,97,0.1); border-radius: 10px; padding: 12px; cursor: pointer; transition: 0.15s; position: relative; }
         .mailbox-item-card:hover { border-color: var(--accent-green); background: rgba(255,255,255,0.06); }
@@ -284,7 +284,7 @@
             <p style="color: var(--text-light); font-size: 14px; line-height: 1.5; margin-bottom: 20px;" id="loading-base-txt">
                 El sistema necesita geolocalizar tu cuartel general para medir los biomas y activar las misiones mitológicas locales de tu comarca natural.
             </p>
-           
+            
             <div id="gps-base-box">
                 <button class="login-btn" onclick="localizarBasePorGPS()">SINCRONIZAR POR GPS</button>
                 <div class="toggle-link" onclick="activarEntradaManualBase()">¿No tienes cobertura? Calibrar manualmente</div>
@@ -306,7 +306,7 @@
                     <span id="head-age">Cargando sector...</span>
                 </div>
             </div>
-           
+            
             <div class="accounts-dropdown-list" id="nav-dropdown-box"></div>
         </div>
         <h1>BOTANIK</h1>
@@ -320,7 +320,7 @@
     </div>
 
     <div class="container" id="main-app-container">
-       
+        
         <div class="profesor-alert-card" id="profesor-alert-banner">
             <h4>📡 COMUNICADO SATELITAL ENTRANTE:</h4>
             <p id="profesor-msg-text">Cargando instrucciones de campo...</p>
@@ -342,7 +342,7 @@
                 <div id="loading">Sincronizando satélite...</div>
             </div>
         </div>
-       
+        
         <div id="album" class="page">
             <div class="search-filter-panel"><input type="text" id="search-botanika" class="search-bar-input" placeholder="🔍 Buscar planta por nombre..." oninput="window.filtrarYOrdenarAlbum()"></div>
             <div class="album-grid" id="album-dinamico-contenedor"></div>
@@ -357,9 +357,9 @@
     <div id="avatar-picker-modal">
         <div class="avatar-creator-box">
             <h3 id="modal-title-context" style="color:var(--accent-green); font-weight:900; letter-spacing:0.5px; font-size:16px; margin-bottom:15px;">ALTA DE EXPLORADOR</h3>
-           
+            
             <div class="preview-avatar-circle-huge" id="avatar-preview-circle">🧑‍🚀</div>
-           
+            
             <label class="upload-profile-img-label">
                 📷 SUBIR FOTO REAL DE CAMPO
                 <input type="file" accept="image/*" onchange="procesarFotoPerfilReal(event)" style="display:none;">
@@ -383,7 +383,7 @@
                 <label>Nombre de Campo:</label>
                 <input type="text" id="profile-name-input" class="login-input" placeholder="Ej: Neco, Leo, Luna, Bea..." style="margin:5px 0 10px;">
             </div>
-           
+            
             <div class="admin-form-group">
                 <label>Fecha de Nacimiento:</label>
                 <input type="date" id="profile-date-input" class="login-input" style="margin:5px 0 10px;">
@@ -404,14 +404,14 @@
     <div id="cromo-overlay-modal" onclick="evaluarCierrePorFondo(event)">
         <div class="modal-perspective" id="modal-perspective-flyer">
             <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
-               
+                
                 <div class="modal-face modal-front" id="modal-front-face">
                     <div class="modal-header-poke">
                         <div class="modal-title-poke-clickable" onclick="desplegarNombresAlternativosModal(event)">
                             <span id="m-title">PLANTA</span>
                         </div>
                         <div class="mini-badge-poke" id="m-type">DESCUBIERTO</div>
-                       
+                        
                         <div class="names-dropdown-box" id="modal-names-dropdown"></div>
                     </div>
                     <div class="modal-frame-poke">
@@ -420,12 +420,12 @@
                     <div class="modal-body-poke">
                         <div>
                             <div class="modal-sci-poke" id="m-sci">Scientific Name</div>
-                            <div class="modal-desc-poke" id="m-desc">Descripción narrativa de la muestra botánica encontrada en el entorno...</div>
+                            <div class="modal-desc-poke" id="m-desc">Descripción narrative...</div>
                         </div>
                         <button class="btn-evolution-ready-trigger" id="btn-evolution-action">ADAPTAR CROMO</button>
                     </div>
                 </div>
-               
+                
                 <div class="modal-face modal-back">
                     <div class="modal-back-logo">B</div>
                     <h3 style="color: var(--neon-green); font-size: 16px; font-weight: 900; letter-spacing: 1px; margin-bottom: 15px;" id="m-back-title">BOTANIK EXPEDICIÓN</h3>
@@ -475,7 +475,7 @@
             </div>
             <button class="exit-session-btn" style="margin: 0; padding: 6px 12px; font-size: 11px;" onclick="salirModoDiosDefinitivo()">SALIR MANDO SUPREMO</button>
         </div>
-       
+        
         <div class="admin-nav-tabs">
             <button class="admin-tab-btn active" onclick="switchAdminTab('panel-macro')">📊 MONITOR MACRO</button>
             <button class="admin-tab-btn" onclick="switchAdminTab('panel-cuentas')">👥 EXPEDICIONARIOS</button>
@@ -510,7 +510,7 @@
 
         <div id="panel-alertas" class="admin-view-pane">
             <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
-               
+                
                 <div class="admin-card" style="text-align: left;">
                     <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">📡 EMISOR DE TRANSMISIONES SEGMENTADAS</h3>
                     <div class="admin-form-group">
@@ -547,7 +547,7 @@
                 </div>
 
                 <div class="admin-card" style="text-align: left; border-color: var(--neon-green);">
-                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">🔬 INYECTOR DE ENTORNOS DE PRUEBA (SIMULADOR DE CAMPO)</h3>
+                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">¼ INYECTOR DE ENTORNOS DE PRUEBA (SIMULADOR DE CAMPO)</h3>
                     <div class="admin-form-group">
                         <label>Explorador de Destino para el Test:</label>
                         <select id="sim-child-field" class="admin-select"></select>
@@ -577,9 +577,9 @@
                         <label>Descripción Científica Base:</label>
                         <textarea id="sim-desc-textarea" class="admin-textarea" placeholder="Muestra botánica inyectada desde la consola central de simulación."></textarea>
                     </div>
-                   
+                    
                     <div style="display: flex; gap: 10px;">
-                        <button class="login-btn" style="flex:1; margin-top:10px;" onclick="inyectarCartaConLocalizacionesSimuladas(false)">🔬 INYECTAR 1</button>
+                        <button class="login-btn" style="flex:1; margin-top:10px;" onclick="inyectarCartaConLocalizacionesSimuladas(false)">¯ INYECTAR 1</button>
                         <button class="login-btn" style="flex:1; margin-top:10px; background:linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); border-color:var(--poke-gold);" onclick="inyectarCartaConLocalizacionesSimuladas(true)">⚡ INYECCIÓN POR LOTES (3)</button>
                     </div>
                 </div>
@@ -592,7 +592,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
-// RADAR GLOBAL DE EMERGENCIA: Captura cualquier error en cualquier parte del código
+        // RADAR GLOBAL DE EMERGENCIA: Captura cualquier error en cualquier parte del código
         window.onerror = function (message, source, lineno, colno, error) {
             alert(`🚨 ERROR DE SISTEMA GLOBAL:\n\nMensaje: ${message}\nLínea: ${lineno}\nArchivo: ${source}`);
             const loadingEl = document.getElementById('loading');
@@ -618,7 +618,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-// ARSENAL DE RESPALDO: Claves de Gemini guardadas de forma directa y entera
+        // ARSENAL DE RESPALDO: Claves de Gemini guardadas de forma directa y entera
         const _0xkeys = [
             "AQ.Ab8RN6K9eMLDW_np4oMF1bxYxsI45ryg8-ZJdiP0BiEp5J8qgg",
             "AQ.Ab8RN6JI3FXyP1ocfEfu0jul3EmXjiQQTrCUeAMAAXZxDJHwcA",
@@ -719,7 +719,7 @@
         }
 
         /* ==========================================================================
-           SISTEMA DE AUTENTICACIÓN Y CONTROL DE ACCESO
+           SISTEMA DE AUTENTICACIÓN Y CONTROL DE ACCESO (VINCULADO GLOBALMENTE)
            ========================================================================== */
 
         window.gestionarAcceso = async () => {
@@ -783,7 +783,7 @@
             document.getElementById('avatar-picker-modal').style.display = 'flex';
         };
 
-        window.abrirEditorPerfilEspecifico = (event, idDoc) => {
+        window.abrirEditorPerfilSpecifico = (event, idDoc) => {
             if(event) event.stopPropagation();
             document.getElementById('nav-dropdown-box').style.display = 'none';
             let p = cachePerfilesFamilia.find(item => item.id === idDoc);
@@ -795,7 +795,7 @@
             document.getElementById('profile-name-input').value = p.nombre;
             document.getElementById('profile-date-input').value = p.fechaNacimiento || "2018-01-01";
             document.getElementById('expert-toggle-input').checked = p.esExperto || false;
-           
+            
             const esImg = selectedAvatarValue.startsWith("data:image");
             document.getElementById('avatar-preview-circle').innerHTML = esImg ? `<img src="${selectedAvatarValue}">` : selectedAvatarValue;
             document.querySelectorAll('.avatar-option').forEach(opt => {
@@ -860,11 +860,11 @@
             document.querySelector('header').style.display = 'none';
             document.querySelector('nav').style.display = 'none';
             document.getElementById('profile-page').style.display = 'flex';
-           
+            
             const grid = document.getElementById('perfiles-dinamicos'); grid.innerHTML = '';
             const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
             const snap = await getDocs(q); cachePerfilesFamilia = [];
-           
+            
             snap.forEach(documento => {
                 const dataId = documento.id; const p = documento.data(); cachePerfilesFamilia.push({ id: dataId, ...p });
                 const esImg = p.avatar && p.avatar.startsWith("data:image");
@@ -897,7 +897,7 @@
             perfilActiveId = idDoc; perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNacimiento; perfilActivoAvatar = avatar; perfilActivoBase = base; perfilActivoEsExperto = esExperto;
             const edadCalculada = calcularEdadExacta(fechaNacimiento);
             document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
-           
+            
             const esImg = avatar.startsWith("data:image");
             document.getElementById('head-av-box').innerHTML = esImg ? `<img src="${avatar}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatar;
             document.getElementById('head-name').innerText = nombre.toUpperCase();
@@ -922,7 +922,7 @@
                     const alerta = docSnap.data(); const idAlerta = docSnap.id;
                     await updateDoc(doc(db, "alertas_xp", idAlerta), { estado: "entregado" });
                     await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento de Biomasa", nombreCientifico: "Bonus Laboratorio Central", rareza: "especial", descripcion: alerta.mensaje || alerta.textMessage, foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2zm0 3.99L18.47 19H5.53L12 5.99z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", comarcaId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual });
-                   
+                    
                     const alertBox = document.getElementById('live-xp-badge-alert');
                     if (alertBox) {
                         document.getElementById('live-xp-amount-txt').innerText = `+${alerta.xp}`;
@@ -945,10 +945,10 @@
             const avatarSeguroActivo = perfilActivoAvatar || "🧑‍🚀"; const nombreSeguroActivo = perfilActivoNombre || "Explorador";
             const esImgActivo = typeof avatarSeguroActivo === 'string' && avatarSeguroActivo.startsWith("data:image");
             const avRenderActivo = esImgActivo ? `<img src="${avatarSeguroActivo}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">` : avatarSeguroActivo;
-           
+            
             const rowActivo = document.createElement('div'); rowActivo.className = 'dropdown-account-item active-user-row';
             rowActivo.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar" style="border-color: var(--neon-green);">${avRenderActivo}</div><div class="dropdown-name" style="color: var(--neon-green);">${nombreSeguroActivo} <span style="font-size:9px; font-weight:normal; color:var(--text-muted);">(En uso)</span></div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
-            rowActivo.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); };
+            rowActivo.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilEspecifico(e, perfilActiveId); };
             container.appendChild(rowActivo);
 
             cachePerfilesFamilia.forEach(p => {
@@ -1014,7 +1014,7 @@
                 const emailFam = c.email; const niñosAsociados = perfilesMap[emailFam] || [];
                 let comarcaBase = "No Calibrada"; const conBase = niñosAsociados.find(n => n.base && n.base.comarca); if(conBase) comarcaBase = conBase.base.comarca;
                 const cardHtml = document.createElement('div'); cardHtml.className = 'account-cluster-card';
-               
+                
                 let tablaHijos = niñosAsociados.length === 0 ? `<div style="font-style:italic; color:var(--text-muted); font-size:12px; padding:10px 0;">Sin exploradores aún.</div>` : `<table class="admin-table"><thead><tr><th>Explorador</th><th>Modo Experto</th><th>Comando</th></tr></thead><tbody>${niñosAsociados.map(n => `<tr><td><b>${n.nombre}</b></td><td><span style="color:var(--neon-green)">${n.esExperto ? 'ACTIVO' : 'NO'}</span></td><td><button class="admin-btn admin-btn-purple" onclick="window.inyectarXPMecanico('${n.id}', '${n.nombre}')">⚡ BONIFICAR XP</button><button class="admin-btn admin-btn-purple" onclick="window.abrirEditorPerfilSpecifico(null, '${n.id}')">⚙️ EDITAR</button></td></tr>`).join('')}</tbody></table>`;
                 cardHtml.innerHTML = `<div class="cluster-header"><div class="cluster-email">📧 Cuenta: ${emailFam}</div><div class="cluster-base">📡 Sector: ${comarcaBase}</div></div>${tablaHijos}`;
                 mainContainer.appendChild(cardHtml);
@@ -1081,7 +1081,7 @@
         async function calibrarBiomaPorCoordenadas(lat, lng, queryTxt) {
             let pais = "España"; let provincia = "Cantabria"; let comarca = "Costa Oriental"; let municipio = "Castro Urdiales";
             const normal = queryTxt.toLowerCase();
-           
+            
             if(normal.includes("jaen") || normal.includes("carolina") || normal.includes("mágina") || normal.includes("cazorla")) { provincia = "Jaén"; comarca = "Sierra Mágina"; municipio = "La Carolina"; }
             else if(normal.includes("bilbao") || normal.includes("vizcaya") || normal.includes("bizkaia")) { provincia = "Vizcaya"; comarca = "Gran Bilbao"; municipio = "Bilbao"; }
             else if(normal.includes("málaga") || normal.includes("ronda") || normal.includes("marbella")) { provincia = "Málaga"; comarca = "Serranía de Ronda"; municipio = "Málaga"; }
@@ -1089,17 +1089,18 @@
 
             const baseObjeto = { lat: lat, lng: lng, pais: pais, provincia: provincia, comarca: comarca, municipio: municipio, queryLabel: queryTxt };
             await updateDoc(doc(db, "perfiles", perfilActiveId), { base: baseObjeto });
-           
+            
             perfilActivoBase = baseObjeto;
             document.getElementById('setup-base-page').style.display = 'none';
             alert(`¡Base Secreta Establecida en ${municipio} (${comarca})!`);
-           
+            
             actualizarEstado();
             await window.verificarAlertasMisionesComarcales();
+            recalcularCacheYDesplegable();
         }
 
         /* ==========================================================================
-           MÓDULO DE IDENTIFICACIÓN IA (API DE GEMINI DE RESPALDO)
+           MÓDULO DE IDENTIFICACIÓN IA (FILTRO BIOLÓGICO INTEGRADO)
            ========================================================================== */
 
         window.triggerCamera = () => { document.getElementById('camera-input').click(); };
@@ -1108,7 +1109,6 @@
             const file = event.target.files[0]; if (!file) return;
             document.getElementById('loading').style.display = 'block';
 
-            // LECTOR INTEGRADO: Transforma el archivo real en datos legibles para el objeto Image
             const reader = new FileReader();
             reader.onload = (readerEvent) => {
                 const img = new Image();
@@ -1117,93 +1117,79 @@
                         const base64DataCompleta = comprimirImagenProporcional(img, 700, 0.6);
                         const base64Data = base64DataCompleta.split(",")[1];
                         
-let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
-                    let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
+                        let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
+                        let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
 
-                    // PROMPT MODIFICADO: Ahora detecta si hay muestras vegetales reales
-                    const promptInstrucciones = `Eres el Satélite Científico Central del juego BotaniK 2. Tu misión inicial es evaluar si la imagen contiene una planta, árbol, hoja, flor o elemento del reino vegetal.
-                    
-                    CRITERIO DE EXCLUSIÓN ABSOLUTO: Si la imagen NO contiene ninguna planta (por ejemplo: es un objeto, una mesa, el suelo liso, una persona sin vegetación, un texto o una habitación), debes devolver OBLIGATORIAMENTE este JSON exacto y nada más:
-                    {
-                      "esPlanta": false,
-                      "motivoRechazo": "Breve mensaje en ambientación espacial/juego explicando que el escáner no detecta clorofila o tejido vegetal en la superficie"
-                    }
+                        // FILTRO PASO 1 INTEGRADO: Obligamos a la IA a verificar si es una muestra vegetal real
+                        const promptInstrucciones = `Eres el Satélite Científico Central del juego BotaniK 2. Tu misión inicial es evaluar si la imagen contiene una planta, árbol, hoja, flor o elemento del reino vegetal.
+                        
+                        CRITERIO DE EXCLUSIÓN ABSOLUTO: Si la imagen NO contiene ninguna planta (por ejemplo: es un objeto, una mesa, el suelo liso, una persona sin vegetación, un texto o una habitación), debes devolver OBLIGATORIAMENTE este JSON exacto y nada más:
+                        {
+                          "esPlanta": false,
+                          "motivoRechazo": "El escáner de campo no detecta actividad de clorofila ni tejido celular vegetal en la superficie analizada."
+                        }
 
-                    Si SÍ contiene una muestra vegetal, devuelve un objeto JSON estricto con "esPlanta": true y los siguientes campos (sin formato markdown, sin usar bloques de código \`\`\`json ni caracteres invisibles):
-                    Adapta el relato pedagógico y cultural para un explorador de ${edadAventurero} años cuya Base Secreta está en ${sectorBaseTxt}. Si el perfil es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
-                    Cruza la mitología local de la provincia (ej: si es Cantabria, inyecta Anjanas, Trastolillos, o dragones de monte; si es Jaén, mitos íberos).
-                    
-                    Campos del JSON requerido para plantas válidas:
-                    {
-                      "esPlanta": true,
-                      "nombreComun": "Nombre de la planta en mayúsculas",
-                      "nombreCientifico": "Género y especie",
-                      "rareza": "comun, poco, especial o exotica (según tu criterio ecológico)",
-                      "descripcion": "Relato adaptado a su edad y mitología del lugar",
-                      "tipoHoja": "Perenne/Caduca/No aplica",
-                      "origen": "Autóctona/Exótica"
-                    }`;
+                        Si SÍ contiene una muestra vegetal, devuelve un objeto JSON estricto con "esPlanta": true y los siguientes campos (sin formato markdown, sin usar bloques de código \`\`\`json ni caracteres invisibles):
+                        Adapta el relato pedagógico y cultural para un explorador de ${edadAventurero} años cuya Base Secreta está en ${sectorBaseTxt}. Si el perfil es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
+                        Cruza la mitología local de la provincia (ej: si es Cantabria, inyecta Anjanas, Trastolillos, o dragones de monte; si es Jaén, mitos íberos).
+                        
+                        Campos del JSON requerido para plantas válidas:
+                        {
+                          "esPlanta": true,
+                          "nombreComun": "Nombre de la planta en mayúsculas",
+                          "nombreCientifico": "Género y especie",
+                          "rareza": "comun, poco, especial o exotica (según tu criterio ecológico)",
+                          "descripcion": "Relato adaptado a su edad y mitología del lugar",
+                          "tipoHoja": "Perenne/Caduca/No aplica",
+                          "origen": "Autóctona/Exótica"
+                        }`;
 
-                    let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
+                        let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
 
-                    let response = await fetch(url, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [
-                                    { text: promptInstrucciones },
-                                    { inlineData: { mimeType: "image/jpeg", data: base64Data } }
-                                ]
-                            }]
-                        })
-                    });
+                        let response = await fetch(url, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                contents: [{
+                                    parts: [
+                                        { text: promptInstrucciones },
+                                        { inlineData: { mimeType: "image/jpeg", data: base64Data } }
+                                    ]
+                                }]
+                            })
+                        });
 
-                    if (response.status === 429 || !response.ok) {
-                        const errorTextoTexto = await response.text();
-                        window.rotarASiguienteClavePorSaturacion();
-                        alert(`📡 HTTP ERROR ${response.status}: Servidor Gemini rechazó la petición.\nDetalle: ${errorTextoTexto}`);
-                        document.getElementById('loading').style.display = 'none';
-                        return;
-                    }
+                        if (response.status === 429 || !response.ok) {
+                            const errorTextoTexto = await response.text();
+                            window.rotarASiguienteClavePorSaturacion();
+                            alert(`📡 HTTP ERROR ${response.status}: Servidor Gemini rechazó la petición.\nDetalle: ${errorTextoTexto}`);
+                            document.getElementById('loading').style.display = 'none';
+                            return;
+                        }
 
-                    const jsonRes = await response.json();
-                    
-                    if (!jsonRes.candidates || jsonRes.candidates.length === 0) {
-                        alert(`⚠️ EL SATÉLITE BLOQUEÓ LA IMAGEN:\n\nGoogle Gemini no generó candidatos. Esto ocurre si la foto no contiene elementos válidos o se activaron los filtros de seguridad de la IA.`);
-                        document.getElementById('loading').style.display = 'none';
-                        return;
-                    }
-
-                    let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
-                    if(rawText.startsWith("```")) { rawText = rawText.replace(/^
-```json/i, "").replace(/```$/, "").trim(); }
-
-                    let planta;
-                    try {
-                        planta = JSON.parse(rawText);
-                    } catch (jsonErr) {
-                        alert(`❌ ERROR DE PARSEO BOTÁNICO:\n\nGemini no devolvió un JSON limpio.\n\nTexto crudo recibido:\n${rawText}`);
-                        document.getElementById('loading').style.display = 'none';
-                        return;
-                    }
-
-                    // FILTRO DE SEGURIDAD BIOLÓGICA: Si el satélite dice que no es planta, abortamos la misión
-                    if (planta.esPlanta === false) {
-                        alert(`📡 ALERTA DEL SATÉLITE CENTRAL:\n\n${planta.motivoRechazo || "Análisis fallido: La muestra recolectada no pertenece al reino vegetal."}`);
-                        document.getElementById('loading').style.display = 'none';
-                        return;
-                    }
+                        const jsonRes = await response.json();
+                        
+                        if (!jsonRes.candidates || jsonRes.candidates.length === 0) {
+                            alert(`⚠️ EL SATÉLITE BLOQUEÓ LA IMAGEN:\n\nGoogle Gemini no generó candidatos. Esto ocurre si la foto no contiene elementos válidos o se activaron los filtros de seguridad de la IA.`);
+                            document.getElementById('loading').style.display = 'none';
+                            return;
+                        }
 
                         let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
-                        
                         if(rawText.startsWith("```")) { rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim(); }
 
                         let planta;
                         try {
                             planta = JSON.parse(rawText);
                         } catch (jsonErr) {
-                            alert(`❌ ERROR DE PARSEO BOTÁNICO:\n\nGemini no devolvió un JSON limpio. Devolvió texto que rompió el sistema.\n\nTexto crudo recibido:\n${rawText}`);
+                            alert(`❌ ERROR DE PARSEO BOTÁNICO:\n\nGemini no devolvió un JSON limpio.\n\nTexto crudo recibido:\n${rawText}`);
+                            document.getElementById('loading').style.display = 'none';
+                            return;
+                        }
+
+                        // INTERCEPTOR PASO 1: Si no es planta, abortamos de forma segura sin guardar en Firebase
+                        if (planta.esPlanta === false) {
+                            alert(`📡 ALERTA DE ANÁLISIS RECHAZADO:\n\n${planta.motivoRechazo || "La muestra recolectada no pertenece al reino vegetal."}`);
                             document.getElementById('loading').style.display = 'none';
                             return;
                         }
@@ -1211,29 +1197,28 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                         const mult = MULTIPLICADORES_RAREZA[planta.rareza] || 1;
                         const baseXP = 20; const calculadoXP = Math.floor(baseXP * mult);
 
-                    await addDoc(collection(db, "capturas"), {
-                        nombreComun: planta.nombreComun,
-                        nombreCientifico: planta.nombreCientifico,
-                        rareza: planta.rareza,
-                        descripcion: planta.descripcion,
-                        foto: base64DataCompleta,
-                        fecha: new Date().toLocaleDateString(),
-                        timestamp: Date.now(),
-                        xp: calculadoXP,
-                        // ESTE ES EL ARREGLO: Si no hay base, pone un texto por defecto de forma segura
-                        loc: perfilActivoBase?.municipio || "Exploración",
-                        municipioId: perfilActivoBase?.municipio || "Desconocido",
-                        comarcaId: perfilActivoBase?.comarca || "Desconocido",
-                        provinciaId: perfilActivoBase?.provincia || "Desconocido",
-                        paisId: perfilActivoBase?.pais || "España",
-                        perfil: perfilActiveId,
-                        usuarioEmail: usuarioEmailActual,
-                        tipoHoja: planta.tipoHoja || "No especificado",
-                        origen: planta.origen || "Autóctona"
-                    });
+                        await addDoc(collection(db, "capturas"), {
+                            nombreComun: planta.nombreComun,
+                            nombreCientifico: planta.nombreCientifico,
+                            rareza: planta.rareza,
+                            descripcion: planta.descripcion,
+                            foto: base64DataCompleta,
+                            fecha: new Date().toLocaleDateString(),
+                            timestamp: Date.now(),
+                            xp: calculadoXP,
+                            loc: perfilActivoBase?.municipio || "Exploración",
+                            municipioId: perfilActivoBase?.municipio || "Desconocido",
+                            comarcaId: perfilActivoBase?.comarca || "Desconocido",
+                            provinciaId: perfilActivoBase?.provincia || "Desconocido",
+                            paisId: perfilActivoBase?.pais || "España",
+                            perfil: perfilActiveId,
+                            usuarioEmail: usuarioEmailActual,
+                            tipoHoja: planta.tipoHoja || "No especificado",
+                            origen: planta.origen || "Autóctona"
+                        });
 
                         document.getElementById('loading').style.display = 'none';
-                        window.desplegarToastVictoriaInmediata(`MUESTRA ADQUIRIDA: +${calculadoXP} XP`);
+                        window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculadoXP} XP`);
                         actualizarEstado();
 
                     } catch (err) {
@@ -1309,7 +1294,7 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
         window.abrirLectorMensajeEspecifico = (idMsg, cuerpo) => {
             document.getElementById('mailbox-modal').style.display = 'none';
             document.getElementById('m-reader-body').innerText = cuerpo;
-           
+            
             const btn = document.getElementById('m-reader-btn-action');
             btn.onclick = () => {
                 let leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
@@ -1380,6 +1365,7 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
             if(perfilActiveId) window.verificarAlertasMisionesComarcales();
         };
 
+        // CORRECCIÓN TÉCNICA: Se eliminó el enlace Markdown roto de la URL XML del SVG
         window.inyectarCartaConLocalizacionesSimuladas = async (esLote) => {
             const perfilDestinoId = document.getElementById('sim-child-field').value;
             const comun = document.getElementById('sim-comun-input').value.trim();
@@ -1387,7 +1373,7 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
             const rareza = document.getElementById('sim-rareza-select').value;
             const loc = document.getElementById('sim-loc-input').value.trim() || "Entorno de Prueba";
             const desc = document.getElementById('sim-desc-textarea').value.trim() || "Muestra botánica inyectada desde la consola central.";
-           
+            
             if(!perfilDestinoId || !comun || !cien) return alert("Rellena los datos de simulación.");
             const pData = window.cacheAdminPerfilesCompletos.find(x => x.id === perfilDestinoId);
 
@@ -1418,29 +1404,28 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
         window.switchPage = (pageId, buttonElement) => {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-           
+            
             document.getElementById(pageId).classList.add('active');
             if(buttonElement) buttonElement.classList.add('active');
             if(pageId === 'album') cargarAlbum();
         };
 
-        // Nueva fórmula matemática lineal segura (Evita bucles infinitos en el navegador)
         async function actualizarEstado() {
             const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
             const snap = await getDocs(q);
             let totalXP = 0;
             snap.forEach(d => totalXP += (d.data().xp || 0));
-           
+            
             let nivel = 1;
             let req = 100;
             let xpRestante = totalXP;
-           
+            
             while (xpRestante >= req && req > 0) {
                 xpRestante -= req;
                 nivel++;
                 req = Math.floor(req * 1.2);
             }
-           
+            
             const txtNivel = document.getElementById('txt-nivel');
             const txtRango = document.getElementById('txt-rango');
             const barraProgreso = document.getElementById('barra-progreso');
@@ -1464,7 +1449,7 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
             const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
             const snap = await getDocs(q);
             albumEspeciesMemoria = {};
-           
+            
             snap.forEach(documento => {
                 const d = documento.data();
                 if (!albumEspeciesMemoria[d.nombreCientifico]) {
@@ -1487,7 +1472,7 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
 
             Object.values(albumEspeciesMemoria).forEach(esp => {
                 if(filtroTexto && !esp.nombreComun.toLowerCase().includes(filtroTexto) && !esp.nombreCientifico.toLowerCase().includes(filtroTexto)) return;
-               
+                
                 const factorEvolutivo = Math.min(esp.copiasTotales, 4);
                 const tagRarity = `rare-${esp.rareza}`;
 
@@ -1513,8 +1498,8 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
             document.getElementById('m-desc').innerText = esp.descripcion;
 
             document.getElementById('m-back-title').innerText = esp.nombreComun;
-            document.getElementById('m-fecha').innerText = `📅 Primer Registro: ${esp.fecha}`;
-            document.getElementById('m-coords').innerText = `📍 Bioma: ${esp.loc} | Hoja: ${esp.tipoHoja} | ${esp.origen}`;
+            document.getElementById('m-fecha').innerText = ` Register: ${esp.fecha}`;
+            document.getElementById('m-coords').innerText = ` Bioma: ${esp.loc} | Hoja: ${esp.tipoHoja} | ${esp.origen}`;
 
             const btnEvo = document.getElementById('btn-evolution-action');
             if(esp.copiasTotales >= 2) {
@@ -1522,7 +1507,6 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                 btnEvo.innerText = `ADAPTAR AL NIVEL ${Math.min(esp.copiasTotales, 4)}`;
             } else { btnEvo.style.display = 'none'; }
 
-            // Construcción del mini-desplegable de sinónimos recogidos en campo
             const drop = document.getElementById('modal-names-dropdown'); drop.innerHTML = '';
             esp.nombresAlternativosRecogidos.forEach(altName => {
                 const r = document.createElement('div'); r.className = 'name-drop-row'; r.innerText = altName;
@@ -1549,14 +1533,13 @@ let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
             }
         };
 
-        window.desplegarToastVictoriaInmediata = (msg) => {
+        window.desplegarToastVictoryInmediata = (msg) => {
             const el = document.getElementById('botanik-toast-victory');
             document.getElementById('botanik-toast-msg-txt').innerText = msg;
             el.classList.add('show-toast');
             setTimeout(() => { el.classList.remove('show-toast'); }, 4000);
         };
 
-        // Arranque Inicial Automático
         window.onload = () => {
             document.getElementById('main-app-container').style.display = 'block';
         };
