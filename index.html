@@ -1117,53 +1117,83 @@
                         const base64DataCompleta = comprimirImagenProporcional(img, 700, 0.6);
                         const base64Data = base64DataCompleta.split(",")[1];
                         
-                        let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
-                        let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
+let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
+                    let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
 
-                        const promptInstrucciones = `Eres el Satélite Científico Central del juego BotaniK 2. Tu misión es analizar la muestra vegetal y devolver OBLIGATORIAMENTE un objeto JSON estricto, plano, sin formato markdown, sin usar bloques de código \`\`\`json ni caracteres invisibles.
-                        Adapta el relato pedagógico y cultural para un explorador de ${edadAventurero} años cuya Base Secreta está en ${sectorBaseTxt}. Si el perfil es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
-                        Cruza la mitología local de la provincia (ej: si es Cantabria, inyecta Anjanas, Trastolillos, o dragones de monte; si es Jaén, mitos íberos).
-                        Campos del JSON requeridos:
-                        {
-                          "nombreComun": "Nombre de la planta en mayúsculas",
-                          "nombreCientifico": "Género y especie",
-                          "rareza": "comun, poco, especial o exotica (según tu criterio ecológico)",
-                          "descripcion": "Relato adaptado a su edad y mitología del lugar",
-                          "tipoHoja": "Perenne/Caduca/No aplica",
-                          "origen": "Autóctona/Exótica"
-                        }`;
+                    // PROMPT MODIFICADO: Ahora detecta si hay muestras vegetales reales
+                    const promptInstrucciones = `Eres el Satélite Científico Central del juego BotaniK 2. Tu misión inicial es evaluar si la imagen contiene una planta, árbol, hoja, flor o elemento del reino vegetal.
+                    
+                    CRITERIO DE EXCLUSIÓN ABSOLUTO: Si la imagen NO contiene ninguna planta (por ejemplo: es un objeto, una mesa, el suelo liso, una persona sin vegetación, un texto o una habitación), debes devolver OBLIGATORIAMENTE este JSON exacto y nada más:
+                    {
+                      "esPlanta": false,
+                      "motivoRechazo": "Breve mensaje en ambientación espacial/juego explicando que el escáner no detecta clorofila o tejido vegetal en la superficie"
+                    }
 
-                        let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
+                    Si SÍ contiene una muestra vegetal, devuelve un objeto JSON estricto con "esPlanta": true y los siguientes campos (sin formato markdown, sin usar bloques de código \`\`\`json ni caracteres invisibles):
+                    Adapta el relato pedagógico y cultural para un explorador de ${edadAventurero} años cuya Base Secreta está en ${sectorBaseTxt}. Si el perfil es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
+                    Cruza la mitología local de la provincia (ej: si es Cantabria, inyecta Anjanas, Trastolillos, o dragones de monte; si es Jaén, mitos íberos).
+                    
+                    Campos del JSON requerido para plantas válidas:
+                    {
+                      "esPlanta": true,
+                      "nombreComun": "Nombre de la planta en mayúsculas",
+                      "nombreCientifico": "Género y especie",
+                      "rareza": "comun, poco, especial o exotica (según tu criterio ecológico)",
+                      "descripcion": "Relato adaptado a su edad y mitología del lugar",
+                      "tipoHoja": "Perenne/Caduca/No aplica",
+                      "origen": "Autóctona/Exótica"
+                    }`;
 
-                        let response = await fetch(url, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                contents: [{
-                                    parts: [
-                                        { text: promptInstrucciones },
-                                        { inlineData: { mimeType: "image/jpeg", data: base64Data } }
-                                    ]
-                                }]
-                            })
-                        });
+                    let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
 
-                        if (response.status === 429 || !response.ok) {
-                            const errorTextoTexto = await response.text();
-                            window.rotarASiguienteClavePorSaturacion();
-                            alert(`📡 HTTP ERROR ${response.status}: Servidor Gemini rechazó la petición.\nDetalle: ${errorTextoTexto}`);
-                            document.getElementById('loading').style.display = 'none';
-                            return;
-                        }
+                    let response = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [
+                                    { text: promptInstrucciones },
+                                    { inlineData: { mimeType: "image/jpeg", data: base64Data } }
+                                ]
+                            }]
+                        })
+                    });
 
-                        const jsonRes = await response.json();
-                        
-                        // Validar si la estructura de candidatos llegó vacía (Filtros de seguridad de Google o foto no reconocida)
-                        if (!jsonRes.candidates || jsonRes.candidates.length === 0) {
-                            alert(`⚠️ EL SATÉLITE BLOQUEÓ LA IMAGEN:\n\nGoogle Gemini no generó candidatos. Esto ocurre si la foto no contiene elementos válidos o se activaron los filtros de seguridad de la IA.\n\nJSON recibido: ${JSON.stringify(jsonRes)}`);
-                            document.getElementById('loading').style.display = 'none';
-                            return;
-                        }
+                    if (response.status === 429 || !response.ok) {
+                        const errorTextoTexto = await response.text();
+                        window.rotarASiguienteClavePorSaturacion();
+                        alert(`📡 HTTP ERROR ${response.status}: Servidor Gemini rechazó la petición.\nDetalle: ${errorTextoTexto}`);
+                        document.getElementById('loading').style.display = 'none';
+                        return;
+                    }
+
+                    const jsonRes = await response.json();
+                    
+                    if (!jsonRes.candidates || jsonRes.candidates.length === 0) {
+                        alert(`⚠️ EL SATÉLITE BLOQUEÓ LA IMAGEN:\n\nGoogle Gemini no generó candidatos. Esto ocurre si la foto no contiene elementos válidos o se activaron los filtros de seguridad de la IA.`);
+                        document.getElementById('loading').style.display = 'none';
+                        return;
+                    }
+
+                    let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
+                    if(rawText.startsWith("```")) { rawText = rawText.replace(/^
+```json/i, "").replace(/```$/, "").trim(); }
+
+                    let planta;
+                    try {
+                        planta = JSON.parse(rawText);
+                    } catch (jsonErr) {
+                        alert(`❌ ERROR DE PARSEO BOTÁNICO:\n\nGemini no devolvió un JSON limpio.\n\nTexto crudo recibido:\n${rawText}`);
+                        document.getElementById('loading').style.display = 'none';
+                        return;
+                    }
+
+                    // FILTRO DE SEGURIDAD BIOLÓGICA: Si el satélite dice que no es planta, abortamos la misión
+                    if (planta.esPlanta === false) {
+                        alert(`📡 ALERTA DEL SATÉLITE CENTRAL:\n\n${planta.motivoRechazo || "Análisis fallido: La muestra recolectada no pertenece al reino vegetal."}`);
+                        document.getElementById('loading').style.display = 'none';
+                        return;
+                    }
 
                         let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
                         
