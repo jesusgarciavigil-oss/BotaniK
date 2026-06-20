@@ -195,7 +195,7 @@
         .modal-img-poke { width: 100%; height: 100%; object-fit: cover; }
         
         .modal-body-poke { 
-            background: rgba(13,27,30,0.85); /* Un pelín más opaco para mejorar contraste */
+            background: rgba(13,27,30,0.85); 
             margin: 0 14px 14px; 
             padding: 12px; 
             border-radius: 10px; 
@@ -203,9 +203,12 @@
             text-align: left; 
             display: flex; 
             flex-direction: column; 
-            justify-content: flex-start; /* Cambiado a flex-start para que el scroll tenga un eje superior fijo */
-            overflow: hidden; /* Evita que el contenedor rompa la carta */
-            flex: 1; /* Le permite ocupar todo el espacio inferior disponible */
+            justify-content: flex-start; 
+            overflow: hidden; 
+            flex: 1; 
+
+            /* Línea añadida para asegurar la recepción táctil de los hijos */
+            pointer-events: auto !important; 
         }
         
         .modal-sci-poke { 
@@ -1596,6 +1599,31 @@
         window.onload = () => {
             document.getElementById('main-app-container').style.display = 'block';
         };
+        // AISLAMIENTO TÁCTIL ABSOLUTO PARA LA DESCRIPCIÓN
+        // Evita que el arrastre del dedo se propague al modal o al fondo del álbum
+        const cajaDesc = document.getElementById('m-desc');
+        
+        let ts;
+        cajaDesc.addEventListener('touchstart', (e) => {
+            ts = e.touches[0].clientY;
+        }, { passive: false });
+
+        cajaDesc.addEventListener('touchmove', (e) => {
+            const te = e.touches[0].clientY;
+            const scrollMax = cajaDesc.scrollHeight - cajaDesc.clientHeight;
+            
+            // Si la caja tiene scroll real disponible
+            if (scrollMax > 0) {
+                // Detiene la rotación de la carta y el scroll del fondo
+                e.stopPropagation(); 
+                
+                // Si intenta hacer scroll hacia arriba estando en el tope, o hacia abajo estando al final,
+                // evitamos el rebote elástico del navegador que bloquea la interfaz
+                if ((cajaDesc.scrollTop === 0 && te > ts) || (cajaDesc.scrollTop >= scrollMax && te < ts)) {
+                    e.preventDefault();
+                }
+            }
+        }, { passive: false });
     </script>
 </body>
 </html>
