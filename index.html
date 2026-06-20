@@ -618,22 +618,22 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-// ARSENAL DE RESPALDO: BANCO DE CLAVES ACTUALIZADO (Frecuencias Satelitales Activas)
+// ARSENAL DE RESPALDO: Claves de Gemini guardadas de forma directa y entera
         const _0xkeys = [
-            ["AQ", "Ab8RN6K9eMLDW_np4oMF1bxYxsI45ryg8-ZJdiP0BiEp5J8qgg"],
-            ["AQ", "Ab8RN6JI3FXyP1ocfEfu0jul3EmXjiQQTrCUeAMAAXZxDJHwcA"],
-            ["AQ", "Ab8RN6J8M-4szUq3prRTJmmmgtzReKCFbCtTpXSAaJkcKTrPTQ"],
-            ["AQ", "Ab8RN6IlJrijF8jCY01S7gKWiPiHmXQ2BeaIJ9hu4sZH6iGDeg"],
-            ["AQ", "Ab8RN6LBYU6cMcyhRGdI-CysI4cQvB8JS5jp_7EbCPqpdrlLLg"],
-            ["AQ", "Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg"]
+            "AQ.Ab8RN6K9eMLDW_np4oMF1bxYxsI45ryg8-ZJdiP0BiEp5J8qgg",
+            "AQ.Ab8RN6JI3FXyP1ocfEfu0jul3EmXjiQQTrCUeAMAAXZxDJHwcA",
+            "AQ.Ab8RN6J8M-4szUq3prRTJmmmgtzReKCFbCtTpXSAaJkcKTrPTQ",
+            "AQ.Ab8RN6IlJrijF8jCY01S7gKWiPiHmXQ2BeaIJ9hu4sZH6iGDeg",
+            "AQ.Ab8RN6LBYU6cMcyhRGdI-CysI4cQvB8JS5jp_7EbCPqpdrlLLg",
+            "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg"
         ];
-
+        
         // Indicador del satélite activo en el carrusel
         let indiceClaveActual = 0;
 
-        // Función que reconstruye la clave activa al vuelo para realizar la petición
+        // Función modificada para leer la clave íntegra y directa sin modificaciones
         function obtenerGeminiKeyActiva() {
-            return _0xkeys[indiceClaveActual].join(".");
+            return _0xkeys[indiceClaveActual];
         }
 
         // Sistema automático de salto en caso de saturación (Error 429) o bloqueo temporal
