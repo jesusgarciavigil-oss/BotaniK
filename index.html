@@ -1120,30 +1120,29 @@
                         let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                         let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
 
-                        // FILTRO PASO 1 INTEGRADO: Obligamos a la IA a verificar si es una muestra vegetal real
-                        const promptInstrucciones = `Eres el Satélite Científico Central del juego BotaniK 2. Tu misión inicial es evaluar si la imagen contiene una planta, árbol, hoja, flor o elemento del reino vegetal.
-                        
-                        CRITERIO DE EXCLUSIÓN ABSOLUTO: Si la imagen NO contiene ninguna planta (por ejemplo: es un objeto, una mesa, el suelo liso, una persona sin vegetación, un texto o una habitación), debes devolver OBLIGATORIAMENTE este JSON exacto y nada más:
+                        // FILTRO PASO 1 OPTIMIZADO: Cortafuegos Biológico Estricto para Gemini
+                        const promptInstrucciones = `Eres el Satélite Botánico del laboratorio central BotaniK. Tu primera tarea obligatoria es realizar un análisis espectral de la imagen para buscar tejidos vegetales, clorofila, estructuras foliares, tallos, raíces o flores.
+
+                        SISTEMA DE EXCLUSIÓN CRÍTICO: 
+                        Si la imagen contiene objetos domésticos, personas, animales, pantallas, textos, habitaciones, paisajes urbanos sin vegetación enfocada o CUALQUIER otra muestra que NO sea una planta real, debes detener el escaneo inmediatamente y devolver de forma estricta este JSON exacto:
                         {
                           "esPlanta": false,
-                          "motivoRechazo": "El escáner de campo no detecta actividad de clorofila ni tejido celular vegetal en la superficie analizada."
+                          "motivoRechazo": "El escáner de campo no ha detectado actividad fotosintética ni estructuras celulares del reino vegetal en esta superficie."
                         }
 
-                        Si SÍ contiene una muestra vegetal, devuelve un objeto JSON estricto con "esPlanta": true y los siguientes campos (sin formato markdown, sin usar bloques de código \`\`\`json ni caracteres invisibles):
-                        Adapta el relato pedagógico y cultural para un explorador de ${edadAventurero} años cuya Base Secreta está en ${sectorBaseTxt}. Si el perfil es experto (Modo Experto: ${perfilActivoEsExperto}), usa rigor filogenético profundo.
-                        Cruza la mitología local de la provincia (ej: si es Cantabria, inyecta Anjanas, Trastolillos, o dragones de monte; si es Jaén, mitos íberos).
-                        
-                        Campos del JSON requerido para plantas válidas:
+                        Solo si la imagen contiene de forma clara y evidente una muestra botánica real, pon "esPlanta": true y rellena el resto de los campos con total rigor científico.
+                        Relato pedagógico adaptado para un explorador de ${edadAventurero} años con Base Secreta en ${sectorBaseTxt}. (Modo Experto: ${perfilActivoEsExperto}). Incluye mitología local de la provincia (ej. Cantabria: Anjanas/Trastolillos; Jaén: mitos íberos).
+
+                        Campos obligatorios si es planta (sin usar bloques de código \`\`\`json ni caracteres markdown):
                         {
                           "esPlanta": true,
-                          "nombreComun": "Nombre de la planta en mayúsculas",
+                          "nombreComun": "NOMBRE DE LA PLANTA EN MAYÚSCULAS",
                           "nombreCientifico": "Género y especie",
-                          "rareza": "comun, poco, especial o exotica (según tu criterio ecológico)",
-                          "descripcion": "Relato adaptado a su edad y mitología del lugar",
+                          "rareza": "comun, poco, especial o exotica",
+                          "descripcion": "Narración combinando ciencia y leyendas locales.",
                           "tipoHoja": "Perenne/Caduca/No aplica",
                           "origen": "Autóctona/Exótica"
                         }`;
-
                         let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
 
                         let response = await fetch(url, {
