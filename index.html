@@ -444,43 +444,47 @@
     </div>
 
     <div id="cromo-overlay-modal" onclick="evaluarCierrePorFondo(event)">
-        <div class="modal-perspective" id="modal-perspective-flyer">
-            <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
-                
-                <div class="modal-face modal-front" id="modal-front-face">
-                    <div class="modal-header-poke">
-                        <div class="modal-title-poke-clickable" onclick="desplegarNombresAlternativosModal(event)">
-                            <span id="m-title">PLANTA</span>
+        <div style="display: flex; flex-direction: column; align-items: center; max-width: 320px; width: 100%; height: 82vh;">
+            
+            <div class="modal-perspective" id="modal-perspective-flyer" style="flex-shrink: 0; margin-bottom: 12px; width: 100%;">
+                <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
+                    
+                    <div class="modal-face modal-front" id="modal-front-face">
+                        <div class="modal-header-poke">
+                            <div class="modal-title-poke-clickable" onclick="desplegarNombresAlternativosModal(event)">
+                                <span id="m-title">PLANTA</span>
+                            </div>
+                            <div class="mini-badge-poke" id="m-type">DESCUBIERTO</div>
+                            <div class="names-dropdown-box" id="modal-names-dropdown"></div>
                         </div>
-                        <div class="mini-badge-poke" id="m-type">DESCUBIERTO</div>
-                        
-                        <div class="names-dropdown-box" id="modal-names-dropdown"></div>
-                    </div>
-                    <div class="modal-frame-poke">
-                        <img id="m-img" class="modal-img-poke" src="">
-                    </div>
-                    <div class="modal-body-poke">
-                        <div>
-                            <div class="modal-sci-poke" id="m-sci">Scientific Name</div>
-                            <div class="modal-desc-poke" id="m-desc">Descripción narrative...</div>
+                        <div class="modal-frame-poke">
+                            <img id="m-img" class="modal-img-poke" src="">
                         </div>
-                        <button class="btn-evolution-ready-trigger" id="btn-evolution-action">ADAPTAR CROMO</button>
                     </div>
-                </div>
-                
-                <div class="modal-face modal-back">
-                    <div class="modal-back-logo">B</div>
-                    <h3 style="color: var(--neon-green); font-size: 16px; font-weight: 900; letter-spacing: 1px; margin-bottom: 15px;" id="m-back-title">BOTANIK EXPEDICIÓN</h3>
-                    <div class="modal-meta-box">
-                        <div class="modal-back-meta" id="m-fecha">📅 Registro: --/--/----</div>
-                        <div class="modal-back-meta" id="m-coords">📍 Coordenadas: Adquiriendo...</div>
-                        <div class="modal-back-meta" style="color: var(--poke-gold); margin-top: 10px; font-weight: bold;">⚡ ADN Sincronizado en Firebase Core</div>
+                    
+                    <div class="modal-face modal-back">
+                        <div class="modal-back-logo">B</div>
+                        <h3 style="color: var(--neon-green); font-size: 16px; font-weight: 900; letter-spacing: 1px; margin-bottom: 15px;" id="m-back-title">BOTANIK EXPEDICIÓN</h3>
+                        <div class="modal-meta-box">
+                            <div class="modal-back-meta" id="m-fecha">📅 Registro: --/--/----</div>
+                            <div class="modal-back-meta" id="m-coords">📍 Coordenadas: Adquiriendo...</div>
+                            <div class="modal-back-meta" style="color: var(--poke-gold); margin-top: 10px; font-weight: bold;">⚡ ADN Sincronizado</div>
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
+
+            <div class="modal-body-poke" style="width: 100%; margin: 0; background: rgba(21, 42, 45, 0.95); border: 2px solid var(--botanik-green); box-shadow: 0 10px 25px rgba(0,0,0,0.5); pointer-events: auto !important;">
+                <div class="modal-sci-poke" id="m-sci">Scientific Name</div>
+                <div class="modal-desc-poke" id="m-desc" style="overflow-y: auto !important; max-height: 110px; touch-action: pan-y !important; -webkit-overflow-scrolling: touch !important;">
+                    Descripción narrative...
+                </div>
+                <button class="btn-evolution-ready-trigger" id="btn-evolution-action">ADAPTAR CROMO</button>
+            </div>
+
         </div>
-        <div class="close-modal-txt">Haz clic en el fondo para guardar en el Álbum</div>
+        <div class="close-modal-txt" style="margin-top: 12px;">Haz clic en el fondo para guardar en el Álbum</div>
     </div>
 
     <div id="botanik-toast-victory">
