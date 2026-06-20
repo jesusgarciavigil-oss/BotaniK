@@ -194,9 +194,46 @@
         .modal-frame-poke { background: #000; margin: 10px 14px; flex: 1; border-radius: 8px; border: 2px solid rgba(118,225,97,0.1); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
         .modal-img-poke { width: 100%; height: 100%; object-fit: cover; }
         
-        .modal-body-poke { background: rgba(13,27,30,0.6); margin: 0 14px 14px; padding: 12px; border-radius: 10px; border: 1px solid rgba(127,163,159,0.08); text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
-        .modal-sci-poke { font-size: 11px; font-style: italic; color: var(--accent-green); font-weight: bold; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .modal-desc-poke { font-size: 11.5px; color: var(--text-light); line-height: 1.45; overflow-y: auto; max-height: 75px; padding-right: 4px; font-weight: 500; }
+        .modal-body-poke { 
+            background: rgba(13,27,30,0.85); /* Un pelín más opaco para mejorar contraste */
+            margin: 0 14px 14px; 
+            padding: 12px; 
+            border-radius: 10px; 
+            border: 1px solid rgba(127,163,159,0.15); 
+            text-align: left; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-start; /* Cambiado a flex-start para que el scroll tenga un eje superior fijo */
+            overflow: hidden; /* Evita que el contenedor rompa la carta */
+            flex: 1; /* Le permite ocupar todo el espacio inferior disponible */
+        }
+        
+        .modal-sci-poke { 
+            font-size: 11px; 
+            font-style: italic; 
+            color: var(--accent-green); 
+            font-weight: bold; 
+            margin-bottom: 6px; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap; 
+            flex-shrink: 0; /* Evita que el nombre científico se encoja */
+        }
+        
+        .modal-desc-poke { 
+            font-size: 11.5px; 
+            color: var(--text-light); 
+            line-height: 1.5; 
+            overflow-y: auto; /* Activa el scroll vertical */
+            max-height: 110px; /* Ampliamos un poco el rango visual aprovechando el espacio */
+            padding-right: 6px; 
+            font-weight: 500; 
+            flex-grow: 1; /* Absorbe el espacio restante de la caja */
+            
+            /* TRUCO MAESTRO: Forzar al navegador a renderizar el scroll de forma independiente en capas 3D */
+            transform: translateZ(1px); 
+            -webkit-overflow-scrolling: touch; /* Scroll súper suave y fluido en pantallas táctiles iOS/Android */
+        }
         
         .btn-evolution-ready-trigger { width: 100%; padding: 8px; margin-top: 10px; background: linear-gradient(135deg, var(--poke-gold) 0%, #cc9900 100%); border: 1px solid #fff; border-radius: 6px; color: #000; font-weight: 900; font-size: 11px; cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; text-align: center; }
         
