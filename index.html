@@ -1197,6 +1197,7 @@
                         const mult = MULTIPLICADORES_RAREZA[planta.rareza] || 1;
                         const baseXP = 20; const calculadoXP = Math.floor(baseXP * mult);
 
+// Guardamos en la base de datos central
                         await addDoc(collection(db, "capturas"), {
                             nombreComun: planta.nombreComun,
                             nombreCientifico: planta.nombreCientifico,
@@ -1217,9 +1218,38 @@
                             origen: planta.origen || "Autóctona"
                         });
 
+                        // Ocultamos el indicador de carga del satélite
                         document.getElementById('loading').style.display = 'none';
+                        
+                        // Lanzamos el aviso sónico/visual de biomasa ganada
                         window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculadoXP} XP`);
+                        
+                        // Actualizamos los contadores de nivel del radar en segundo plano
                         actualizarEstado();
+
+                        // PREPARACIÓN DEL CROMO EN VIVO: Reconstruimos el objeto para el visualizador 3D
+                        const muestraRecienCapturada = {
+                            nombreComun: planta.nombreComun,
+                            nombreCientifico: planta.nombreCientifico,
+                            rareza: planta.rareza,
+                            descripcion: planta.descripcion,
+                            foto: base64DataCompleta,
+                            fecha: new Date().toLocaleDateString(),
+                            loc: perfilActivoBase?.municipio || "Exploración",
+                            tipoHoja: planta.tipoHoja || "No especificado",
+                            origen: planta.origen || "Autóctona",
+                            copiasTotales: 1, // Al ser la captura en vivo, le seteamos 1 de forma estática para el badge
+                            nombresAlternativosRecogidos: new Set([planta.nombreComun])
+                        };
+
+                        // ¡ACCIÓN! Forzamos al renderizador a abrir el cromo interactivo en la cara del niño
+                        window.abrirVisualizadorDetalleCromo3D(muestraRecienCapturada);
+
+                    } catch (err) {
+                        document.getElementById('loading').style.display = 'none';
+                        alert(`💥 CRASH EN PROCESAR FOTO (Lógica Interna):\n\nDetalle: ${err.name} - ${err.message}`);
+                        console.error(err);
+                    }
 
                     } catch (err) {
                         document.getElementById('loading').style.display = 'none';
