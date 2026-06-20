@@ -224,17 +224,18 @@
             font-size: 11.5px; 
             color: var(--text-light); 
             line-height: 1.5; 
-            overflow-y: auto !important; /* Fuerza a que aparezca el scroll */
+            overflow-y: auto !important; /* Fuerza el scroll */
             max-height: 110px; 
             padding-right: 6px; 
             font-weight: 500; 
             flex-grow: 1; 
             
-            /* ESTO ARREGLA EL MÓVIL */
-            touch-action: pan-y !important; /* Le dice al móvil: "Aquí el dedo solo sirve para subir y bajar texto" */
-            -webkit-overflow-scrolling: touch !important; /* Hace que el scroll vaya suave */
-            transform: translateZ(10px); /* Despega el texto para que el móvil lo detecte primero */
-            pointer-events: auto !important; /* Obliga al móvil a detectar el dedo aquí y no en el fondo */   
+            touch-action: pan-y !important; /* El dedo solo sube y baja */
+            -webkit-overflow-scrolling: touch !important; 
+            transform: translateZ(10px); /* Despega el texto en 3D */
+
+            /* ¡AÑADE ESTA LÍNEA DE ABAJO! */
+            pointer-events: auto !important; /* Obliga al móvil a detectar el dedo aquí y no en el fondo */
         }
         
         .btn-evolution-ready-trigger { width: 100%; padding: 8px; margin-top: 10px; background: linear-gradient(135deg, var(--poke-gold) 0%, #cc9900 100%); border: 1px solid #fff; border-radius: 6px; color: #000; font-weight: 900; font-size: 11px; cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; text-align: center; }
