@@ -205,9 +205,8 @@
             flex-direction: column; 
             justify-content: flex-start; 
             overflow: hidden; 
-            flex: 1; 
-
-            /* Línea añadida para asegurar la recepción táctil de los hijos */
+            height: 140px; /* Fijamos altura estricta dentro del cromo */
+            flex-shrink: 0;
             pointer-events: auto !important; 
         }
         
@@ -220,24 +219,24 @@
             overflow: hidden; 
             text-overflow: ellipsis; 
             white-space: nowrap; 
-            flex-shrink: 0; /* Evita que el nombre científico se encoja */
+            flex-shrink: 0; 
         }
         
-           .modal-desc-poke { 
+        .modal-desc-poke { 
             font-size: 11.5px; 
             color: var(--text-light); 
             line-height: 1.5; 
-            overflow-y: auto !important; /* Fuerza el scroll vertical */
-            max-height: 110px; 
+            overflow-y: auto !important; /* Forza ventana deslizable interna */
+            max-height: 85px; 
             padding-right: 6px; 
             font-weight: 500; 
             flex-grow: 1; 
             
             /* CONFIGURACIÓN CRÍTICA PARA MÓVILES */
-            touch-action: pan-y !important; /* El dedo solo sirve para desplazar verticalmente */
-            -webkit-overflow-scrolling: touch !important; /* Scroll ultrasuave en iOS */
-            pointer-events: auto !important; /* Reactiva los eventos del dedo aquí dentro */
-            transform: translateZ(20px); /* Eleva el texto en el eje Z por encima de la perspectiva de la carta */
+            touch-action: pan-y !important; 
+            -webkit-overflow-scrolling: touch !important; 
+            pointer-events: auto !important; 
+            transform: translateZ(20px); /* Evita superposiciones 3D */
         }
         
         .btn-evolution-ready-trigger { width: 100%; padding: 8px; margin-top: 10px; background: linear-gradient(135deg, var(--poke-gold) 0%, #cc9900 100%); border: 1px solid #fff; border-radius: 6px; color: #000; font-weight: 900; font-size: 11px; cursor: pointer; letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; text-align: center; }
@@ -249,55 +248,7 @@
         .modal-meta-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(157,78,221,0.2); padding: 12px; border-radius: 10px; width: 100%; text-align: left; }
         .modal-back-meta { font-size: 10.5px; color: #c3a6ff; font-family: monospace; margin-bottom: 5px; font-weight: 600; }
         .modal-back-meta:last-child { margin-bottom: 0; }
-        .close-modal-txt { font-size: 11px; color: var(--text-muted); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline; }
-
-        /* Alertas de Victoria / Toast */
-        #botanik-toast-victory { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, #0d1b1e 0%, #152a2d 100%); border: 2px solid var(--poke-gold); padding: 14px 24px; border-radius: 16px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.5); z-index: 100000; transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); min-width: 240px; }
-        #botanik-toast-victory.show-toast { bottom: 80px; }
-        #botanik-toast-msg-txt { color: white; font-weight: 900; font-size: 13px; letter-spacing: 0.5px; }
-
-        /* Estilos Consola de Control Supremo (Modo Dios) */
-        .admin-header { background: #120024; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--admin-purple); }
-        .admin-nav-tabs { display: flex; background: #1a0033; border-bottom: 1px solid rgba(157,78,221,0.2); }
-        .admin-tab-btn { flex:1; padding: 12px 6px; background: transparent; border: none; border-bottom: 3px solid transparent; color: #c3a6ff; font-size: 11px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .admin-tab-btn.active { color: white; border-color: var(--neon-green); background: rgba(57,255,20,0.04); }
-        .admin-view-pane { display: none; padding: 20px; width: 100%; max-width: 1200px; margin: 0 auto; }
-        .admin-view-pane.active { display: block; }
-        
-        .admin-stat-card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .admin-card { background: var(--surface-dark); border: 1px solid rgba(157,78,221,0.2); border-radius: 12px; padding: 14px; text-align: center; }
-        .admin-card h4 { font-size: 11px; color: #c3a6ff; text-transform: uppercase; margin-bottom: 4px; }
-        .admin-card .big-num { font-size: 26px; font-weight: 900; color: white; font-family: monospace; }
-        
-        .live-feed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; max-height: 50vh; overflow-y: auto; padding-right: 5px; }
-        .feed-box { background: rgba(13,27,30,0.4); border: 1px solid rgba(127,163,159,0.1); border-radius: 10px; padding: 8px; display: flex; gap: 10px; text-align: left; position: relative; }
-        .feed-img { width: 65px; height: 65px; border-radius: 6px; object-fit: cover; background: #000; }
-        .feed-body { flex:1; display: flex; flex-direction: column; justify-content: center; }
-        .feed-title { font-size: 12px; font-weight: bold; color: white; text-transform: uppercase; }
-        .feed-author-tag { position: absolute; top: 8px; right: 8px; background: rgba(57,255,20,0.1); border: 1px solid rgba(57,255,20,0.2); color: var(--neon-green); font-size: 8px; padding: 1px 5px; border-radius: 4px; text-transform: uppercase; }
-        
-        .account-cluster-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(157,78,221,0.15); border-radius: 14px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .cluster-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(157,78,221,0.2); padding-bottom: 8px; margin-bottom: 12px; }
-        .cluster-email { font-size: 13px; font-weight: bold; color: white; }
-        .cluster-base { font-size: 10px; color: var(--neon-green); font-family: monospace; font-weight: bold; background: rgba(57,255,20,0.08); padding: 2px 8px; border-radius: 4px; }
-        
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 12px; text-align: left; }
-        .admin-table th { color: #c3a6ff; padding: 8px; border-bottom: 2px solid rgba(157,78,221,0.3); font-weight: bold; text-transform: uppercase; font-size: 10px; }
-        .admin-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #e0e0e0; vertical-align: middle; }
-        .admin-btn { padding: 5px 10px; border: 1px solid transparent; border-radius: 4px; font-weight: bold; font-size: 10px; cursor: pointer; text-transform: uppercase; margin-right: 4px; transition: 0.15s; }
-        .admin-btn-purple { background: rgba(157,78,221,0.15); border-color: var(--admin-purple); color: #d4bef0; }
-        .admin-btn-purple:hover { background: var(--admin-purple); color: white; }
-        .admin-btn-danger { background: rgba(255,59,48,0.15); border-color: var(--danger); color: #ff8b85; }
-        .admin-btn-danger:hover { background: var(--danger); color: white; }
-        .admin-form-group { display: flex; flex-direction: column; text-align: left; margin-bottom: 12px; }
-        .admin-form-group label { font-size: 11px; color: #c3a6ff; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
-        
-        /* Listados de Buzones Históricos */
-        .mailbox-item-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(118,225,97,0.1); border-radius: 10px; padding: 12px; cursor: pointer; transition: 0.15s; position: relative; }
-        .mailbox-item-card:hover { border-color: var(--accent-green); background: rgba(255,255,255,0.06); }
-        .mailbox-item-title { font-size: 12.5px; font-weight: bold; color: white; margin-bottom: 2px; text-transform: uppercase; max-width: 85%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .mailbox-item-date { font-size: 9px; color: var(--text-muted); font-family: monospace; font-weight: bold; }
-        .mailbox-unread-dot { position: absolute; top: 14px; right: 14px; width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 8px var(--neon-green); }
+        .close-modal-txt { font-size: 11px; color: var(--text-muted); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -422,12 +373,12 @@
             </div>
 
             <div class="admin-form-group">
-                <label>Nombre de Campo:</label>
+                <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Nombre de Campo:</div>
                 <input type="text" id="profile-name-input" class="login-input" placeholder="Ej: Neco, Leo, Luna, Bea..." style="margin:5px 0 10px;">
             </div>
             
             <div class="admin-form-group">
-                <label>Fecha de Nacimiento:</label>
+                <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Fecha de Nacimiento:</div>
                 <input type="date" id="profile-date-input" class="login-input" style="margin:5px 0 10px;">
             </div>
 
@@ -444,47 +395,40 @@
     </div>
 
     <div id="cromo-overlay-modal" onclick="evaluarCierrePorFondo(event)">
-        <div style="display: flex; flex-direction: column; align-items: center; max-width: 320px; width: 100%; height: 82vh;">
-            
-            <div class="modal-perspective" id="modal-perspective-flyer" style="flex-shrink: 0; margin-bottom: 12px; width: 100%;">
-                <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
-                    
-                    <div class="modal-face modal-front" id="modal-front-face">
-                        <div class="modal-header-poke">
-                            <div class="modal-title-poke-clickable" onclick="desplegarNombresAlternativosModal(event)">
-                                <span id="m-title">PLANTA</span>
-                            </div>
-                            <div class="mini-badge-poke" id="m-type">DESCUBIERTO</div>
-                            <div class="names-dropdown-box" id="modal-names-dropdown"></div>
+        <div class="modal-perspective" id="modal-perspective-flyer">
+            <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
+                
+                <div class="modal-face modal-front" id="modal-front-face">
+                    <div class="modal-header-poke">
+                        <div class="modal-title-poke-clickable" onclick="desplegarNombresAlternativosModal(event)">
+                            <span id="m-title">PLANTA</span>
                         </div>
-                        <div class="modal-frame-poke">
-                            <img id="m-img" class="modal-img-poke" src="">
-                        </div>
+                        <div class="mini-badge-poke" id="m-type">DESCUBIERTO</div>
+                        <div class="names-dropdown-box" id="modal-names-dropdown"></div>
                     </div>
-                    
-                    <div class="modal-face modal-back">
-                        <div class="modal-back-logo">B</div>
-                        <h3 style="color: var(--neon-green); font-size: 16px; font-weight: 900; letter-spacing: 1px; margin-bottom: 15px;" id="m-back-title">BOTANIK EXPEDICIÓN</h3>
-                        <div class="modal-meta-box">
-                            <div class="modal-back-meta" id="m-fecha">📅 Registro: --/--/----</div>
-                            <div class="modal-back-meta" id="m-coords">📍 Coordenadas: Adquiriendo...</div>
-                            <div class="modal-back-meta" style="color: var(--poke-gold); margin-top: 10px; font-weight: bold;">⚡ ADN Sincronizado</div>
-                        </div>
+                    <div class="modal-frame-poke">
+                        <img id="m-img" class="modal-img-poke" src="">
                     </div>
-
+                    <div class="modal-body-poke">
+                        <div class="modal-sci-poke" id="m-sci">Scientific Name</div>
+                        <div class="modal-desc-poke" id="m-desc">Descripción narrative...</div>
+                        <button class="btn-evolution-ready-trigger" id="btn-evolution-action">ADAPTAR CROMO</button>
+                    </div>
                 </div>
-            </div>
-
-            <div class="modal-body-poke" style="width: 100%; margin: 0; background: rgba(21, 42, 45, 0.95); border: 2px solid var(--botanik-green); box-shadow: 0 10px 25px rgba(0,0,0,0.5); pointer-events: auto !important;">
-                <div class="modal-sci-poke" id="m-sci">Scientific Name</div>
-                <div class="modal-desc-poke" id="m-desc" style="overflow-y: auto !important; max-height: 110px; touch-action: pan-y !important; -webkit-overflow-scrolling: touch !important;">
-                    Descripción narrative...
+                
+                <div class="modal-face modal-back">
+                    <div class="modal-back-logo">B</div>
+                    <h3 style="color: var(--neon-green); font-size: 16px; font-weight: 900; letter-spacing: 1px; margin-bottom: 15px;" id="m-back-title">BOTANIK EXPEDICIÓN</h3>
+                    <div class="modal-meta-box">
+                        <div class="modal-back-meta" id="m-fecha">📅 Registro: --/--/----</div>
+                        <div class="modal-back-meta" id="m-coords">📍 Coordenadas: Adquiriendo...</div>
+                        <div class="modal-back-meta" style="color: var(--poke-gold); margin-top: 10px; font-weight: bold;">⚡ ADN Sincronizado</div>
+                    </div>
                 </div>
-                <button class="btn-evolution-ready-trigger" id="btn-evolution-action">ADAPTAR CROMO</button>
-            </div>
 
+            </div>
         </div>
-        <div class="close-modal-txt" style="margin-top: 12px;">Haz clic en el fondo para guardar en el Álbum</div>
+        <div class="close-modal-txt">Haz clic en el fondo para guardar en el Álbum</div>
     </div>
 
     <div id="botanik-toast-victory">
@@ -560,7 +504,7 @@
                 <div class="admin-card" style="text-align: left;">
                     <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">📡 EMISOR DE TRANSMISIONES SEGMENTADAS</h3>
                     <div class="admin-form-group">
-                        <label>Segmentación del Objetivo / Canal:</label>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Segmentación del Objetivo / Canal:</div>
                         <select id="alert-target-type" class="admin-select" onchange="gestionarCambioTargetAlerta(this.value)">
                             <option value="global">Global (Toda la Red Unificada)</option>
                             <option value="pais">Por País Ecológico</option>
@@ -571,22 +515,22 @@
                         </select>
                     </div>
                     <div class="admin-form-group" id="pais-select-row" style="display:none;">
-                        <label>País Destino:</label><select id="alert-pais-select" class="admin-select"></select>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">País Destino:</div><select id="alert-pais-select" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group" id="provincia-select-row" style="display:none;">
-                        <label>Provincia Destino:</label><select id="alert-provincia-select" class="admin-select"></select>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Provincia Destino:</div><select id="alert-provincia-select" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group" id="comarca-select-row" style="display:none;">
-                        <label>Comarca Destino Natural:</label><select id="alert-comarca-select" class="admin-select"></select>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Comarca Destino Natural:</div><select id="alert-comarca-select" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group" id="usuario-select-row" style="display:none;">
-                        <label>Cuenta Familiar Destino:</label><select id="alert-user-field" class="admin-select" onchange="filtrarHijosDeCuentaParaMensajeDirecto(this.value)"></select>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Cuenta Familiar Destino:</div><select id="alert-user-field" class="admin-select" onchange="filtrarHijosDeCuentaParaMensajeDirecto(this.value)"></select>
                     </div>
                     <div class="admin-form-group" id="explorador-select-row" style="display:none;">
-                        <label>Explorador Concreto:</label><select id="alert-child-field" class="admin-select"></select>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Explorador Concreto:</div><select id="alert-child-field" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group">
-                        <label>Instrucciones de Campo (Texto del Mensaje):</label>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Instrucciones de Campo (Texto del Mensaje):</div>
                         <textarea id="alert-text-msg" class="admin-textarea" placeholder="Escribe la misión, bonus o alerta mitológica..."></textarea>
                     </div>
                     <button class="login-btn" style="background: var(--admin-purple); border-color:#d4bef0; color:white;" onclick="emitirAlertaSatelital()">DESPLEGAR COMUNICADO</button>
@@ -595,19 +539,19 @@
                 <div class="admin-card" style="text-align: left; border-color: var(--neon-green);">
                     <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">¼ INYECTOR DE ENTORNOS DE PRUEBA (SIMULADOR DE CAMPO)</h3>
                     <div class="admin-form-group">
-                        <label>Explorador de Destino para el Test:</label>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Explorador de Destino para el Test:</div>
                         <select id="sim-child-field" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group">
-                        <label>Nombre Común de Planta:</label>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Nombre Común de Planta:</div>
                         <input type="text" id="sim-comun-input" class="admin-select" value="Helecho Real">
                     </div>
                     <div class="admin-form-group">
-                        <label>Nombre Científico:</label>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Nombre Científico:</div>
                         <input type="text" id="sim-cien-input" class="admin-select" value="Osmunda regalis" style="font-style: italic;">
                     </div>
                     <div class="admin-form-group">
-                        <label>Rareza de Muestra:</label>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Rareza de Muestra:</div>
                         <select id="sim-rareza-select" class="admin-select">
                             <option value="comun">Común</option>
                             <option value="poco">Poco Común</option>
@@ -616,11 +560,11 @@
                         </select>
                     </div>
                     <div class="admin-form-group">
-                        <label>Ubicación Manual de Campo:</label>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Ubicación Manual de Campo:</div>
                         <input type="text" id="sim-loc-input" class="admin-select" placeholder="Ej: Ribera del Saja">
                     </div>
                     <div class="admin-form-group">
-                        <label>Descripción Científica Base:</label>
+                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Descripción Científica Base:</div>
                         <textarea id="sim-desc-textarea" class="admin-textarea" placeholder="Muestra botánica inyectada desde la consola central de simulación."></textarea>
                     </div>
                     
@@ -752,7 +696,7 @@
             });
         };
 
-        function comprimirImagenProporcional(imgElement, maxAnchoAlto, calidad) {
+        function comprobarImagenProporcional(imgElement, maxAnchoAlto, calidad) {
             const canvas = document.createElement('canvas');
             let ancho = imgElement.width; let alto = imgElement.height;
             if (ancho > alto) { if (ancho > maxAnchoAlto) { alto *= maxAnchoAlto / ancho; ancho = maxAnchoAlto; } }
@@ -861,7 +805,7 @@
             reader.onload = (e) => {
                 const img = new Image();
                 img.onload = () => {
-                    const base64Comprimido = comprimirImagenProporcional(img, 120, 0.7);
+                    const base64Comprimido = comprobarImagenProporcional(img, 120, 0.7);
                     document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
                     selectedAvatarValue = base64Comprimido;
                     document.getElementById('avatar-preview-circle').innerHTML = `<img src="${base64Comprimido}">`;
@@ -1017,7 +961,7 @@
            ========================================================================== */
 
         window.activarMandoSupremoGod = async () => { document.getElementById('god-mode-page').style.display = 'flex'; window.switchAdminTab('panel-macro'); };
-        window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'flex'; document.getElementById('login-page').style.display = 'none'; };
+        window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
 
         window.switchAdminTab = async (tabId) => {
             document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.admin-view-pane').forEach(pane => pane.classList.remove('active'));
@@ -1158,7 +1102,7 @@
                 const img = new Image();
                 img.onload = async () => {
                     try {
-                        const base64DataCompleta = comprimirImagenProporcional(img, 700, 0.6);
+                        const base64DataCompleta = comprobarImagenProporcional(img, 700, 0.6);
                         const base64Data = base64DataCompleta.split(",")[1];
                         
                         let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
@@ -1543,7 +1487,7 @@
         };
 
         /* ==========================================================================
-           VISUALIZADOR PREMIUM EN PERSPECTIVA (CARTA 3D)
+           VISUALIZADOR PREMIUM EN PERSPECTIVA (CARTA 3D) - COMPACTADA CON SMART SCROLL
            ========================================================================== */
 
         window.abrirVisualizadorDetalleCromo3D = (esp) => {
@@ -1574,11 +1518,27 @@
             });
 
             document.getElementById('cromo-overlay-modal').style.display = 'flex';
+
+            // PASO 3 INYECTADO: Sincronizador Táctil Anti-Propagación en Caliente sobre la Ventana Interna
+            const cajaDesc = document.getElementById('m-desc');
+            if (cajaDesc) {
+                cajaDesc.scrollTop = 0; // Reinicia la barra arriba al abrir
+
+                cajaDesc.addEventListener('touchstart', (e) => {
+                    e.stopPropagation(); // Detiene el tacto antes de que afecte a las capas 3D traseras
+                }, { passive: true });
+
+                cajaDesc.addEventListener('touchmove', (e) => {
+                    if (cajaDesc.scrollHeight > cajaDesc.clientHeight) {
+                        e.stopPropagation(); // Bloquea el arrastre del álbum del fondo
+                    }
+                }, { passive: true });
+            }
         };
 
-       window.voltearCartaModal = (event, el) => {
-            // Si tocan el texto (m-desc), la carta NO se da la vuelta
-            if(event.target.id === 'm-desc' || event.target.className === 'modal-desc-poke' || event.target.closest('.modal-title-poke-clickable') || event.target.closest('#modal-names-dropdown') || event.target.id === 'btn-evolution-action') return;
+        window.voltearCartaModal = (event, el) => {
+            // Evita voltear la carta si están interactuando con la ventana de descripción o botones internos
+            if(event.target.id === 'm-desc' || event.target.className === 'modal-desc-poke' || event.target.closest('.modal-body-poke') || event.target.closest('.modal-title-poke-clickable') || event.target.closest('#modal-names-dropdown') || event.target.id === 'btn-evolution-action') return;
             el.classList.toggle('flipped');
         };
 
@@ -1603,31 +1563,6 @@
         window.onload = () => {
             document.getElementById('main-app-container').style.display = 'block';
         };
-        // AISLAMIENTO TÁCTIL ABSOLUTO PARA LA DESCRIPCIÓN
-        // Evita que el arrastre del dedo se propague al modal o al fondo del álbum
-        const cajaDesc = document.getElementById('m-desc');
-        
-        let ts;
-        cajaDesc.addEventListener('touchstart', (e) => {
-            ts = e.touches[0].clientY;
-        }, { passive: false });
-
-        cajaDesc.addEventListener('touchmove', (e) => {
-            const te = e.touches[0].clientY;
-            const scrollMax = cajaDesc.scrollHeight - cajaDesc.clientHeight;
-            
-            // Si la caja tiene scroll real disponible
-            if (scrollMax > 0) {
-                // Detiene la rotación de la carta y el scroll del fondo
-                e.stopPropagation(); 
-                
-                // Si intenta hacer scroll hacia arriba estando en el tope, o hacia abajo estando al final,
-                // evitamos el rebote elástico del navegador que bloquea la interfaz
-                if ((cajaDesc.scrollTop === 0 && te > ts) || (cajaDesc.scrollTop >= scrollMax && te < ts)) {
-                    e.preventDefault();
-                }
-            }
-        }, { passive: false });
     </script>
 </body>
 </html>
