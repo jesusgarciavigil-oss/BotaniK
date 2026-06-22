@@ -167,6 +167,16 @@
             text-transform: uppercase;
             margin-bottom: 4px;
         }
+        .feed-scientific-name {
+            font-style: italic;
+            color: #7FA39F;
+            margin-bottom: 4px;
+        }
+        .feed-xp {
+            color: var(--poke-gold);
+            font-weight: bold;
+            margin-top: 2px;
+        }
         .feed-author-tag {
             color: #c3a6ff;
             margin-top: 4px;

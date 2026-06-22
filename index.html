@@ -740,7 +740,7 @@
 
             todas.slice(0, 12).forEach(c => {
                 if(c.municipioId === "Admin") return; const dataAutor = perfilesMapParaFeed[c.perfil] || { nombre: "Desconocido" };
-                feedContainer.innerHTML += `<div class="feed-box"><img class="feed-img" src="${c.foto}"><div class="feed-body"><div class="feed-title">${c.nombreComun}</div><div style="font-style:italic; color:#7FA39F; margin-bottom:4px;">${c.nombreCientifico}</div><div>📍 Lugar: <b>${c.loc || 'Campo'}</b></div><div style="color:var(--poke-gold); font-weight:bold; margin-top:2px;">XP: +${c.xp}</div><div class="feed-author-tag">👤 <b>${dataAutor.nombre}</b></div></div></div>`;
+                feedContainer.innerHTML += `<div class="feed-box"><img class="feed-img" src="${c.foto}"><div class="feed-body"><div class="feed-title">${c.nombreComun}</div><div class="feed-scientific-name">${c.nombreCientifico}</div><div>📍 Lugar: <b>${c.loc || 'Campo'}</b></div><div class="feed-xp">XP: +${c.xp}</div><div class="feed-author-tag">👤 <b>${dataAutor.nombre}</b></div></div></div>`;
             });
         };
 
