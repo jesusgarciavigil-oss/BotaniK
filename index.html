@@ -1166,27 +1166,47 @@
                           "tipoHoja": "Perenne/Caduca/No aplica",
                           "origen": "Autóctona/Exótica"
                         }`;
-                        let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
+                        // --- MOTOR DE DISPARO CON REINTENTO AUTOMÁTICO INVISIBLE ---
+                        let response;
+                        let intentos = 0;
+                        const maxIntentos = _0xkeys.length; // Probará tantas veces como llaves tengas
 
-                        let response = await fetch(url, {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                contents: [{
-                                    parts: [
-                                        { text: promptInstrucciones },
-                                        { inlineData: { mimeType: "image/jpeg", data: base64Data } }
-                                    ]
-                                }]
-                            })
-                        });
+                        while (intentos < maxIntentos) {
+                            let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
+                            
+                            response = await fetch(url, {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                    contents: [{
+                                        parts: [
+                                            { text: promptInstrucciones },
+                                            { inlineData: { mimeType: "image/jpeg", data: base64Data } }
+                                        ]
+                                    }]
+                                })
+                            });
 
-                        if (response.status === 429 || !response.ok) {
+                            if (response.status === 429) {
+                                console.warn(`📡 Satélite saturado. Cambiando a canal de respaldo (Intento ${intentos + 1})...`);
+                                window.rotarASiguienteClavePorSaturacion();
+                                intentos++;
+                                // Pausa microscópica de 0.5 segundos antes de disparar la nueva llave
+                                await new Promise(resolve => setTimeout(resolve, 500));
+                            } else {
+                                // Si es un éxito (200) o un error distinto al 429, salimos del bucle
+                                break;
+                            }
+                        }
+
+                        // Si después de probar TODAS las llaves seguimos con error, entonces sí avisamos
+                        if (!response.ok) {
                             const errorTextoTexto = await response.text();
-                            window.rotarASiguienteClavePorSaturacion();
-                            alert(`📡 HTTP ERROR ${response.status}: Servidor Gemini rechazó la petición.\nDetalle: ${errorTextoTexto}`);
+                            alert(`🚨 ERROR CRÍTICO: Todas las llaves del arsenal están agotadas o fallaron.\nDetalle: ${errorTextoTexto}`);
                             document.getElementById('loading').style.display = 'none';
                             return;
+                        }
+                        // ----------------------------------------------------------
                         }
 
                         const jsonRes = await response.json();
