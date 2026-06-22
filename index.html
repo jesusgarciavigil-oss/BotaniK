@@ -247,6 +247,27 @@
         .modal-back-meta { font-size: 10.5px; color: #c3a6ff; font-family: monospace; margin-bottom: 5px; font-weight: 600; }
         .modal-back-meta:last-child { margin-bottom: 0; }
         .close-modal-txt { font-size: 11px; color: var(--text-muted); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline; margin-top: 15px; }
+
+        /* Diseño Animado de la Notificación de Recompensas (Toast) */
+        #botanik-toast-victory {
+            position: fixed;
+            bottom: -150px; /* Escondido fuera de la pantalla por defecto */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13, 27, 30, 0.95);
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+            padding: 15px 30px;
+            border-radius: 15px;
+            text-align: center;
+            z-index: 99999;
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none; /* Para que no bloquee clics si pasas el dedo por encima */
+        }
+        #botanik-toast-victory.show-toast {
+            bottom: 90px; /* Sube flotando justo por encima del menú inferior */
+        }
+        
     </style>
 </head>
 <body>
