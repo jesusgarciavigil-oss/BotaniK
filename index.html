@@ -187,24 +187,24 @@
     </div>
 
     <div id="botanik-toast-victory">
-        <div style="font-size: 24px; margin-bottom: 6px;">🏆</div>
+        <div class="toast-victory-icon">🏆</div>
         <div id="botanik-toast-msg-txt">¡MAESTRÍA ALCANZADA!</div>
-        <div style="font-size: 10px; color: var(--text-muted); font-weight: normal; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px;">Biomasa inyectada en el servidor</div>
+        <div class="toast-victory-caption">Biomasa inyectada en el servidor</div>
     </div>
 
     <div id="mailbox-modal" onclick="if(event.target.id==='mailbox-modal') this.style.display='none';">
-        <div class="login-card" style="max-width: 460px; max-height: 80vh; overflow-y: auto;">
-            <h3 style="color: var(--accent-green); font-weight: bold; margin-bottom: 15px;">📜 ARCHIVO DE COMUNICADOS DE CAMPO</h3>
-            <div id="mailbox-list-container" style="display: flex; flex-direction: column; gap: 10px; text-align: left;"></div>
-            <button class="login-btn" style="margin-top: 20px; background: #333; border-color: #555" onclick="document.getElementById('mailbox-modal').style.display='none';">CERRAR ARCHIVO</button>
+        <div class="login-card mailbox-card">
+            <h3 class="mailbox-title">📜 ARCHIVO DE COMUNICADOS DE CAMPO</h3>
+            <div id="mailbox-list-container" class="mailbox-list"></div>
+            <button class="login-btn mailbox-close-btn" onclick="document.getElementById('mailbox-modal').style.display='none';">CERRAR ARCHIVO</button>
         </div>
     </div>
 
     <div id="msg-reader-modal">
-        <div class="login-card" style="max-width: 440px;">
-            <div style="font-size: 36px; margin-bottom: 10px;">✉️</div>
-            <h3 style="color: var(--neon-green); font-weight: 900; margin-bottom: 15px;">CANAL SATELITAL</h3>
-            <p id="m-reader-body" style="font-size: 13.5px; line-height: 1.5; text-align: left; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; border: 1px solid rgba(127,163,159,0.1); margin-bottom: 20px; max-height: 200px; overflow-y: auto; color: var(--text-light);"></p>
+        <div class="login-card message-reader-card">
+            <div class="message-reader-icon">✉️</div>
+            <h3 class="message-reader-title">CANAL SATELITAL</h3>
+            <p id="m-reader-body" class="message-reader-body"></p>
             <button id="m-reader-btn-action" class="login-btn">ENTENDIDO</button>
         </div>
     </div>
