@@ -620,7 +620,7 @@
                 div.onclick = (e) => { if(e.target.className === 'delete-profile-badge') return; window.seleccionarPerfil(dataId, p.nombre, p.fechaNacimiento || '2018-01-01', p.avatar || '🧑‍🚀', p.base || null, p.esExperto || false); };
                 grid.appendChild(div);
             });
-            const btnAdd = document.createElement('div'); btnAdd.className = "profile-item add-profile-item-btn"; btnAdd.innerHTML = `<div style="font-size:32px; margin-bottom:5px;">➕</div>Añadir Explorador`; btnAdd.onclick = window.abrirCreadorPerfilModal;
+            const btnAdd = document.createElement('div'); btnAdd.className = "profile-item add-profile-item-btn"; btnAdd.innerHTML = `<div class="add-profile-icon">➕</div>Añadir Explorador`; btnAdd.onclick = window.abrirCreadorPerfilModal;
             grid.appendChild(btnAdd);
         }
 
@@ -690,7 +690,7 @@
             const avRenderActivo = esImgActivo ? `<img src="${avatarSeguroActivo}">` : avatarSeguroActivo;
             
             const rowActivo = document.createElement('div'); rowActivo.className = 'dropdown-account-item active-user-row';
-            rowActivo.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar" style="border-color: var(--neon-green);">${avRenderActivo}</div><div class="dropdown-name" style="color: var(--neon-green);">${nombreSeguroActivo} <span style="font-size:9px; font-weight:normal; color:var(--text-muted);">(En uso)</span></div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
+            rowActivo.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar dropdown-avatar-active">${avRenderActivo}</div><div class="dropdown-name dropdown-name-active">${nombreSeguroActivo} <span class="dropdown-active-note">(En uso)</span></div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
             rowActivo.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); };
             container.appendChild(rowActivo);
 
@@ -1117,7 +1117,7 @@
             const leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
 
             if (cacheAlertasGlobales.length === 0) {
-                container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-style:italic; font-size:13px; padding:20px;">No hay transmisiones archivadas en este cuadrante.</div>`;
+                container.innerHTML = `<div class="mailbox-empty-state">No hay transmisiones archivadas en este cuadrante.</div>`;
             }
 
             cacheAlertasGlobales.forEach(a => {
