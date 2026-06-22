@@ -211,14 +211,14 @@
 
     <div id="god-mode-page">
         <div class="admin-header">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 24px;">🔮</span>
-                <div style="text-align: left;">
-                    <h2 style="color: #e0aaff; font-size: 15px; font-weight: 900;">CONSOLA SUPREMA</h2>
-                    <span style="color: var(--neon-green); font-size: 9px; font-family: monospace;">ENTORNO DE SIMULACIÓN Y CONTROL CENTRAL</span>
+            <div class="admin-header-brand">
+                <span class="admin-header-icon">🔮</span>
+                <div class="admin-header-copy">
+                    <h2 class="admin-header-title">CONSOLA SUPREMA</h2>
+                    <span class="admin-header-subtitle">ENTORNO DE SIMULACIÓN Y CONTROL CENTRAL</span>
                 </div>
             </div>
-            <button class="exit-session-btn" style="margin: 0; padding: 6px 12px; font-size: 11px;" onclick="salirModoDiosDefinitivo()">SALIR MANDO SUPREMO</button>
+            <button class="exit-session-btn admin-exit-btn" onclick="salirModoDiosDefinitivo()">SALIR MANDO SUPREMO</button>
         </div>
         
         <div class="admin-nav-tabs">
@@ -234,17 +234,17 @@
                 <div class="admin-card"><h4>Exploradores</h4><div class="big-num" id="m-total-exploradores">0</div></div>
                 <div class="admin-card"><h4>Muestras</h4><div class="big-num" id="m-total-capturas">0</div></div>
             </div>
-            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">📡 FLUJO EN VIVO DE CAPTURAS FAMILIARES (MMO GEOGRÁFICO)</h3>
+            <h3 class="admin-panel-title admin-panel-title-tight">📡 FLUJO EN VIVO DE CAPTURAS FAMILIARES (MMO GEOGRÁFICO)</h3>
             <div class="live-feed-grid" id="admin-live-feed"></div>
         </div>
 
         <div id="panel-cuentas" class="admin-view-pane">
-            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 15px;">🏘️ MATRIZ DE ENTORNOS FAMILIARES CONECTADOS</h3>
+            <h3 class="admin-panel-title admin-panel-title-spaced">🏘️ MATRIZ DE ENTORNOS FAMILIARES CONECTADOS</h3>
             <div id="clusters-cuentas-container"></div>
         </div>
 
         <div id="panel-moderacion" class="admin-view-pane">
-            <h3 style="color: #b394d6; font-size: 13px; margin-bottom: 10px;">🧪 PANEL DE MODERACIÓN Y VINCULACIÓN FILOGENÉTICA DE LA IA</h3>
+            <h3 class="admin-panel-title admin-panel-title-tight">🧪 PANEL DE MODERACIÓN Y VINCULACIÓN FILOGENÉTICA DE LA IA</h3>
             <table class="admin-table">
                 <thead>
                     <tr><th>Muestra</th><th>Nombre Común</th><th>Nombre Científico</th><th>Ubicación</th><th>Acción Crítica</th></tr>
@@ -254,10 +254,10 @@
         </div>
 
         <div id="panel-alertas" class="admin-view-pane">
-            <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+            <div class="admin-alerts-grid">
                 
-                <div class="admin-card" style="text-align: left;">
-                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">📡 EMISOR DE TRANSMISIONES SEGMENTADAS</h3>
+                <div class="admin-card admin-card-left">
+                    <h3 class="admin-alert-card-title">📡 EMISOR DE TRANSMISIONES SEGMENTADAS</h3>
                     <div class="admin-form-group">
                         <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Segmentación del Objetivo / Canal:</div>
                         <select id="alert-target-type" class="admin-select" onchange="gestionarCambioTargetAlerta(this.value)">

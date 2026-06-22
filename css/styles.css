@@ -30,6 +30,18 @@
         #setup-base-page { z-index: 9997; display: none; flex-direction: column; text-align: center; }
         #avatar-picker-modal { z-index: 20000; display: none; background: rgba(13, 27, 30, 0.95); backdrop-filter: blur(8px); }
         #god-mode-page { z-index: 25000; display: none; flex-direction: column; background: var(--admin-surface); color: #f3e5f5; overflow-y: auto; align-items: stretch; justify-content: flex-start; padding: 0; }
+        .admin-header-brand { display: flex; align-items: center; gap: 10px; }
+        .admin-header-icon { font-size: 24px; }
+        .admin-header-copy { text-align: left; }
+        .admin-header-title { color: #e0aaff; font-size: 15px; font-weight: 900; }
+        .admin-header-subtitle { color: var(--neon-green); font-size: 9px; font-family: monospace; }
+        .admin-exit-btn { margin: 0; padding: 6px 12px; font-size: 11px; }
+        .admin-panel-title { color: #b394d6; font-size: 13px; }
+        .admin-panel-title-tight { margin-bottom: 10px; }
+        .admin-panel-title-spaced { margin-bottom: 15px; }
+        .admin-alerts-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .admin-card-left { text-align: left; }
+        .admin-alert-card-title { color: var(--neon-green); font-size: 13px; margin-bottom: 15px; }
         #mailbox-modal, #msg-reader-modal { z-index: 15000; display: none; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
 
         .login-card { background: rgba(21, 42, 45, 0.85); padding: 30px; border-radius: 20px; border: 2px solid var(--botanik-green); box-shadow: 0 15px 35px rgba(0,0,0,0.5); text-align: center; width: 100%; max-width: 400px; backdrop-filter: blur(10px); transition: all 0.3s ease; }
