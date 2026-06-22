@@ -259,7 +259,7 @@
                 <div class="admin-card admin-card-left">
                     <h3 class="admin-alert-card-title">📡 EMISOR DE TRANSMISIONES SEGMENTADAS</h3>
                     <div class="admin-form-group">
-                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Segmentación del Objetivo / Canal:</div>
+                        <div class="admin-form-label">Segmentación del Objetivo / Canal:</div>
                         <select id="alert-target-type" class="admin-select" onchange="gestionarCambioTargetAlerta(this.value)">
                             <option value="global">Global (Toda la Red Unificada)</option>
                             <option value="pais">Por País Ecológico</option>
@@ -285,28 +285,28 @@
                         <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Explorador Concreto:</div><select id="alert-child-field" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group">
-                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Instrucciones de Campo (Texto del Mensaje):</div>
+                        <div class="admin-form-label">Instrucciones de Campo (Texto del Mensaje):</div>
                         <textarea id="alert-text-msg" class="admin-textarea" placeholder="Escribe la misión, bonus o alerta mitológica..."></textarea>
                     </div>
-                    <button class="login-btn" style="background: var(--admin-purple); border-color:#d4bef0; color:white;" onclick="emitirAlertaSatelital()">DESPLEGAR COMUNICADO</button>
+                    <button class="login-btn admin-alert-submit-btn" onclick="emitirAlertaSatelital()">DESPLEGAR COMUNICADO</button>
                 </div>
 
-                <div class="admin-card" style="text-align: left; border-color: var(--neon-green);">
-                    <h3 style="color: var(--neon-green); font-size: 13px; margin-bottom: 15px;">¼ INYECTOR DE ENTORNOS DE PRUEBA (SIMULADOR DE CAMPO)</h3>
+                <div class="admin-card admin-simulator-card">
+                    <h3 class="admin-simulator-title">¼ INYECTOR DE ENTORNOS DE PRUEBA (SIMULADOR DE CAMPO)</h3>
                     <div class="admin-form-group">
-                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Explorador de Destino para el Test:</div>
+                        <div class="admin-form-label">Explorador de Destino para el Test:</div>
                         <select id="sim-child-field" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group">
-                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Nombre Común de Planta:</div>
+                        <div class="admin-form-label">Nombre Común de Planta:</div>
                         <input type="text" id="sim-comun-input" class="admin-select" value="Helecho Real">
                     </div>
                     <div class="admin-form-group">
-                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Nombre Científico:</div>
-                        <input type="text" id="sim-cien-input" class="admin-select" value="Osmunda regalis" style="font-style: italic;">
+                        <div class="admin-form-label">Nombre Científico:</div>
+                        <input type="text" id="sim-cien-input" class="admin-select admin-simulator-scientific-input" value="Osmunda regalis">
                     </div>
                     <div class="admin-form-group">
-                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Rareza de Muestra:</div>
+                        <div class="admin-form-label">Rareza de Muestra:</div>
                         <select id="sim-rareza-select" class="admin-select">
                             <option value="comun">Común</option>
                             <option value="poco">Poco Común</option>
@@ -315,17 +315,17 @@
                         </select>
                     </div>
                     <div class="admin-form-group">
-                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Ubicación Manual de Campo:</div>
+                        <div class="admin-form-label">Ubicación Manual de Campo:</div>
                         <input type="text" id="sim-loc-input" class="admin-select" placeholder="Ej: Ribera del Saja">
                     </div>
                     <div class="admin-form-group">
-                        <div style="font-size: 11px; color: #c3a6ff; font-weight: bold; text-transform: uppercase;">Descripción Científica Base:</div>
+                        <div class="admin-form-label">Descripción Científica Base:</div>
                         <textarea id="sim-desc-textarea" class="admin-textarea" placeholder="Muestra botánica inyectada desde la consola central de simulación."></textarea>
                     </div>
                     
-                    <div style="display: flex; gap: 10px;">
-                        <button class="login-btn" style="flex:1; margin-top:10px;" onclick="inyectarCartaConLocalizacionesSimuladas(false)">¯ INYECTAR 1</button>
-                        <button class="login-btn" style="flex:1; margin-top:10px; background:linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); border-color:var(--poke-gold);" onclick="inyectarCartaConLocalizacionesSimuladas(true)">⚡ INYECCIÓN POR LOTES (3)</button>
+                    <div class="admin-simulator-actions">
+                        <button class="login-btn admin-simulator-action-btn" onclick="inyectarCartaConLocalizacionesSimuladas(false)">¯ INYECTAR 1</button>
+                        <button class="login-btn admin-simulator-action-btn admin-simulator-batch-btn" onclick="inyectarCartaConLocalizacionesSimuladas(true)">⚡ INYECCIÓN POR LOTES (3)</button>
                     </div>
                 </div>
 
