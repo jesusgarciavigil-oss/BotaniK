@@ -10,7 +10,7 @@
 
     <div id="login-page">
         <div class="login-card">
-            <h2 id="login-title" style="color: var(--accent-green); margin-bottom: 20px; font-weight: 900; letter-spacing: 1px;">BotaniK Login</h2>
+            <h2 id="login-title" class="login-title-main">BotaniK Login</h2>
             <input type="text" id="username" class="login-input" placeholder="Código de Terminal (Email)" value="neco@plantdex.com">
             <input type="password" id="password" class="login-input" placeholder="Clave de Enlace">
             <button id="submit-btn" class="login-btn" onclick="gestionarAcceso()">ACCEDER AL RADAR</button>
@@ -19,17 +19,17 @@
     </div>
 
     <div id="profile-page">
-        <h2 style="color: var(--neon-green); font-weight: 900; letter-spacing: 1px; text-shadow: 0 0 10px rgba(57,255,20,0.2);">¿QUIÉN INICIA EXPEDICIÓN?</h2>
-        <p style="color: var(--text-muted); font-size: 13px; margin-top: 5px;">Selecciona tu mente de campo conectada</p>
+        <h2 class="profile-page-title">¿QUIÉN INICIA EXPEDICIÓN?</h2>
+        <p class="profile-page-subtitle">Selecciona tu mente de campo conectada</p>
         <div class="profile-grid" id="perfiles-dinamicos"></div>
         <button class="exit-session-btn" onclick="cerrarSesionCompleta()">CERRAR TERMINAL FAMILIAR</button>
     </div>
 
     <div id="setup-base-page">
-        <div class="login-card" style="max-width: 500px;">
-            <div style="font-size: 50px; margin-bottom: 15px;">📡</div>
-            <h2 style="color: var(--accent-green); font-weight: 900; margin-bottom: 10px;">CONFIGURACIÓN DE BASE SECRETA</h2>
-            <p style="color: var(--text-light); font-size: 14px; line-height: 1.5; margin-bottom: 20px;" id="loading-base-txt">
+        <div class="login-card setup-base-card">
+            <div class="setup-base-icon">📡</div>
+            <h2 class="setup-base-title">CONFIGURACIÓN DE BASE SECRETA</h2>
+            <p class="setup-base-text" id="loading-base-txt">
                 El sistema necesita geolocalizar tu cuartel general para medir los biomas y activar las misiones mitológicas locales de tu comarca natural.
             </p>
             
