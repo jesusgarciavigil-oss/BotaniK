@@ -235,6 +235,15 @@
             font-weight: 800;
             text-align: right;
         }
+        .cluster-empty-explorers {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 12px;
+            padding: 10px 0;
+        }
+        .cluster-expert-status {
+            color: var(--neon-green);
+        }
         .admin-form-group {
             display: flex;
             flex-direction: column;
