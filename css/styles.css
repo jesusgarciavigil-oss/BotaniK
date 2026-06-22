@@ -231,6 +231,13 @@
             gap: 6px;
             margin-bottom: 10px;
         }
+        #pais-select-row,
+        #provincia-select-row,
+        #comarca-select-row,
+        #usuario-select-row,
+        #explorador-select-row {
+            display: none;
+        }
         .admin-btn {
             border: 1px solid rgba(212,190,240,0.25);
             border-radius: 8px;
