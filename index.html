@@ -777,7 +777,7 @@
             snap.forEach(docSnap => {
                 const c = docSnap.data(); const idDoc = docSnap.id; if(c.municipioId === "Admin") return;
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td><img src="${c.foto}" style="width:45px; height:45px; object-fit:cover; border-radius:6px;"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input" style="padding:6px; margin:0; font-size:12px;"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input" style="padding:6px; margin:0; font-style:italic; font-size:12px;"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 VINCULAR</button><button class="admin-btn admin-btn-danger" onclick="window.eliminarCapturaInapropiada('${idDoc}')">✕ BORRAR</button></td>`;
+                tr.innerHTML = `<td><img src="${c.foto}" class="moderation-thumb"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input moderation-input"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input moderation-input moderation-input-scientific"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 VINCULAR</button><button class="admin-btn admin-btn-danger" onclick="window.eliminarCapturaInapropiada('${idDoc}')">✕ BORRAR</button></td>`;
                 table.appendChild(tr);
             });
         };
