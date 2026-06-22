@@ -263,8 +263,10 @@
         .modal-back { transform: rotateY(180deg); background: radial-gradient(circle at center, #1b003a 0%, #0a0018 100%); border-color: var(--admin-purple); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
         .modal-back-logo { width: 70px; height: 70px; border-radius: 50%; background: rgba(157,78,221,0.1); border: 2px dashed var(--admin-purple); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; color: #d4bef0; margin-bottom: 15px; animation: spinGiro 10s linear infinite; }
         @keyframes spinGiro { 100% { transform: rotate(360deg); } }
+        .cromo-back-title { color: var(--neon-green); font-size: 16px; font-weight: 900; letter-spacing: 1px; margin-bottom: 15px; }
         .modal-meta-box { background: rgba(0,0,0,0.3); border: 1px solid rgba(157,78,221,0.2); padding: 12px; border-radius: 10px; width: 100%; text-align: left; }
         .modal-back-meta { font-size: 10.5px; color: #c3a6ff; font-family: monospace; margin-bottom: 5px; font-weight: 600; }
+        .cromo-back-sync-meta { color: var(--poke-gold); margin-top: 10px; font-weight: bold; }
         .modal-back-meta:last-child { margin-bottom: 0; }
         .close-modal-txt { font-size: 11px; color: var(--text-muted); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline; margin-top: 15px; }
 
