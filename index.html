@@ -1121,9 +1121,25 @@
                 const img = new Image();
                 img.onload = async () => {
                     try {
-                        const base64DataCompleta = comprobarImagenProporcional(img, 700, 0.6);
+                        // 1. Redimensionamos y extraemos la foto
+                        const base64DataCompleta = comprobarImagenProporcional(img, 700, 0.7);
+                        
+                        // --- 🛡️ NUEVO CORTAFUEGOS ANTI ERROR 400 ---
+                        if (!base64DataCompleta || !base64DataCompleta.includes(",")) {
+                            document.getElementById('loading').style.display = 'none';
+                            alert("⚠️ Error de Escáner: El formato de esta foto no es compatible en PC. Por favor, prueba con un JPG normal.");
+                            return;
+                        }
+                        
                         const base64Data = base64DataCompleta.split(",")[1];
                         
+                        if (!base64Data || base64Data.length < 100) {
+                            document.getElementById('loading').style.display = 'none';
+                            alert("⚠️ Error de Escáner: La imagen está corrupta o vacía. Intenta con otra.");
+                            return;
+                        }
+                        // --------------------------------------------
+
                         let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                         let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
 
