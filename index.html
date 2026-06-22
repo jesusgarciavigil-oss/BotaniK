@@ -38,7 +38,7 @@
                 <div class="toggle-link" onclick="activarEntradaManualBase()">¿No tienes cobertura? Calibrar manualmente</div>
             </div>
 
-            <div id="manual-base-box" style="display: none; margin-top: 15px;">
+            <div id="manual-base-box">
                 <input type="text" id="manual-lugar-input" class="login-input" placeholder="Ej: Castro Urdiales, Jaén, Bilbao...">
                 <button class="login-btn" onclick="confirmarBaseManual()">FIJAR ENTORNO MANUALMENTE</button>
             </div>
@@ -59,7 +59,7 @@
         </div>
         <h1>BOTANIK</h1>
         <button class="header-mailbox-btn" onclick="abrirBuzonHistoricoModal()" title="Buzón Satelital">
-            📬 <div class="mailbox-badge" id="box-badge-num" style="display: none;">0</div>
+            📬 <div class="mailbox-badge" id="box-badge-num">0</div>
         </button>
     </header>
 
@@ -110,7 +110,7 @@
             
             <label class="upload-profile-img-label">
                 📷 SUBIR FOTO REAL DE CAMPO
-                <input type="file" accept="image/*" onchange="procesarFotoPerfilReal(event)" style="display:none;">
+                <input type="file" class="profile-image-upload-input" accept="image/*" onchange="procesarFotoPerfilReal(event)">
             </label>
 
             <div class="profile-avatar-choice-label">O selecciona un Avatar Cósmico:</div>
@@ -943,7 +943,6 @@
                             return;
                         }
                         // ----------------------------------------------------------
-                        }
 
                         const jsonRes = await response.json();
                         
