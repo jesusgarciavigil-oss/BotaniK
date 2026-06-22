@@ -1233,7 +1233,7 @@
                             foto: base64DataCompleta,
                             fecha: new Date().toLocaleDateString(),
                             timestamp: Date.now(),
-                            xp: totalXP, // <--- XP dinámica
+                            xp: totalXP,
                             loc: perfilActivoBase?.municipio || "Exploración",
                             municipioId: municipioActual,
                             comarcaId: perfilActivoBase?.comarca || "Desconocido",
@@ -1243,14 +1243,15 @@
                             usuarioEmail: usuarioEmailActual,
                             tipoHoja: planta.tipoHoja || "No especificado",
                             origen: planta.origen || "Autóctona",
-                            validaParaEvolucion: esValidaParaEvolucion // <--- Marca antitrampas clave
+                            validaParaEvolucion: esValidaParaEvolucion
                         });
 
                         document.getElementById('loading').style.display = 'none';
+                        document.getElementById('camera-input').value = ''; // Limpiamos input
                         window.desplegarToastVictoryInmediata(mensajeToastDesglose);
-                        actualizarEstado();
+                        window.cargarAlbum(); // Recargamos el álbum en lugar de la función inexistente
 
-                        // PREPARACIÓN Y DETONACIÓN DEL CROMO 3D EN LA CARA DEL JUGADOR
+                        // PREPARACIÓN Y DETONACIÓN DEL CROMO 3D
                         const muestraRecienCapturada = {
                             nombreComun: planta.nombreComun,
                             nombreCientifico: planta.nombreCientifico,
@@ -1261,12 +1262,12 @@
                             loc: municipioActual,
                             tipoHoja: planta.tipoHoja || "No especificado",
                             origen: planta.origen || "Autóctona",
-                            copiasTotales: snapEspecie.empty ? 1 : snapEspecie.size + 1, 
+                            copiasTotales: snapEspecie.empty ? 1 : snapEspecie.size + 1,
                             nombresAlternativosRecogidos: new Set([planta.nombreComun])
                         };
 
                         window.abrirVisualizadorDetalleCromo3D(muestraRecienCapturada);
-
+                        
                     } catch (err) {
                         document.getElementById('loading').style.display = 'none';
                         alert(`💥 CRASH EN PROCESAR FOTO (Lógica Interna):\n\nDetalle: ${err.name} - ${err.message}`);
