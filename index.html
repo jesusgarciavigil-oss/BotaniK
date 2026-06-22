@@ -1172,16 +1172,59 @@
                             return;
                         }
 
-                        // INTERCEPTOR PASO 1: Si no es planta, abortamos de forma segura sin guardar en Firebase
+                       // INTERCEPTOR PASO 1: Si no es planta, abortamos de forma segura sin guardar en Firebase
                         if (planta.esPlanta === false) {
                             alert(`📡 ALERTA DE ANÁLISIS RECHAZADO:\n\n${planta.motivoRechazo || "La muestra recolectada no pertenece al reino vegetal."}`);
                             document.getElementById('loading').style.display = 'none';
                             return;
                         }
 
-                        const mult = MULTIPLICADORES_RAREZA[planta.rareza] || 1;
-                        const baseXP = 20; const calculadoXP = Math.floor(baseXP * mult);
+                        // --- NUEVO MOTOR DE ECONOMÍA Y ANTI-FARMING ---
+                        document.getElementById('loading').innerText = "📡 Cruzando datos con el servidor central...";
 
+                        const mult = MULTIPLICADORES_RAREZA[planta.rareza] || 1;
+                        const baseXP = 20; 
+                        const calculadoXP = Math.floor(baseXP * mult);
+
+                        // 1. Consultar el historial del explorador activo para esta especie exacta
+                        const qEspecie = query(collection(db, "capturas"), 
+                            where("perfil", "==", perfilActiveId), 
+                            where("nombreCientifico", "==", planta.nombreCientifico)
+                        );
+                        const snapEspecie = await getDocs(qEspecie);
+
+                        let totalXP = 0;
+                        let mensajeToastDesglose = "";
+                        let esValidaParaEvolucion = false;
+                        const municipioActual = perfilActivoBase?.municipio || "Desconocido";
+
+                        // 2. Árbol de decisiones matemáticas
+                        if (snapEspecie.empty) {
+                            // ESCENARIO 1: Nunca vista
+                            const bonoDescubrimiento = 100;
+                            totalXP = calculadoXP + bonoDescubrimiento;
+                            esValidaParaEvolucion = true;
+                            mensajeToastDesglose = `🌟 ¡NUEVA ESPECIE!\n+${totalXP} XP (Base: ${calculadoXP} | Bono Descubrimiento: +${bonoDescubrimiento})`;
+                        } else {
+                            // Extraemos los municipios donde ya encontró esta planta
+                            let municipiosRegistrados = [];
+                            snapEspecie.forEach(d => municipiosRegistrados.push(d.data().municipioId));
+
+                            if (!municipiosRegistrados.includes(municipioActual)) {
+                                // ESCENARIO 2: Ya la tenía, pero es de un pueblo nuevo (ej. viaja a Laredo)
+                                const bonoTerritorio = 50;
+                                totalXP = calculadoXP + bonoTerritorio;
+                                esValidaParaEvolucion = true;
+                                mensajeToastDesglose = `🗺️ ¡NUEVO BIOMA REGISTRADO!\n+${totalXP} XP (Base: ${calculadoXP} | Bono Territorio: +${bonoTerritorio})`;
+                            } else {
+                                // ESCENARIO 3: Anti-farmeo (Misma planta, mismo pueblo)
+                                totalXP = 2; 
+                                esValidaParaEvolucion = false;
+                                mensajeToastDesglose = `⚠️ ZONA AGOTADA\n+${totalXP} XP (Muestra redundante en ${municipioActual})`;
+                            }
+                        }
+
+                        // 3. Guardado final en Firebase inyectando la nueva información
                         await addDoc(collection(db, "capturas"), {
                             nombreComun: planta.nombreComun,
                             nombreCientifico: planta.nombreCientifico,
@@ -1190,20 +1233,21 @@
                             foto: base64DataCompleta,
                             fecha: new Date().toLocaleDateString(),
                             timestamp: Date.now(),
-                            xp: calculadoXP,
+                            xp: totalXP, // <--- XP dinámica
                             loc: perfilActivoBase?.municipio || "Exploración",
-                            municipioId: perfilActivoBase?.municipio || "Desconocido",
+                            municipioId: municipioActual,
                             comarcaId: perfilActivoBase?.comarca || "Desconocido",
                             provinciaId: perfilActivoBase?.provincia || "Desconocido",
                             paisId: perfilActivoBase?.pais || "España",
                             perfil: perfilActiveId,
                             usuarioEmail: usuarioEmailActual,
                             tipoHoja: planta.tipoHoja || "No especificado",
-                            origen: planta.origen || "Autóctona"
+                            origen: planta.origen || "Autóctona",
+                            validaParaEvolucion: esValidaParaEvolucion // <--- Marca antitrampas clave
                         });
 
                         document.getElementById('loading').style.display = 'none';
-                        window.desplegarToastVictoryInmediata(`MUESTRA ADQUIRIDA: +${calculadoXP} XP`);
+                        window.desplegarToastVictoryInmediata(mensajeToastDesglose);
                         actualizarEstado();
 
                         // PREPARACIÓN Y DETONACIÓN DEL CROMO 3D EN LA CARA DEL JUGADOR
@@ -1214,10 +1258,10 @@
                             descripcion: planta.descripcion,
                             foto: base64DataCompleta,
                             fecha: new Date().toLocaleDateString(),
-                            loc: perfilActivoBase?.municipio || "Exploración",
+                            loc: municipioActual,
                             tipoHoja: planta.tipoHoja || "No especificado",
                             origen: planta.origen || "Autóctona",
-                            copiasTotales: 1, 
+                            copiasTotales: snapEspecie.empty ? 1 : snapEspecie.size + 1, 
                             nombresAlternativosRecogidos: new Set([planta.nombreComun])
                         };
 
