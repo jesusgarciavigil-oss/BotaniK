@@ -1,10 +1,10 @@
 # Estructura del proyecto BotaniK
 
-Este documento describe la estructura actual de BotaniK y la estructura objetivo inicial para profesionalizar el proyecto por fases, manteniendo la aplicacion como web estatica y evitando cambios grandes de una sola vez.
+Este documento describe la estructura actual de BotaniK y la estructura objetivo inicial para profesionalizar el proyecto por fases, manteniendo la aplicación como web estática y evitando cambios grandes de una sola vez.
 
 ## Estado actual
 
-BotaniK es actualmente un proyecto web estatico. La logica, la interfaz y los estilos estan concentrados principalmente en `index.html`.
+BotaniK es actualmente un proyecto web estático. La lógica, la interfaz y los estilos están concentrados principalmente en `index.html`.
 
 En el estado actual se detecta:
 
@@ -13,7 +13,7 @@ En el estado actual se detecta:
 - Estilos inline aplicados directamente en elementos HTML.
 - Eventos inline como `onclick`, `onchange` y `oninput`.
 - Funciones globales expuestas en `window`, necesarias para que los eventos inline sigan funcionando.
-- Inicializacion de Firebase y Firestore dentro del propio `index.html`.
+- Inicialización de Firebase y Firestore dentro del propio `index.html`.
 - Llamadas a servicios externos desde el cliente.
 
 Esta estructura es razonable para un prototipo, pero dificulta revisar cambios, aislar responsabilidades y mejorar seguridad/mantenibilidad sin riesgo.
@@ -36,17 +36,17 @@ Nota: pueden existir carpetas internas generadas por herramientas locales o por 
 
 El archivo `index.html` concentra responsabilidades que conviene separar de forma progresiva:
 
-- Pantallas de login, registro familiar, perfiles y configuracion de base.
-- Cabecera, selector de perfil activo y navegacion inferior.
-- Radar/camara para capturar imagenes.
-- Album de cromos y buscador de plantas.
-- Modales de avatar, detalle de cromo, buzon y lector de mensajes.
-- Panel de administracion con estadisticas, cuentas, moderacion, mensajes y simulador.
-- Estilos visuales generales de la aplicacion.
-- Inicializacion de Firebase y Firestore.
-- Logica de perfiles, capturas, XP, rareza, niveles, mensajes y administracion.
-- Llamadas a servicios externos, especialmente analisis de imagenes con IA.
-- Manejo de estado global en variables y funciones del modulo.
+- Pantallas de login, registro familiar, perfiles y configuración de base.
+- Cabecera, selector de perfil activo y navegación inferior.
+- Radar/cámara para capturar imágenes.
+- Álbum de cromos y buscador de plantas.
+- Modales de avatar, detalle de cromo, buzón y lector de mensajes.
+- Panel de administración con estadísticas, cuentas, moderación, mensajes y simulador.
+- Estilos visuales generales de la aplicación.
+- Inicialización de Firebase y Firestore.
+- Lógica de perfiles, capturas, XP, rareza, niveles, mensajes y administración.
+- Llamadas a servicios externos, especialmente análisis de imágenes con IA.
+- Manejo de estado global en variables y funciones del módulo.
 
 ## Estructura objetivo inicial
 
@@ -69,23 +69,23 @@ La primera estructura objetivo debe seguir siendo sencilla:
 └── AGENTS.md
 ```
 
-Esta estructura no implica introducir frameworks, herramientas de build ni una arquitectura nueva. Solo separa responsabilidades basicas para que el proyecto sea mas facil de leer y mantener.
+Esta estructura no implica introducir frameworks, herramientas de build ni una arquitectura nueva. Solo separa responsabilidades básicas para que el proyecto sea más fácil de leer y mantener.
 
-## Plan de separacion recomendado
+## Plan de separación recomendado
 
 1. Extraer primero el CSS a `css/styles.css`.
    - Mantener los selectores actuales.
    - No limpiar estilos inline en este mismo paso.
-   - No cambiar estetica ni comportamiento visual de forma intencionada.
+   - No cambiar estética ni comportamiento visual de forma intencionada.
 
-2. Extraer despues el JavaScript a `js/main.js`.
+2. Extraer después el JavaScript a `js/main.js`.
    - Mantener las funciones globales en `window`.
    - Conservar nombres de funciones, ids, clases y colecciones.
    - Mantener los eventos inline funcionando.
 
-3. Eliminar eventos inline por bloques pequenos.
+3. Eliminar eventos inline por bloques pequeños.
    - Sustituir `onclick`, `onchange` y `oninput` por `addEventListener` de forma gradual.
-   - Trabajar por zonas: navegacion, modales, perfiles, album, administracion, etc.
+   - Trabajar por zonas: navegación, modales, perfiles, álbum, administración, etc.
    - Probar cada bloque antes de continuar.
 
 4. Reducir estilos inline poco a poco.
@@ -93,27 +93,27 @@ Esta estructura no implica introducir frameworks, herramientas de build ni una a
    - Evitar mezclar limpieza visual con cambios funcionales.
    - Conservar la apariencia actual salvo que se pida rediseño.
 
-5. Separar modulos logicos solo si el proyecto lo necesita.
-   - Por ejemplo: perfiles, capturas, mensajes, administracion o Firebase.
+5. Separar módulos lógicos solo si el proyecto lo necesita.
+   - Por ejemplo: perfiles, capturas, mensajes, administración o Firebase.
    - No crear abstracciones prematuras.
-   - Priorizar codigo claro y facil de revisar.
+   - Priorizar código claro y fácil de revisar.
 
 ## Reglas para refactors seguros
 
 - No mezclar cambios visuales con cambios estructurales.
-- No renombrar ids, clases, funciones, colecciones de Firebase ni campos en la primera extraccion.
+- No renombrar ids, clases, funciones, colecciones de Firebase ni campos en la primera extracción.
 - No cambiar comportamiento mientras se separan archivos.
 - Comprobar manualmente la app tras cada paso.
-- Hacer commits pequenos cuando se trabaje con control de versiones.
-- Mantener la web estatica mientras no se indique lo contrario.
+- Hacer commits pequeños cuando se trabaje con control de versiones.
+- Mantener la web estática mientras no se indique lo contrario.
 - Documentar cualquier cambio estructural relevante.
-- Si aparece una contradiccion entre documentacion y codigo, informar antes de modificar.
+- Si aparece una contradicción entre documentación y código, informar antes de modificar.
 
-## Proximos pasos tecnicos sugeridos
+## Próximos pasos técnicos sugeridos
 
 - Verificar que `index.html` ejecuta sin errores antes de extraer nada.
 - Extraer CSS a `css/styles.css`.
-- Probar visualmente login, perfiles, radar, album, modales y panel de administracion.
+- Probar visualmente login, perfiles, radar, álbum, modales y panel de administración.
 - Extraer JavaScript a `js/main.js`.
-- Probar login, registro, perfiles, seleccion de base, radar/camara, album, mensajes y panel admin si es posible.
-- Revisar despues los eventos inline y planificar su sustitucion por bloques pequenos.
+- Probar login, registro, perfiles, selección de base, radar/cámara, álbum, mensajes y panel admin si es posible.
+- Revisar después los eventos inline y planificar su sustitución por bloques pequeños.

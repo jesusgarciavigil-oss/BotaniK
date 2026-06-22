@@ -45,6 +45,28 @@ Si detectas contradicciones entre documentación y código, informa antes de mod
 
 Cuando hagas cambios estructurales relevantes, propón también la actualización de la documentación correspondiente.
 
+## Calidad documental y revisión de cambios
+
+Toda documentación en español debe escribirse con tildes y gramática cuidada. Evita textos sin acentos salvo en nombres técnicos, comandos, rutas, ids, clases, funciones, colecciones o bloques de código.
+
+Mantén un tono claro, práctico y honesto. No maquilles riesgos técnicos o de seguridad.
+
+Durante una corrección gramatical o de estilo, no cambies rutas, comandos, nombres de archivos, nombres de colecciones, campos de Firestore, funciones, ids, clases, URLs ni bloques de código.
+
+Las correcciones de estilo no deben alterar el significado técnico. No reescribas documentación de forma agresiva si solo se pide corrección.
+
+No copies valores reales de claves, credenciales, tokens, API keys ni contraseñas en documentación, comentarios, explicaciones o resúmenes. Si detectas secretos, menciónalos solo como riesgo general, sin reproducirlos. No propongas ofuscación como solución real de seguridad.
+
+En resúmenes de cambios, usa rutas relativas del repositorio, por ejemplo `README.md` o `docs/seguridad.md`. No uses rutas absolutas locales como `C:/Users/...` en explicaciones o resúmenes.
+
+Indica claramente qué archivos se modificaron y cuáles se leyeron sin cambios. No afirmes verificaciones que no se hayan realizado realmente.
+
+Controla el alcance de cada tarea: si la tarea es documental, no toques código salvo petición explícita; si la tarea es de código, no la mezcles con redacción documental salvo que sea necesario.
+
+Mantén commits pequeños y con una sola intención. No hagas commits automáticamente salvo petición explícita.
+
+Si durante el trabajo aparece una regla útil y estable para el proyecto, propón añadirla a `AGENTS.md`. No modifiques `AGENTS.md` en cada tarea por defecto, solo cuando aporte una mejora clara.
+
 ## Flujo recomendado de trabajo
 
 Para cada tarea:
