@@ -1,30 +1,75 @@
 
         /* --- Variables globales --- */
         :root {
-            /* Colores base */
-            --bg-dark: #0D1B1E;
-            --surface-dark: #152A2D;
+            /* Paleta verde */
+            --green-100: #effaf1;
+            --green-200: #d9f2dd;
+            --green-300: #aee8b8;
+            --green-400: #76E161;
+            --green-500: #39FF14;
+            --green-600: #2f9e44;
+            --green-700: #1F6B3A;
+            --green-800: #154726;
+            --green-900: #07130d;
 
-            /* Colores de marca */
-            --neon-green: #39FF14;
-            --botanik-green: #1F6B3A;
-            --accent-green: #76E161;
+            /* Paleta morada */
+            --purple-100: #f7f0ff;
+            --purple-200: #efe2ff;
+            --purple-300: #e0aaff;
+            --purple-400: #d4bef0;
+            --purple-500: #c3a6ff;
+            --purple-600: #9D4EDD;
+            --purple-700: #7b1fa2;
+            --purple-800: #5a189a;
+            --purple-900: #240046;
 
-            /* Colores de texto */
-            --text-light: #E0F2F1;
-            --text-muted: #7FA39F;
+            /* Paleta crema / blanco roto */
+            --cream-100: #fbf8ef;
+            --cream-200: #f7f1e4;
+            --cream-300: #efe7d6;
+            --cream-400: #e4d8c1;
+            --cream-500: #d1c0a2;
 
-            /* Colores de estado */
-            --danger: #FF3B30;
-            --poke-gold: #FFD700;
+            /* Paleta neutra oscura */
+            --neutral-100: #E0F2F1;
+            --neutral-200: #b8d0ce;
+            --neutral-300: #7FA39F;
+            --neutral-400: #58736a;
+            --neutral-500: #354f49;
+            --neutral-600: #20383a;
+            --neutral-700: #152A2D;
+            --neutral-800: #0D1B1E;
+            --neutral-900: #071112;
 
-            /* Colores admin */
-            --admin-purple: #9D4EDD;
-            --admin-purple-dark: #5a189a;
-            --admin-surface: #240046;
-            --admin-lilac: #d4bef0;
-            --admin-lilac-soft: #c3a6ff;
-            --admin-lilac-bright: #e0aaff;
+            /* Paleta roja */
+            --red-100: #ffe9e7;
+            --red-300: #FF6B64;
+            --red-500: #FF3B30;
+            --red-700: #B31510;
+            --red-900: #4a0d17;
+
+            /* Paleta dorada */
+            --gold-100: #fff7d1;
+            --gold-300: #ffe76a;
+            --gold-500: #FFD700;
+            --gold-700: #cc9900;
+
+            /* Alias de compatibilidad */
+            --bg-dark: var(--neutral-800);
+            --surface-dark: var(--neutral-700);
+            --neon-green: var(--green-500);
+            --botanik-green: var(--green-700);
+            --accent-green: var(--green-400);
+            --text-light: var(--neutral-100);
+            --text-muted: var(--neutral-300);
+            --danger: var(--red-500);
+            --poke-gold: var(--gold-500);
+            --admin-purple: var(--purple-600);
+            --admin-purple-dark: var(--purple-800);
+            --admin-surface: var(--purple-900);
+            --admin-lilac: var(--purple-400);
+            --admin-lilac-soft: var(--purple-500);
+            --admin-lilac-bright: var(--purple-300);
 
             /* Superficies y overlays */
             --surface-overlay-soft: rgba(13,27,30,0.5);
@@ -60,80 +105,101 @@
             --border-subtle: var(--border-muted-subtle);
             --border-accent: var(--border-green-soft);
             --border-accent-strong: var(--border-green-medium);
+            --surface-glass: var(--surface-overlay-medium);
+            --surface-soft: rgba(0,0,0,0.2);
+            --field-bg: rgba(13,27,30,0.6);
+            --hover-bg: rgba(13,27,30,0.8);
+            --overlay-modal: var(--surface-overlay-heavy);
+            --admin-page-bg: var(--admin-surface);
+            --admin-page-text: #f3e5f5;
+            --admin-nav-bg: rgba(36,0,70,0.78);
+            --admin-muted: var(--admin-lilac-soft);
 
             /* Sombras */
             --shadow-card: 0 8px 20px rgba(0,0,0,0.25);
             --shadow-dropdown: 0 10px 25px rgba(0,0,0,0.5);
             --shadow-panel: 0 15px 35px rgba(0,0,0,0.5);
             --shadow-modal: 0 15px 35px rgba(0,0,0,0.6);
+            --shadow-component-card: var(--shadow-card);
+            --shadow-component-panel: var(--shadow-panel);
+            --shadow-component-modal: var(--shadow-modal);
 
             /* Gradientes */
-            --gradient-primary: linear-gradient(135deg, var(--botanik-green) 0%, #154726 100%);
+            --gradient-primary: linear-gradient(135deg, var(--botanik-green) 0%, var(--green-800) 100%);
             --gradient-admin: linear-gradient(135deg, var(--admin-purple) 0%, var(--admin-purple-dark) 100%);
-            --gradient-danger: radial-gradient(circle, var(--danger) 0%, #B31510 100%);
-            --gradient-gold: linear-gradient(135deg, var(--poke-gold) 0%, #cc9900 100%);
+            --gradient-danger: radial-gradient(circle, var(--danger) 0%, var(--red-700) 100%);
+            --gradient-gold: linear-gradient(135deg, var(--poke-gold) 0%, var(--gold-700) 100%);
 
             /* Marcos Temáticos de Evolución / Adaptación */
             --frame-silver: #A9A9A9;
-            --frame-gold: #FFD700;
+            --frame-gold: var(--gold-500);
             --frame-master: linear-gradient(45deg, #FF007F, #7F00FF, #00F0FF, #FF007F);
         }
 
         :root[data-theme="dark"] {
             color-scheme: dark;
 
-            --bg: var(--bg-dark);
-            --surface: var(--surface-dark);
+            --bg: var(--neutral-800);
+            --surface: var(--neutral-700);
             --surface-2: var(--surface-overlay-soft);
             --surface-3: var(--surface-overlay-medium);
-            --surface-elevated: var(--surface-dark);
+            --surface-elevated: var(--neutral-700);
             --surface-overlay: var(--surface-overlay-heavy);
-            --text: var(--text-light);
+            --text: var(--neutral-100);
             --text-strong: #ffffff;
-            --text-muted-semantic: var(--text-muted);
-            --primary: var(--botanik-green);
-            --primary-strong: var(--neon-green);
-            --accent: var(--accent-green);
+            --text-muted-semantic: var(--neutral-300);
+            --primary: var(--green-700);
+            --primary-strong: var(--green-500);
+            --accent: var(--green-400);
             --border: var(--border-muted);
             --border-subtle: var(--border-muted-subtle);
             --border-accent: var(--border-green-soft);
             --border-accent-strong: var(--border-green-medium);
+            --surface-glass: var(--surface-overlay-medium);
+            --surface-soft: rgba(0,0,0,0.2);
+            --field-bg: rgba(13,27,30,0.6);
+            --hover-bg: rgba(13,27,30,0.8);
+            --overlay-modal: var(--surface-overlay-heavy);
+            --admin-page-bg: var(--admin-surface);
+            --admin-page-text: #f3e5f5;
+            --admin-nav-bg: rgba(36,0,70,0.78);
+            --admin-muted: var(--admin-lilac-soft);
+            --shadow-component-card: var(--shadow-card);
+            --shadow-component-panel: var(--shadow-panel);
+            --shadow-component-modal: var(--shadow-modal);
         }
 
         :root[data-theme="light"] {
             color-scheme: light;
 
-            --bg: #f4fbf5;
-            --surface: #ffffff;
-            --surface-2: #eef7f0;
-            --surface-3: #e1efe5;
-            --surface-elevated: #ffffff;
-            --surface-overlay: rgba(255, 255, 255, 0.96);
-            --text: #12201a;
-            --text-strong: #07130d;
-            --text-muted-semantic: #58736a;
-            --primary: #1F6B3A;
-            --primary-strong: #1f8f3a;
-            --accent: #2f9e44;
+            --bg: var(--cream-100);
+            --surface: var(--cream-200);
+            --surface-2: var(--cream-300);
+            --surface-3: var(--cream-400);
+            --surface-elevated: var(--cream-100);
+            --surface-overlay: rgba(251, 248, 239, 0.96);
+            --text: var(--green-900);
+            --text-strong: var(--neutral-900);
+            --text-muted-semantic: var(--neutral-400);
+            --primary: var(--green-700);
+            --primary-strong: var(--green-600);
+            --accent: var(--green-600);
             --border: rgba(31, 107, 58, 0.16);
             --border-subtle: rgba(31, 107, 58, 0.10);
             --border-accent: rgba(31, 107, 58, 0.24);
             --border-accent-strong: rgba(31, 107, 58, 0.36);
-
-            --light-surface-glass: rgba(255,255,255,0.82);
-            --light-surface-soft: rgba(238,247,240,0.86);
-            --light-surface-strong: rgba(225,239,229,0.92);
-            --light-field-bg: rgba(255,255,255,0.92);
-            --light-hover-bg: rgba(31,107,58,0.08);
-            --light-overlay-modal: rgba(244,251,245,0.92);
-            --light-overlay-deep: rgba(18,32,26,0.26);
-            --light-shadow-card: 0 8px 20px rgba(31,107,58,0.12);
-            --light-shadow-panel: 0 15px 35px rgba(31,107,58,0.16);
-            --light-shadow-modal: 0 18px 38px rgba(18,32,26,0.20);
-            --admin-surface-light: #f7f0ff;
-            --admin-surface-light-2: #efe2ff;
-            --admin-text-light: #26113d;
-            --admin-muted-light: #73538d;
+            --surface-glass: rgba(251,248,239,0.84);
+            --surface-soft: rgba(247,241,228,0.88);
+            --field-bg: rgba(251,248,239,0.94);
+            --hover-bg: rgba(31,107,58,0.08);
+            --overlay-modal: rgba(251,248,239,0.92);
+            --admin-page-bg: var(--purple-100);
+            --admin-page-text: var(--purple-900);
+            --admin-nav-bg: var(--purple-200);
+            --admin-muted: var(--purple-800);
+            --shadow-component-card: 0 8px 20px rgba(31,107,58,0.12);
+            --shadow-component-panel: 0 15px 35px rgba(31,107,58,0.16);
+            --shadow-component-modal: 0 18px 38px rgba(18,32,26,0.20);
         }
 
         /* --- Reset y base --- */
@@ -721,7 +787,7 @@
         :root[data-theme="light"] #avatar-picker-modal,
         :root[data-theme="light"] #mailbox-modal,
         :root[data-theme="light"] #msg-reader-modal {
-            background: var(--light-overlay-modal);
+            background: var(--overlay-modal);
         }
 
         :root[data-theme="light"] .card,
@@ -731,7 +797,7 @@
         :root[data-theme="light"] .message-reader-card {
             background: var(--surface);
             border-color: var(--border-accent);
-            box-shadow: var(--light-shadow-panel);
+            box-shadow: var(--shadow-component-panel);
         }
 
         :root[data-theme="light"] .login-input,
@@ -739,7 +805,7 @@
         :root[data-theme="light"] .admin-textarea,
         :root[data-theme="light"] .search-bar-input,
         :root[data-theme="light"] .theme-preference-select {
-            background: var(--light-field-bg);
+            background: var(--field-bg);
             border-color: var(--border-accent);
             color: var(--text);
         }
@@ -755,7 +821,7 @@
 
         :root[data-theme="light"] .login-btn {
             color: #ffffff;
-            box-shadow: var(--light-shadow-card);
+            box-shadow: var(--shadow-component-card);
         }
 
         :root[data-theme="light"] .login-title-main,
@@ -779,19 +845,19 @@
         }
 
         :root[data-theme="light"] .profile-item {
-            background: var(--light-surface-glass);
+            background: var(--surface-glass);
             border-color: var(--border-accent);
-            box-shadow: var(--light-shadow-card);
+            box-shadow: var(--shadow-component-card);
         }
 
         :root[data-theme="light"] .profile-item:hover {
             background: var(--surface);
             border-color: var(--accent);
-            box-shadow: var(--light-shadow-panel);
+            box-shadow: var(--shadow-component-panel);
         }
 
         :root[data-theme="light"] .add-profile-item-btn {
-            background: var(--light-surface-soft);
+            background: var(--surface-soft);
             border-color: var(--border-accent-strong);
             color: var(--primary);
         }
@@ -806,7 +872,7 @@
         :root[data-theme="light"] .avatar-options-grid,
         :root[data-theme="light"] .message-reader-body,
         :root[data-theme="light"] .modal-meta-box {
-            background: var(--light-surface-soft);
+            background: var(--surface-soft);
             border-color: var(--border-subtle);
         }
 
@@ -816,14 +882,14 @@
         }
 
         :root[data-theme="light"] .upload-profile-img-label {
-            background: var(--light-surface-soft);
+            background: var(--surface-soft);
             border-color: var(--border-accent);
             color: var(--text);
         }
 
         :root[data-theme="light"] .upload-profile-img-label:hover,
         :root[data-theme="light"] .avatar-option:hover {
-            background: var(--light-hover-bg);
+            background: var(--hover-bg);
             border-color: var(--border-accent-strong);
         }
 
@@ -846,7 +912,7 @@
         }
 
         :root[data-theme="light"] nav button.active {
-            background: var(--light-hover-bg);
+            background: var(--hover-bg);
             color: var(--primary-strong);
         }
 
@@ -858,19 +924,19 @@
 
         :root[data-theme="light"] .header-profile-box:hover,
         :root[data-theme="light"] .header-mailbox-btn:hover {
-            background: var(--light-hover-bg);
+            background: var(--hover-bg);
             border-color: var(--accent);
         }
 
         :root[data-theme="light"] .accounts-dropdown-list {
             background: var(--surface);
             border-color: var(--border-accent-strong);
-            box-shadow: var(--light-shadow-modal);
+            box-shadow: var(--shadow-component-modal);
         }
 
         :root[data-theme="light"] .dropdown-account-item:hover,
         :root[data-theme="light"] .dropdown-footer-btn:hover {
-            background: var(--light-hover-bg);
+            background: var(--hover-bg);
         }
 
         :root[data-theme="light"] .dropdown-account-item.active-user-row,
@@ -890,12 +956,12 @@
 
         :root[data-theme="light"] .stat-box {
             background-color: var(--surface);
-            box-shadow: var(--light-shadow-card);
+            box-shadow: var(--shadow-component-card);
         }
 
         :root[data-theme="light"] .profesor-alert-card {
             background: linear-gradient(135deg, rgba(47,158,68,0.13) 0%, rgba(255,255,255,0.92) 100%);
-            box-shadow: var(--light-shadow-card);
+            box-shadow: var(--shadow-component-card);
         }
 
         :root[data-theme="light"] .profesor-alert-card p {
@@ -925,7 +991,7 @@
         :root[data-theme="light"] .names-dropdown-box {
             background: var(--surface);
             border-color: var(--border-accent-strong);
-            box-shadow: var(--light-shadow-modal);
+            box-shadow: var(--shadow-component-modal);
         }
 
         :root[data-theme="light"] .name-drop-row {
@@ -950,8 +1016,8 @@
         }
 
         :root[data-theme="light"] #god-mode-page {
-            background: var(--admin-surface-light);
-            color: var(--admin-text-light);
+            background: var(--admin-page-bg);
+            color: var(--admin-page-text);
         }
 
         :root[data-theme="light"] .admin-header {
@@ -960,7 +1026,7 @@
         }
 
         :root[data-theme="light"] .admin-nav-tabs {
-            background: var(--admin-surface-light-2);
+            background: var(--admin-nav-bg);
             border-bottom-color: rgba(90,24,154,0.18);
         }
 
@@ -1016,7 +1082,7 @@
         }
 
         :root[data-theme="light"] .feed-author-tag {
-            color: var(--admin-muted-light);
+            color: var(--admin-muted);
         }
 
         :root[data-theme="light"] .cluster-header {
