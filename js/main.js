@@ -177,6 +177,39 @@
             return canvas.toDataURL('image/jpeg', calidad);
         }
 
+        function limpiarNodo(elemento) {
+            if (!elemento) return;
+            elemento.replaceChildren();
+        }
+
+        function crearTexto(tag, className, text) {
+            const elemento = document.createElement(tag);
+            if (className) elemento.className = className;
+            elemento.textContent = text ?? "";
+            return elemento;
+        }
+
+        function renderizarAvatarSeguro(container, avatar) {
+            if (!container) return;
+            const valorAvatar = avatar || "🧑‍🚀";
+            limpiarNodo(container);
+
+            if (typeof valorAvatar === "string" && valorAvatar.startsWith("data:image")) {
+                const imagenAvatar = document.createElement('img');
+                imagenAvatar.src = valorAvatar;
+                imagenAvatar.alt = "Avatar";
+                container.appendChild(imagenAvatar);
+                return;
+            }
+
+            container.textContent = valorAvatar;
+        }
+
+        function appendOption(select, value, label) {
+            if (!select) return;
+            select.add(new Option(label ?? "", value ?? ""));
+        }
+
         /* ==========================================================================
            8. LOGIN Y REGISTRO
            ========================================================================== */
@@ -255,7 +288,7 @@
             document.getElementById('profile-name-input').value = "";
             document.getElementById('profile-date-input').value = "2018-01-01";
             document.getElementById('expert-toggle-input').checked = false;
-            document.getElementById('avatar-preview-circle').innerHTML = "🧑‍🚀";
+            renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), "🧑‍🚀");
             document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
             document.querySelector('.avatar-option[data-avatar="🧑‍🚀"]').classList.add('selected');
             document.getElementById('nav-dropdown-box').style.display = 'none';
@@ -277,7 +310,7 @@
             document.getElementById('expert-toggle-input').checked = p.esExperto || false;
             
             const esImg = selectedAvatarValue.startsWith("data:image");
-            document.getElementById('avatar-preview-circle').innerHTML = esImg ? `<img src="${selectedAvatarValue}">` : selectedAvatarValue;
+            renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), selectedAvatarValue);
             document.querySelectorAll('.avatar-option').forEach(opt => {
                 opt.classList.remove('selected');
                 if(!esImg && opt.getAttribute('data-avatar') === selectedAvatarValue) opt.classList.add('selected');
@@ -289,7 +322,7 @@
         window.selectAvatarElement = (el, val) => {
             document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
             el.classList.add('selected'); selectedAvatarValue = val;
-            document.getElementById('avatar-preview-circle').innerHTML = val;
+            renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), val);
         };
 
         window.procesarFotoPerfilReal = (event) => {
@@ -301,7 +334,7 @@
                     const base64Comprimido = comprobarImagenProporcional(img, 120, 0.7);
                     document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
                     selectedAvatarValue = base64Comprimido;
-                    document.getElementById('avatar-preview-circle').innerHTML = `<img src="${base64Comprimido}">`;
+                    renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), base64Comprimido);
                 };
                 img.src = e.target.result;
             };
@@ -320,8 +353,7 @@
                     await updateDoc(doc(db, "perfiles", targetId), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto });
                     if(targetId === perfilActiveId) {
                         perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNac; perfilActivoAvatar = selectedAvatarValue; perfilActivoEsExperto = esExperto;
-                        const esImg = selectedAvatarValue.startsWith("data:image");
-                        document.getElementById('head-av-box').innerHTML = esImg ? `<img src="${selectedAvatarValue}">` : selectedAvatarValue;
+                        renderizarAvatarSeguro(document.getElementById('head-av-box'), selectedAvatarValue);
                         document.getElementById('head-name').innerText = nombre.toUpperCase();
                     }
                     alert("¡Mente de Campo Sincronizada!");
@@ -379,8 +411,7 @@
             const edadCalculada = calcularEdadExacta(fechaNacimiento);
             document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
             
-            const esImg = avatar.startsWith("data:image");
-            document.getElementById('head-av-box').innerHTML = esImg ? `<img src="${avatar}">` : avatar;
+            renderizarAvatarSeguro(document.getElementById('head-av-box'), avatar);
             document.getElementById('head-name').innerText = nombre.toUpperCase();
             document.getElementById('head-age').innerText = `${esExperto ? '🎓 EXPERTO' : 'Explorador'} • ${edadCalculada} años`;
 
@@ -804,17 +835,24 @@
         };
 
         window.abrirBuzonHistoricoModal = () => {
-            const container = document.getElementById('mailbox-list-container'); container.innerHTML = '';
+            const container = document.getElementById('mailbox-list-container');
+            limpiarNodo(container);
             const leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
 
             if (cacheAlertasGlobales.length === 0) {
-                container.innerHTML = `<div class="mailbox-empty-state">No hay transmisiones archivadas en este cuadrante.</div>`;
+                container.appendChild(crearTexto('div', 'mailbox-empty-state', 'No hay transmisiones archivadas en este cuadrante.'));
             }
 
             cacheAlertasGlobales.forEach(a => {
                 const esLeido = leidosList.includes(a.id);
                 const dCard = document.createElement('div'); dCard.className = 'mailbox-item-card';
-                dCard.innerHTML = `<div class="mailbox-item-title">${a.textMessage}</div><div class="mailbox-item-date">${new Date(a.timestamp).toLocaleString()}</div>${!esLeido ? `<div class="mailbox-unread-dot"></div>`:''}`;
+                dCard.appendChild(crearTexto('div', 'mailbox-item-title', a.textMessage));
+                dCard.appendChild(crearTexto('div', 'mailbox-item-date', new Date(a.timestamp).toLocaleString()));
+                if (!esLeido) {
+                    const unreadDot = document.createElement('div');
+                    unreadDot.className = 'mailbox-unread-dot';
+                    dCard.appendChild(unreadDot);
+                }
                 dCard.onclick = () => { window.abrirLectorMensajeEspecifico(a.id, a.textMessage); };
                 container.appendChild(dCard);
             });
@@ -840,27 +878,39 @@
            ========================================================================== */
 
         window.cargarSelectorEmailsAlertas = async () => {
-            const sUser = document.getElementById('alert-user-field'); sUser.innerHTML = '<option value="">-- Selecciona Laboratorio Familiar --</option>';
-            const sChild = document.getElementById('sim-child-field'); sChild.innerHTML = '';
-            const sDestChild = document.getElementById('alert-child-field'); sDestChild.innerHTML = '<option value="">-- Primero elige Cuenta --</option>';
+            const sUser = document.getElementById('alert-user-field');
+            limpiarNodo(sUser);
+            appendOption(sUser, "", "-- Selecciona Laboratorio Familiar --");
+            const sChild = document.getElementById('sim-child-field');
+            limpiarNodo(sChild);
+            const sDestChild = document.getElementById('alert-child-field');
+            limpiarNodo(sDestChild);
+            appendOption(sDestChild, "", "-- Primero elige Cuenta --");
 
             const snapU = await getDocs(collection(db, "cuentas_familia"));
-            snapU.forEach(d => { sUser.innerHTML += `<option value="${d.data().email}">${d.data().email}</option>`; });
-            if (!sUser.innerHTML.includes("neco@plantdex.com")) sUser.innerHTML += `<option value="neco@plantdex.com">neco@plantdex.com</option>`;
+            const emails = [];
+            snapU.forEach(d => {
+                const email = d.data().email;
+                emails.push(email);
+                appendOption(sUser, email, email);
+            });
+            if (!emails.includes("neco@plantdex.com")) appendOption(sUser, "neco@plantdex.com", "neco@plantdex.com");
 
             const snapP = await getDocs(collection(db, "perfiles"));
             window.cacheAdminPerfilesCompletos = [];
             snapP.forEach(d => {
                 window.cacheAdminPerfilesCompletos.push({ id: d.id, ...d.data() });
-                sChild.innerHTML += `<option value="${d.id}">${d.data().nombre.toUpperCase()} [${d.data().usuarioEmail}]</option>`;
+                appendOption(sChild, d.id, `${d.data().nombre.toUpperCase()} [${d.data().usuarioEmail}]`);
             });
         };
 
         window.filtrarHijosDeCuentaParaMensajeDirecto = (emailCuenta) => {
-            const sDestChild = document.getElementById('alert-child-field'); sDestChild.innerHTML = '<option value="">-- Todos los exploradores de la cuenta --</option>';
+            const sDestChild = document.getElementById('alert-child-field');
+            limpiarNodo(sDestChild);
+            appendOption(sDestChild, "", "-- Todos los exploradores de la cuenta --");
             if(!emailCuenta) return;
             const filtrados = window.cacheAdminPerfilesCompletos.filter(p => p.usuarioEmail === emailCuenta);
-            filtrados.forEach(p => { sDestChild.innerHTML += `<option value="${p.id}">${p.nombre.toUpperCase()}</option>`; });
+            filtrados.forEach(p => { appendOption(sDestChild, p.id, p.nombre.toUpperCase()); });
         };
 
         window.gestionarCambioTargetAlerta = (tipo) => {
@@ -872,9 +922,15 @@
         };
 
         window.prepararDesplegablesSimulador = () => {
-            const pSel = document.getElementById('alert-pais-select'); pSel.innerHTML=''; PAISES_PRECARGADOS.forEach(p=>pSel.innerHTML+=`<option value="${p}">${p}</option>`);
-            const prSel = document.getElementById('alert-provincia-select'); prSel.innerHTML=''; PROVINCIAS_PRECARGADAS.forEach(p=>prSel.innerHTML+=`<option value="${p}">${p}</option>`);
-            const cSel = document.getElementById('alert-comarca-select'); cSel.innerHTML=''; COMARCAS_PRECARGADAS.forEach(c=>cSel.innerHTML+=`<option value="${c}">${c}</option>`);
+            const pSel = document.getElementById('alert-pais-select');
+            limpiarNodo(pSel);
+            PAISES_PRECARGADOS.forEach(p => appendOption(pSel, p, p));
+            const prSel = document.getElementById('alert-provincia-select');
+            limpiarNodo(prSel);
+            PROVINCIAS_PRECARGADAS.forEach(p => appendOption(prSel, p, p));
+            const cSel = document.getElementById('alert-comarca-select');
+            limpiarNodo(cSel);
+            COMARCAS_PRECARGADAS.forEach(c => appendOption(cSel, c, c));
         };
 
         window.emitirAlertaSatelital = async () => {

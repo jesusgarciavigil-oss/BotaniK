@@ -11,6 +11,7 @@ BotaniK todavía es un prototipo funcional y no debe publicarse como producción
 - Revisar `firestore.rules.example` como guía orientativa y compararla con las reglas reales desplegadas.
 - No publicar el repositorio si las reglas reales permiten lectura o escritura amplia.
 - No publicar el repositorio si las operaciones admin no están protegidas por reglas, Auth o backend.
+- Mantener la revisión XSS/`innerHTML` como pendiente hasta completar la limpieza de panel admin, álbum y perfiles.
 - Revisar la lógica de login familiar y administración implementada en cliente.
 - Revisar emails, nombres, datos personales o identificadores reales que no deban ser públicos.
 - Revisar el historial Git para confirmar si secretos o credenciales estuvieron presentes en commits anteriores.

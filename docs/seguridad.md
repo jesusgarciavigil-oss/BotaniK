@@ -12,7 +12,7 @@ Este documento resume los riesgos visibles en el código actual y propone pasos 
 - Contraseñas gestionadas desde Firestore como datos de aplicación: el código registra y compara claves familiares usando documentos de Firestore. Este modelo expone demasiado la seguridad a las reglas de la base de datos y a la lógica del cliente.
 - Llamadas a Gemini: el análisis de imágenes pasa por una función serverless para evitar que nuevas claves queden expuestas en el cliente. Las claves que ya estuvieron en cliente deben considerarse comprometidas y rotarse antes de publicar el repositorio.
 - Dependencia crítica de las reglas de Firestore: la seguridad real de cuentas, perfiles, capturas, mensajes y acciones de administración depende de reglas de Firestore que no están documentadas aquí. Si las reglas son permisivas, el cliente no basta para proteger datos ni acciones.
-- Posible riesgo de XSS por uso de `innerHTML`: varias partes de la interfaz construyen HTML con datos que pueden venir de Firestore o de entradas de usuario. Si esos datos no se controlan o sanitizan, podrían inyectar contenido no deseado.
+- Posible riesgo de XSS por uso de `innerHTML`: varias partes de la interfaz construyen HTML con datos que pueden venir de Firestore o de entradas de usuario. Ya se ha iniciado una reducción puntual en avatares, buzón y selectores sencillos, pero siguen pendientes zonas dinámicas más complejas como panel admin, álbum, perfiles y plantillas generadas.
 - Fotos en base64 dentro de documentos Firestore: las imágenes se guardan como cadenas base64 en documentos. Esto puede aumentar costes, tamaño de documentos, tiempos de carga y superficie de exposición de datos personales o familiares.
 
 ## Recomendaciones inmediatas
@@ -32,6 +32,7 @@ Este documento resume los riesgos visibles en el código actual y propone pasos 
 - Usar Firebase Auth u otro sistema de autenticación real para cuentas familiares y administración.
 - Revisar la autorización por usuario, perfil y rol, especialmente para panel de administración, mensajes, capturas e inyección de XP.
 - Sustituir progresivamente `innerHTML` por creación segura de nodos DOM, asignación con `textContent` o sanitización explícita cuando sea necesario renderizar HTML.
+- Completar la auditoría XSS de las plantillas dinámicas que todavía renderizan datos de Firestore, formularios o respuestas externas.
 - Mover imágenes a un almacenamiento adecuado si el proyecto crece, por ejemplo Firebase Storage u otra solución equivalente, guardando en Firestore solo metadatos y referencias.
 - Documentar colecciones, reglas esperadas y permisos por tipo de usuario antes de ampliar funcionalidades.
 
