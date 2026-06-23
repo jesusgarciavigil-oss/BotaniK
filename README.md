@@ -6,9 +6,9 @@ BotaniK es una aplicación web familiar orientada a la exploración botánica. I
 
 ## Estado actual del proyecto
 
-El proyecto está en estado de prototipo funcional y en proceso de profesionalización. Actualmente se mantiene como web estática. La estructura ya separa los estilos principales en `css/styles.css`, aunque la lógica de aplicación sigue concentrada principalmente en `index.html`.
+El proyecto está en estado de prototipo funcional y en proceso de profesionalización. Actualmente se mantiene como web estática. La estructura ya separa los estilos principales en `css/styles.css` y la lógica principal de la aplicación en `js/main.js`.
 
-En `index.html` conviven HTML, JavaScript, eventos inline, configuración de Firebase, llamadas a servicios externos e infraestructura inicial de tema. La prioridad actual es documentar el estado real, separar responsabilidades poco a poco y conservar el comportamiento existente.
+`index.html` mantiene la estructura HTML principal, los eventos inline existentes y el script temprano de tema en el `<head>` para aplicar `data-theme` antes de pintar la interfaz. `js/main.js` centraliza por ahora imports de Firebase/CDN, configuración, estado global, funciones expuestas en `window`, login, perfiles, radar/cámara, Gemini, álbum, buzón y panel de administración. Esta extracción es una mejora estructural, pero todavía no implica modularización interna.
 
 Este proyecto no debe considerarse una aplicación de producción segura en su estado actual.
 
@@ -82,6 +82,8 @@ Este README no copia valores reales de claves, contraseñas, tokens ni credencia
 ├── index.html
 ├── css/
 │   └── styles.css
+├── js/
+│   └── main.js
 ├── docs/
 │   ├── estructura.md
 │   ├── firebase.md
@@ -111,7 +113,9 @@ Este README no copia valores reales de claves, contraseñas, tokens ni credencia
 
 - Crear documentación de seguridad.
 - Documentar Firebase/Firestore.
-- Separar JavaScript en `js/main.js`.
+- Revisar la organización interna de `js/main.js`.
+- Valorar si merece la pena dividirlo más adelante en módulos, sin hacerlo agresivamente antes de auditar dependencias globales.
+- Mantener cuidado con funciones inline, funciones expuestas en `window`, Firebase, Gemini y orden de carga.
 - Revisar reglas de Firestore.
 - Planificar la salida de secretos fuera del cliente.
 - Revisar responsive, accesibilidad, focus visible y contraste del tema claro.

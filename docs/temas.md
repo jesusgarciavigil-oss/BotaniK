@@ -12,7 +12,7 @@ El tema activo se aplica mediante el atributo `data-theme` en el elemento raíz 
 <html data-theme="dark">
 ```
 
-Los valores visuales finales se definen en `css/styles.css` mediante variables CSS. La infraestructura de JavaScript inicial está en `index.html` y se ejecuta pronto durante la carga para reducir parpadeos visuales.
+Los valores visuales finales se definen en `css/styles.css` mediante variables CSS. La infraestructura temprana de JavaScript para aplicar el tema sigue en `index.html` y se ejecuta pronto durante la carga para reducir parpadeos visuales. La lógica principal de la aplicación está separada en `js/main.js`.
 
 El sistema reconoce tres preferencias de usuario:
 
