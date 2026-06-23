@@ -2,6 +2,43 @@
 
 BotaniK todavía es un prototipo funcional y no debe publicarse como producción segura sin revisar antes secretos, configuración, reglas de datos y accesos. Este documento sirve como checklist inicial para preparar el repositorio antes de hacerlo público.
 
+## Estado actual de preparación pública
+
+Esta sección es el punto central de decisión antes de hacer público el repositorio. Cada punto debe actualizarse en commits posteriores cuando cambie de estado.
+
+### Resuelto
+
+- [x] Estructura del proyecto separada en `index.html`, `css/styles.css` y `js/main.js`.
+- [x] Gemini movido a función serverless en `api/analyze-plant.js`.
+- [x] `.env.example` creado sin claves reales.
+- [x] `.gitignore` preparado para evitar subir `.env` y variantes locales.
+- [x] Riesgos de Firestore y panel admin documentados en [firestore-seguridad.md](firestore-seguridad.md).
+- [x] `firestore.rules.example` creado como guía orientativa para revisar reglas reales.
+- [x] Primera reducción de `innerHTML` realizada en avatares, buzón y selectores sencillos.
+
+### Pendiente bloqueante
+
+- [ ] Confirmar las reglas reales desplegadas en Firebase Console.
+- [ ] Comparar las reglas reales con `firestore.rules.example`.
+- [ ] Bloquear lectura y escritura amplia en Firestore.
+- [ ] Confirmar que el panel admin no permite acciones sensibles sin protección real mediante reglas, Auth o backend.
+- [ ] Revisar o eliminar accesos admin, contraseñas o controles hardcodeados visibles en cliente.
+- [ ] Revocar claves Gemini antiguas que hayan estado expuestas cuando producción ya use la función serverless.
+- [ ] Confirmar que Vercel tiene `GEMINI_API_KEY` configurada como variable de entorno.
+- [ ] Probar un despliegue de Vercel Preview antes de promover cambios a Production.
+- [ ] Revisar que no hay datos personales reales, emails reales, contraseñas ni capturas sensibles en código o documentación.
+- [ ] Revisar historial Git y ramas antiguas antes de hacer público el repositorio.
+
+### Pendiente recomendable / futuro
+
+- [ ] Migrar login familiar a Firebase Auth o backend.
+- [ ] Mover acciones admin sensibles a backend o funciones serverless.
+- [ ] Definir roles reales para cuenta familiar, perfil infantil y administración.
+- [ ] Mover imágenes a Firebase Storage u otro almacenamiento adecuado.
+- [ ] Terminar la reducción de `innerHTML` en perfiles, álbum y panel admin.
+- [ ] Revisar XSS en plantillas grandes y datos renderizados desde Firestore o formularios.
+- [ ] Valorar limpieza de historial Git si se quiere una publicación más limpia.
+
 ## Checklist antes de publicar
 
 - Rotar o revocar claves de Gemini que hayan estado expuestas en cliente.
@@ -56,3 +93,11 @@ En una web estática pura, las variables de entorno no protegen secretos si term
 - No confiar en ofuscación como seguridad real.
 - No asumir que Firebase queda protegido solo por ocultar valores del cliente.
 - No reescribir historial sin un plan claro y copia de seguridad.
+
+## Decisión de publicación
+
+No se debe hacer público el repositorio mientras exista cualquier punto marcado como pendiente bloqueante.
+
+Esta documentación debe usarse como checklist de avance. Cada punto resuelto debe actualizarse aquí en commits posteriores, junto con la evidencia o documentación correspondiente cuando proceda.
+
+La publicación pública debe tratarse como una decisión explícita, no como una consecuencia automática de que la app funcione o esté desplegada.
