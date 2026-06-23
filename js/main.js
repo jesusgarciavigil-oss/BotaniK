@@ -1,6 +1,14 @@
+        /* ==========================================================================
+           1. IMPORTS
+           ========================================================================== */
+
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
         
+        /* ==========================================================================
+           2. MANEJADORES GLOBALES DE ERROR
+           ========================================================================== */
+
         // RADAR GLOBAL DE EMERGENCIA: Captura cualquier error en cualquier parte del código
         window.onerror = function (message, source, lineno, colno, error) {
             alert(`🚨 ERROR DE SISTEMA GLOBAL:\n\nMensaje: ${message}\nLínea: ${lineno}\nArchivo: ${source}`);
@@ -15,6 +23,10 @@
             if (loadingEl) loadingEl.style.display = 'none';
         });
         
+        /* ==========================================================================
+           3. FIREBASE, FIRESTORE Y SERVICIOS EXTERNOS
+           ========================================================================== */
+
         // Inicialización de la Base de Datos Firebase del Entorno Familiar
         const firebaseConfig = {
             apiKey: "AIzaSyDReChwrnr6zHLumpR5OLTrNlvfhcAH_BA",
@@ -51,12 +63,20 @@
             console.warn("📡 Satélite saturado. Canal de respaldo activado: Frecuencia " + (indiceClaveActual + 1));
         };
 
+        /* ==========================================================================
+           4. LISTENERS GLOBALES DE INTERFAZ
+           ========================================================================== */
+
         // Capa de protección física de la interfaz (Optimizado para no romper el scroll en móviles)
         document.addEventListener('contextmenu', event => {
             if (event.target.id === 'm-desc' || event.target.closest('.modal-desc-poke')) return; 
             event.preventDefault();
         });
         
+        /* ==========================================================================
+           5. ESTADO GLOBAL
+           ========================================================================== */
+
         // Variables Globales de Estado del Sistema de Exploración
         window.modoRegistro = false;
         let usuarioEmailActual = "";
@@ -75,6 +95,10 @@
         let cacheAlertasGlobales = [];
         let unsuscribeXpLive = null;
 
+        /* ==========================================================================
+           6. CONSTANTES DE JUEGO, RAREZAS, RANGOS Y LOCALIZACIÓN
+           ========================================================================== */
+
         // Configuraciones del Universo BotaniK
         const RANGOS_EXPLORACION = [
             "Aspirante de Campo", "Rastreador de Brotes", "Buscador de Raíces", "Herborista Iniciado",      
@@ -91,7 +115,7 @@
         const TITULOS_ADAPTACION = { 1: "Descubierto", 2: "Adaptado", 3: "Especializado", 4: "Maestro Ecosistema" };
 
         /* ==========================================================================
-           FUNCIONES AUXILIARES Y HERRAMIENTAS TÉCNICAS
+           7. UTILIDADES GENERALES
            ========================================================================== */
 
         function calcularEdadExacta(fechaNacimientoStr) {
@@ -126,7 +150,7 @@
         }
 
         /* ==========================================================================
-           SISTEMA DE AUTENTICACIÓN Y CONTROL DE ACCESO (VINCULADO GLOBALMENTE)
+           8. LOGIN Y REGISTRO
            ========================================================================== */
 
         window.gestionarAcceso = async () => {
@@ -174,7 +198,7 @@
         };
 
         /* ==========================================================================
-           GESTIÓN DE PERFILES / AVENTUREROS
+           9. TEMA DENTRO DEL MODAL DE PERFIL
            ========================================================================== */
 
         const sincronizarSelectorTemaPerfil = () => {
@@ -192,6 +216,10 @@
             });
             sincronizarSelectorTemaPerfil();
         }
+
+        /* ==========================================================================
+           10. PERFILES Y SELECTOR DE EXPLORADORES
+           ========================================================================== */
 
         window.abrirCreadorPerfilModal = () => {
             modoEdicionActivo = false; idPerfilEnEdicionFila = ""; selectedAvatarValue = "🧑‍🚀";
@@ -336,7 +364,7 @@
         };
 
         /* ==========================================================================
-           ESCUCHA DE BIOMASA EN TIEMPO REAL (BUZÓN SATELITAL)
+           11. XP EN TIEMPO REAL Y RECOMPENSAS ENTREGADAS
            ========================================================================== */
 
         window.activarEscuchaBiomasaEnVivo = () => {
@@ -364,6 +392,10 @@
             snap.forEach(d => cachePerfilesFamilia.push({ id: d.id, ...d.data() }));
             buildDropdownDOM();
         }
+
+        /* ==========================================================================
+           12. CABECERA Y DROPDOWN DE PERFILES
+           ========================================================================== */
 
         function buildDropdownDOM() {
             const container = document.getElementById('nav-dropdown-box'); if (!container) return; container.innerHTML = '';
@@ -394,7 +426,9 @@
         document.addEventListener('click', (e) => { const box = document.getElementById('nav-dropdown-box'); const trigger = document.querySelector('.header-profile-box'); if (box && box.style.display === 'block' && !box.contains(e.target) && !trigger.contains(e.target)) box.style.display = 'none'; });
 
         /* ==========================================================================
-           CONSOLA DE CONTROL SUPREMA - MODO DIOS
+           13. PANEL ADMIN: ACCESO, PESTAÑAS, MONITOR Y MODERACIÓN
+           Nota: este bloque se mantiene antes de otros módulos porque el login
+           puede activar el panel admin y las funciones siguen expuestas en window.
            ========================================================================== */
 
         window.activarMandoSupremoGod = async () => { document.getElementById('god-mode-page').style.display = 'flex'; window.switchAdminTab('panel-macro'); };
@@ -477,7 +511,7 @@
         };
 
         /* ==========================================================================
-           GEOLOCALIZACIÓN Y ENTORNO CULTURAL COMARCAL
+           14. CONFIGURACIÓN DE BASE GPS/MANUAL
            ========================================================================== */
 
         window.localizarBasePorGPS = async () => {
@@ -525,7 +559,7 @@
         }
 
         /* ==========================================================================
-           MÓDULO DE IDENTIFICACIÓN IA (FILTRO BIOLÓGICO INTEGRADO)
+           15. RADAR, CÁMARA, GEMINI Y PROCESAMIENTO DE CAPTURAS
            ========================================================================== */
 
         window.triggerCamera = () => { document.getElementById('camera-input').click(); };
@@ -754,7 +788,7 @@
         };
 
         /* ==========================================================================
-           SISTEMA DE MISIONES / ALERTAS COMUNITARIAS (BUZÓN)
+           16. BUZÓN, MENSAJES Y COMUNICADOS
            ========================================================================== */
 
         window.verificarAlertasMisionesComarcales = async () => {
@@ -827,7 +861,7 @@
         };
 
         /* ==========================================================================
-           SISTEMA DE ADMINISTRACIÓN CENTRALIZADA (CONTROL SUPREMO)
+           17. PANEL ADMIN: ALERTAS, MENSAJES Y SIMULADOR
            ========================================================================== */
 
         window.cargarSelectorEmailsAlertas = async () => {
@@ -918,7 +952,7 @@
         };
 
         /* ==========================================================================
-           GESTIÓN DE INTERFAZ MULTIPÁGINA (RADAR / ÁLBUM)
+           18. NAVEGACIÓN ENTRE VISTAS
            ========================================================================== */
 
         window.switchPage = (pageId, buttonElement) => {
@@ -929,6 +963,10 @@
             if(buttonElement) buttonElement.classList.add('active');
             if(pageId === 'album') cargarAlbum();
         };
+
+        /* ==========================================================================
+           19. XP, NIVELES Y ESTADO DEL RADAR
+           ========================================================================== */
 
         async function actualizarEstado() {
             const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
@@ -962,7 +1000,7 @@
         }
 
         /* ==========================================================================
-           RENDERIZADO DINÁMICO DEL ÁLBUM DE CROMOS DE LABORATIVO
+           20. ÁLBUM Y CROMOS
            ========================================================================== */
 
         async function cargarAlbum() {
@@ -1004,7 +1042,7 @@
         };
 
         /* ==========================================================================
-           VISUALIZADOR PREMIUM EN PERSPECTIVA (CARTA 3D) - COMPACTADA CON SMART SCROLL
+           21. MODAL DE CROMO 3D
            ========================================================================== */
 
         window.abrirVisualizadorDetalleCromo3D = (esp) => {
@@ -1060,6 +1098,10 @@
             el.classList.add('show-toast');
             setTimeout(() => { el.classList.remove('show-toast'); }, 4000);
         };
+
+        /* ==========================================================================
+           22. INICIALIZACIÓN FINAL
+           ========================================================================== */
 
         window.onload = () => {
             document.getElementById('main-app-container').style.display = 'block';
