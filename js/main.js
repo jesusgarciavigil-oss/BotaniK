@@ -39,30 +39,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ARSENAL DE RESPALDO: Claves de Gemini guardadas de forma directa y entera
-        const _0xkeys = [
-            "AQ.Ab8RN6K9eMLDW_np4oMF1bxYxsI45ryg8-ZJdiP0BiEp5J8qgg",
-            "AQ.Ab8RN6JI3FXyP1ocfEfu0jul3EmXjiQQTrCUeAMAAXZxDJHwcA",
-            "AQ.Ab8RN6J8M-4szUq3prRTJmmmgtzReKCFbCtTpXSAaJkcKTrPTQ",
-            "AQ.Ab8RN6IlJrijF8jCY01S7gKWiPiHmXQ2BeaIJ9hu4sZH6iGDeg",
-            "AQ.Ab8RN6LBYU6cMcyhRGdI-CysI4cQvB8JS5jp_7EbCPqpdrlLLg",
-            "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg"
-        ];
-        
-        // Indicador del satélite activo en el carrusel
-        let indiceClaveActual = 0;
-
-        // Función modificada para leer la clave íntegra y directa sin modificaciones
-        function obtenerGeminiKeyActiva() {
-            return _0xkeys[indiceClaveActual];
-        }
-
-        // Sistema automático de salto en caso de saturación (Error 429) o bloqueo temporal
-        window.rotarASiguienteClavePorSaturacion = () => {
-            indiceClaveActual = (indiceClaveActual + 1) % _0xkeys.length;
-            console.warn("📡 Satélite saturado. Canal de respaldo activado: Frecuencia " + (indiceClaveActual + 1));
-        };
-
         /* ==========================================================================
            4. LISTENERS GLOBALES DE INTERFAZ
            ========================================================================== */
@@ -201,6 +177,59 @@
             return canvas.toDataURL('image/jpeg', calidad);
         }
 
+        function limpiarNodo(elemento) {
+            if (!elemento) return;
+            elemento.replaceChildren();
+        }
+
+        function crearTexto(tag, className, text) {
+            const elemento = document.createElement(tag);
+            if (className) elemento.className = className;
+            elemento.textContent = text ?? "";
+            return elemento;
+        }
+
+        function renderizarAvatarSeguro(container, avatar) {
+            if (!container) return;
+            const valorAvatar = avatar || "🧑‍🚀";
+            limpiarNodo(container);
+
+            if (typeof valorAvatar === "string" && valorAvatar.startsWith("data:image")) {
+                const imagenAvatar = document.createElement('img');
+                imagenAvatar.src = valorAvatar;
+                imagenAvatar.alt = "Avatar";
+                container.appendChild(imagenAvatar);
+                return;
+            }
+
+            container.textContent = valorAvatar;
+        }
+
+        function appendOption(select, value, label) {
+            if (!select) return;
+            select.add(new Option(label ?? "", value ?? ""));
+        }
+
+        function obtenerClaseRarezaSegura(rareza) {
+            const rarezaNormalizada = typeof rareza === "string" ? rareza : "comun";
+            const rarezaPermitida = Object.prototype.hasOwnProperty.call(MULTIPLICADORES_RAREZA, rarezaNormalizada)
+                ? rarezaNormalizada
+                : "comun";
+            return `rare-${rarezaPermitida}`;
+        }
+
+        const MENSAJE_PANEL_ADMIN_DESHABILITADO = "Panel admin deshabilitado en esta versión pública. Pendiente de autenticación y autorización real.";
+
+        function avisarPanelAdminDeshabilitado() {
+            alert(MENSAJE_PANEL_ADMIN_DESHABILITADO);
+            return false;
+        }
+
+        function esIntentoPanelAdminDeshabilitado(email, pass) {
+            const textoAcceso = `${email} ${pass}`.toLowerCase();
+            return ["admin", "mando", "supremo", "god", "master"].some(marcador => textoAcceso.includes(marcador));
+        }
+
         /* ==========================================================================
            8. LOGIN Y REGISTRO
            ========================================================================== */
@@ -209,13 +238,6 @@
             const email = document.getElementById('username').value.trim().toLowerCase();
             const pass = document.getElementById('password').value.trim();
             if(!email || !pass) return alert("Por favor, rellena todos los campos.");
-
-            if (email === "jesusgarciavigil@gmail.com" && pass === "adminMaster2026") {
-                usuarioEmailActual = email;
-                document.getElementById('login-page').style.display = 'none';
-                window.activarMandoSupremoGod();
-                return;
-            }
 
             try {
                 const q = query(collection(db, "cuentas_familia"), where("email", "==", email));
@@ -231,12 +253,13 @@
                 } else {
                     let valido = false;
                     snap.forEach(doc => { if(doc.data().pass === pass) valido = true; });
-                    if (email === "neco@plantdex.com" && pass === "plantdex2026") valido = true;
 
                     if (valido) {
                         usuarioEmailActual = email;
                         document.getElementById('login-page').style.display = 'none';
                         await mostrarSelectorPerfiles();
+                    } else if (esIntentoPanelAdminDeshabilitado(email, pass)) {
+                        avisarPanelAdminDeshabilitado();
                     } else { alert("Código de acceso o terminal incorrectos."); }
                 }
             } catch (err) { alert("Error de enlace: " + err.message); }
@@ -279,7 +302,7 @@
             document.getElementById('profile-name-input').value = "";
             document.getElementById('profile-date-input').value = "2018-01-01";
             document.getElementById('expert-toggle-input').checked = false;
-            document.getElementById('avatar-preview-circle').innerHTML = "🧑‍🚀";
+            renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), "🧑‍🚀");
             document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
             document.querySelector('.avatar-option[data-avatar="🧑‍🚀"]').classList.add('selected');
             document.getElementById('nav-dropdown-box').style.display = 'none';
@@ -301,7 +324,7 @@
             document.getElementById('expert-toggle-input').checked = p.esExperto || false;
             
             const esImg = selectedAvatarValue.startsWith("data:image");
-            document.getElementById('avatar-preview-circle').innerHTML = esImg ? `<img src="${selectedAvatarValue}">` : selectedAvatarValue;
+            renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), selectedAvatarValue);
             document.querySelectorAll('.avatar-option').forEach(opt => {
                 opt.classList.remove('selected');
                 if(!esImg && opt.getAttribute('data-avatar') === selectedAvatarValue) opt.classList.add('selected');
@@ -313,7 +336,7 @@
         window.selectAvatarElement = (el, val) => {
             document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
             el.classList.add('selected'); selectedAvatarValue = val;
-            document.getElementById('avatar-preview-circle').innerHTML = val;
+            renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), val);
         };
 
         window.procesarFotoPerfilReal = (event) => {
@@ -325,7 +348,7 @@
                     const base64Comprimido = comprobarImagenProporcional(img, 120, 0.7);
                     document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
                     selectedAvatarValue = base64Comprimido;
-                    document.getElementById('avatar-preview-circle').innerHTML = `<img src="${base64Comprimido}">`;
+                    renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), base64Comprimido);
                 };
                 img.src = e.target.result;
             };
@@ -344,8 +367,7 @@
                     await updateDoc(doc(db, "perfiles", targetId), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto });
                     if(targetId === perfilActiveId) {
                         perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNac; perfilActivoAvatar = selectedAvatarValue; perfilActivoEsExperto = esExperto;
-                        const esImg = selectedAvatarValue.startsWith("data:image");
-                        document.getElementById('head-av-box').innerHTML = esImg ? `<img src="${selectedAvatarValue}">` : selectedAvatarValue;
+                        renderizarAvatarSeguro(document.getElementById('head-av-box'), selectedAvatarValue);
                         document.getElementById('head-name').innerText = nombre.toUpperCase();
                     }
                     alert("¡Mente de Campo Sincronizada!");
@@ -353,8 +375,7 @@
                     await addDoc(collection(db, "perfiles"), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto, usuarioEmail: usuarioEmailActual, base: null });
                 }
                 document.getElementById('avatar-picker-modal').style.display = 'none';
-                if (usuarioEmailActual === "jesusgarciavigil@gmail.com") { window.renderizarCuentasYPerfilesGlobales(); }
-                else if(perfilActiveId) { await recalcularCacheYDesplegable(); cargarAlbum(); }
+                if(perfilActiveId) { await recalcularCacheYDesplegable(); cargarAlbum(); }
                 else { await mostrarSelectorPerfiles(); }
             } catch (err) { alert(err.message); }
         };
@@ -366,23 +387,44 @@
             document.querySelector('nav').style.display = 'none';
             document.getElementById('profile-page').style.display = 'flex';
             
-            const grid = document.getElementById('perfiles-dinamicos'); grid.innerHTML = '';
+            const grid = document.getElementById('perfiles-dinamicos');
+            limpiarNodo(grid);
             const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
             const snap = await getDocs(q); cachePerfilesFamilia = [];
             
             snap.forEach(documento => {
                 const dataId = documento.id; const p = documento.data(); cachePerfilesFamilia.push({ id: dataId, ...p });
-                const esImg = p.avatar && p.avatar.startsWith("data:image");
-                const avatarRender = esImg ? `<img src="${p.avatar}">` : p.avatar || "🧑‍🚀";
                 const edadCalculada = calcularEdadExacta(p.fechaNacimiento);
 
-                const div = document.createElement('div'); div.className = "profile-item";
-                div.innerHTML = `<button class="delete-profile-badge">×</button><div class="profile-avatar-display">${avatarRender}</div><div class="profile-name-display">${p.nombre}</div><div class="profile-age-display">${edadCalculada} años ${p.esExperto ? '• EXPERTO' : ''}</div>`;
-                div.querySelector('.delete-profile-badge').onclick = (e) => { window.eliminarPerfil(e, dataId, p.nombre); };
-                div.onclick = (e) => { if(e.target.className === 'delete-profile-badge') return; window.seleccionarPerfil(dataId, p.nombre, p.fechaNacimiento || '2018-01-01', p.avatar || '🧑‍🚀', p.base || null, p.esExperto || false); };
+                const div = document.createElement('div');
+                div.className = "profile-item";
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = "delete-profile-badge";
+                deleteButton.type = "button";
+                deleteButton.textContent = "×";
+                deleteButton.addEventListener('click', (e) => { window.eliminarPerfil(e, dataId, p.nombre); });
+
+                const avatarDisplay = document.createElement('div');
+                avatarDisplay.className = "profile-avatar-display";
+                renderizarAvatarSeguro(avatarDisplay, p.avatar || "🧑‍🚀");
+
+                const nameDisplay = crearTexto('div', 'profile-name-display', p.nombre);
+                const ageDisplay = crearTexto('div', 'profile-age-display', `${edadCalculada} años ${p.esExperto ? '• EXPERTO' : ''}`);
+
+                div.appendChild(deleteButton);
+                div.appendChild(avatarDisplay);
+                div.appendChild(nameDisplay);
+                div.appendChild(ageDisplay);
+                div.addEventListener('click', (e) => { if(e.target.className === 'delete-profile-badge') return; window.seleccionarPerfil(dataId, p.nombre, p.fechaNacimiento || '2018-01-01', p.avatar || '🧑‍🚀', p.base || null, p.esExperto || false); });
                 grid.appendChild(div);
             });
-            const btnAdd = document.createElement('div'); btnAdd.className = "profile-item add-profile-item-btn"; btnAdd.innerHTML = `<div class="add-profile-icon">➕</div>Añadir Explorador`; btnAdd.onclick = window.abrirCreadorPerfilModal;
+            const btnAdd = document.createElement('div');
+            btnAdd.className = "profile-item add-profile-item-btn";
+            const addIcon = crearTexto('div', 'add-profile-icon', '➕');
+            btnAdd.appendChild(addIcon);
+            btnAdd.appendChild(document.createTextNode('Añadir Explorador'));
+            btnAdd.addEventListener('click', window.abrirCreadorPerfilModal);
             grid.appendChild(btnAdd);
         }
 
@@ -403,8 +445,7 @@
             const edadCalculada = calcularEdadExacta(fechaNacimiento);
             document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
             
-            const esImg = avatar.startsWith("data:image");
-            document.getElementById('head-av-box').innerHTML = esImg ? `<img src="${avatar}">` : avatar;
+            renderizarAvatarSeguro(document.getElementById('head-av-box'), avatar);
             document.getElementById('head-name').innerText = nombre.toUpperCase();
             document.getElementById('head-age').innerText = `${esExperto ? '🎓 EXPERTO' : 'Explorador'} • ${edadCalculada} años`;
 
@@ -450,28 +491,65 @@
            ========================================================================== */
 
         function buildDropdownDOM() {
-            const container = document.getElementById('nav-dropdown-box'); if (!container) return; container.innerHTML = '';
+            const container = document.getElementById('nav-dropdown-box'); if (!container) return; limpiarNodo(container);
             const avatarSeguroActivo = perfilActivoAvatar || "🧑‍🚀"; const nombreSeguroActivo = perfilActivoNombre || "Explorador";
-            const esImgActivo = typeof avatarSeguroActivo === 'string' && avatarSeguroActivo.startsWith("data:image");
-            const avRenderActivo = esImgActivo ? `<img src="${avatarSeguroActivo}">` : avatarSeguroActivo;
             
             const rowActivo = document.createElement('div'); rowActivo.className = 'dropdown-account-item active-user-row';
-            rowActivo.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar dropdown-avatar-active">${avRenderActivo}</div><div class="dropdown-name dropdown-name-active">${nombreSeguroActivo} <span class="dropdown-active-note">(En uso)</span></div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
-            rowActivo.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); };
+            const leftActivo = document.createElement('div');
+            leftActivo.className = 'dropdown-left-clickable';
+            const avatarActivo = document.createElement('div');
+            avatarActivo.className = 'dropdown-avatar dropdown-avatar-active';
+            renderizarAvatarSeguro(avatarActivo, avatarSeguroActivo);
+            const nameActivo = crearTexto('div', 'dropdown-name dropdown-name-active', `${nombreSeguroActivo} `);
+            nameActivo.appendChild(crearTexto('span', 'dropdown-active-note', '(En uso)'));
+            leftActivo.appendChild(avatarActivo);
+            leftActivo.appendChild(nameActivo);
+            const editActivo = document.createElement('button');
+            editActivo.className = 'dropdown-edit-btn';
+            editActivo.type = 'button';
+            editActivo.title = 'Editar Perfil';
+            editActivo.textContent = '⚙️';
+            editActivo.addEventListener('click', (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); });
+            rowActivo.appendChild(leftActivo);
+            rowActivo.appendChild(editActivo);
             container.appendChild(rowActivo);
 
             cachePerfilesFamilia.forEach(p => {
                 if (p.id === perfilActiveId) return;
-                const esImg = typeof p.avatar === 'string' && p.avatar.startsWith("data:image");
-                const avRender = esImg ? `<img src="${p.avatar}">` : p.avatar || "🧑‍🚀";
                 const row = document.createElement('div'); row.className = 'dropdown-account-item';
-                row.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar">${avRender}</div><div class="dropdown-name">${p.nombre || 'Explorador'}</div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
-                row.querySelector('.dropdown-left-clickable').onclick = () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); if (document.getElementById('album').classList.contains('active')) cargarAlbum(); };
-                row.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, p.id); };
+                const left = document.createElement('div');
+                left.className = 'dropdown-left-clickable';
+                const avatar = document.createElement('div');
+                avatar.className = 'dropdown-avatar';
+                renderizarAvatarSeguro(avatar, p.avatar || "🧑‍🚀");
+                left.appendChild(avatar);
+                left.appendChild(crearTexto('div', 'dropdown-name', p.nombre || 'Explorador'));
+                left.addEventListener('click', () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); if (document.getElementById('album').classList.contains('active')) cargarAlbum(); });
+
+                const editButton = document.createElement('button');
+                editButton.className = 'dropdown-edit-btn';
+                editButton.type = 'button';
+                editButton.title = 'Editar Perfil';
+                editButton.textContent = '⚙️';
+                editButton.addEventListener('click', (e) => { window.abrirEditorPerfilSpecifico(e, p.id); });
+
+                row.appendChild(left);
+                row.appendChild(editButton);
                 container.appendChild(row);
             });
-            const footerAdd = document.createElement('div'); footerAdd.className = 'dropdown-footer-btn'; footerAdd.innerHTML = `<span>➕</span> Añadir nuevo explorador`; footerAdd.onclick = window.abrirCreadorPerfilModal; container.appendChild(footerAdd);
-            const footerLogout = document.createElement('div'); footerLogout.className = 'dropdown-footer-btn dropdown-footer-logout'; footerLogout.innerHTML = `<span>🔒</span> Cambiar de terminal`; footerLogout.onclick = () => { if(confirm("¿Cerrar sesión familiar?")) window.cerrarSesionCompleta(); }; container.appendChild(footerLogout);
+            const footerAdd = document.createElement('div');
+            footerAdd.className = 'dropdown-footer-btn';
+            footerAdd.appendChild(crearTexto('span', '', '➕'));
+            footerAdd.appendChild(document.createTextNode(' Añadir nuevo explorador'));
+            footerAdd.addEventListener('click', window.abrirCreadorPerfilModal);
+            container.appendChild(footerAdd);
+
+            const footerLogout = document.createElement('div');
+            footerLogout.className = 'dropdown-footer-btn dropdown-footer-logout';
+            footerLogout.appendChild(crearTexto('span', '', '🔒'));
+            footerLogout.appendChild(document.createTextNode(' Cambiar de terminal'));
+            footerLogout.addEventListener('click', () => { if(confirm("¿Cerrar sesión familiar?")) window.cerrarSesionCompleta(); });
+            container.appendChild(footerLogout);
         }
 
         window.toggleDropdownCuentasCabecera = (event) => { if(event) event.stopPropagation(); const box = document.getElementById('nav-dropdown-box'); box.style.display = (box.style.display === 'block') ? 'none' : 'block'; };
@@ -483,10 +561,11 @@
            puede activar el panel admin y las funciones siguen expuestas en window.
            ========================================================================== */
 
-        window.activarMandoSupremoGod = async () => { document.getElementById('god-mode-page').style.display = 'flex'; window.switchAdminTab('panel-macro'); };
+        window.activarMandoSupremoGod = async () => { avisarPanelAdminDeshabilitado(); };
         window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
 
         window.switchAdminTab = async (tabId, event) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.admin-view-pane').forEach(pane => pane.classList.remove('active'));
             if (event) event.target.classList.add('active'); document.getElementById(tabId).classList.add('active');
             if (tabId === 'panel-macro') window.cargarEstadisticasMacro();
@@ -496,11 +575,13 @@
         };
 
         window.cargarEstadisticasMacro = async () => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles")); const snapCapturas = await getDocs(collection(db, "capturas"));
-            let baseCuentasSize = snapCuentas.size; if (!snapCuentas.docs.some(doc => doc.data().email === "neco@plantdex.com")) baseCuentasSize += 1;
+            let baseCuentasSize = snapCuentas.size;
             document.getElementById('m-total-cuentas').innerText = baseCuentasSize; document.getElementById('m-total-exploradores').innerText = snapPerfiles.size; document.getElementById('m-total-capturas').innerText = snapCapturas.size;
 
-            const feedContainer = document.getElementById('admin-live-feed'); feedContainer.innerHTML = '';
+            const feedContainer = document.getElementById('admin-live-feed');
+            limpiarNodo(feedContainer);
             let todas = []; let perfilesMapParaFeed = {};
             snapPerfiles.forEach(pDoc => { perfilesMapParaFeed[pDoc.id] = pDoc.data(); });
             snapCapturas.forEach(d => todas.push({ id: d.id, ...d.data() }));
@@ -508,31 +589,99 @@
 
             todas.slice(0, 12).forEach(c => {
                 if(c.municipioId === "Admin") return; const dataAutor = perfilesMapParaFeed[c.perfil] || { nombre: "Desconocido" };
-                feedContainer.innerHTML += `<div class="feed-box"><img class="feed-img" src="${c.foto}"><div class="feed-body"><div class="feed-title">${c.nombreComun}</div><div class="feed-scientific-name">${c.nombreCientifico}</div><div>📍 Lugar: <b>${c.loc || 'Campo'}</b></div><div class="feed-xp">XP: +${c.xp}</div><div class="feed-author-tag">👤 <b>${dataAutor.nombre}</b></div></div></div>`;
+                const feedBox = document.createElement('div');
+                feedBox.className = 'feed-box';
+                const feedImg = document.createElement('img');
+                feedImg.className = 'feed-img';
+                feedImg.src = c.foto;
+                feedImg.alt = c.nombreComun || 'Captura botánica';
+                const feedBody = document.createElement('div');
+                feedBody.className = 'feed-body';
+                feedBody.appendChild(crearTexto('div', 'feed-title', c.nombreComun));
+                feedBody.appendChild(crearTexto('div', 'feed-scientific-name', c.nombreCientifico));
+                const feedPlace = document.createElement('div');
+                feedPlace.appendChild(document.createTextNode('📍 Lugar: '));
+                feedPlace.appendChild(crearTexto('b', '', c.loc || 'Campo'));
+                feedBody.appendChild(feedPlace);
+                feedBody.appendChild(crearTexto('div', 'feed-xp', `XP: +${c.xp}`));
+                const feedAuthor = document.createElement('div');
+                feedAuthor.className = 'feed-author-tag';
+                feedAuthor.appendChild(document.createTextNode('👤 '));
+                feedAuthor.appendChild(crearTexto('b', '', dataAutor.nombre));
+                feedBody.appendChild(feedAuthor);
+                feedBox.appendChild(feedImg);
+                feedBox.appendChild(feedBody);
+                feedContainer.appendChild(feedBox);
             });
         };
 
         window.renderizarCuentasYPerfilesGlobales = async () => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles"));
-            const mainContainer = document.getElementById('clusters-cuentas-container'); mainContainer.innerHTML = '';
+            const mainContainer = document.getElementById('clusters-cuentas-container');
+            limpiarNodo(mainContainer);
             window.cacheGlobalAdminPerfiles = []; let perfilesMap = {}; let listadoCuentasEmails = [];
 
             snapCuentas.forEach(docC => { listadoCuentasEmails.push({ email: docC.data().email }); });
-            if (!listadoCuentasEmails.some(c => c.email === "neco@plantdex.com")) listadoCuentasEmails.push({ email: "neco@plantdex.com" });
             snapPerfiles.forEach(docSnap => { const p = docSnap.data(); window.cacheGlobalAdminPerfiles.push({ id: docSnap.id, ...p }); if(!perfilesMap[p.usuarioEmail]) perfilesMap[p.usuarioEmail] = []; perfilesMap[p.usuarioEmail].push({ id: docSnap.id, ...p }); });
 
             listadoCuentasEmails.forEach(c => {
                 const emailFam = c.email; const niñosAsociados = perfilesMap[emailFam] || [];
                 let comarcaBase = "No Calibrada"; const conBase = niñosAsociados.find(n => n.base && n.base.comarca); if(conBase) comarcaBase = conBase.base.comarca;
-                const cardHtml = document.createElement('div'); cardHtml.className = 'account-cluster-card';
-                
-                let tablaHijos = niñosAsociados.length === 0 ? `<div class="cluster-empty-explorers">Sin exploradores aún.</div>` : `<table class="admin-table"><thead><tr><th>Explorador</th><th>Modo Experto</th><th>Comando</th></tr></thead><tbody>${niñosAsociados.map(n => `<tr><td><b>${n.nombre}</b></td><td><span class="cluster-expert-status">${n.esExperto ? 'ACTIVO' : 'NO'}</span></td><td><button class="admin-btn admin-btn-purple" onclick="window.inyectarXPMecanico('${n.id}', '${n.nombre}')">⚡ BONIFICAR XP</button><button class="admin-btn admin-btn-purple" onclick="window.abrirEditorPerfilSpecifico(null, '${n.id}')">⚙️ EDITAR</button></td></tr>`).join('')}</tbody></table>`;
-                cardHtml.innerHTML = `<div class="cluster-header"><div class="cluster-email">📧 Cuenta: ${emailFam}</div><div class="cluster-base">📡 Sector: ${comarcaBase}</div></div>${tablaHijos}`;
+                const cardHtml = document.createElement('div');
+                cardHtml.className = 'account-cluster-card';
+                const clusterHeader = document.createElement('div');
+                clusterHeader.className = 'cluster-header';
+                clusterHeader.appendChild(crearTexto('div', 'cluster-email', `📧 Cuenta: ${emailFam}`));
+                clusterHeader.appendChild(crearTexto('div', 'cluster-base', `📡 Sector: ${comarcaBase}`));
+                cardHtml.appendChild(clusterHeader);
+
+                if (niñosAsociados.length === 0) {
+                    cardHtml.appendChild(crearTexto('div', 'cluster-empty-explorers', 'Sin exploradores aún.'));
+                } else {
+                    const tablaHijos = document.createElement('table');
+                    tablaHijos.className = 'admin-table';
+                    const thead = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    ['Explorador', 'Modo Experto', 'Comando'].forEach(texto => {
+                        headerRow.appendChild(crearTexto('th', '', texto));
+                    });
+                    thead.appendChild(headerRow);
+                    const tbody = document.createElement('tbody');
+                    niñosAsociados.forEach(n => {
+                        const row = document.createElement('tr');
+                        const nameCell = document.createElement('td');
+                        nameCell.appendChild(crearTexto('b', '', n.nombre));
+                        const expertCell = document.createElement('td');
+                        expertCell.appendChild(crearTexto('span', 'cluster-expert-status', n.esExperto ? 'ACTIVO' : 'NO'));
+                        const commandCell = document.createElement('td');
+                        const xpButton = document.createElement('button');
+                        xpButton.className = 'admin-btn admin-btn-purple';
+                        xpButton.type = 'button';
+                        xpButton.textContent = '⚡ BONIFICAR XP';
+                        xpButton.addEventListener('click', () => window.inyectarXPMecanico(n.id, n.nombre));
+                        const editButton = document.createElement('button');
+                        editButton.className = 'admin-btn admin-btn-purple';
+                        editButton.type = 'button';
+                        editButton.textContent = '⚙️ EDITAR';
+                        editButton.addEventListener('click', () => window.abrirEditorPerfilSpecifico(null, n.id));
+                        commandCell.appendChild(xpButton);
+                        commandCell.appendChild(editButton);
+                        row.appendChild(nameCell);
+                        row.appendChild(expertCell);
+                        row.appendChild(commandCell);
+                        tbody.appendChild(row);
+                    });
+                    tablaHijos.appendChild(thead);
+                    tablaHijos.appendChild(tbody);
+                    cardHtml.appendChild(tablaHijos);
+                }
                 mainContainer.appendChild(cardHtml);
             });
         };
 
         window.inyectarXPMecanico = async (idPerfil, nombre) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const cantidad = prompt(`¿Cuánta XP extra quieres inyectarle a ${nombre}?`); if(!cantidad || isNaN(cantidad)) return;
             try {
                 await addDoc(collection(db, "alertas_xp"), { perfilId: idPerfil, xp: parseInt(cantidad), titulo: "Inyección de Biomasa Central", textMessage: `¡Has recibido +${cantidad} XP enviado por el Profesor!`, estado: "pendiente", timestamp: Date.now() });
@@ -541,16 +690,62 @@
         };
 
         window.cargarMuroModeracionGlobal = async () => {
-            const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); table.innerHTML = '';
+            if (!avisarPanelAdminDeshabilitado()) return;
+            const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); limpiarNodo(table);
             snap.forEach(docSnap => {
                 const c = docSnap.data(); const idDoc = docSnap.id; if(c.municipioId === "Admin") return;
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td><img src="${c.foto}" class="moderation-thumb"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input moderation-input"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input moderation-input moderation-input-scientific"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 VINCULAR</button><button class="admin-btn admin-btn-danger" onclick="window.eliminarCapturaInapropiada('${idDoc}')">✕ BORRAR</button></td>`;
+                const imgCell = document.createElement('td');
+                const thumb = document.createElement('img');
+                thumb.src = c.foto;
+                thumb.className = 'moderation-thumb';
+                thumb.alt = c.nombreComun || 'Captura';
+                imgCell.appendChild(thumb);
+
+                const commonCell = document.createElement('td');
+                const commonInput = document.createElement('input');
+                commonInput.type = 'text';
+                commonInput.value = c.nombreComun || '';
+                commonInput.id = `mod-comun-${idDoc}`;
+                commonInput.className = 'login-input moderation-input';
+                commonCell.appendChild(commonInput);
+
+                const scientificCell = document.createElement('td');
+                const scientificInput = document.createElement('input');
+                scientificInput.type = 'text';
+                scientificInput.value = c.nombreCientifico || '';
+                scientificInput.id = `mod-cien-${idDoc}`;
+                scientificInput.className = 'login-input moderation-input moderation-input-scientific';
+                scientificCell.appendChild(scientificInput);
+
+                const locCell = document.createElement('td');
+                locCell.appendChild(crearTexto('b', '', c.loc || 'Campo'));
+
+                const actionCell = document.createElement('td');
+                const saveButton = document.createElement('button');
+                saveButton.className = 'admin-btn admin-btn-purple';
+                saveButton.type = 'button';
+                saveButton.textContent = '💾 VINCULAR';
+                saveButton.addEventListener('click', () => window.salvarCambiosTaxonomia(idDoc));
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'admin-btn admin-btn-danger';
+                deleteButton.type = 'button';
+                deleteButton.textContent = '✕ BORRAR';
+                deleteButton.addEventListener('click', () => window.eliminarCapturaInapropiada(idDoc));
+                actionCell.appendChild(saveButton);
+                actionCell.appendChild(deleteButton);
+
+                tr.appendChild(imgCell);
+                tr.appendChild(commonCell);
+                tr.appendChild(scientificCell);
+                tr.appendChild(locCell);
+                tr.appendChild(actionCell);
                 table.appendChild(tr);
             });
         };
 
         window.salvarCambiosTaxonomia = async (idDoc) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const comun = document.getElementById(`mod-comun-${idDoc}`).value.trim();
             const cien = document.getElementById(`mod-cien-${idDoc}`).value.trim();
             await updateDoc(doc(db, "capturas", idDoc), { nombreComun: comun, nombreCientifico: cien });
@@ -558,6 +753,7 @@
         };
 
         window.eliminarCapturaInapropiada = async (idDoc) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             if(!confirm("¿Borrar esta muestra permanentemente de los registros?")) return;
             await deleteDoc(doc(db, "capturas", idDoc)); window.cargarMuroModeracionGlobal();
         };
@@ -647,87 +843,34 @@
                         let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                         let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
 
-                        // FILTRO PASO 1 OPTIMIZADO: Cortafuegos Biológico Estricto para Gemini
-                        const promptInstrucciones = `Eres el Satélite Botánico del laboratorio central BotaniK. Tu primera tarea obligatoria es realizar un análisis espectral de la imagen para buscar tejidos vegetales, clorofila, estructuras foliares, tallos, raíces o flores.
-
-                        SISTEMA DE EXCLUSIÓN CRÍTICO: 
-                        Si la imagen contiene objetos domésticos, personas, animales, pantallas, textos, habitaciones, paisajes urbanos sin vegetación enfocada o CUALQUIER otra muestra que NO sea una planta real, debes detener el escaneo inmediatamente y devolver de forma estricta este JSON exacto:
-                        {
-                          "esPlanta": false,
-                          "motivoRechazo": "El escáner de campo no ha detectado actividad fotosintética ni estructuras celulares del reino vegetal en esta superficie."
-                        }
-
-                        Solo si la imagen contiene de forma clara y evidente una muestra botánica real, pon "esPlanta": true y rellena el resto de los campos con total rigor científico.
-                        Relato pedagógico adaptado para un explorador de ${edadAventurero} años con Base Secreta en ${sectorBaseTxt}. (Modo Experto: ${perfilActivoEsExperto}). Incluye mitología local de la provincia (ej. Cantabria: Anjanas/Trastolillos; Jaén: mitos íberos).
-
-                        Campos obligatorios si es planta (sin usar bloques de código \`\`\`json ni caracteres markdown):
-                        {
-                          "esPlanta": true,
-                          "nombreComun": "NOMBRE DE LA PLANTA EN MAYÚSCULAS",
-                          "nombreCientifico": "Género y especie",
-                          "rareza": "comun, poco, especial o exotica",
-                          "descripcion": "Narración MUY BREVE (Máximo 2 líneas o 120 caracteres) combinando ciencia y mitología local. Debe ser un texto corto y misterioso que quepa en un cromo físico impreso.",
-                          "tipoHoja": "Perenne/Caduca/No aplica",
-                          "origen": "Autóctona/Exótica"
-                        }`;
-                        // --- MOTOR DE DISPARO CON REINTENTO AUTOMÁTICO INVISIBLE ---
-                        let response;
-                        let intentos = 0;
-                        const maxIntentos = _0xkeys.length; // Probará tantas veces como llaves tengas
-
-                        while (intentos < maxIntentos) {
-                            let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
-                            
-                            response = await fetch(url, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                    contents: [{
-                                        parts: [
-                                            { text: promptInstrucciones },
-                                            { inlineData: { mimeType: "image/jpeg", data: base64Data } }
-                                        ]
-                                    }]
-                                })
-                            });
-
-                            if (response.status === 429) {
-                                console.warn(`📡 Satélite saturado. Cambiando a canal de respaldo (Intento ${intentos + 1})...`);
-                                window.rotarASiguienteClavePorSaturacion();
-                                intentos++;
-                                // Pausa microscópica de 0.5 segundos antes de disparar la nueva llave
-                                await new Promise(resolve => setTimeout(resolve, 500));
-                            } else {
-                                // Si es un éxito (200) o un error distinto al 429, salimos del bucle
-                                break;
-                            }
-                        }
-
-                        // Si después de probar TODAS las llaves seguimos con error, entonces sí avisamos
-                        if (!response.ok) {
-                            const errorTextoTexto = await response.text();
-                            alert(`🚨 ERROR CRÍTICO: Todas las llaves del arsenal están agotadas o fallaron.\nDetalle: ${errorTextoTexto}`);
-                            document.getElementById('loading').style.display = 'none';
-                            return;
-                        }
-                        // ----------------------------------------------------------
-
-                        const jsonRes = await response.json();
-                        
-                        if (!jsonRes.candidates || jsonRes.candidates.length === 0) {
-                            alert(`⚠️ EL SATÉLITE BLOQUEÓ LA IMAGEN:\n\nGoogle Gemini no generó candidatos. Esto ocurre si la foto no contiene elementos válidos o se activaron los filtros de seguridad de la IA.`);
-                            document.getElementById('loading').style.display = 'none';
-                            return;
-                        }
-
-                        let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
-                        if(rawText.startsWith("```")) { rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim(); }
+                        const response = await fetch('/api/analyze-plant', {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                imageBase64: base64Data,
+                                edadAventurero,
+                                sectorBaseTxt,
+                                perfilActivoEsExperto
+                            })
+                        });
 
                         let planta;
+                        let respuestaAnalisis = null;
                         try {
-                            planta = JSON.parse(rawText);
+                            respuestaAnalisis = await response.json();
                         } catch (jsonErr) {
-                            alert(`❌ ERROR DE PARSEO BOTÁNICO:\n\nGemini no devolvió un JSON limpio.\n\nTexto crudo recibido:\n${rawText}`);
+                            respuestaAnalisis = null;
+                        }
+
+                        if (!response.ok) {
+                            alert(`🚨 ERROR CRÍTICO: El satélite botánico no pudo completar el análisis.\nDetalle: ${respuestaAnalisis?.error || 'Error de comunicación con el servidor.'}`);
+                            document.getElementById('loading').style.display = 'none';
+                            return;
+                        }
+
+                        planta = respuestaAnalisis;
+                        if (!planta || typeof planta !== 'object') {
+                            alert("❌ ERROR DE PARSEO BOTÁNICO:\n\nEl servidor no devolvió un análisis válido.");
                             document.getElementById('loading').style.display = 'none';
                             return;
                         }
@@ -881,17 +1024,24 @@
         };
 
         window.abrirBuzonHistoricoModal = () => {
-            const container = document.getElementById('mailbox-list-container'); container.innerHTML = '';
+            const container = document.getElementById('mailbox-list-container');
+            limpiarNodo(container);
             const leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
 
             if (cacheAlertasGlobales.length === 0) {
-                container.innerHTML = `<div class="mailbox-empty-state">No hay transmisiones archivadas en este cuadrante.</div>`;
+                container.appendChild(crearTexto('div', 'mailbox-empty-state', 'No hay transmisiones archivadas en este cuadrante.'));
             }
 
             cacheAlertasGlobales.forEach(a => {
                 const esLeido = leidosList.includes(a.id);
                 const dCard = document.createElement('div'); dCard.className = 'mailbox-item-card';
-                dCard.innerHTML = `<div class="mailbox-item-title">${a.textMessage}</div><div class="mailbox-item-date">${new Date(a.timestamp).toLocaleString()}</div>${!esLeido ? `<div class="mailbox-unread-dot"></div>`:''}`;
+                dCard.appendChild(crearTexto('div', 'mailbox-item-title', a.textMessage));
+                dCard.appendChild(crearTexto('div', 'mailbox-item-date', new Date(a.timestamp).toLocaleString()));
+                if (!esLeido) {
+                    const unreadDot = document.createElement('div');
+                    unreadDot.className = 'mailbox-unread-dot';
+                    dCard.appendChild(unreadDot);
+                }
                 dCard.onclick = () => { window.abrirLectorMensajeEspecifico(a.id, a.textMessage); };
                 container.appendChild(dCard);
             });
@@ -917,30 +1067,44 @@
            ========================================================================== */
 
         window.cargarSelectorEmailsAlertas = async () => {
-            const sUser = document.getElementById('alert-user-field'); sUser.innerHTML = '<option value="">-- Selecciona Laboratorio Familiar --</option>';
-            const sChild = document.getElementById('sim-child-field'); sChild.innerHTML = '';
-            const sDestChild = document.getElementById('alert-child-field'); sDestChild.innerHTML = '<option value="">-- Primero elige Cuenta --</option>';
+            if (!avisarPanelAdminDeshabilitado()) return;
+            const sUser = document.getElementById('alert-user-field');
+            limpiarNodo(sUser);
+            appendOption(sUser, "", "-- Selecciona Laboratorio Familiar --");
+            const sChild = document.getElementById('sim-child-field');
+            limpiarNodo(sChild);
+            const sDestChild = document.getElementById('alert-child-field');
+            limpiarNodo(sDestChild);
+            appendOption(sDestChild, "", "-- Primero elige Cuenta --");
 
             const snapU = await getDocs(collection(db, "cuentas_familia"));
-            snapU.forEach(d => { sUser.innerHTML += `<option value="${d.data().email}">${d.data().email}</option>`; });
-            if (!sUser.innerHTML.includes("neco@plantdex.com")) sUser.innerHTML += `<option value="neco@plantdex.com">neco@plantdex.com</option>`;
+            const emails = [];
+            snapU.forEach(d => {
+                const email = d.data().email;
+                emails.push(email);
+                appendOption(sUser, email, email);
+            });
 
             const snapP = await getDocs(collection(db, "perfiles"));
             window.cacheAdminPerfilesCompletos = [];
             snapP.forEach(d => {
                 window.cacheAdminPerfilesCompletos.push({ id: d.id, ...d.data() });
-                sChild.innerHTML += `<option value="${d.id}">${d.data().nombre.toUpperCase()} [${d.data().usuarioEmail}]</option>`;
+                appendOption(sChild, d.id, `${d.data().nombre.toUpperCase()} [${d.data().usuarioEmail}]`);
             });
         };
 
         window.filtrarHijosDeCuentaParaMensajeDirecto = (emailCuenta) => {
-            const sDestChild = document.getElementById('alert-child-field'); sDestChild.innerHTML = '<option value="">-- Todos los exploradores de la cuenta --</option>';
+            if (!avisarPanelAdminDeshabilitado()) return;
+            const sDestChild = document.getElementById('alert-child-field');
+            limpiarNodo(sDestChild);
+            appendOption(sDestChild, "", "-- Todos los exploradores de la cuenta --");
             if(!emailCuenta) return;
             const filtrados = window.cacheAdminPerfilesCompletos.filter(p => p.usuarioEmail === emailCuenta);
-            filtrados.forEach(p => { sDestChild.innerHTML += `<option value="${p.id}">${p.nombre.toUpperCase()}</option>`; });
+            filtrados.forEach(p => { appendOption(sDestChild, p.id, p.nombre.toUpperCase()); });
         };
 
         window.gestionarCambioTargetAlerta = (tipo) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             document.getElementById('pais-select-row').style.display = tipo==='pais'?'flex':'none';
             document.getElementById('provincia-select-row').style.display = tipo==='provincial'?'flex':'none';
             document.getElementById('comarca-select-row').style.display = tipo==='comarcal'?'flex':'none';
@@ -949,12 +1113,20 @@
         };
 
         window.prepararDesplegablesSimulador = () => {
-            const pSel = document.getElementById('alert-pais-select'); pSel.innerHTML=''; PAISES_PRECARGADOS.forEach(p=>pSel.innerHTML+=`<option value="${p}">${p}</option>`);
-            const prSel = document.getElementById('alert-provincia-select'); prSel.innerHTML=''; PROVINCIAS_PRECARGADAS.forEach(p=>prSel.innerHTML+=`<option value="${p}">${p}</option>`);
-            const cSel = document.getElementById('alert-comarca-select'); cSel.innerHTML=''; COMARCAS_PRECARGADAS.forEach(c=>cSel.innerHTML+=`<option value="${c}">${c}</option>`);
+            if (!avisarPanelAdminDeshabilitado()) return;
+            const pSel = document.getElementById('alert-pais-select');
+            limpiarNodo(pSel);
+            PAISES_PRECARGADOS.forEach(p => appendOption(pSel, p, p));
+            const prSel = document.getElementById('alert-provincia-select');
+            limpiarNodo(prSel);
+            PROVINCIAS_PRECARGADAS.forEach(p => appendOption(prSel, p, p));
+            const cSel = document.getElementById('alert-comarca-select');
+            limpiarNodo(cSel);
+            COMARCAS_PRECARGADAS.forEach(c => appendOption(cSel, c, c));
         };
 
         window.emitirAlertaSatelital = async () => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const type = document.getElementById('alert-target-type').value;
             const msg = document.getElementById('alert-text-msg').value.trim();
             if(!msg) return alert("Escribe un comunicado de campo.");
@@ -973,6 +1145,7 @@
         };
 
         window.inyectarCartaConLocalizacionesSimuladas = async (esLote) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const perfilDestinoId = document.getElementById('sim-child-field').value;
             const comun = document.getElementById('sim-comun-input').value.trim();
             const cien = document.getElementById('sim-cien-input').value.trim();
@@ -1077,18 +1250,35 @@
         }
 
         window.filtrarYOrdenarAlbum = () => {
-            const wrapper = document.getElementById('album-dinamico-contenedor'); wrapper.innerHTML = '';
+            const wrapper = document.getElementById('album-dinamico-contenedor');
+            limpiarNodo(wrapper);
             const filtroTexto = document.getElementById('search-botanika').value.toLowerCase().trim();
 
             Object.values(albumEspeciesMemoria).forEach(esp => {
                 if(filtroTexto && !esp.nombreComun.toLowerCase().includes(filtroTexto) && !esp.nombreCientifico.toLowerCase().includes(filtroTexto)) return;
                 
                 const factorEvolutivo = Math.min(esp.copiasTotales, 4);
-                const tagRarity = `rare-${esp.rareza}`;
+                const tagRarity = obtenerClaseRarezaSegura(esp.rareza);
 
-                const cardHtml = document.createElement('div'); cardHtml.className = 'cromo-wrapper';
-                cardHtml.innerHTML = `<div class="cromo-mini-card ${tagRarity}"><div class="cromo-img-box"><img src="${esp.foto}"></div><div class="cromo-txt-bar"><h4>${esp.nombreComun}</h4></div><div class="cromo-evolution-badge">${TITULOS_ADAPTACION[factorEvolutivo]}</div></div>`;
-                cardHtml.onclick = () => { window.abrirVisualizadorDetalleCromo3D(esp); };
+                const cardHtml = document.createElement('div');
+                cardHtml.className = 'cromo-wrapper';
+                const cromoMini = document.createElement('div');
+                cromoMini.className = `cromo-mini-card ${tagRarity}`;
+                const imgBox = document.createElement('div');
+                imgBox.className = 'cromo-img-box';
+                const img = document.createElement('img');
+                img.src = esp.foto;
+                img.alt = esp.nombreComun || 'Cromo botánico';
+                imgBox.appendChild(img);
+                const txtBar = document.createElement('div');
+                txtBar.className = 'cromo-txt-bar';
+                txtBar.appendChild(crearTexto('h4', '', esp.nombreComun));
+                const evolutionBadge = crearTexto('div', 'cromo-evolution-badge', TITULOS_ADAPTACION[factorEvolutivo]);
+                cromoMini.appendChild(imgBox);
+                cromoMini.appendChild(txtBar);
+                cromoMini.appendChild(evolutionBadge);
+                cardHtml.appendChild(cromoMini);
+                cardHtml.addEventListener('click', () => { window.abrirVisualizadorDetalleCromo3D(esp); });
                 wrapper.appendChild(cardHtml);
             });
         };
@@ -1117,10 +1307,11 @@
                 btnEvo.innerText = `ADAPTAR AL NIVEL ${Math.min(esp.copiasTotales, 4)}`;
             } else { btnEvo.style.display = 'none'; }
 
-            const drop = document.getElementById('modal-names-dropdown'); drop.innerHTML = '';
+            const drop = document.getElementById('modal-names-dropdown');
+            limpiarNodo(drop);
             esp.nombresAlternativosRecogidos.forEach(altName => {
                 const r = document.createElement('div'); r.className = 'name-drop-row'; r.innerText = altName;
-                r.onclick = (e) => { e.stopPropagation(); document.getElementById('m-title').innerText = altName; drop.style.display='none'; };
+                r.addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('m-title').innerText = altName; drop.style.display='none'; });
                 drop.appendChild(r);
             });
 

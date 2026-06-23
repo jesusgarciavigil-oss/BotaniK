@@ -1,0 +1,33 @@
+# Variables de entorno y secretos locales
+.env
+.env.local
+.env.*.local
+
+# Dependencias
+node_modules/
+
+# Vercel
+.vercel/
+
+# Builds y salidas generadas
+dist/
+build/
+out/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Cachés locales
+.cache/
+.tmp/
+tmp/
+temp/

@@ -1,0 +1,114 @@
+// Plantilla orientativa para revisar reglas Firestore de BotaniK.
+// NO es una regla lista para producción sin revisión, pruebas y adaptación.
+//
+// Estado actual del proyecto:
+// - La app todavía no usa Firebase Auth para cuentas familiares.
+// - Algunas operaciones sensibles se inician desde JavaScript cliente.
+// - El panel admin no debe depender solo de controles de interfaz.
+// - Hay fotos en base64 y datos familiares/infantiles en Firestore.
+//
+// Para reglas fuertes hacen falta Firebase Auth, roles/claims o backend.
+// Mientras no exista esa estrategia, la opción conservadora es denegar por defecto.
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Utilidades futuras:
+    // Cuando exista Firebase Auth, estas funciones deberían comprobar identidad real.
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Ejemplo orientativo: requerir custom claims o un documento de roles.
+    // No usar en producción sin definir antes cómo se asignan y protegen los roles.
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.admin == true;
+    }
+
+    // -------------------------------------------------------------------------
+    // cuentas_familia
+    // -------------------------------------------------------------------------
+    // Riesgo actual:
+    // - Contiene emails y claves familiares como datos de aplicación.
+    // - Sin Firebase Auth no hay forma robusta de demostrar que una petición
+    //   pertenece a una cuenta familiar concreta.
+    //
+    // Expectativa futura:
+    // - Migrar login a Firebase Auth o backend.
+    // - Evitar que el campo de clave sea legible desde clientes.
+    // - Permitir acceso solo a la cuenta propietaria o a administración real.
+    match /cuentas_familia/{cuentaId} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // perfiles
+    // -------------------------------------------------------------------------
+    // Riesgo actual:
+    // - Puede contener datos infantiles, avatares e información de base.
+    // - La asociación por usuarioEmail desde cliente no es autorización real.
+    //
+    // Expectativa futura:
+    // - La cuenta autenticada solo debería leer/escribir sus propios perfiles.
+    // - Administración real debería poder auditar si existe rol verificado.
+    match /perfiles/{perfilId} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // capturas
+    // -------------------------------------------------------------------------
+    // Riesgo actual:
+    // - Puede contener fotos base64, ubicación, XP y datos familiares.
+    // - El panel admin puede editar/borrar capturas desde cliente.
+    //
+    // Expectativa futura:
+    // - Cada cuenta/perfil solo debería leer sus capturas.
+    // - La creación debería validar propietario y campos permitidos.
+    // - Moderación y borrado global deberían requerir administración real.
+    // - Las imágenes deberían migrarse a almacenamiento adecuado si el proyecto crece.
+    match /capturas/{capturaId} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // alertas_xp
+    // -------------------------------------------------------------------------
+    // Riesgo actual:
+    // - Si un cliente puede escribir aquí, puede inyectar recompensas.
+    // - El cambio de estado a entregado también afecta al flujo de XP.
+    //
+    // Expectativa futura:
+    // - Solo administración real debería crear alertas.
+    // - Cada perfil solo debería leer alertas dirigidas a él.
+    // - El cambio de estado debería estar limitado y validado.
+    match /alertas_xp/{alertaId} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // alertas_comunidad
+    // -------------------------------------------------------------------------
+    // Riesgo actual:
+    // - El cliente filtra comunicados localmente.
+    // - Si la colección es legible globalmente, se pueden exponer mensajes
+    //   no destinados al usuario.
+    //
+    // Expectativa futura:
+    // - Crear comunicados solo desde administración real.
+    // - Leer solo mensajes públicos o destinados a la cuenta/perfil/zona autorizada.
+    match /alertas_comunidad/{alertaId} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Denegación por defecto
+    // -------------------------------------------------------------------------
+    // Cualquier colección no documentada queda bloqueada.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

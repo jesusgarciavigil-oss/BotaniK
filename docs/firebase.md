@@ -2,7 +2,7 @@
 
 BotaniK usa Firebase/Firestore directamente desde el cliente. Esto condiciona la seguridad real de la aplicación: cualquier validación hecha solo en JavaScript debe considerarse insuficiente si no está respaldada por reglas de Firestore adecuadas.
 
-Este documento describe el uso actual detectado en `index.html`. No incluye valores reales de configuración, claves, credenciales ni secretos.
+Este documento describe el uso actual detectado en `js/main.js`. No incluye valores reales de configuración, claves, credenciales ni secretos.
 
 ## SDK y dependencias detectadas
 
@@ -241,7 +241,7 @@ Pendiente de confirmar: reglas que garanticen que una cuenta solo gestiona sus p
 
 ### Capturas de plantas
 
-El radar/cámara analiza una imagen con IA desde el navegador. Si se acepta como planta, se crea un documento en `capturas` con datos botánicos, foto, XP, ubicación y perfil asociado.
+El radar/cámara envía una imagen a una función serverless de análisis con IA. Si se acepta como planta, el cliente crea un documento en `capturas` con datos botánicos, foto, XP, ubicación y perfil asociado.
 
 Antes de guardar se consulta `capturas` por `perfil` y `nombreCientifico` para calcular si es nueva especie, nuevo territorio o muestra repetida.
 
@@ -267,6 +267,7 @@ Pendiente de confirmar: protección real de estas operaciones mediante reglas o 
 - Hay que revisar permisos por cuenta, perfil y administración.
 - Hay que confirmar si las lecturas globales usadas por administración están restringidas a usuarios autorizados.
 - Hay que confirmar si existen índices necesarios para consultas compuestas como `perfil` + `nombreCientifico` o `perfilId` + `estado`.
+- La guía específica de riesgos y expectativas de seguridad está en `docs/firestore-seguridad.md`.
 
 ## Recomendaciones futuras
 

@@ -79,7 +79,7 @@ El archivo `js/main.js` centraliza por ahora la lógica principal que antes esta
 - Creación, edición, selección y eliminación de perfiles.
 - Configuración de base por GPS o entrada manual.
 - Navegación entre vistas.
-- Radar/cámara y análisis de plantas con Gemini.
+- Radar/cámara y consumo de la función serverless de análisis de plantas con Gemini.
 - Sistema de XP, rareza, niveles, álbum y modal de cromo.
 - Buzón, mensajes, comunicados y alertas.
 - Panel de administración con estadísticas, cuentas, moderación, mensajes y simulador.
