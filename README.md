@@ -8,7 +8,11 @@ BotaniK es una aplicación web familiar orientada a la exploración botánica. I
 
 El proyecto está en estado de prototipo funcional y en proceso de profesionalización. Actualmente se mantiene como web estática. La estructura ya separa los estilos principales en `css/styles.css` y la lógica principal de la aplicación en `js/main.js`.
 
-`index.html` mantiene la estructura HTML principal, los eventos inline existentes y el script temprano de tema en el `<head>` para aplicar `data-theme` antes de pintar la interfaz. `js/main.js` centraliza por ahora imports de Firebase/CDN, configuración, estado global, funciones expuestas en `window`, login, perfiles, radar/cámara, Gemini, álbum, buzón y panel de administración. Esta extracción es una mejora estructural, pero todavía no implica modularización interna.
+`index.html` mantiene la estructura HTML principal, carga `css/styles.css` y `js/main.js`, y conserva el script temprano de tema en el `<head>` para aplicar `data-theme` antes de pintar la interfaz. Los eventos inline estáticos (`onclick`, `onchange` y `oninput`) se han sustituido por listeners en `js/main.js`.
+
+`js/main.js` centraliza por ahora imports de Firebase/CDN, configuración, estado global, listeners estáticos, funciones expuestas en `window`, login, perfiles, radar/cámara, Gemini, álbum, buzón y panel de administración. Esta extracción es una mejora estructural, pero todavía no implica modularización interna.
+
+Aunque el HTML estático ya no contiene eventos inline, todavía pueden quedar llamadas dinámicas dentro de plantillas `innerHTML` o asignaciones de eventos generadas desde JavaScript. Por compatibilidad, no deben retirarse todavía las funciones expuestas en `window` sin auditar esos usos.
 
 Este proyecto no debe considerarse una aplicación de producción segura en su estado actual.
 
@@ -115,7 +119,9 @@ Este README no copia valores reales de claves, contraseñas, tokens ni credencia
 - Documentar Firebase/Firestore.
 - Revisar la organización interna de `js/main.js`.
 - Valorar si merece la pena dividirlo más adelante en módulos, sin hacerlo agresivamente antes de auditar dependencias globales.
-- Mantener cuidado con funciones inline, funciones expuestas en `window`, Firebase, Gemini y orden de carga.
+- Revisar plantillas `innerHTML` y eventos dinámicos generados desde JavaScript.
+- Valorar saneamiento de HTML generado dinámicamente.
+- Mantener cuidado con funciones expuestas en `window`, Firebase, Gemini y orden de carga.
 - Revisar reglas de Firestore.
 - Planificar la salida de secretos fuera del cliente.
-- Revisar responsive, accesibilidad, focus visible y contraste del tema claro.
+- Revisar responsive, accesibilidad, focus visible, `prefers-reduced-motion` y contraste del tema claro.

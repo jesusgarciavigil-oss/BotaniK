@@ -11,14 +11,14 @@ En el estado actual se detecta:
 - CSS centralizado en `css/styles.css`.
 - JavaScript principal centralizado en `js/main.js`, cargado desde `index.html` mediante `<script type="module" src="./js/main.js"></script>`.
 - Sin atributos `style="..."` en `index.html` tras la limpieza de estilos inline.
-- Eventos inline como `onclick`, `onchange` y `oninput`.
-- Funciones globales expuestas en `window`, necesarias para que los eventos inline sigan funcionando.
+- Sin eventos inline estáticos `onclick`, `onchange` ni `oninput` en `index.html`; los controles estáticos se conectan mediante listeners en `js/main.js`.
+- Funciones globales expuestas en `window`, necesarias por compatibilidad con plantillas dinámicas, asignaciones de eventos desde JavaScript y llamadas generadas en tiempo de ejecución.
 - Inicialización de Firebase y Firestore dentro de `js/main.js`.
 - Llamadas a servicios externos desde el cliente.
 - Infraestructura temprana de tema en `index.html`, basada en `data-theme`, `localStorage` y `prefers-color-scheme`, para aplicar el tema antes de pintar la interfaz.
 - Sistema visual y temas documentados en `docs/temas.md`.
 
-Esta estructura es más revisable que el prototipo inicial, pero `js/main.js` sigue siendo un archivo grande y no modularizado. La siguiente mejora debe hacerse con cuidado para no romper dependencias globales, eventos inline ni orden de carga.
+Esta estructura es más revisable que el prototipo inicial, pero `js/main.js` sigue siendo un archivo grande y no modularizado. La siguiente mejora debe hacerse con cuidado para no romper dependencias globales, llamadas dinámicas, exposiciones en `window` ni orden de carga.
 
 ## Estructura actual del repositorio
 
@@ -52,7 +52,7 @@ El archivo `index.html` conserva la estructura HTML principal y algunas responsa
 - Panel de administración con estadísticas, cuentas, moderación, mensajes y simulador.
 - Script temprano de tema en el `<head>`: lectura de `localStorage`, resolución de `prefers-color-scheme` y aplicación de `data-theme` antes de pintar la interfaz.
 - Carga del JavaScript principal mediante `<script type="module" src="./js/main.js"></script>`.
-- Eventos inline que todavía llaman a funciones expuestas en `window`.
+- HTML sin atributos `style="..."` y sin eventos inline estáticos `onclick`, `onchange` ni `oninput`.
 
 ## Responsabilidades principales dentro de `css/styles.css`
 
@@ -73,7 +73,8 @@ El archivo `js/main.js` centraliza por ahora la lógica principal que antes esta
 
 - Imports de Firebase desde CDN y uso de Firestore modular.
 - Configuración de servicios externos y estado global de la aplicación.
-- Funciones expuestas en `window` para mantener funcionando eventos inline y plantillas dinámicas.
+- Inicialización de listeners para eventos estáticos de la interfaz.
+- Funciones expuestas en `window` para mantener funcionando plantillas dinámicas, llamadas generadas desde JavaScript y compatibilidad con código existente.
 - Login, registro familiar y gestión de sesión.
 - Creación, edición, selección y eliminación de perfiles.
 - Configuración de base por GPS o entrada manual.
@@ -84,6 +85,8 @@ El archivo `js/main.js` centraliza por ahora la lógica principal que antes esta
 - Panel de administración con estadísticas, cuentas, moderación, mensajes y simulador.
 
 La extracción a `js/main.js` es una mejora estructural inicial. No implica todavía una modularización interna ni una separación real por dominios funcionales.
+
+Nota de cautela: aunque los eventos inline estáticos ya se han eliminado de `index.html`, todavía pueden existir llamadas dinámicas en plantillas `innerHTML`, asignaciones como `.onclick` o listeners creados durante renderizados. Antes de reducir el uso de `window`, hay que auditar esas rutas para no romper álbum, perfiles, dropdowns, buzón o panel admin.
 
 ## Estructura objetivo inicial
 
@@ -126,6 +129,8 @@ Esta estructura no implica introducir frameworks, herramientas de build ni una a
    - Sustituir `onclick`, `onchange` y `oninput` por `addEventListener` de forma gradual.
    - Trabajar por zonas: navegación, modales, perfiles, álbum, administración, etc.
    - Probar cada bloque antes de continuar.
+   - Estado actual: los eventos inline estáticos de `index.html` ya se han migrado a listeners en `js/main.js`.
+   - Pendiente: revisar eventos dinámicos generados desde JavaScript y plantillas `innerHTML`.
 
 4. Reducir estilos inline poco a poco.
    - Mover estilos repetidos a clases.
@@ -138,6 +143,7 @@ Esta estructura no implica introducir frameworks, herramientas de build ni una a
    - Identificar funciones llamadas desde HTML o plantillas `innerHTML`.
    - Mantener cuidado con Firebase, Gemini y orden de inicialización.
    - Evitar una división agresiva en módulos sin pruebas manuales.
+   - Estado actual: el archivo está ordenado por secciones, pero sigue siendo el punto central de la lógica de aplicación.
 
 6. Separar módulos lógicos solo si el proyecto lo necesita.
    - Por ejemplo: perfiles, capturas, mensajes, administración o Firebase.
@@ -155,7 +161,7 @@ Esta estructura no implica introducir frameworks, herramientas de build ni una a
 - No mezclar cambios visuales con cambios estructurales.
 - No renombrar ids, clases, funciones, colecciones de Firebase ni campos en la primera extracción.
 - No cambiar comportamiento mientras se separan archivos.
-- Al reorganizar `js/main.js`, mantener las funciones necesarias en `window` hasta eliminar eventos inline por fases.
+- Al reorganizar `js/main.js`, mantener las funciones necesarias en `window` hasta auditar plantillas dinámicas, asignaciones de eventos y llamadas generadas desde JavaScript.
 - No dividir JavaScript de forma agresiva sin auditar dependencias globales, Firebase, Gemini y orden de carga.
 - Comprobar manualmente la app tras cada paso.
 - Hacer commits pequeños cuando se trabaje con control de versiones.
@@ -167,8 +173,9 @@ Esta estructura no implica introducir frameworks, herramientas de build ni una a
 
 - Probar visualmente login, perfiles, radar, álbum, modales y panel de administración.
 - Probar login, registro, perfiles, selección de base, radar/cámara, álbum, mensajes y panel admin tras la extracción a `js/main.js`.
-- Revisar la organización interna de `js/main.js` y planificar una posible separación por dominios.
-- Revisar después los eventos inline y planificar su sustitución por bloques pequeños.
+- Revisar plantillas `innerHTML`, llamadas dinámicas y asignaciones de eventos generadas desde `js/main.js`.
+- Valorar saneamiento de HTML generado dinámicamente.
+- Revisar la organización interna futura de `js/main.js` y planificar una posible separación por dominios solo si aporta claridad.
 - Revisar responsive general.
 - Revisar accesibilidad y focus visible.
 - Revisar `prefers-reduced-motion`.
