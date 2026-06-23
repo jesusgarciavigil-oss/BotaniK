@@ -20,6 +20,7 @@ Este documento resume los riesgos visibles en el código actual y propone pasos 
 - No publicar el repositorio sin revisar antes secretos, credenciales, claves y configuraciones sensibles.
 - Si el repositorio ya se ha compartido, revisar, revocar o regenerar las claves afectadas.
 - Revisar las reglas de Firestore antes de considerar seguros los datos o acciones de la aplicación.
+- Revisar la guía específica de Firestore y panel admin: [firestore-seguridad.md](firestore-seguridad.md).
 - No añadir nuevos secretos al cliente ni a archivos versionados.
 - Documentar la configuración sensible usando nombres de variables o descripciones, pero sin incluir valores reales.
 - Tratar cualquier protección implementada solo en JavaScript cliente como una ayuda de interfaz, no como una barrera de seguridad.

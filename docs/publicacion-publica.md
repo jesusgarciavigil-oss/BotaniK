@@ -7,7 +7,7 @@ BotaniK todavía es un prototipo funcional y no debe publicarse como producción
 - Rotar o revocar claves de Gemini que hayan estado expuestas en cliente.
 - Confirmar que la variable `GEMINI_API_KEY` está configurada en Vercel y no aparece en código cliente.
 - Revisar la configuración de Firebase usada por la aplicación.
-- Revisar y endurecer reglas de Firestore antes de confiar en la seguridad de los datos.
+- Revisar y endurecer reglas de Firestore antes de confiar en la seguridad de los datos. Esta revisión bloquea la publicación pública.
 - Revisar la lógica de login familiar y administración implementada en cliente.
 - Revisar emails, nombres, datos personales o identificadores reales que no deban ser públicos.
 - Revisar el historial Git para confirmar si secretos o credenciales estuvieron presentes en commits anteriores.
@@ -21,8 +21,17 @@ BotaniK todavía es un prototipo funcional y no debe publicarse como producción
 - Llamadas sensibles a APIs externas directamente desde el navegador.
 - Contraseñas o accesos especiales hardcodeados en JavaScript.
 - Reglas de Firestore no revisadas o no documentadas.
+- Panel de administración con operaciones sensibles protegidas solo desde el cliente.
 - Validaciones de seguridad que dependan solo del cliente.
 - Datos personales reales o emails que no deban exponerse.
+
+## Firestore y panel de administración
+
+Antes de publicar el repositorio hay que revisar la guía de seguridad de Firestore: [firestore-seguridad.md](firestore-seguridad.md).
+
+La publicación debe quedar bloqueada si no se ha confirmado que las reglas reales de Firestore impiden lecturas y escrituras no autorizadas sobre cuentas, perfiles, capturas, recompensas, mensajes y acciones de administración.
+
+El panel admin actual debe tratarse como interfaz de administración, no como frontera de seguridad. Las acciones sensibles necesitan reglas, roles, Firebase Auth o backend antes de considerarse seguras.
 
 ## Historial Git
 
