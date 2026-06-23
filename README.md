@@ -10,7 +10,7 @@ El proyecto está en estado de prototipo funcional y en proceso de profesionaliz
 
 `index.html` mantiene la estructura HTML principal, carga `css/styles.css` y `js/main.js`, y conserva el script temprano de tema en el `<head>` para aplicar `data-theme` antes de pintar la interfaz. Los eventos inline estáticos (`onclick`, `onchange` y `oninput`) se han sustituido por listeners en `js/main.js`.
 
-`js/main.js` centraliza por ahora imports de Firebase/CDN, configuración, estado global, listeners estáticos, funciones expuestas en `window`, login, perfiles, radar/cámara, Gemini, álbum, buzón y panel de administración. Esta extracción es una mejora estructural, pero todavía no implica modularización interna.
+`js/main.js` centraliza por ahora imports de Firebase/CDN, configuración, estado global, listeners estáticos, funciones expuestas en `window`, login, perfiles, radar/cámara, álbum, buzón y panel de administración. El análisis con Gemini se realiza mediante una función serverless. Esta extracción es una mejora estructural, pero todavía no implica modularización interna.
 
 Aunque el HTML estático ya no contiene eventos inline, todavía pueden quedar llamadas dinámicas dentro de plantillas `innerHTML` o asignaciones de eventos generadas desde JavaScript. Por compatibilidad, no deben retirarse todavía las funciones expuestas en `window` sin auditar esos usos.
 
@@ -68,7 +68,7 @@ Algunas APIs del navegador y servicios externos pueden comportarse de forma dist
 
 - Firebase cargado desde CDN.
 - Firestore como base de datos.
-- Gemini API para análisis de imágenes.
+- Gemini API para análisis de imágenes mediante función serverless.
 - APIs del navegador:
   - geolocalización
   - FileReader

@@ -39,30 +39,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ARSENAL DE RESPALDO: Claves de Gemini guardadas de forma directa y entera
-        const _0xkeys = [
-            "AQ.Ab8RN6K9eMLDW_np4oMF1bxYxsI45ryg8-ZJdiP0BiEp5J8qgg",
-            "AQ.Ab8RN6JI3FXyP1ocfEfu0jul3EmXjiQQTrCUeAMAAXZxDJHwcA",
-            "AQ.Ab8RN6J8M-4szUq3prRTJmmmgtzReKCFbCtTpXSAaJkcKTrPTQ",
-            "AQ.Ab8RN6IlJrijF8jCY01S7gKWiPiHmXQ2BeaIJ9hu4sZH6iGDeg",
-            "AQ.Ab8RN6LBYU6cMcyhRGdI-CysI4cQvB8JS5jp_7EbCPqpdrlLLg",
-            "AQ.Ab8RN6KLCauISoEO6h_Jyx3Kak6wn89tm5qGs9A84VNU30Zhzg"
-        ];
-        
-        // Indicador del satélite activo en el carrusel
-        let indiceClaveActual = 0;
-
-        // Función modificada para leer la clave íntegra y directa sin modificaciones
-        function obtenerGeminiKeyActiva() {
-            return _0xkeys[indiceClaveActual];
-        }
-
-        // Sistema automático de salto en caso de saturación (Error 429) o bloqueo temporal
-        window.rotarASiguienteClavePorSaturacion = () => {
-            indiceClaveActual = (indiceClaveActual + 1) % _0xkeys.length;
-            console.warn("📡 Satélite saturado. Canal de respaldo activado: Frecuencia " + (indiceClaveActual + 1));
-        };
-
         /* ==========================================================================
            4. LISTENERS GLOBALES DE INTERFAZ
            ========================================================================== */
@@ -647,87 +623,34 @@
                         let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                         let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
 
-                        // FILTRO PASO 1 OPTIMIZADO: Cortafuegos Biológico Estricto para Gemini
-                        const promptInstrucciones = `Eres el Satélite Botánico del laboratorio central BotaniK. Tu primera tarea obligatoria es realizar un análisis espectral de la imagen para buscar tejidos vegetales, clorofila, estructuras foliares, tallos, raíces o flores.
-
-                        SISTEMA DE EXCLUSIÓN CRÍTICO: 
-                        Si la imagen contiene objetos domésticos, personas, animales, pantallas, textos, habitaciones, paisajes urbanos sin vegetación enfocada o CUALQUIER otra muestra que NO sea una planta real, debes detener el escaneo inmediatamente y devolver de forma estricta este JSON exacto:
-                        {
-                          "esPlanta": false,
-                          "motivoRechazo": "El escáner de campo no ha detectado actividad fotosintética ni estructuras celulares del reino vegetal en esta superficie."
-                        }
-
-                        Solo si la imagen contiene de forma clara y evidente una muestra botánica real, pon "esPlanta": true y rellena el resto de los campos con total rigor científico.
-                        Relato pedagógico adaptado para un explorador de ${edadAventurero} años con Base Secreta en ${sectorBaseTxt}. (Modo Experto: ${perfilActivoEsExperto}). Incluye mitología local de la provincia (ej. Cantabria: Anjanas/Trastolillos; Jaén: mitos íberos).
-
-                        Campos obligatorios si es planta (sin usar bloques de código \`\`\`json ni caracteres markdown):
-                        {
-                          "esPlanta": true,
-                          "nombreComun": "NOMBRE DE LA PLANTA EN MAYÚSCULAS",
-                          "nombreCientifico": "Género y especie",
-                          "rareza": "comun, poco, especial o exotica",
-                          "descripcion": "Narración MUY BREVE (Máximo 2 líneas o 120 caracteres) combinando ciencia y mitología local. Debe ser un texto corto y misterioso que quepa en un cromo físico impreso.",
-                          "tipoHoja": "Perenne/Caduca/No aplica",
-                          "origen": "Autóctona/Exótica"
-                        }`;
-                        // --- MOTOR DE DISPARO CON REINTENTO AUTOMÁTICO INVISIBLE ---
-                        let response;
-                        let intentos = 0;
-                        const maxIntentos = _0xkeys.length; // Probará tantas veces como llaves tengas
-
-                        while (intentos < maxIntentos) {
-                            let url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${obtenerGeminiKeyActiva()}`;
-                            
-                            response = await fetch(url, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                    contents: [{
-                                        parts: [
-                                            { text: promptInstrucciones },
-                                            { inlineData: { mimeType: "image/jpeg", data: base64Data } }
-                                        ]
-                                    }]
-                                })
-                            });
-
-                            if (response.status === 429) {
-                                console.warn(`📡 Satélite saturado. Cambiando a canal de respaldo (Intento ${intentos + 1})...`);
-                                window.rotarASiguienteClavePorSaturacion();
-                                intentos++;
-                                // Pausa microscópica de 0.5 segundos antes de disparar la nueva llave
-                                await new Promise(resolve => setTimeout(resolve, 500));
-                            } else {
-                                // Si es un éxito (200) o un error distinto al 429, salimos del bucle
-                                break;
-                            }
-                        }
-
-                        // Si después de probar TODAS las llaves seguimos con error, entonces sí avisamos
-                        if (!response.ok) {
-                            const errorTextoTexto = await response.text();
-                            alert(`🚨 ERROR CRÍTICO: Todas las llaves del arsenal están agotadas o fallaron.\nDetalle: ${errorTextoTexto}`);
-                            document.getElementById('loading').style.display = 'none';
-                            return;
-                        }
-                        // ----------------------------------------------------------
-
-                        const jsonRes = await response.json();
-                        
-                        if (!jsonRes.candidates || jsonRes.candidates.length === 0) {
-                            alert(`⚠️ EL SATÉLITE BLOQUEÓ LA IMAGEN:\n\nGoogle Gemini no generó candidatos. Esto ocurre si la foto no contiene elementos válidos o se activaron los filtros de seguridad de la IA.`);
-                            document.getElementById('loading').style.display = 'none';
-                            return;
-                        }
-
-                        let rawText = jsonRes.candidates[0].content.parts[0].text.trim();
-                        if(rawText.startsWith("```")) { rawText = rawText.replace(/^```json/i, "").replace(/```$/, "").trim(); }
+                        const response = await fetch('/api/analyze-plant', {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                imageBase64: base64Data,
+                                edadAventurero,
+                                sectorBaseTxt,
+                                perfilActivoEsExperto
+                            })
+                        });
 
                         let planta;
+                        let respuestaAnalisis = null;
                         try {
-                            planta = JSON.parse(rawText);
+                            respuestaAnalisis = await response.json();
                         } catch (jsonErr) {
-                            alert(`❌ ERROR DE PARSEO BOTÁNICO:\n\nGemini no devolvió un JSON limpio.\n\nTexto crudo recibido:\n${rawText}`);
+                            respuestaAnalisis = null;
+                        }
+
+                        if (!response.ok) {
+                            alert(`🚨 ERROR CRÍTICO: El satélite botánico no pudo completar el análisis.\nDetalle: ${respuestaAnalisis?.error || 'Error de comunicación con el servidor.'}`);
+                            document.getElementById('loading').style.display = 'none';
+                            return;
+                        }
+
+                        planta = respuestaAnalisis;
+                        if (!planta || typeof planta !== 'object') {
+                            alert("❌ ERROR DE PARSEO BOTÁNICO:\n\nEl servidor no devolvió un análisis válido.");
                             document.getElementById('loading').style.display = 'none';
                             return;
                         }

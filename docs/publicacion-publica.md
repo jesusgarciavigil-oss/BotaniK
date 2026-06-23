@@ -5,6 +5,7 @@ BotaniK todavía es un prototipo funcional y no debe publicarse como producción
 ## Checklist antes de publicar
 
 - Rotar o revocar claves de Gemini que hayan estado expuestas en cliente.
+- Confirmar que la variable `GEMINI_API_KEY` está configurada en Vercel y no aparece en código cliente.
 - Revisar la configuración de Firebase usada por la aplicación.
 - Revisar y endurecer reglas de Firestore antes de confiar en la seguridad de los datos.
 - Revisar la lógica de login familiar y administración implementada en cliente.
