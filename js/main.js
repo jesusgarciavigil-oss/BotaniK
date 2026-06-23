@@ -111,6 +111,18 @@
                 const modal = document.getElementById('mailbox-modal');
                 if (modal) modal.style.display = 'none';
             });
+
+            document.getElementById('admin-exit-btn')?.addEventListener('click', () => window.salirModoDiosDefinitivo());
+            document.getElementById('admin-tab-macro-btn')?.addEventListener('click', (event) => window.switchAdminTab('panel-macro', event));
+            document.getElementById('admin-tab-cuentas-btn')?.addEventListener('click', (event) => window.switchAdminTab('panel-cuentas', event));
+            document.getElementById('admin-tab-moderacion-btn')?.addEventListener('click', (event) => window.switchAdminTab('panel-moderacion', event));
+            document.getElementById('admin-tab-alertas-btn')?.addEventListener('click', (event) => window.switchAdminTab('panel-alertas', event));
+
+            document.getElementById('alert-target-type')?.addEventListener('change', (event) => window.gestionarCambioTargetAlerta(event.target.value));
+            document.getElementById('alert-user-field')?.addEventListener('change', (event) => window.filtrarHijosDeCuentaParaMensajeDirecto(event.target.value));
+            document.getElementById('admin-alert-submit-btn')?.addEventListener('click', () => window.emitirAlertaSatelital());
+            document.getElementById('admin-simulator-single-btn')?.addEventListener('click', () => window.inyectarCartaConLocalizacionesSimuladas(false));
+            document.getElementById('admin-simulator-batch-btn')?.addEventListener('click', () => window.inyectarCartaConLocalizacionesSimuladas(true));
         }
          
         /* ==========================================================================
@@ -474,7 +486,7 @@
         window.activarMandoSupremoGod = async () => { document.getElementById('god-mode-page').style.display = 'flex'; window.switchAdminTab('panel-macro'); };
         window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
 
-        window.switchAdminTab = async (tabId) => {
+        window.switchAdminTab = async (tabId, event) => {
             document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.admin-view-pane').forEach(pane => pane.classList.remove('active'));
             if (event) event.target.classList.add('active'); document.getElementById(tabId).classList.add('active');
             if (tabId === 'panel-macro') window.cargarEstadisticasMacro();

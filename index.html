@@ -284,14 +284,14 @@
                     <span class="admin-header-subtitle">ENTORNO DE SIMULACIÓN Y CONTROL CENTRAL</span>
                 </div>
             </div>
-            <button class="exit-session-btn admin-exit-btn" onclick="salirModoDiosDefinitivo()">SALIR MANDO SUPREMO</button>
+            <button id="admin-exit-btn" class="exit-session-btn admin-exit-btn">SALIR MANDO SUPREMO</button>
         </div>
         
         <div class="admin-nav-tabs">
-            <button class="admin-tab-btn active" onclick="switchAdminTab('panel-macro')">📊 MONITOR MACRO</button>
-            <button class="admin-tab-btn" onclick="switchAdminTab('panel-cuentas')">👥 EXPEDICIONARIOS</button>
-            <button class="admin-tab-btn" onclick="switchAdminTab('panel-moderacion')">🛡️ TAXONOMÍA REAL</button>
-            <button class="admin-tab-btn" onclick="switchAdminTab('panel-alertas')">📡 INYECTOR SATELITAL</button>
+            <button id="admin-tab-macro-btn" class="admin-tab-btn active">📊 MONITOR MACRO</button>
+            <button id="admin-tab-cuentas-btn" class="admin-tab-btn">👥 EXPEDICIONARIOS</button>
+            <button id="admin-tab-moderacion-btn" class="admin-tab-btn">🛡️ TAXONOMÍA REAL</button>
+            <button id="admin-tab-alertas-btn" class="admin-tab-btn">📡 INYECTOR SATELITAL</button>
         </div>
 
         <div id="panel-macro" class="admin-view-pane active">
@@ -326,7 +326,7 @@
                     <h3 class="admin-alert-card-title">📡 EMISOR DE TRANSMISIONES SEGMENTADAS</h3>
                     <div class="admin-form-group">
                         <div class="admin-form-label">Segmentación del Objetivo / Canal:</div>
-                        <select id="alert-target-type" class="admin-select" onchange="gestionarCambioTargetAlerta(this.value)">
+                        <select id="alert-target-type" class="admin-select">
                             <option value="global">Global (Toda la Red Unificada)</option>
                             <option value="pais">Por País Ecológico</option>
                             <option value="provincial">Por Provincia</option>
@@ -345,7 +345,7 @@
                         <div class="admin-form-label">Comarca Destino Natural:</div><select id="alert-comarca-select" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group" id="usuario-select-row">
-                        <div class="admin-form-label">Cuenta Familiar Destino:</div><select id="alert-user-field" class="admin-select" onchange="filtrarHijosDeCuentaParaMensajeDirecto(this.value)"></select>
+                        <div class="admin-form-label">Cuenta Familiar Destino:</div><select id="alert-user-field" class="admin-select"></select>
                     </div>
                     <div class="admin-form-group" id="explorador-select-row">
                         <div class="admin-form-label">Explorador Concreto:</div><select id="alert-child-field" class="admin-select"></select>
@@ -354,7 +354,7 @@
                         <div class="admin-form-label">Instrucciones de Campo (Texto del Mensaje):</div>
                         <textarea id="alert-text-msg" class="admin-textarea" placeholder="Escribe la misión, bonus o alerta mitológica..."></textarea>
                     </div>
-                    <button class="login-btn admin-alert-submit-btn" onclick="emitirAlertaSatelital()">DESPLEGAR COMUNICADO</button>
+                    <button id="admin-alert-submit-btn" class="login-btn admin-alert-submit-btn">DESPLEGAR COMUNICADO</button>
                 </div>
 
                 <div class="admin-card admin-simulator-card">
@@ -390,8 +390,8 @@
                     </div>
                     
                     <div class="admin-simulator-actions">
-                        <button class="login-btn admin-simulator-action-btn" onclick="inyectarCartaConLocalizacionesSimuladas(false)">¯ INYECTAR 1</button>
-                        <button class="login-btn admin-simulator-action-btn admin-simulator-batch-btn" onclick="inyectarCartaConLocalizacionesSimuladas(true)">⚡ INYECCIÓN POR LOTES (3)</button>
+                        <button id="admin-simulator-single-btn" class="login-btn admin-simulator-action-btn">¯ INYECTAR 1</button>
+                        <button id="admin-simulator-batch-btn" class="login-btn admin-simulator-action-btn admin-simulator-batch-btn">⚡ INYECCIÓN POR LOTES (3)</button>
                     </div>
                 </div>
 
