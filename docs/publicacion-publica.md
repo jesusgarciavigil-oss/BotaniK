@@ -13,6 +13,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [x] `.env.example` creado sin claves reales.
 - [x] `.gitignore` preparado para evitar subir `.env` y variantes locales.
 - [x] Riesgos de Firestore y panel admin documentados en [firestore-seguridad.md](firestore-seguridad.md).
+- [x] Riesgos de accesos hardcodeados y panel admin cliente documentados en [accesos-admin.md](accesos-admin.md).
 - [x] `firestore.rules.example` creado como guía orientativa para revisar reglas reales.
 - [x] Primera reducción de `innerHTML` realizada en avatares, buzón y selectores sencillos.
 
@@ -21,13 +22,13 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [ ] Confirmar las reglas reales desplegadas en Firebase Console.
 - [ ] Comparar las reglas reales con `firestore.rules.example`.
 - [ ] Bloquear lectura y escritura amplia en Firestore.
-- [ ] Confirmar que el panel admin no permite acciones sensibles sin protección real mediante reglas, Auth o backend.
-- [ ] Revisar o eliminar accesos admin, contraseñas o controles hardcodeados visibles en cliente.
+- [ ] Confirmar que el panel admin cliente no permite acciones sensibles sin protección real mediante reglas, Auth o backend.
+- [ ] Revisar, retirar o neutralizar accesos admin, accesos familiares de prueba, contraseñas o controles hardcodeados visibles en cliente.
 - [ ] Revocar claves Gemini antiguas que hayan estado expuestas cuando producción ya use la función serverless.
 - [ ] Confirmar que Vercel tiene `GEMINI_API_KEY` configurada como variable de entorno.
 - [ ] Probar un despliegue de Vercel Preview antes de promover cambios a Production.
 - [ ] Revisar que no hay datos personales reales, emails reales, contraseñas ni capturas sensibles en código o documentación.
-- [ ] Revisar historial Git y ramas antiguas antes de hacer público el repositorio.
+- [ ] Revisar historial Git y ramas antiguas antes de hacer público el repositorio, asumiendo que cualquier credencial versionada pudo quedar expuesta.
 
 ### Pendiente recomendable / futuro
 
@@ -46,6 +47,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - Revisar la configuración de Firebase usada por la aplicación.
 - Revisar y endurecer reglas de Firestore antes de confiar en la seguridad de los datos. Esta revisión bloquea la publicación pública.
 - Revisar `firestore.rules.example` como guía orientativa y compararla con las reglas reales desplegadas.
+- Revisar los accesos hardcodeados y el panel admin cliente según [accesos-admin.md](accesos-admin.md).
 - No publicar el repositorio si las reglas reales permiten lectura o escritura amplia.
 - No publicar el repositorio si las operaciones admin no están protegidas por reglas, Auth o backend.
 - Mantener la revisión XSS/`innerHTML` como pendiente hasta completar la limpieza de panel admin, álbum y perfiles.
@@ -69,6 +71,8 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 ## Firestore y panel de administración
 
 Antes de publicar el repositorio hay que revisar la guía de seguridad de Firestore: [firestore-seguridad.md](firestore-seguridad.md).
+
+También hay que revisar la guía específica de accesos hardcodeados y panel admin cliente: [accesos-admin.md](accesos-admin.md).
 
 La publicación debe quedar bloqueada si no se ha confirmado que las reglas reales de Firestore impiden lecturas y escrituras no autorizadas sobre cuentas, perfiles, capturas, recompensas, mensajes y acciones de administración.
 

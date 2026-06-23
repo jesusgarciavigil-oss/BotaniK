@@ -10,7 +10,7 @@ Este documento resume los riesgos visibles en el código actual y propone pasos 
 - Credenciales o accesos hardcodeados en JavaScript: existen accesos especiales y lógica de validación escrita directamente en el cliente. Esto no debe tratarse como una protección real.
 - Login familiar sin Firebase Auth: el flujo de acceso no usa un sistema de autenticación gestionado como Firebase Auth. La validación se hace desde la propia aplicación cliente.
 - Contraseñas gestionadas desde Firestore como datos de aplicación: el código registra y compara claves familiares usando documentos de Firestore. Este modelo expone demasiado la seguridad a las reglas de la base de datos y a la lógica del cliente.
-- Llamadas a Gemini: el análisis de imágenes pasa por una función serverless para evitar que nuevas claves queden expuestas en el cliente. Las claves que ya estuvieron en cliente deben considerarse comprometidas y rotarse antes de publicar el repositorio.
+- Llamadas a Gemini: el análisis de imágenes pasa por una función serverless para evitar que nuevas claves queden expuestas en el cliente. Las claves que ya estuvieron en cliente deben considerarse comprometidas y rotarse antes de publicar el repositorio. Este cambio mejora ese bloque, pero no resuelve los riesgos pendientes de Firestore, panel admin y accesos hardcodeados.
 - Dependencia crítica de las reglas de Firestore: la seguridad real de cuentas, perfiles, capturas, mensajes y acciones de administración depende de reglas de Firestore que no están documentadas aquí. Si las reglas son permisivas, el cliente no basta para proteger datos ni acciones.
 - Posible riesgo de XSS por uso de `innerHTML`: varias partes de la interfaz construyen HTML con datos que pueden venir de Firestore o de entradas de usuario. Ya se ha iniciado una reducción puntual en avatares, buzón y selectores sencillos, pero siguen pendientes zonas dinámicas más complejas como panel admin, álbum, perfiles y plantillas generadas.
 - Fotos en base64 dentro de documentos Firestore: las imágenes se guardan como cadenas base64 en documentos. Esto puede aumentar costes, tamaño de documentos, tiempos de carga y superficie de exposición de datos personales o familiares.
@@ -21,6 +21,7 @@ Este documento resume los riesgos visibles en el código actual y propone pasos 
 - Si el repositorio ya se ha compartido, revisar, revocar o regenerar las claves afectadas.
 - Revisar las reglas de Firestore antes de considerar seguros los datos o acciones de la aplicación.
 - Revisar la guía específica de Firestore y panel admin: [firestore-seguridad.md](firestore-seguridad.md).
+- Revisar la guía específica de accesos hardcodeados y panel admin cliente: [accesos-admin.md](accesos-admin.md).
 - No añadir nuevos secretos al cliente ni a archivos versionados.
 - Documentar la configuración sensible usando nombres de variables o descripciones, pero sin incluir valores reales.
 - Tratar cualquier protección implementada solo en JavaScript cliente como una ayuda de interfaz, no como una barrera de seguridad.
