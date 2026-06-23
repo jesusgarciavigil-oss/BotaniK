@@ -196,6 +196,18 @@
                 <input type="checkbox" id="expert-toggle-input" class="profile-expert-toggle">
             </div>
 
+            <div class="theme-preference-row">
+                <div class="theme-preference-copy">
+                    <div class="theme-preference-title">Tema de la interfaz</div>
+                    <div class="theme-preference-help">Usa el tema del sistema o elige uno manualmente.</div>
+                </div>
+                <select id="theme-preference-select" class="theme-preference-select" aria-label="Tema de la interfaz">
+                    <option value="system">Sistema</option>
+                    <option value="dark">Oscuro</option>
+                    <option value="light">Claro</option>
+                </select>
+            </div>
+
             <div class="profile-modal-actions">
                 <button class="login-btn profile-modal-cancel-btn" onclick="cerrarCreadorPerfilModal()">CANCELAR</button>
                 <button class="login-btn profile-modal-submit-btn" onclick="finalizarCreacionPerfil()">SINCRONIZAR</button>
@@ -567,6 +579,22 @@
            GESTIÓN DE PERFILES / AVENTUREROS
            ========================================================================== */
 
+        const sincronizarSelectorTemaPerfil = () => {
+            const themePreferenceSelect = document.getElementById('theme-preference-select');
+            if (!themePreferenceSelect || typeof window.getBotanikThemePreference !== 'function') return;
+            themePreferenceSelect.value = window.getBotanikThemePreference();
+        };
+
+        const themePreferenceSelect = document.getElementById('theme-preference-select');
+        if (themePreferenceSelect) {
+            themePreferenceSelect.addEventListener('change', (event) => {
+                if (typeof window.setBotanikThemePreference === 'function') {
+                    window.setBotanikThemePreference(event.target.value);
+                }
+            });
+            sincronizarSelectorTemaPerfil();
+        }
+
         window.abrirCreadorPerfilModal = () => {
             modoEdicionActivo = false; idPerfilEnEdicionFila = ""; selectedAvatarValue = "🧑‍🚀";
             document.getElementById('modal-title-context').innerText = "ALTA DE EXPLORADOR";
@@ -577,6 +605,7 @@
             document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
             document.querySelector('.avatar-option[data-avatar="🧑‍🚀"]').classList.add('selected');
             document.getElementById('nav-dropdown-box').style.display = 'none';
+            sincronizarSelectorTemaPerfil();
             document.getElementById('avatar-picker-modal').style.display = 'flex';
         };
 
@@ -599,6 +628,7 @@
                 opt.classList.remove('selected');
                 if(!esImg && opt.getAttribute('data-avatar') === selectedAvatarValue) opt.classList.add('selected');
             });
+            sincronizarSelectorTemaPerfil();
             document.getElementById('avatar-picker-modal').style.display = 'flex';
         };
 

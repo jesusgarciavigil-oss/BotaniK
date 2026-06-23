@@ -170,6 +170,12 @@
         .profile-expert-title { font-size: 12px; font-weight: bold; color: white; }
         .profile-expert-help { font-size: 9px; color: var(--text-muted-semantic); font-weight: 500; margin-top: 1px; }
         .profile-expert-toggle { width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-strong); }
+        .theme-preference-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--border-muted-subtle); }
+        .theme-preference-copy { text-align: left; }
+        .theme-preference-title { font-size: 12px; font-weight: bold; color: white; }
+        .theme-preference-help { font-size: 9px; color: var(--text-muted-semantic); font-weight: 500; margin-top: 1px; }
+        .theme-preference-select { min-width: 105px; background: var(--surface-2); border: 1px solid var(--border-accent); border-radius: 8px; color: var(--text); font-size: 12px; font-weight: bold; padding: 8px 10px; outline: none; cursor: pointer; }
+        .theme-preference-select:focus { border-color: var(--primary-strong); box-shadow: 0 0 8px rgba(57,255,20,0.2); }
         .profile-modal-cancel-btn { background: #222; border-color: #444; margin: 0; }
         .profile-modal-submit-btn { margin: 0; }
 
