@@ -25,7 +25,7 @@ Este modelo puede servir como prototipo privado, pero no debe tratarse como una 
 
 Las credenciales reales hardcodeadas conocidas se han retirado de `js/main.js` en esta rama. Aun así, cualquier credencial hardcodeada que se vuelva a introducir quedaría expuesta si el repositorio pasa a público o si una persona inspecciona el JavaScript servido por la aplicación.
 
-También debe asumirse que cualquier credencial que haya estado versionada puede permanecer en el historial Git o en ramas antiguas. La solución no es ocultarla ni ofuscarla, sino retirarla del cliente y rotarla cuando corresponda.
+También debe asumirse que cualquier credencial que haya estado versionada puede permanecer en el historial Git o en ramas antiguas. La solución inmediata no es ocultarla ni ofuscarla, sino retirarla del cliente y rotarla, cambiarla o invalidarla cuando corresponda.
 
 ## Funciones admin expuestas
 
@@ -42,14 +42,14 @@ Ocultar botones, pantallas o nombres de funciones puede mejorar la interfaz, per
 
 ## Riesgos detectados
 
-- Acceso admin hardcodeado en cliente: retirado en esta rama, pero pendiente de revisar en historial y ramas antiguas.
-- Acceso familiar o de prueba hardcodeado en cliente: retirado en esta rama, pero pendiente de revisar en historial y ramas antiguas.
+- Acceso admin hardcodeado en cliente: retirado en esta rama, pero cualquier acceso antiguo debe quedar invalidado antes de publicar.
+- Acceso familiar o de prueba hardcodeado en cliente: retirado en esta rama, pero cualquier acceso antiguo debe quedar invalidado antes de publicar.
 - Contraseñas familiares guardadas como campo `pass` en Firestore.
 - Acciones admin sensibles iniciadas desde el cliente: deshabilitadas por defecto en esta rama hasta tener autorización real.
 - Uso de email como identidad práctica.
 - Lectura global de cuentas, perfiles y capturas desde el panel admin.
 - Funciones admin expuestas en `window`.
-- Posible persistencia de credenciales antiguas en historial Git o ramas no revisadas.
+- Posible persistencia de credenciales antiguas en historial Git o ramas no revisadas. Esto no obliga a limpiar historial ahora, pero sí obliga a que no quede ningún secreto antiguo activo.
 
 ## Acciones sensibles del panel admin
 
@@ -69,7 +69,7 @@ Estas acciones no deben depender solo del cliente. Antes de publicar el reposito
 ## Checklist mínima antes de publicar
 
 - [x] Retirar o neutralizar credenciales reales hardcodeadas en cliente en esta rama.
-- [ ] Revisar historial Git y ramas antiguas por credenciales o datos reales.
+- [ ] Cambiar, revocar o invalidar cualquier credencial real que haya estado hardcodeada.
 - [ ] Confirmar las reglas reales de Firestore en Firebase Console.
 - [ ] Proteger el panel admin con Auth, reglas, roles o backend.
 - [ ] Dejar de guardar contraseñas recuperables como datos de aplicación.
@@ -81,3 +81,5 @@ Estas acciones no deben depender solo del cliente. Antes de publicar el reposito
 Los accesos hardcodeados reales ya no deberían estar en el cliente de esta rama, pero el panel admin sigue bloqueando una publicación pública segura mientras no exista protección real fuera del cliente.
 
 La protección del panel debe planificarse como una fase de seguridad separada, con cambios pequeños y pruebas manuales de login, perfiles, mensajes, capturas y administración.
+
+La limpieza de historial Git o la creación de un repositorio público limpio puede valorarse más adelante. No debe bloquear esta rama si las credenciales antiguas ya no funcionan y el estado actual del código está saneado.

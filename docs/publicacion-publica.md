@@ -30,7 +30,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [ ] Confirmar que Vercel tiene `GEMINI_API_KEY` configurada como variable de entorno.
 - [ ] Probar un despliegue de Vercel Preview antes de promover cambios a Production.
 - [ ] Revisar que no hay datos personales reales, emails reales, contraseñas ni capturas sensibles en código o documentación.
-- [ ] Revisar historial Git y ramas antiguas antes de hacer público el repositorio, asumiendo que cualquier credencial versionada pudo quedar expuesta.
+- [ ] Confirmar que cualquier clave, contraseña o acceso real que haya estado hardcodeado queda revocado, cambiado o invalidado antes de publicar.
 
 ### Pendiente recomendable / futuro
 
@@ -41,6 +41,8 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [ ] Terminar la reducción de `innerHTML` en perfiles, álbum y panel admin.
 - [ ] Revisar XSS en plantillas grandes y datos renderizados desde Firestore o formularios.
 - [ ] Valorar limpieza de historial Git si se quiere una publicación más limpia.
+- [ ] Valorar crear un repositorio público limpio desde cero con el código saneado como primer commit.
+- [ ] Revisar historial Git y ramas antiguas como parte de una auditoría más pulcra, sin bloquear esta rama si no quedan secretos activos.
 
 ## Checklist antes de publicar
 
@@ -56,8 +58,8 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - Mantener la revisión XSS/`innerHTML` como pendiente hasta completar la limpieza de panel admin, álbum y perfiles.
 - Revisar la lógica de login familiar y administración implementada en cliente.
 - Revisar emails, nombres, datos personales o identificadores reales que no deban ser públicos.
-- Revisar el historial Git para confirmar si secretos o credenciales estuvieron presentes en commits anteriores.
-- Decidir si basta con rotar claves o si hace falta una limpieza de historial planificada.
+- Cambiar o invalidar cualquier contraseña real que haya estado hardcodeada.
+- Confirmar que el historial antiguo no contiene secretos activos. Si alguna clave o contraseña antigua sigue funcionando, eso sí bloquea la publicación.
 - Configurar secretos en Vercel como variables de entorno cuando exista una capa preparada para leerlas de forma segura.
 - No subir archivos `.env` ni variantes locales con valores reales.
 
@@ -83,9 +85,11 @@ El panel admin actual debe tratarse como interfaz de administración, no como fr
 
 ## Historial Git
 
-Si una clave o credencial aparece en el estado actual del código, debe asumirse que también puede estar en el historial. Antes de hacer público el repositorio, la primera medida debe ser rotar o revocar esas claves.
+No se limpiará el historial Git en esta fase. La prioridad antes de publicar es que ninguna clave, contraseña o acceso antiguo siga activo.
 
-La limpieza de historial debe tratarse como una tarea separada, planificada y revisada con cuidado. No debe hacerse de forma improvisada ni mezclarse con cambios funcionales.
+Si una clave o credencial apareció alguna vez en código versionado, debe asumirse expuesta y revocarse, cambiarse o invalidarse. La limpieza de historial queda como tarea futura opcional para una publicación más pulcra.
+
+Más adelante, cuando la app esté funcionando correctamente, se puede valorar crear un repositorio público limpio desde cero con el estado saneado como primer commit.
 
 ## Variables de entorno
 
