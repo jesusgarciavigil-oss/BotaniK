@@ -6,11 +6,21 @@ BotaniK es una aplicación web familiar orientada a la exploración botánica. I
 
 ## Estado actual del proyecto
 
-El proyecto está en estado de prototipo funcional y en proceso de profesionalización. Actualmente se mantiene como web estática y está concentrado principalmente en `index.html`.
+El proyecto está en estado de prototipo funcional y en proceso de profesionalización. Actualmente se mantiene como web estática. La estructura ya separa los estilos principales en `css/styles.css`, aunque la lógica de aplicación sigue concentrada principalmente en `index.html`.
 
-En ese archivo conviven HTML, CSS, JavaScript, estilos inline, eventos inline, configuración de Firebase, llamadas a servicios externos y lógica de aplicación. La prioridad actual es documentar el estado real, separar responsabilidades poco a poco y conservar el comportamiento existente.
+En `index.html` conviven HTML, JavaScript, eventos inline, configuración de Firebase, llamadas a servicios externos e infraestructura inicial de tema. La prioridad actual es documentar el estado real, separar responsabilidades poco a poco y conservar el comportamiento existente.
 
 Este proyecto no debe considerarse una aplicación de producción segura en su estado actual.
+
+## Sistema visual y temas
+
+BotaniK usa `css/styles.css` como archivo central del sistema visual. El CSS está organizado por secciones, contiene paletas base 100-900, alias de compatibilidad y variables semánticas para mapear tema oscuro y tema claro.
+
+El tema oscuro es la base visual principal. El tema claro ya es funcional, pero queda pendiente perfilar su estética, contraste y comportamiento responsive en una revisión visual posterior.
+
+La preferencia de tema se guarda localmente en el navegador con `localStorage` usando la clave `botanik-theme`. No se guarda en Firestore ni modifica el modelo de datos de perfiles.
+
+Más detalle: [docs/temas.md](docs/temas.md).
 
 ## Funcionalidades principales detectadas
 
@@ -70,6 +80,14 @@ Este README no copia valores reales de claves, contraseñas, tokens ni credencia
 ```text
 /
 ├── index.html
+├── css/
+│   └── styles.css
+├── docs/
+│   ├── estructura.md
+│   ├── firebase.md
+│   ├── seguridad.md
+│   └── temas.md
+├── README.md
 └── AGENTS.md
 ```
 
@@ -93,7 +111,7 @@ Este README no copia valores reales de claves, contraseñas, tokens ni credencia
 
 - Crear documentación de seguridad.
 - Documentar Firebase/Firestore.
-- Separar CSS en `css/styles.css`.
 - Separar JavaScript en `js/main.js`.
 - Revisar reglas de Firestore.
 - Planificar la salida de secretos fuera del cliente.
+- Revisar responsive, accesibilidad, focus visible y contraste del tema claro.
