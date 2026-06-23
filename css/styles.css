@@ -79,6 +79,63 @@
             --frame-master: linear-gradient(45deg, #FF007F, #7F00FF, #00F0FF, #FF007F);
         }
 
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+
+            --bg: var(--bg-dark);
+            --surface: var(--surface-dark);
+            --surface-2: var(--surface-overlay-soft);
+            --surface-3: var(--surface-overlay-medium);
+            --surface-elevated: var(--surface-dark);
+            --surface-overlay: var(--surface-overlay-heavy);
+            --text: var(--text-light);
+            --text-strong: #ffffff;
+            --text-muted-semantic: var(--text-muted);
+            --primary: var(--botanik-green);
+            --primary-strong: var(--neon-green);
+            --accent: var(--accent-green);
+            --border: var(--border-muted);
+            --border-subtle: var(--border-muted-subtle);
+            --border-accent: var(--border-green-soft);
+            --border-accent-strong: var(--border-green-medium);
+        }
+
+        :root[data-theme="light"] {
+            color-scheme: light;
+
+            --bg: #f4fbf5;
+            --surface: #ffffff;
+            --surface-2: #eef7f0;
+            --surface-3: #e1efe5;
+            --surface-elevated: #ffffff;
+            --surface-overlay: rgba(255, 255, 255, 0.96);
+            --text: #12201a;
+            --text-strong: #07130d;
+            --text-muted-semantic: #58736a;
+            --primary: #1F6B3A;
+            --primary-strong: #1f8f3a;
+            --accent: #2f9e44;
+            --border: rgba(31, 107, 58, 0.16);
+            --border-subtle: rgba(31, 107, 58, 0.10);
+            --border-accent: rgba(31, 107, 58, 0.24);
+            --border-accent-strong: rgba(31, 107, 58, 0.36);
+
+            --light-surface-glass: rgba(255,255,255,0.82);
+            --light-surface-soft: rgba(238,247,240,0.86);
+            --light-surface-strong: rgba(225,239,229,0.92);
+            --light-field-bg: rgba(255,255,255,0.92);
+            --light-hover-bg: rgba(31,107,58,0.08);
+            --light-overlay-modal: rgba(244,251,245,0.92);
+            --light-overlay-deep: rgba(18,32,26,0.26);
+            --light-shadow-card: 0 8px 20px rgba(31,107,58,0.12);
+            --light-shadow-panel: 0 15px 35px rgba(31,107,58,0.16);
+            --light-shadow-modal: 0 18px 38px rgba(18,32,26,0.20);
+            --admin-surface-light: #f7f0ff;
+            --admin-surface-light-2: #efe2ff;
+            --admin-text-light: #26113d;
+            --admin-muted-light: #73538d;
+        }
+
         /* --- Reset y base --- */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; }
         body { background-color: var(--bg); color: var(--text); padding-bottom: 80px; }
@@ -649,6 +706,336 @@
         .admin-btn:hover {
             filter: brightness(1.12);
             transform: translateY(-1px);
+        }
+
+        /* --- Tema claro --- */
+        :root[data-theme="light"] #login-page,
+        :root[data-theme="light"] #profile-page,
+        :root[data-theme="light"] #setup-base-page,
+        :root[data-theme="light"] #avatar-picker-modal,
+        :root[data-theme="light"] #mailbox-modal,
+        :root[data-theme="light"] #msg-reader-modal {
+            background: radial-gradient(circle at center, #ffffff 0%, var(--bg) 100%);
+        }
+
+        :root[data-theme="light"] #avatar-picker-modal,
+        :root[data-theme="light"] #mailbox-modal,
+        :root[data-theme="light"] #msg-reader-modal {
+            background: var(--light-overlay-modal);
+        }
+
+        :root[data-theme="light"] .card,
+        :root[data-theme="light"] .login-card,
+        :root[data-theme="light"] .avatar-creator-box,
+        :root[data-theme="light"] .mailbox-card,
+        :root[data-theme="light"] .message-reader-card {
+            background: var(--surface);
+            border-color: var(--border-accent);
+            box-shadow: var(--light-shadow-panel);
+        }
+
+        :root[data-theme="light"] .login-input,
+        :root[data-theme="light"] .admin-select,
+        :root[data-theme="light"] .admin-textarea,
+        :root[data-theme="light"] .search-bar-input,
+        :root[data-theme="light"] .theme-preference-select {
+            background: var(--light-field-bg);
+            border-color: var(--border-accent);
+            color: var(--text);
+        }
+
+        :root[data-theme="light"] .login-input:focus,
+        :root[data-theme="light"] .admin-select:focus,
+        :root[data-theme="light"] .admin-textarea:focus,
+        :root[data-theme="light"] .search-bar-input:focus,
+        :root[data-theme="light"] .theme-preference-select:focus {
+            border-color: var(--primary-strong);
+            box-shadow: 0 0 10px rgba(31,143,58,0.18);
+        }
+
+        :root[data-theme="light"] .login-btn {
+            color: #ffffff;
+            box-shadow: var(--light-shadow-card);
+        }
+
+        :root[data-theme="light"] .login-title-main,
+        :root[data-theme="light"] .setup-base-title,
+        :root[data-theme="light"] .profile-page-title,
+        :root[data-theme="light"] .level-title,
+        :root[data-theme="light"] .mailbox-title,
+        :root[data-theme="light"] .message-reader-title,
+        :root[data-theme="light"] .profesor-alert-card h4 {
+            color: var(--primary-strong);
+            text-shadow: none;
+        }
+
+        :root[data-theme="light"] .toggle-link,
+        :root[data-theme="light"] .profile-page-subtitle,
+        :root[data-theme="light"] .dropdown-footer-logout,
+        :root[data-theme="light"] .toast-victory-caption,
+        :root[data-theme="light"] .mailbox-empty-state,
+        :root[data-theme="light"] .close-modal-txt {
+            color: var(--text-muted-semantic);
+        }
+
+        :root[data-theme="light"] .profile-item {
+            background: var(--light-surface-glass);
+            border-color: var(--border-accent);
+            box-shadow: var(--light-shadow-card);
+        }
+
+        :root[data-theme="light"] .profile-item:hover {
+            background: var(--surface);
+            border-color: var(--accent);
+            box-shadow: var(--light-shadow-panel);
+        }
+
+        :root[data-theme="light"] .add-profile-item-btn {
+            background: var(--light-surface-soft);
+            border-color: var(--border-accent-strong);
+            color: var(--primary);
+        }
+
+        :root[data-theme="light"] .add-profile-item-btn:hover {
+            color: var(--primary-strong);
+            border-color: var(--primary-strong);
+        }
+
+        :root[data-theme="light"] .profile-expert-row,
+        :root[data-theme="light"] .theme-preference-row,
+        :root[data-theme="light"] .avatar-options-grid,
+        :root[data-theme="light"] .message-reader-body,
+        :root[data-theme="light"] .modal-meta-box {
+            background: var(--light-surface-soft);
+            border-color: var(--border-subtle);
+        }
+
+        :root[data-theme="light"] .profile-expert-title,
+        :root[data-theme="light"] .theme-preference-title {
+            color: var(--text-strong);
+        }
+
+        :root[data-theme="light"] .upload-profile-img-label {
+            background: var(--light-surface-soft);
+            border-color: var(--border-accent);
+            color: var(--text);
+        }
+
+        :root[data-theme="light"] .upload-profile-img-label:hover,
+        :root[data-theme="light"] .avatar-option:hover {
+            background: var(--light-hover-bg);
+            border-color: var(--border-accent-strong);
+        }
+
+        :root[data-theme="light"] .profile-modal-cancel-btn,
+        :root[data-theme="light"] .mailbox-close-btn {
+            background: #e6ece8;
+            border-color: #c5d4ca;
+            color: var(--text);
+        }
+
+        :root[data-theme="light"] header,
+        :root[data-theme="light"] nav {
+            background-color: var(--surface);
+            border-color: var(--border-accent);
+            box-shadow: 0 4px 16px rgba(31,107,58,0.10);
+        }
+
+        :root[data-theme="light"] nav {
+            box-shadow: 0 -4px 16px rgba(31,107,58,0.10);
+        }
+
+        :root[data-theme="light"] nav button.active {
+            background: var(--light-hover-bg);
+            color: var(--primary-strong);
+        }
+
+        :root[data-theme="light"] .header-profile-box,
+        :root[data-theme="light"] .header-mailbox-btn {
+            background: var(--surface-2);
+            border-color: var(--border-accent);
+        }
+
+        :root[data-theme="light"] .header-profile-box:hover,
+        :root[data-theme="light"] .header-mailbox-btn:hover {
+            background: var(--light-hover-bg);
+            border-color: var(--accent);
+        }
+
+        :root[data-theme="light"] .accounts-dropdown-list {
+            background: var(--surface);
+            border-color: var(--border-accent-strong);
+            box-shadow: var(--light-shadow-modal);
+        }
+
+        :root[data-theme="light"] .dropdown-account-item:hover,
+        :root[data-theme="light"] .dropdown-footer-btn:hover {
+            background: var(--light-hover-bg);
+        }
+
+        :root[data-theme="light"] .dropdown-account-item.active-user-row,
+        :root[data-theme="light"] .dropdown-footer-btn {
+            background: var(--surface-2);
+        }
+
+        :root[data-theme="light"] .level-badge {
+            color: #ffffff;
+            background: var(--primary-strong);
+        }
+
+        :root[data-theme="light"] .progress-bar-bg {
+            background-color: var(--surface-3);
+            border-color: var(--border-accent);
+        }
+
+        :root[data-theme="light"] .stat-box {
+            background-color: var(--surface);
+            box-shadow: var(--light-shadow-card);
+        }
+
+        :root[data-theme="light"] .profesor-alert-card {
+            background: linear-gradient(135deg, rgba(47,158,68,0.13) 0%, rgba(255,255,255,0.92) 100%);
+            box-shadow: var(--light-shadow-card);
+        }
+
+        :root[data-theme="light"] .profesor-alert-card p {
+            color: var(--text);
+        }
+
+        :root[data-theme="light"] .cromo-mini-card,
+        :root[data-theme="light"] .modal-front {
+            background: radial-gradient(circle at top, #163b2a 0%, #07130d 100%);
+        }
+
+        :root[data-theme="light"] .cromo-txt-bar,
+        :root[data-theme="light"] .modal-header-poke,
+        :root[data-theme="light"] .modal-body-poke {
+            background: rgba(7,19,13,0.88);
+            border-color: rgba(118,225,97,0.18);
+        }
+
+        :root[data-theme="light"] .cromo-wrapper:hover .cromo-mini-card {
+            box-shadow: 0 6px 14px rgba(31,107,58,0.20);
+        }
+
+        :root[data-theme="light"] #cromo-overlay-modal {
+            background: rgba(18,32,26,0.72);
+        }
+
+        :root[data-theme="light"] .names-dropdown-box {
+            background: var(--surface);
+            border-color: var(--border-accent-strong);
+            box-shadow: var(--light-shadow-modal);
+        }
+
+        :root[data-theme="light"] .name-drop-row {
+            color: var(--text);
+            border-color: var(--border-subtle);
+        }
+
+        :root[data-theme="light"] .name-drop-row:hover {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        :root[data-theme="light"] #botanik-toast-victory {
+            background: var(--surface-overlay);
+            box-shadow: 0 0 20px rgba(31,143,58,0.18);
+        }
+
+        :root[data-theme="light"] #live-xp-badge-alert {
+            background: linear-gradient(135deg, var(--primary) 0%, #0f3d24 100%);
+            color: #ffffff;
+            box-shadow: 0 10px 25px rgba(31,107,58,0.24);
+        }
+
+        :root[data-theme="light"] #god-mode-page {
+            background: var(--admin-surface-light);
+            color: var(--admin-text-light);
+        }
+
+        :root[data-theme="light"] .admin-header {
+            background: linear-gradient(135deg, #4b187d 0%, #24113d 100%);
+            box-shadow: 0 6px 18px rgba(75,24,125,0.22);
+        }
+
+        :root[data-theme="light"] .admin-nav-tabs {
+            background: var(--admin-surface-light-2);
+            border-bottom-color: rgba(90,24,154,0.18);
+        }
+
+        :root[data-theme="light"] .admin-tab-btn {
+            background: rgba(255,255,255,0.74);
+            border-color: rgba(90,24,154,0.20);
+            color: #5a189a;
+        }
+
+        :root[data-theme="light"] .admin-tab-btn:hover {
+            background: #ffffff;
+            border-color: var(--admin-purple);
+            color: var(--admin-purple-dark);
+        }
+
+        :root[data-theme="light"] .admin-tab-btn.active {
+            color: #ffffff;
+        }
+
+        :root[data-theme="light"] .admin-panel-title,
+        :root[data-theme="light"] .admin-card h4,
+        :root[data-theme="light"] .admin-form-label {
+            color: var(--admin-purple-dark);
+        }
+
+        :root[data-theme="light"] .admin-card,
+        :root[data-theme="light"] .feed-box,
+        :root[data-theme="light"] .admin-table,
+        :root[data-theme="light"] .account-cluster-card {
+            background: rgba(255,255,255,0.84);
+            border-color: rgba(90,24,154,0.16);
+            box-shadow: 0 8px 22px rgba(75,24,125,0.10);
+        }
+
+        :root[data-theme="light"] .admin-table th {
+            background: rgba(157,78,221,0.14);
+            color: var(--admin-purple-dark);
+        }
+
+        :root[data-theme="light"] .admin-table td {
+            border-bottom-color: rgba(90,24,154,0.10);
+        }
+
+        :root[data-theme="light"] .feed-body,
+        :root[data-theme="light"] .feed-title,
+        :root[data-theme="light"] .cluster-email {
+            color: var(--text);
+        }
+
+        :root[data-theme="light"] .feed-scientific-name,
+        :root[data-theme="light"] .cluster-empty-explorers {
+            color: var(--text-muted-semantic);
+        }
+
+        :root[data-theme="light"] .feed-author-tag {
+            color: var(--admin-muted-light);
+        }
+
+        :root[data-theme="light"] .cluster-header {
+            border-bottom-color: rgba(90,24,154,0.12);
+        }
+
+        :root[data-theme="light"] .cluster-base,
+        :root[data-theme="light"] .cluster-expert-status,
+        :root[data-theme="light"] .big-num,
+        :root[data-theme="light"] .admin-alert-card-title,
+        :root[data-theme="light"] .admin-simulator-title,
+        :root[data-theme="light"] .admin-header-subtitle {
+            color: var(--primary-strong);
+            text-shadow: none;
+        }
+
+        :root[data-theme="light"] .admin-btn,
+        :root[data-theme="light"] .login-btn.admin-alert-submit-btn {
+            color: #ffffff;
         }
 
         /* --- Utilidades y estados especiales --- */
