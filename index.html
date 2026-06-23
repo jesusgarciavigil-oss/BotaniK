@@ -4,6 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BotaniK - Sistema de Radar de Campo</title>
+    <script>
+        (() => {
+            const THEME_STORAGE_KEY = 'botanik-theme';
+            const VALID_THEME_PREFERENCES = ['dark', 'light', 'system'];
+
+            const isValidThemePreference = (value) => VALID_THEME_PREFERENCES.includes(value);
+
+            const resolveSystemTheme = () => {
+                try {
+                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                        return 'light';
+                    }
+                } catch (err) {
+                    // Si el navegador bloquea matchMedia, mantenemos el tema oscuro por defecto.
+                }
+                return 'dark';
+            };
+
+            const getStoredThemePreference = () => {
+                try {
+                    const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+                    return isValidThemePreference(storedTheme) ? storedTheme : 'system';
+                } catch (err) {
+                    return 'system';
+                }
+            };
+
+            const resolveTheme = (preference) => {
+                if (preference === 'dark' || preference === 'light') return preference;
+                return resolveSystemTheme();
+            };
+
+            window.getBotanikThemePreference = getStoredThemePreference;
+
+            window.applyBotanikTheme = (preference = getStoredThemePreference()) => {
+                const safePreference = isValidThemePreference(preference) ? preference : 'system';
+                const resolvedTheme = resolveTheme(safePreference);
+                document.documentElement.dataset.theme = resolvedTheme;
+                return resolvedTheme;
+            };
+
+            window.setBotanikThemePreference = (preference) => {
+                if (!isValidThemePreference(preference)) return window.applyBotanikTheme('system');
+                try {
+                    localStorage.setItem(THEME_STORAGE_KEY, preference);
+                } catch (err) {
+                    // Aunque no se pueda guardar, aplicamos el tema solicitado en esta sesión.
+                }
+                return window.applyBotanikTheme(preference);
+            };
+
+            window.applyBotanikTheme();
+        })();
+    </script>
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
