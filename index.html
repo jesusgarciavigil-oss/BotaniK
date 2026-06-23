@@ -67,8 +67,8 @@
             <h2 id="login-title" class="login-title-main">BotaniK Login</h2>
             <input type="text" id="username" class="login-input" placeholder="Código de Terminal (Email)" value="neco@plantdex.com">
             <input type="password" id="password" class="login-input" placeholder="Clave de Enlace">
-            <button id="submit-btn" class="login-btn" onclick="gestionarAcceso()">ACCEDER AL RADAR</button>
-            <div id="toggle-text" class="toggle-link" onclick="toggleModo()">¿Nuevo laboratorio familiar? Regístrate gratis</div>
+            <button id="submit-btn" class="login-btn">ACCEDER AL RADAR</button>
+            <div id="toggle-text" class="toggle-link">¿Nuevo laboratorio familiar? Regístrate gratis</div>
         </div>
     </div>
 
@@ -76,7 +76,7 @@
         <h2 class="profile-page-title">¿QUIÉN INICIA EXPEDICIÓN?</h2>
         <p class="profile-page-subtitle">Selecciona tu mente de campo conectada</p>
         <div class="profile-grid" id="perfiles-dinamicos"></div>
-        <button class="exit-session-btn" onclick="cerrarSesionCompleta()">CERRAR TERMINAL FAMILIAR</button>
+        <button id="profile-exit-session-btn" class="exit-session-btn">CERRAR TERMINAL FAMILIAR</button>
     </div>
 
     <div id="setup-base-page">
@@ -88,20 +88,20 @@
             </p>
             
             <div id="gps-base-box">
-                <button class="login-btn" onclick="localizarBasePorGPS()">SINCRONIZAR POR GPS</button>
-                <div class="toggle-link" onclick="activarEntradaManualBase()">¿No tienes cobertura? Calibrar manualmente</div>
+                <button id="gps-base-sync-btn" class="login-btn">SINCRONIZAR POR GPS</button>
+                <div id="manual-base-toggle" class="toggle-link">¿No tienes cobertura? Calibrar manualmente</div>
             </div>
 
             <div id="manual-base-box">
                 <input type="text" id="manual-lugar-input" class="login-input" placeholder="Ej: Castro Urdiales, Jaén, Bilbao...">
-                <button class="login-btn" onclick="confirmarBaseManual()">FIJAR ENTORNO MANUALMENTE</button>
+                <button id="manual-base-confirm-btn" class="login-btn">FIJAR ENTORNO MANUALMENTE</button>
             </div>
         </div>
     </div>
 
     <header>
         <div class="header-left-cluster">
-            <div class="header-profile-box" onclick="toggleDropdownCuentasCabecera(event)">
+            <div id="header-profile-trigger" class="header-profile-box">
                 <div class="header-avatar" id="head-av-box">🧑‍🚀</div>
                 <div class="header-info-text">
                     <h2 id="head-name">EXPLORADOR</h2>
@@ -112,7 +112,7 @@
             <div class="accounts-dropdown-list" id="nav-dropdown-box"></div>
         </div>
         <h1>BOTANIK</h1>
-        <button class="header-mailbox-btn" onclick="abrirBuzonHistoricoModal()" title="Buzón Satelital">
+        <button id="header-mailbox-btn" class="header-mailbox-btn" title="Buzón Satelital">
             📬 <div class="mailbox-badge" id="box-badge-num">0</div>
         </button>
     </header>
@@ -139,21 +139,21 @@
                 <div class="stat-box"><h3>Álbum</h3><div id="total-count-mini" class="counter">0</div></div>
             </div>
             <div class="card scan-container">
-                <button class="scan-btn" onclick="triggerCamera()">SCAN</button>
-                <input type="file" id="camera-input" accept="image/*" capture="environment" onchange="procesarFoto(event)">
+                <button id="scan-trigger-btn" class="scan-btn">SCAN</button>
+                <input type="file" id="camera-input" accept="image/*" capture="environment">
                 <div id="loading">Sincronizando satélite...</div>
             </div>
         </div>
         
         <div id="album" class="page">
-            <div class="search-filter-panel"><input type="text" id="search-botanika" class="search-bar-input" placeholder="🔍 Buscar planta por nombre..." oninput="window.filtrarYOrdenarAlbum()"></div>
+            <div class="search-filter-panel"><input type="text" id="search-botanika" class="search-bar-input" placeholder="🔍 Buscar planta por nombre..."></div>
             <div class="album-grid" id="album-dinamico-contenedor"></div>
         </div>
     </div>
 
     <nav>
-        <button class="active" onclick="switchPage('radar', this)">📡 RADAR</button>
-        <button onclick="switchPage('album', this)">🌿 ÁLBUM</button>
+        <button id="nav-radar-btn" class="active">📡 RADAR</button>
+        <button id="nav-album-btn">🌿 ÁLBUM</button>
     </nav>
 
     <div id="avatar-picker-modal">
@@ -164,21 +164,21 @@
             
             <label class="upload-profile-img-label">
                 📷 SUBIR FOTO REAL DE CAMPO
-                <input type="file" class="profile-image-upload-input" accept="image/*" onchange="procesarFotoPerfilReal(event)">
+                <input type="file" id="profile-image-upload-input" class="profile-image-upload-input" accept="image/*">
             </label>
 
             <div class="profile-avatar-choice-label">O selecciona un Avatar Cósmico:</div>
             <div class="avatar-options-grid">
-                <div class="avatar-option selected" data-avatar="🧑‍🚀" onclick="selectAvatarElement(this, '🧑‍🚀')">🧑‍🚀</div>
-                <div class="avatar-option" data-avatar="🧝" onclick="selectAvatarElement(this, '🧝')">🧝</div>
-                <div class="avatar-option" data-avatar="🧙" onclick="selectAvatarElement(this, '🧙')">🧙</div>
-                <div class="avatar-option" data-avatar="🦖" onclick="selectAvatarElement(this, '🦖')">🦖</div>
-                <div class="avatar-option" data-avatar="🦊" onclick="selectAvatarElement(this, '🦊')">🦊</div>
-                <div class="avatar-option" data-avatar="🦁" onclick="selectAvatarElement(this, '🦁')">🦁</div>
-                <div class="avatar-option" data-avatar="🐼" onclick="selectAvatarElement(this, '🐼')">🐼</div>
-                <div class="avatar-option" data-avatar="🦉" onclick="selectAvatarElement(this, '🦉')">🦉</div>
-                <div class="avatar-option" data-avatar="🦄" onclick="selectAvatarElement(this, '🦄')">🦄</div>
-                <div class="avatar-option" data-avatar="🤖" onclick="selectAvatarElement(this, '🤖')">🤖</div>
+                <div class="avatar-option selected" data-avatar="🧑‍🚀">🧑‍🚀</div>
+                <div class="avatar-option" data-avatar="🧝">🧝</div>
+                <div class="avatar-option" data-avatar="🧙">🧙</div>
+                <div class="avatar-option" data-avatar="🦖">🦖</div>
+                <div class="avatar-option" data-avatar="🦊">🦊</div>
+                <div class="avatar-option" data-avatar="🦁">🦁</div>
+                <div class="avatar-option" data-avatar="🐼">🐼</div>
+                <div class="avatar-option" data-avatar="🦉">🦉</div>
+                <div class="avatar-option" data-avatar="🦄">🦄</div>
+                <div class="avatar-option" data-avatar="🤖">🤖</div>
             </div>
 
             <div class="admin-form-group">
@@ -209,19 +209,19 @@
             </div>
 
             <div class="profile-modal-actions">
-                <button class="login-btn profile-modal-cancel-btn" onclick="cerrarCreadorPerfilModal()">CANCELAR</button>
-                <button class="login-btn profile-modal-submit-btn" onclick="finalizarCreacionPerfil()">SINCRONIZAR</button>
+                <button id="profile-modal-cancel-btn" class="login-btn profile-modal-cancel-btn">CANCELAR</button>
+                <button id="profile-modal-submit-btn" class="login-btn profile-modal-submit-btn">SINCRONIZAR</button>
             </div>
         </div>
     </div>
 
-    <div id="cromo-overlay-modal" onclick="evaluarCierrePorFondo(event)">
+    <div id="cromo-overlay-modal">
         <div class="modal-perspective" id="modal-perspective-flyer">
-            <div class="modal-cromo-card" id="modal-card-inner" onclick="voltearCartaModal(event, this)">
+            <div class="modal-cromo-card" id="modal-card-inner">
                 
                 <div class="modal-face modal-front" id="modal-front-face">
                     <div class="modal-header-poke">
-                        <div class="modal-title-poke-clickable" onclick="desplegarNombresAlternativosModal(event)">
+                        <div id="modal-title-poke-trigger" class="modal-title-poke-clickable">
                             <span id="m-title">PLANTA</span>
                         </div>
                         <div class="mini-badge-poke" id="m-type">DESCUBIERTO</div>
@@ -258,11 +258,11 @@
         <div class="toast-victory-caption">Biomasa inyectada en el servidor</div>
     </div>
 
-    <div id="mailbox-modal" onclick="if(event.target.id==='mailbox-modal') this.style.display='none';">
+    <div id="mailbox-modal">
         <div class="login-card mailbox-card">
             <h3 class="mailbox-title">📜 ARCHIVO DE COMUNICADOS DE CAMPO</h3>
             <div id="mailbox-list-container" class="mailbox-list"></div>
-            <button class="login-btn mailbox-close-btn" onclick="document.getElementById('mailbox-modal').style.display='none';">CERRAR ARCHIVO</button>
+            <button id="mailbox-close-btn" class="login-btn mailbox-close-btn">CERRAR ARCHIVO</button>
         </div>
     </div>
 

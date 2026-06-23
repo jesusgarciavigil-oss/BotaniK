@@ -72,7 +72,47 @@
             if (event.target.id === 'm-desc' || event.target.closest('.modal-desc-poke')) return; 
             event.preventDefault();
         });
-        
+
+        function inicializarEventosEstaticos() {
+            document.getElementById('submit-btn')?.addEventListener('click', () => window.gestionarAcceso());
+            document.getElementById('toggle-text')?.addEventListener('click', () => window.toggleModo());
+            document.getElementById('profile-exit-session-btn')?.addEventListener('click', () => window.cerrarSesionCompleta());
+
+            document.getElementById('gps-base-sync-btn')?.addEventListener('click', () => window.localizarBasePorGPS());
+            document.getElementById('manual-base-toggle')?.addEventListener('click', () => window.activarEntradaManualBase());
+            document.getElementById('manual-base-confirm-btn')?.addEventListener('click', () => window.confirmarBaseManual());
+
+            document.getElementById('header-profile-trigger')?.addEventListener('click', (event) => window.toggleDropdownCuentasCabecera(event));
+            document.getElementById('header-mailbox-btn')?.addEventListener('click', () => window.abrirBuzonHistoricoModal());
+
+            document.getElementById('scan-trigger-btn')?.addEventListener('click', () => window.triggerCamera());
+            document.getElementById('camera-input')?.addEventListener('change', (event) => window.procesarFoto(event));
+            document.getElementById('search-botanika')?.addEventListener('input', () => window.filtrarYOrdenarAlbum());
+
+            document.getElementById('nav-radar-btn')?.addEventListener('click', (event) => window.switchPage('radar', event.currentTarget));
+            document.getElementById('nav-album-btn')?.addEventListener('click', (event) => window.switchPage('album', event.currentTarget));
+
+            document.getElementById('profile-image-upload-input')?.addEventListener('change', (event) => window.procesarFotoPerfilReal(event));
+            document.querySelectorAll('#avatar-picker-modal .avatar-option').forEach((avatarOption) => {
+                avatarOption.addEventListener('click', () => window.selectAvatarElement(avatarOption, avatarOption.dataset.avatar));
+            });
+            document.getElementById('profile-modal-cancel-btn')?.addEventListener('click', () => window.cerrarCreadorPerfilModal());
+            document.getElementById('profile-modal-submit-btn')?.addEventListener('click', () => window.finalizarCreacionPerfil());
+
+            document.getElementById('cromo-overlay-modal')?.addEventListener('click', (event) => window.evaluarCierrePorFondo(event));
+            document.getElementById('modal-card-inner')?.addEventListener('click', (event) => window.voltearCartaModal(event, event.currentTarget));
+            document.getElementById('modal-title-poke-trigger')?.addEventListener('click', (event) => window.desplegarNombresAlternativosModal(event));
+
+            const mailboxModal = document.getElementById('mailbox-modal');
+            mailboxModal?.addEventListener('click', (event) => {
+                if (event.target.id === 'mailbox-modal') mailboxModal.style.display = 'none';
+            });
+            document.getElementById('mailbox-close-btn')?.addEventListener('click', () => {
+                const modal = document.getElementById('mailbox-modal');
+                if (modal) modal.style.display = 'none';
+            });
+        }
+         
         /* ==========================================================================
            5. ESTADO GLOBAL
            ========================================================================== */
@@ -1102,6 +1142,8 @@
         /* ==========================================================================
            22. INICIALIZACIÓN FINAL
            ========================================================================== */
+
+        inicializarEventosEstaticos();
 
         window.onload = () => {
             document.getElementById('main-app-container').style.display = 'block';
