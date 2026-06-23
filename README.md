@@ -26,6 +26,10 @@ La preferencia de tema se guarda localmente en el navegador con `localStorage` u
 
 Más detalle: [docs/temas.md](docs/temas.md).
 
+## Publicación pública
+
+Antes de hacer público el repositorio, revisar el checklist de seguridad y publicación: [docs/publicacion-publica.md](docs/publicacion-publica.md).
+
 ## Funcionalidades principales detectadas
 
 - Login y registro familiar.

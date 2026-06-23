@@ -6,7 +6,7 @@ Este documento resume los riesgos visibles en el código actual y propone pasos 
 
 ## Riesgos detectados
 
-- Claves y API keys expuestas en cliente: el archivo `index.html` contiene configuración y claves utilizadas directamente desde JavaScript del navegador. Cualquier persona con acceso a la app servida puede inspeccionar esos valores.
+- Claves y API keys expuestas en cliente: la aplicación contiene configuración y claves utilizadas directamente desde JavaScript del navegador. Cualquier persona con acceso a la app servida puede inspeccionar esos valores.
 - Credenciales o accesos hardcodeados en JavaScript: existen accesos especiales y lógica de validación escrita directamente en el cliente. Esto no debe tratarse como una protección real.
 - Login familiar sin Firebase Auth: el flujo de acceso no usa un sistema de autenticación gestionado como Firebase Auth. La validación se hace desde la propia aplicación cliente.
 - Contraseñas gestionadas desde Firestore como datos de aplicación: el código registra y compara claves familiares usando documentos de Firestore. Este modelo expone demasiado la seguridad a las reglas de la base de datos y a la lógica del cliente.
@@ -23,6 +23,7 @@ Este documento resume los riesgos visibles en el código actual y propone pasos 
 - No añadir nuevos secretos al cliente ni a archivos versionados.
 - Documentar la configuración sensible usando nombres de variables o descripciones, pero sin incluir valores reales.
 - Tratar cualquier protección implementada solo en JavaScript cliente como una ayuda de interfaz, no como una barrera de seguridad.
+- Revisar el checklist de publicación pública antes de abrir el repositorio: [publicacion-publica.md](publicacion-publica.md).
 
 ## Recomendaciones futuras
 
