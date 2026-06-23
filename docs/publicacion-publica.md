@@ -2,6 +2,8 @@
 
 BotaniK todavía es un prototipo funcional y no debe publicarse como producción segura sin revisar antes secretos, configuración, reglas de datos y accesos. Este documento sirve como checklist inicial para preparar el repositorio antes de hacerlo público.
 
+Para ejecutar las tareas externas de Vercel, Gemini y Firebase paso a paso, usar la guía operativa: [guia-externa-publicacion.md](guia-externa-publicacion.md).
+
 ## Estado actual de preparación pública
 
 Esta sección es el punto central de decisión antes de hacer público el repositorio. Cada punto debe actualizarse en commits posteriores cuando cambie de estado.
@@ -19,6 +21,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [x] Credenciales reales hardcodeadas retiradas del cliente en esta rama de preparación pública.
 - [x] Reducción de `innerHTML` ampliada a perfiles, dropdown de perfiles y cromos del álbum.
 - [x] Usos restantes de `innerHTML` eliminados de `js/main.js`, incluido panel admin deshabilitado.
+- [x] Guía externa de publicación creada para Vercel, Gemini y Firebase: [guia-externa-publicacion.md](guia-externa-publicacion.md).
 
 ### Pendiente bloqueante
 
