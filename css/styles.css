@@ -109,7 +109,12 @@
         .profile-item { background: rgba(21, 42, 45, 0.6); border: 2px solid var(--border-green-medium); border-radius: 15px; padding: 20px 10px; text-align: center; cursor: pointer; transition: all 0.2s ease; position: relative; display: flex; flex-direction: column; align-items: center; }
         .profile-item:hover { transform: translateY(-4px); border-color: var(--accent-green); background: rgba(21, 42, 45, 0.9); box-shadow: 0 8px 20px var(--surface-black-soft); }
         .profile-avatar-display { width: 75px; height: 75px; border-radius: 50%; background: var(--bg-dark); border: 2px solid var(--botanik-green); display: flex; align-items: center; justify-content: center; font-size: 36px; margin-bottom: 12px; overflow: hidden; }
-        .profile-avatar-display img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-avatar-display img,
+        .preview-avatar-circle-huge img,
+        .header-avatar img,
+        .dropdown-avatar img,
+        .cromo-img-box img,
+        .modal-img-poke { width: 100%; height: 100%; object-fit: cover; }
         .profile-name-display { font-weight: bold; font-size: 15px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
         .profile-age-display { font-size: 11px; color: var(--text-muted); font-weight: 600; }
         .delete-profile-badge { position: absolute; top: 8px; right: 8px; background: rgba(255,59,48,0.15); border: 1px solid var(--danger); color: var(--danger); border-radius: 50%; width: 22px; height: 22px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
@@ -127,7 +132,6 @@
         .avatar-creator-box { background: var(--surface-dark); border-radius: 20px; padding: 25px; border: 2px solid var(--accent-green); width: 100%; max-width: 440px; text-align: center; color: var(--text-light); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
         .profile-modal-title { color: var(--accent-green); font-weight: 900; letter-spacing: 0.5px; font-size: 16px; margin-bottom: 15px; }
         .preview-avatar-circle-huge { width: 90px; height: 90px; border-radius: 50%; background: var(--bg-dark); border: 3px solid var(--neon-green); margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 44px; overflow: hidden; box-shadow: 0 0 15px rgba(57,255,20,0.3); }
-        .preview-avatar-circle-huge img { width: 100%; height: 100%; object-fit: cover; }
         .profile-avatar-choice-label { font-size: 11px; text-align: left; color: var(--text-muted); font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px; }
         .avatar-options-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 15px 0; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 12px; }
         .avatar-option { font-size: 28px; padding: 6px; cursor: pointer; border-radius: 8px; transition: 0.15s; border: 2px solid transparent; display: flex; align-items: center; justify-content: center; }
@@ -143,7 +147,8 @@
         .profile-expert-title { font-size: 12px; font-weight: bold; color: white; }
         .profile-expert-help { font-size: 9px; color: var(--text-muted); font-weight: 500; margin-top: 1px; }
         .profile-expert-toggle { width: 18px; height: 18px; cursor: pointer; accent-color: var(--neon-green); }
-        .profile-modal-actions { display: flex; gap: 10px; }
+        .profile-modal-actions,
+        .admin-simulator-actions { display: flex; gap: 10px; }
         .profile-modal-cancel-btn { background: #222; border-color: #444; margin: 0; }
         .profile-modal-submit-btn { margin: 0; }
 
@@ -155,7 +160,6 @@
         .header-profile-box { display: flex; align-items: center; gap: 10px; cursor: pointer; background: var(--surface-overlay-soft); padding: 4px 12px 4px 4px; border-radius: 30px; border: 1px solid var(--border-green-soft); transition: 0.2s; }
         .header-profile-box:hover { background: rgba(13,27,30,0.8); border-color: var(--accent-green); }
         .header-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--bg-dark); border: 1.5px solid var(--neon-green); display: flex; align-items: center; justify-content: center; font-size: 18px; overflow: hidden; }
-        .header-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .header-info-text { display: flex; flex-direction: column; text-align: left; }
         .header-info-text h2 { font-size: 11px; color: white; font-weight: 800; letter-spacing: 0.3px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .header-info-text span { font-size: 9px; color: var(--text-muted); font-weight: bold; }
@@ -175,7 +179,6 @@
         .dropdown-left-clickable { display: flex; align-items: center; gap: 10px; cursor: pointer; flex: 1; }
         .dropdown-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--bg-dark); border: 1px solid var(--text-muted); display: flex; align-items: center; justify-content: center; font-size: 14px; overflow: hidden; }
         .dropdown-avatar-active { border-color: var(--neon-green); }
-        .dropdown-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .dropdown-name { font-size: 12px; color: var(--text-light); font-weight: bold; text-transform: uppercase; }
         .dropdown-name-active { color: var(--neon-green); }
         .dropdown-active-note { font-size: 9px; font-weight: normal; color: var(--text-muted); }
@@ -225,7 +228,6 @@
         .cromo-mini-card.rare-exotica { border-image: var(--frame-master) 1; border-style: solid; }
         
         .cromo-img-box { width: 100%; flex: 1; background: #000; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
-        .cromo-img-box img { width: 100%; height: 100%; object-fit: cover; }
         .cromo-txt-bar { background: rgba(21, 42, 45, 0.95); padding: 5px 4px; text-align: center; border-top: 1px solid var(--border-muted); }
         .cromo-txt-bar h4 { font-size: 9px; color: white; text-transform: uppercase; letter-spacing: 0.2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: bold; }
         .cromo-evolution-badge { position: absolute; bottom: 2px; right: 2px; background: var(--poke-gold); color: #000; font-size: 7px; font-weight: 900; padding: 1px 3px; border-radius: 4px; text-transform: uppercase; box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
@@ -259,7 +261,6 @@
         .name-drop-row:last-child { border-bottom: none; }
 
         .modal-frame-poke { background: #000; margin: 10px 14px; flex: 1; border-radius: 8px; border: 2px solid rgba(118,225,97,0.1); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
-        .modal-img-poke { width: 100%; height: 100%; object-fit: cover; }
         
         .modal-body-poke { 
             background: rgba(13,27,30,0.85); 
@@ -376,7 +377,6 @@
         .admin-card.admin-simulator-card { text-align: left; border-color: var(--neon-green); }
         .admin-simulator-title { color: var(--neon-green); font-size: 13px; margin-bottom: 15px; }
         .admin-select.admin-simulator-scientific-input { font-style: italic; }
-        .admin-simulator-actions { display: flex; gap: 10px; }
         .login-btn.admin-simulator-action-btn { flex:1; margin-top:10px; }
         .login-btn.admin-simulator-batch-btn { background:linear-gradient(135deg, #7b1fa2 0%, #4a148c 100%); border-color:var(--poke-gold); }
 
