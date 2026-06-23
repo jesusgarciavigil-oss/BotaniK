@@ -580,7 +580,8 @@
             let baseCuentasSize = snapCuentas.size;
             document.getElementById('m-total-cuentas').innerText = baseCuentasSize; document.getElementById('m-total-exploradores').innerText = snapPerfiles.size; document.getElementById('m-total-capturas').innerText = snapCapturas.size;
 
-            const feedContainer = document.getElementById('admin-live-feed'); feedContainer.innerHTML = '';
+            const feedContainer = document.getElementById('admin-live-feed');
+            limpiarNodo(feedContainer);
             let todas = []; let perfilesMapParaFeed = {};
             snapPerfiles.forEach(pDoc => { perfilesMapParaFeed[pDoc.id] = pDoc.data(); });
             snapCapturas.forEach(d => todas.push({ id: d.id, ...d.data() }));
@@ -588,14 +589,37 @@
 
             todas.slice(0, 12).forEach(c => {
                 if(c.municipioId === "Admin") return; const dataAutor = perfilesMapParaFeed[c.perfil] || { nombre: "Desconocido" };
-                feedContainer.innerHTML += `<div class="feed-box"><img class="feed-img" src="${c.foto}"><div class="feed-body"><div class="feed-title">${c.nombreComun}</div><div class="feed-scientific-name">${c.nombreCientifico}</div><div>📍 Lugar: <b>${c.loc || 'Campo'}</b></div><div class="feed-xp">XP: +${c.xp}</div><div class="feed-author-tag">👤 <b>${dataAutor.nombre}</b></div></div></div>`;
+                const feedBox = document.createElement('div');
+                feedBox.className = 'feed-box';
+                const feedImg = document.createElement('img');
+                feedImg.className = 'feed-img';
+                feedImg.src = c.foto;
+                feedImg.alt = c.nombreComun || 'Captura botánica';
+                const feedBody = document.createElement('div');
+                feedBody.className = 'feed-body';
+                feedBody.appendChild(crearTexto('div', 'feed-title', c.nombreComun));
+                feedBody.appendChild(crearTexto('div', 'feed-scientific-name', c.nombreCientifico));
+                const feedPlace = document.createElement('div');
+                feedPlace.appendChild(document.createTextNode('📍 Lugar: '));
+                feedPlace.appendChild(crearTexto('b', '', c.loc || 'Campo'));
+                feedBody.appendChild(feedPlace);
+                feedBody.appendChild(crearTexto('div', 'feed-xp', `XP: +${c.xp}`));
+                const feedAuthor = document.createElement('div');
+                feedAuthor.className = 'feed-author-tag';
+                feedAuthor.appendChild(document.createTextNode('👤 '));
+                feedAuthor.appendChild(crearTexto('b', '', dataAutor.nombre));
+                feedBody.appendChild(feedAuthor);
+                feedBox.appendChild(feedImg);
+                feedBox.appendChild(feedBody);
+                feedContainer.appendChild(feedBox);
             });
         };
 
         window.renderizarCuentasYPerfilesGlobales = async () => {
             if (!avisarPanelAdminDeshabilitado()) return;
             const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles"));
-            const mainContainer = document.getElementById('clusters-cuentas-container'); mainContainer.innerHTML = '';
+            const mainContainer = document.getElementById('clusters-cuentas-container');
+            limpiarNodo(mainContainer);
             window.cacheGlobalAdminPerfiles = []; let perfilesMap = {}; let listadoCuentasEmails = [];
 
             snapCuentas.forEach(docC => { listadoCuentasEmails.push({ email: docC.data().email }); });
@@ -604,10 +628,54 @@
             listadoCuentasEmails.forEach(c => {
                 const emailFam = c.email; const niñosAsociados = perfilesMap[emailFam] || [];
                 let comarcaBase = "No Calibrada"; const conBase = niñosAsociados.find(n => n.base && n.base.comarca); if(conBase) comarcaBase = conBase.base.comarca;
-                const cardHtml = document.createElement('div'); cardHtml.className = 'account-cluster-card';
-                
-                let tablaHijos = niñosAsociados.length === 0 ? `<div class="cluster-empty-explorers">Sin exploradores aún.</div>` : `<table class="admin-table"><thead><tr><th>Explorador</th><th>Modo Experto</th><th>Comando</th></tr></thead><tbody>${niñosAsociados.map(n => `<tr><td><b>${n.nombre}</b></td><td><span class="cluster-expert-status">${n.esExperto ? 'ACTIVO' : 'NO'}</span></td><td><button class="admin-btn admin-btn-purple" onclick="window.inyectarXPMecanico('${n.id}', '${n.nombre}')">⚡ BONIFICAR XP</button><button class="admin-btn admin-btn-purple" onclick="window.abrirEditorPerfilSpecifico(null, '${n.id}')">⚙️ EDITAR</button></td></tr>`).join('')}</tbody></table>`;
-                cardHtml.innerHTML = `<div class="cluster-header"><div class="cluster-email">📧 Cuenta: ${emailFam}</div><div class="cluster-base">📡 Sector: ${comarcaBase}</div></div>${tablaHijos}`;
+                const cardHtml = document.createElement('div');
+                cardHtml.className = 'account-cluster-card';
+                const clusterHeader = document.createElement('div');
+                clusterHeader.className = 'cluster-header';
+                clusterHeader.appendChild(crearTexto('div', 'cluster-email', `📧 Cuenta: ${emailFam}`));
+                clusterHeader.appendChild(crearTexto('div', 'cluster-base', `📡 Sector: ${comarcaBase}`));
+                cardHtml.appendChild(clusterHeader);
+
+                if (niñosAsociados.length === 0) {
+                    cardHtml.appendChild(crearTexto('div', 'cluster-empty-explorers', 'Sin exploradores aún.'));
+                } else {
+                    const tablaHijos = document.createElement('table');
+                    tablaHijos.className = 'admin-table';
+                    const thead = document.createElement('thead');
+                    const headerRow = document.createElement('tr');
+                    ['Explorador', 'Modo Experto', 'Comando'].forEach(texto => {
+                        headerRow.appendChild(crearTexto('th', '', texto));
+                    });
+                    thead.appendChild(headerRow);
+                    const tbody = document.createElement('tbody');
+                    niñosAsociados.forEach(n => {
+                        const row = document.createElement('tr');
+                        const nameCell = document.createElement('td');
+                        nameCell.appendChild(crearTexto('b', '', n.nombre));
+                        const expertCell = document.createElement('td');
+                        expertCell.appendChild(crearTexto('span', 'cluster-expert-status', n.esExperto ? 'ACTIVO' : 'NO'));
+                        const commandCell = document.createElement('td');
+                        const xpButton = document.createElement('button');
+                        xpButton.className = 'admin-btn admin-btn-purple';
+                        xpButton.type = 'button';
+                        xpButton.textContent = '⚡ BONIFICAR XP';
+                        xpButton.addEventListener('click', () => window.inyectarXPMecanico(n.id, n.nombre));
+                        const editButton = document.createElement('button');
+                        editButton.className = 'admin-btn admin-btn-purple';
+                        editButton.type = 'button';
+                        editButton.textContent = '⚙️ EDITAR';
+                        editButton.addEventListener('click', () => window.abrirEditorPerfilSpecifico(null, n.id));
+                        commandCell.appendChild(xpButton);
+                        commandCell.appendChild(editButton);
+                        row.appendChild(nameCell);
+                        row.appendChild(expertCell);
+                        row.appendChild(commandCell);
+                        tbody.appendChild(row);
+                    });
+                    tablaHijos.appendChild(thead);
+                    tablaHijos.appendChild(tbody);
+                    cardHtml.appendChild(tablaHijos);
+                }
                 mainContainer.appendChild(cardHtml);
             });
         };
@@ -623,11 +691,55 @@
 
         window.cargarMuroModeracionGlobal = async () => {
             if (!avisarPanelAdminDeshabilitado()) return;
-            const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); table.innerHTML = '';
+            const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); limpiarNodo(table);
             snap.forEach(docSnap => {
                 const c = docSnap.data(); const idDoc = docSnap.id; if(c.municipioId === "Admin") return;
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td><img src="${c.foto}" class="moderation-thumb"></td><td><input type="text" value="${c.nombreComun}" id="mod-comun-${idDoc}" class="login-input moderation-input"></td><td><input type="text" value="${c.nombreCientifico}" id="mod-cien-${idDoc}" class="login-input moderation-input moderation-input-scientific"></td><td><b>${c.loc || 'Campo'}</b></td><td><button class="admin-btn admin-btn-purple" onclick="window.salvarCambiosTaxonomia('${idDoc}')">💾 VINCULAR</button><button class="admin-btn admin-btn-danger" onclick="window.eliminarCapturaInapropiada('${idDoc}')">✕ BORRAR</button></td>`;
+                const imgCell = document.createElement('td');
+                const thumb = document.createElement('img');
+                thumb.src = c.foto;
+                thumb.className = 'moderation-thumb';
+                thumb.alt = c.nombreComun || 'Captura';
+                imgCell.appendChild(thumb);
+
+                const commonCell = document.createElement('td');
+                const commonInput = document.createElement('input');
+                commonInput.type = 'text';
+                commonInput.value = c.nombreComun || '';
+                commonInput.id = `mod-comun-${idDoc}`;
+                commonInput.className = 'login-input moderation-input';
+                commonCell.appendChild(commonInput);
+
+                const scientificCell = document.createElement('td');
+                const scientificInput = document.createElement('input');
+                scientificInput.type = 'text';
+                scientificInput.value = c.nombreCientifico || '';
+                scientificInput.id = `mod-cien-${idDoc}`;
+                scientificInput.className = 'login-input moderation-input moderation-input-scientific';
+                scientificCell.appendChild(scientificInput);
+
+                const locCell = document.createElement('td');
+                locCell.appendChild(crearTexto('b', '', c.loc || 'Campo'));
+
+                const actionCell = document.createElement('td');
+                const saveButton = document.createElement('button');
+                saveButton.className = 'admin-btn admin-btn-purple';
+                saveButton.type = 'button';
+                saveButton.textContent = '💾 VINCULAR';
+                saveButton.addEventListener('click', () => window.salvarCambiosTaxonomia(idDoc));
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'admin-btn admin-btn-danger';
+                deleteButton.type = 'button';
+                deleteButton.textContent = '✕ BORRAR';
+                deleteButton.addEventListener('click', () => window.eliminarCapturaInapropiada(idDoc));
+                actionCell.appendChild(saveButton);
+                actionCell.appendChild(deleteButton);
+
+                tr.appendChild(imgCell);
+                tr.appendChild(commonCell);
+                tr.appendChild(scientificCell);
+                tr.appendChild(locCell);
+                tr.appendChild(actionCell);
                 table.appendChild(tr);
             });
         };
