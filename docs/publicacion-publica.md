@@ -17,6 +17,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [x] `firestore.rules.example` creado como guía orientativa para revisar reglas reales.
 - [x] Primera reducción de `innerHTML` realizada en avatares, buzón y selectores sencillos.
 - [x] Credenciales reales hardcodeadas retiradas del cliente en esta rama de preparación pública.
+- [x] Reducción de `innerHTML` ampliada a perfiles, dropdown de perfiles y cromos del álbum.
 
 ### Pendiente bloqueante
 
@@ -38,7 +39,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [ ] Mover acciones admin sensibles a backend o funciones serverless.
 - [ ] Definir roles reales para cuenta familiar, perfil infantil y administración.
 - [ ] Mover imágenes a Firebase Storage u otro almacenamiento adecuado.
-- [ ] Terminar la reducción de `innerHTML` en perfiles, álbum y panel admin.
+- [ ] Terminar la reducción de `innerHTML` en panel admin y plantillas dinámicas complejas.
 - [ ] Revisar XSS en plantillas grandes y datos renderizados desde Firestore o formularios.
 - [ ] Valorar limpieza de historial Git si se quiere una publicación más limpia.
 - [ ] Valorar crear un repositorio público limpio desde cero con el código saneado como primer commit.
@@ -55,7 +56,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - No publicar el repositorio si las reglas reales permiten lectura o escritura amplia.
 - No publicar el repositorio si las operaciones admin no están protegidas por reglas, Auth o backend.
 - No reactivar el panel admin en cliente hasta tener protección real fuera del navegador.
-- Mantener la revisión XSS/`innerHTML` como pendiente hasta completar la limpieza de panel admin, álbum y perfiles.
+- Mantener la revisión XSS/`innerHTML` como pendiente hasta completar la limpieza de panel admin y plantillas dinámicas complejas.
 - Revisar la lógica de login familiar y administración implementada en cliente.
 - Revisar emails, nombres, datos personales o identificadores reales que no deban ser públicos.
 - Cambiar o invalidar cualquier contraseña real que haya estado hardcodeada.

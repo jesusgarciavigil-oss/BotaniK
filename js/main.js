@@ -210,6 +210,14 @@
             select.add(new Option(label ?? "", value ?? ""));
         }
 
+        function obtenerClaseRarezaSegura(rareza) {
+            const rarezaNormalizada = typeof rareza === "string" ? rareza : "comun";
+            const rarezaPermitida = Object.prototype.hasOwnProperty.call(MULTIPLICADORES_RAREZA, rarezaNormalizada)
+                ? rarezaNormalizada
+                : "comun";
+            return `rare-${rarezaPermitida}`;
+        }
+
         const MENSAJE_PANEL_ADMIN_DESHABILITADO = "Panel admin deshabilitado en esta versión pública. Pendiente de autenticación y autorización real.";
 
         function avisarPanelAdminDeshabilitado() {
@@ -379,23 +387,44 @@
             document.querySelector('nav').style.display = 'none';
             document.getElementById('profile-page').style.display = 'flex';
             
-            const grid = document.getElementById('perfiles-dinamicos'); grid.innerHTML = '';
+            const grid = document.getElementById('perfiles-dinamicos');
+            limpiarNodo(grid);
             const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
             const snap = await getDocs(q); cachePerfilesFamilia = [];
             
             snap.forEach(documento => {
                 const dataId = documento.id; const p = documento.data(); cachePerfilesFamilia.push({ id: dataId, ...p });
-                const esImg = p.avatar && p.avatar.startsWith("data:image");
-                const avatarRender = esImg ? `<img src="${p.avatar}">` : p.avatar || "🧑‍🚀";
                 const edadCalculada = calcularEdadExacta(p.fechaNacimiento);
 
-                const div = document.createElement('div'); div.className = "profile-item";
-                div.innerHTML = `<button class="delete-profile-badge">×</button><div class="profile-avatar-display">${avatarRender}</div><div class="profile-name-display">${p.nombre}</div><div class="profile-age-display">${edadCalculada} años ${p.esExperto ? '• EXPERTO' : ''}</div>`;
-                div.querySelector('.delete-profile-badge').onclick = (e) => { window.eliminarPerfil(e, dataId, p.nombre); };
-                div.onclick = (e) => { if(e.target.className === 'delete-profile-badge') return; window.seleccionarPerfil(dataId, p.nombre, p.fechaNacimiento || '2018-01-01', p.avatar || '🧑‍🚀', p.base || null, p.esExperto || false); };
+                const div = document.createElement('div');
+                div.className = "profile-item";
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = "delete-profile-badge";
+                deleteButton.type = "button";
+                deleteButton.textContent = "×";
+                deleteButton.addEventListener('click', (e) => { window.eliminarPerfil(e, dataId, p.nombre); });
+
+                const avatarDisplay = document.createElement('div');
+                avatarDisplay.className = "profile-avatar-display";
+                renderizarAvatarSeguro(avatarDisplay, p.avatar || "🧑‍🚀");
+
+                const nameDisplay = crearTexto('div', 'profile-name-display', p.nombre);
+                const ageDisplay = crearTexto('div', 'profile-age-display', `${edadCalculada} años ${p.esExperto ? '• EXPERTO' : ''}`);
+
+                div.appendChild(deleteButton);
+                div.appendChild(avatarDisplay);
+                div.appendChild(nameDisplay);
+                div.appendChild(ageDisplay);
+                div.addEventListener('click', (e) => { if(e.target.className === 'delete-profile-badge') return; window.seleccionarPerfil(dataId, p.nombre, p.fechaNacimiento || '2018-01-01', p.avatar || '🧑‍🚀', p.base || null, p.esExperto || false); });
                 grid.appendChild(div);
             });
-            const btnAdd = document.createElement('div'); btnAdd.className = "profile-item add-profile-item-btn"; btnAdd.innerHTML = `<div class="add-profile-icon">➕</div>Añadir Explorador`; btnAdd.onclick = window.abrirCreadorPerfilModal;
+            const btnAdd = document.createElement('div');
+            btnAdd.className = "profile-item add-profile-item-btn";
+            const addIcon = crearTexto('div', 'add-profile-icon', '➕');
+            btnAdd.appendChild(addIcon);
+            btnAdd.appendChild(document.createTextNode('Añadir Explorador'));
+            btnAdd.addEventListener('click', window.abrirCreadorPerfilModal);
             grid.appendChild(btnAdd);
         }
 
@@ -462,28 +491,65 @@
            ========================================================================== */
 
         function buildDropdownDOM() {
-            const container = document.getElementById('nav-dropdown-box'); if (!container) return; container.innerHTML = '';
+            const container = document.getElementById('nav-dropdown-box'); if (!container) return; limpiarNodo(container);
             const avatarSeguroActivo = perfilActivoAvatar || "🧑‍🚀"; const nombreSeguroActivo = perfilActivoNombre || "Explorador";
-            const esImgActivo = typeof avatarSeguroActivo === 'string' && avatarSeguroActivo.startsWith("data:image");
-            const avRenderActivo = esImgActivo ? `<img src="${avatarSeguroActivo}">` : avatarSeguroActivo;
             
             const rowActivo = document.createElement('div'); rowActivo.className = 'dropdown-account-item active-user-row';
-            rowActivo.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar dropdown-avatar-active">${avRenderActivo}</div><div class="dropdown-name dropdown-name-active">${nombreSeguroActivo} <span class="dropdown-active-note">(En uso)</span></div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
-            rowActivo.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); };
+            const leftActivo = document.createElement('div');
+            leftActivo.className = 'dropdown-left-clickable';
+            const avatarActivo = document.createElement('div');
+            avatarActivo.className = 'dropdown-avatar dropdown-avatar-active';
+            renderizarAvatarSeguro(avatarActivo, avatarSeguroActivo);
+            const nameActivo = crearTexto('div', 'dropdown-name dropdown-name-active', `${nombreSeguroActivo} `);
+            nameActivo.appendChild(crearTexto('span', 'dropdown-active-note', '(En uso)'));
+            leftActivo.appendChild(avatarActivo);
+            leftActivo.appendChild(nameActivo);
+            const editActivo = document.createElement('button');
+            editActivo.className = 'dropdown-edit-btn';
+            editActivo.type = 'button';
+            editActivo.title = 'Editar Perfil';
+            editActivo.textContent = '⚙️';
+            editActivo.addEventListener('click', (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); });
+            rowActivo.appendChild(leftActivo);
+            rowActivo.appendChild(editActivo);
             container.appendChild(rowActivo);
 
             cachePerfilesFamilia.forEach(p => {
                 if (p.id === perfilActiveId) return;
-                const esImg = typeof p.avatar === 'string' && p.avatar.startsWith("data:image");
-                const avRender = esImg ? `<img src="${p.avatar}">` : p.avatar || "🧑‍🚀";
                 const row = document.createElement('div'); row.className = 'dropdown-account-item';
-                row.innerHTML = `<div class="dropdown-left-clickable"><div class="dropdown-avatar">${avRender}</div><div class="dropdown-name">${p.nombre || 'Explorador'}</div></div><button class="dropdown-edit-btn" title="Editar Perfil">⚙️</button>`;
-                row.querySelector('.dropdown-left-clickable').onclick = () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); if (document.getElementById('album').classList.contains('active')) cargarAlbum(); };
-                row.querySelector('.dropdown-edit-btn').onclick = (e) => { window.abrirEditorPerfilSpecifico(e, p.id); };
+                const left = document.createElement('div');
+                left.className = 'dropdown-left-clickable';
+                const avatar = document.createElement('div');
+                avatar.className = 'dropdown-avatar';
+                renderizarAvatarSeguro(avatar, p.avatar || "🧑‍🚀");
+                left.appendChild(avatar);
+                left.appendChild(crearTexto('div', 'dropdown-name', p.nombre || 'Explorador'));
+                left.addEventListener('click', () => { container.style.display = 'none'; window.seleccionarPerfil(p.id, p.nombre, p.fechaNacimiento || "2018-01-01", p.avatar || "🧑‍🚀", p.base || null, p.esExperto || false); if (document.getElementById('album').classList.contains('active')) cargarAlbum(); });
+
+                const editButton = document.createElement('button');
+                editButton.className = 'dropdown-edit-btn';
+                editButton.type = 'button';
+                editButton.title = 'Editar Perfil';
+                editButton.textContent = '⚙️';
+                editButton.addEventListener('click', (e) => { window.abrirEditorPerfilSpecifico(e, p.id); });
+
+                row.appendChild(left);
+                row.appendChild(editButton);
                 container.appendChild(row);
             });
-            const footerAdd = document.createElement('div'); footerAdd.className = 'dropdown-footer-btn'; footerAdd.innerHTML = `<span>➕</span> Añadir nuevo explorador`; footerAdd.onclick = window.abrirCreadorPerfilModal; container.appendChild(footerAdd);
-            const footerLogout = document.createElement('div'); footerLogout.className = 'dropdown-footer-btn dropdown-footer-logout'; footerLogout.innerHTML = `<span>🔒</span> Cambiar de terminal`; footerLogout.onclick = () => { if(confirm("¿Cerrar sesión familiar?")) window.cerrarSesionCompleta(); }; container.appendChild(footerLogout);
+            const footerAdd = document.createElement('div');
+            footerAdd.className = 'dropdown-footer-btn';
+            footerAdd.appendChild(crearTexto('span', '', '➕'));
+            footerAdd.appendChild(document.createTextNode(' Añadir nuevo explorador'));
+            footerAdd.addEventListener('click', window.abrirCreadorPerfilModal);
+            container.appendChild(footerAdd);
+
+            const footerLogout = document.createElement('div');
+            footerLogout.className = 'dropdown-footer-btn dropdown-footer-logout';
+            footerLogout.appendChild(crearTexto('span', '', '🔒'));
+            footerLogout.appendChild(document.createTextNode(' Cambiar de terminal'));
+            footerLogout.addEventListener('click', () => { if(confirm("¿Cerrar sesión familiar?")) window.cerrarSesionCompleta(); });
+            container.appendChild(footerLogout);
         }
 
         window.toggleDropdownCuentasCabecera = (event) => { if(event) event.stopPropagation(); const box = document.getElementById('nav-dropdown-box'); box.style.display = (box.style.display === 'block') ? 'none' : 'block'; };
@@ -1072,18 +1138,35 @@
         }
 
         window.filtrarYOrdenarAlbum = () => {
-            const wrapper = document.getElementById('album-dinamico-contenedor'); wrapper.innerHTML = '';
+            const wrapper = document.getElementById('album-dinamico-contenedor');
+            limpiarNodo(wrapper);
             const filtroTexto = document.getElementById('search-botanika').value.toLowerCase().trim();
 
             Object.values(albumEspeciesMemoria).forEach(esp => {
                 if(filtroTexto && !esp.nombreComun.toLowerCase().includes(filtroTexto) && !esp.nombreCientifico.toLowerCase().includes(filtroTexto)) return;
                 
                 const factorEvolutivo = Math.min(esp.copiasTotales, 4);
-                const tagRarity = `rare-${esp.rareza}`;
+                const tagRarity = obtenerClaseRarezaSegura(esp.rareza);
 
-                const cardHtml = document.createElement('div'); cardHtml.className = 'cromo-wrapper';
-                cardHtml.innerHTML = `<div class="cromo-mini-card ${tagRarity}"><div class="cromo-img-box"><img src="${esp.foto}"></div><div class="cromo-txt-bar"><h4>${esp.nombreComun}</h4></div><div class="cromo-evolution-badge">${TITULOS_ADAPTACION[factorEvolutivo]}</div></div>`;
-                cardHtml.onclick = () => { window.abrirVisualizadorDetalleCromo3D(esp); };
+                const cardHtml = document.createElement('div');
+                cardHtml.className = 'cromo-wrapper';
+                const cromoMini = document.createElement('div');
+                cromoMini.className = `cromo-mini-card ${tagRarity}`;
+                const imgBox = document.createElement('div');
+                imgBox.className = 'cromo-img-box';
+                const img = document.createElement('img');
+                img.src = esp.foto;
+                img.alt = esp.nombreComun || 'Cromo botánico';
+                imgBox.appendChild(img);
+                const txtBar = document.createElement('div');
+                txtBar.className = 'cromo-txt-bar';
+                txtBar.appendChild(crearTexto('h4', '', esp.nombreComun));
+                const evolutionBadge = crearTexto('div', 'cromo-evolution-badge', TITULOS_ADAPTACION[factorEvolutivo]);
+                cromoMini.appendChild(imgBox);
+                cromoMini.appendChild(txtBar);
+                cromoMini.appendChild(evolutionBadge);
+                cardHtml.appendChild(cromoMini);
+                cardHtml.addEventListener('click', () => { window.abrirVisualizadorDetalleCromo3D(esp); });
                 wrapper.appendChild(cardHtml);
             });
         };
@@ -1112,10 +1195,11 @@
                 btnEvo.innerText = `ADAPTAR AL NIVEL ${Math.min(esp.copiasTotales, 4)}`;
             } else { btnEvo.style.display = 'none'; }
 
-            const drop = document.getElementById('modal-names-dropdown'); drop.innerHTML = '';
+            const drop = document.getElementById('modal-names-dropdown');
+            limpiarNodo(drop);
             esp.nombresAlternativosRecogidos.forEach(altName => {
                 const r = document.createElement('div'); r.className = 'name-drop-row'; r.innerText = altName;
-                r.onclick = (e) => { e.stopPropagation(); document.getElementById('m-title').innerText = altName; drop.style.display='none'; };
+                r.addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('m-title').innerText = altName; drop.style.display='none'; });
                 drop.appendChild(r);
             });
 
