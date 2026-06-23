@@ -16,6 +16,12 @@ Este documento no contiene reglas reales desplegadas ni valores sensibles. Es un
 
 La configuración Firebase visible no debe tratarse como el único problema. El riesgo principal es que las reglas permitan leer o escribir datos sin autorización suficiente.
 
+## Plantilla orientativa de reglas
+
+Existe una plantilla documental en [`../firestore.rules.example`](../firestore.rules.example). Ese archivo sirve como referencia para revisar las reglas reales en Firebase Console, pero no sustituye esa revisión.
+
+La plantilla no debe desplegarse sin adaptación, pruebas y una estrategia clara de autenticación/roles. El modelo actual sin Firebase Auth impide validar usuarios de forma robusta solo con reglas, especialmente para login familiar y panel de administración.
+
 ## Colecciones y expectativas de seguridad
 
 ### `cuentas_familia`
