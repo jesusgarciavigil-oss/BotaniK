@@ -16,6 +16,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [x] Riesgos de accesos hardcodeados y panel admin cliente documentados en [accesos-admin.md](accesos-admin.md).
 - [x] `firestore.rules.example` creado como guía orientativa para revisar reglas reales.
 - [x] Primera reducción de `innerHTML` realizada en avatares, buzón y selectores sencillos.
+- [x] Credenciales reales hardcodeadas retiradas del cliente en esta rama de preparación pública.
 
 ### Pendiente bloqueante
 
@@ -23,7 +24,8 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [ ] Comparar las reglas reales con `firestore.rules.example`.
 - [ ] Bloquear lectura y escritura amplia en Firestore.
 - [ ] Confirmar que el panel admin cliente no permite acciones sensibles sin protección real mediante reglas, Auth o backend.
-- [ ] Revisar, retirar o neutralizar accesos admin, accesos familiares de prueba, contraseñas o controles hardcodeados visibles en cliente.
+- [ ] Mantener deshabilitado el panel admin mientras no exista autenticación y autorización real.
+- [ ] Confirmar que no quedan accesos admin, accesos familiares de prueba, contraseñas ni controles hardcodeados visibles en cliente antes de publicar.
 - [ ] Revocar claves Gemini antiguas que hayan estado expuestas cuando producción ya use la función serverless.
 - [ ] Confirmar que Vercel tiene `GEMINI_API_KEY` configurada como variable de entorno.
 - [ ] Probar un despliegue de Vercel Preview antes de promover cambios a Production.
@@ -50,6 +52,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - Revisar los accesos hardcodeados y el panel admin cliente según [accesos-admin.md](accesos-admin.md).
 - No publicar el repositorio si las reglas reales permiten lectura o escritura amplia.
 - No publicar el repositorio si las operaciones admin no están protegidas por reglas, Auth o backend.
+- No reactivar el panel admin en cliente hasta tener protección real fuera del navegador.
 - Mantener la revisión XSS/`innerHTML` como pendiente hasta completar la limpieza de panel admin, álbum y perfiles.
 - Revisar la lógica de login familiar y administración implementada en cliente.
 - Revisar emails, nombres, datos personales o identificadores reales que no deban ser públicos.

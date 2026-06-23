@@ -210,6 +210,18 @@
             select.add(new Option(label ?? "", value ?? ""));
         }
 
+        const MENSAJE_PANEL_ADMIN_DESHABILITADO = "Panel admin deshabilitado en esta versión pública. Pendiente de autenticación y autorización real.";
+
+        function avisarPanelAdminDeshabilitado() {
+            alert(MENSAJE_PANEL_ADMIN_DESHABILITADO);
+            return false;
+        }
+
+        function esIntentoPanelAdminDeshabilitado(email, pass) {
+            const textoAcceso = `${email} ${pass}`.toLowerCase();
+            return ["admin", "mando", "supremo", "god", "master"].some(marcador => textoAcceso.includes(marcador));
+        }
+
         /* ==========================================================================
            8. LOGIN Y REGISTRO
            ========================================================================== */
@@ -218,13 +230,6 @@
             const email = document.getElementById('username').value.trim().toLowerCase();
             const pass = document.getElementById('password').value.trim();
             if(!email || !pass) return alert("Por favor, rellena todos los campos.");
-
-            if (email === "jesusgarciavigil@gmail.com" && pass === "adminMaster2026") {
-                usuarioEmailActual = email;
-                document.getElementById('login-page').style.display = 'none';
-                window.activarMandoSupremoGod();
-                return;
-            }
 
             try {
                 const q = query(collection(db, "cuentas_familia"), where("email", "==", email));
@@ -240,12 +245,13 @@
                 } else {
                     let valido = false;
                     snap.forEach(doc => { if(doc.data().pass === pass) valido = true; });
-                    if (email === "neco@plantdex.com" && pass === "plantdex2026") valido = true;
 
                     if (valido) {
                         usuarioEmailActual = email;
                         document.getElementById('login-page').style.display = 'none';
                         await mostrarSelectorPerfiles();
+                    } else if (esIntentoPanelAdminDeshabilitado(email, pass)) {
+                        avisarPanelAdminDeshabilitado();
                     } else { alert("Código de acceso o terminal incorrectos."); }
                 }
             } catch (err) { alert("Error de enlace: " + err.message); }
@@ -361,8 +367,7 @@
                     await addDoc(collection(db, "perfiles"), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto, usuarioEmail: usuarioEmailActual, base: null });
                 }
                 document.getElementById('avatar-picker-modal').style.display = 'none';
-                if (usuarioEmailActual === "jesusgarciavigil@gmail.com") { window.renderizarCuentasYPerfilesGlobales(); }
-                else if(perfilActiveId) { await recalcularCacheYDesplegable(); cargarAlbum(); }
+                if(perfilActiveId) { await recalcularCacheYDesplegable(); cargarAlbum(); }
                 else { await mostrarSelectorPerfiles(); }
             } catch (err) { alert(err.message); }
         };
@@ -490,10 +495,11 @@
            puede activar el panel admin y las funciones siguen expuestas en window.
            ========================================================================== */
 
-        window.activarMandoSupremoGod = async () => { document.getElementById('god-mode-page').style.display = 'flex'; window.switchAdminTab('panel-macro'); };
+        window.activarMandoSupremoGod = async () => { avisarPanelAdminDeshabilitado(); };
         window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
 
         window.switchAdminTab = async (tabId, event) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.admin-view-pane').forEach(pane => pane.classList.remove('active'));
             if (event) event.target.classList.add('active'); document.getElementById(tabId).classList.add('active');
             if (tabId === 'panel-macro') window.cargarEstadisticasMacro();
@@ -503,8 +509,9 @@
         };
 
         window.cargarEstadisticasMacro = async () => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles")); const snapCapturas = await getDocs(collection(db, "capturas"));
-            let baseCuentasSize = snapCuentas.size; if (!snapCuentas.docs.some(doc => doc.data().email === "neco@plantdex.com")) baseCuentasSize += 1;
+            let baseCuentasSize = snapCuentas.size;
             document.getElementById('m-total-cuentas').innerText = baseCuentasSize; document.getElementById('m-total-exploradores').innerText = snapPerfiles.size; document.getElementById('m-total-capturas').innerText = snapCapturas.size;
 
             const feedContainer = document.getElementById('admin-live-feed'); feedContainer.innerHTML = '';
@@ -520,12 +527,12 @@
         };
 
         window.renderizarCuentasYPerfilesGlobales = async () => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles"));
             const mainContainer = document.getElementById('clusters-cuentas-container'); mainContainer.innerHTML = '';
             window.cacheGlobalAdminPerfiles = []; let perfilesMap = {}; let listadoCuentasEmails = [];
 
             snapCuentas.forEach(docC => { listadoCuentasEmails.push({ email: docC.data().email }); });
-            if (!listadoCuentasEmails.some(c => c.email === "neco@plantdex.com")) listadoCuentasEmails.push({ email: "neco@plantdex.com" });
             snapPerfiles.forEach(docSnap => { const p = docSnap.data(); window.cacheGlobalAdminPerfiles.push({ id: docSnap.id, ...p }); if(!perfilesMap[p.usuarioEmail]) perfilesMap[p.usuarioEmail] = []; perfilesMap[p.usuarioEmail].push({ id: docSnap.id, ...p }); });
 
             listadoCuentasEmails.forEach(c => {
@@ -540,6 +547,7 @@
         };
 
         window.inyectarXPMecanico = async (idPerfil, nombre) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const cantidad = prompt(`¿Cuánta XP extra quieres inyectarle a ${nombre}?`); if(!cantidad || isNaN(cantidad)) return;
             try {
                 await addDoc(collection(db, "alertas_xp"), { perfilId: idPerfil, xp: parseInt(cantidad), titulo: "Inyección de Biomasa Central", textMessage: `¡Has recibido +${cantidad} XP enviado por el Profesor!`, estado: "pendiente", timestamp: Date.now() });
@@ -548,6 +556,7 @@
         };
 
         window.cargarMuroModeracionGlobal = async () => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); table.innerHTML = '';
             snap.forEach(docSnap => {
                 const c = docSnap.data(); const idDoc = docSnap.id; if(c.municipioId === "Admin") return;
@@ -558,6 +567,7 @@
         };
 
         window.salvarCambiosTaxonomia = async (idDoc) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const comun = document.getElementById(`mod-comun-${idDoc}`).value.trim();
             const cien = document.getElementById(`mod-cien-${idDoc}`).value.trim();
             await updateDoc(doc(db, "capturas", idDoc), { nombreComun: comun, nombreCientifico: cien });
@@ -565,6 +575,7 @@
         };
 
         window.eliminarCapturaInapropiada = async (idDoc) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             if(!confirm("¿Borrar esta muestra permanentemente de los registros?")) return;
             await deleteDoc(doc(db, "capturas", idDoc)); window.cargarMuroModeracionGlobal();
         };
@@ -878,6 +889,7 @@
            ========================================================================== */
 
         window.cargarSelectorEmailsAlertas = async () => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const sUser = document.getElementById('alert-user-field');
             limpiarNodo(sUser);
             appendOption(sUser, "", "-- Selecciona Laboratorio Familiar --");
@@ -894,7 +906,6 @@
                 emails.push(email);
                 appendOption(sUser, email, email);
             });
-            if (!emails.includes("neco@plantdex.com")) appendOption(sUser, "neco@plantdex.com", "neco@plantdex.com");
 
             const snapP = await getDocs(collection(db, "perfiles"));
             window.cacheAdminPerfilesCompletos = [];
@@ -905,6 +916,7 @@
         };
 
         window.filtrarHijosDeCuentaParaMensajeDirecto = (emailCuenta) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const sDestChild = document.getElementById('alert-child-field');
             limpiarNodo(sDestChild);
             appendOption(sDestChild, "", "-- Todos los exploradores de la cuenta --");
@@ -914,6 +926,7 @@
         };
 
         window.gestionarCambioTargetAlerta = (tipo) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             document.getElementById('pais-select-row').style.display = tipo==='pais'?'flex':'none';
             document.getElementById('provincia-select-row').style.display = tipo==='provincial'?'flex':'none';
             document.getElementById('comarca-select-row').style.display = tipo==='comarcal'?'flex':'none';
@@ -922,6 +935,7 @@
         };
 
         window.prepararDesplegablesSimulador = () => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const pSel = document.getElementById('alert-pais-select');
             limpiarNodo(pSel);
             PAISES_PRECARGADOS.forEach(p => appendOption(pSel, p, p));
@@ -934,6 +948,7 @@
         };
 
         window.emitirAlertaSatelital = async () => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const type = document.getElementById('alert-target-type').value;
             const msg = document.getElementById('alert-text-msg').value.trim();
             if(!msg) return alert("Escribe un comunicado de campo.");
@@ -952,6 +967,7 @@
         };
 
         window.inyectarCartaConLocalizacionesSimuladas = async (esLote) => {
+            if (!avisarPanelAdminDeshabilitado()) return;
             const perfilDestinoId = document.getElementById('sim-child-field').value;
             const comun = document.getElementById('sim-comun-input').value.trim();
             const cien = document.getElementById('sim-cien-input').value.trim();
