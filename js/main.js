@@ -15,13 +15,11 @@
         } from "./config/firebase.js";
         import {
             MULTIPLICADORES_RAREZA,
-            RANGOS_EXPLORACION,
-            TITULOS_ADAPTACION
+            RANGOS_EXPLORACION
         } from "./core/constants.js";
         import {
             crearTexto,
             limpiarNodo,
-            obtenerClaseRarezaSegura,
         } from "./core/dom.js";
         import { initializeThemeControls } from "./core/theme.js";
         import { createSwitchPage } from "./core/navigation.js";
@@ -37,6 +35,14 @@
             mostrarSelectorPerfiles,
             recalcularCacheYDesplegable
         } from "./features/profiles.js";
+        import {
+            cargarAlbum,
+            initializeAlbum
+        } from "./features/album.js";
+        import {
+            abrirVisualizadorDetalleCromo3D,
+            initializeCardModal
+        } from "./features/card-modal.js";
         
         /* ==========================================================================
            2. MANEJADORES GLOBALES DE ERROR
@@ -182,6 +188,8 @@
             onAlbumRefresh: cargarAlbum,
             isAlbumActive: () => document.getElementById('album').classList.contains('active')
         });
+        initializeCardModal();
+        initializeAlbum({ openCardModal: abrirVisualizadorDetalleCromo3D });
         initializeFamilyAuth({ onAccessGranted: mostrarSelectorPerfiles });
 
         /* ==========================================================================
@@ -550,117 +558,6 @@
             if (totalXpMini) totalXpMini.innerText = totalXP;
             if (totalCountMini) totalCountMini.innerText = snap.size;
         }
-
-        /* ==========================================================================
-           19. ÁLBUM Y CROMOS
-           ========================================================================== */
-
-        async function cargarAlbum() {
-            const q = query(collection(db, "capturas"), where("perfil", "==", state.perfilActiveId));
-            const snap = await getDocs(q);
-            state.albumEspeciesMemoria = {};
-            
-            snap.forEach(documento => {
-                const d = documento.data();
-                if (!state.albumEspeciesMemoria[d.nombreCientifico]) {
-                    state.albumEspeciesMemoria[d.nombreCientifico] = {
-                        nombreComun: d.nombreComun, nombreCientifico: d.nombreCientifico, rareza: d.rareza,
-                        descripcion: d.descripcion, foto: d.foto, fecha: d.fecha, loc: d.loc || "Campo",
-                        tipoHoja: d.tipoHoja || "No especificado", origen: d.origen || "Autóctona",
-                        copiasTotales: 0, nombresAlternativosRecogidos: new Set()
-                    };
-                }
-                state.albumEspeciesMemoria[d.nombreCientifico].copiasTotales++;
-                state.albumEspeciesMemoria[d.nombreCientifico].nombresAlternativosRecogidos.add(d.nombreComun);
-            });
-            window.filtrarYOrdenarAlbum();
-        }
-
-        window.filtrarYOrdenarAlbum = () => {
-            const wrapper = document.getElementById('album-dinamico-contenedor');
-            limpiarNodo(wrapper);
-            const filtroTexto = document.getElementById('search-botanika').value.toLowerCase().trim();
-
-            Object.values(state.albumEspeciesMemoria).forEach(esp => {
-                if(filtroTexto && !esp.nombreComun.toLowerCase().includes(filtroTexto) && !esp.nombreCientifico.toLowerCase().includes(filtroTexto)) return;
-                
-                const factorEvolutivo = Math.min(esp.copiasTotales, 4);
-                const tagRarity = obtenerClaseRarezaSegura(esp.rareza);
-
-                const cardHtml = document.createElement('div');
-                cardHtml.className = 'cromo-wrapper';
-                const cromoMini = document.createElement('div');
-                cromoMini.className = `cromo-mini-card ${tagRarity}`;
-                const imgBox = document.createElement('div');
-                imgBox.className = 'cromo-img-box';
-                const img = document.createElement('img');
-                img.src = esp.foto;
-                img.alt = esp.nombreComun || 'Cromo botánico';
-                imgBox.appendChild(img);
-                const txtBar = document.createElement('div');
-                txtBar.className = 'cromo-txt-bar';
-                txtBar.appendChild(crearTexto('h4', '', esp.nombreComun));
-                const evolutionBadge = crearTexto('div', 'cromo-evolution-badge', TITULOS_ADAPTACION[factorEvolutivo]);
-                cromoMini.appendChild(imgBox);
-                cromoMini.appendChild(txtBar);
-                cromoMini.appendChild(evolutionBadge);
-                cardHtml.appendChild(cromoMini);
-                cardHtml.addEventListener('click', () => { window.abrirVisualizadorDetalleCromo3D(esp); });
-                wrapper.appendChild(cardHtml);
-            });
-        };
-
-        /* ==========================================================================
-           20. MODAL DE CROMO 3D
-           ========================================================================== */
-
-        window.abrirVisualizadorDetalleCromo3D = (esp) => {
-            document.getElementById('modal-card-inner').classList.remove('flipped');
-            document.getElementById('modal-names-dropdown').style.display = 'none';
-
-            document.getElementById('m-title').innerText = esp.nombreComun;
-            document.getElementById('m-type').innerText = `X${esp.copiasTotales} MUESTRAS`;
-            document.getElementById('m-img').src = esp.foto;
-            document.getElementById('m-sci').innerText = esp.nombreCientifico;
-            document.getElementById('m-desc').innerText = esp.descripcion;
-
-            document.getElementById('m-back-title').innerText = esp.nombreComun;
-            document.getElementById('m-fecha').innerText = ` Register: ${esp.fecha}`;
-            document.getElementById('m-coords').innerText = ` Bioma: ${esp.loc} | Hoja: ${esp.tipoHoja} | ${esp.origen}`;
-
-            const btnEvo = document.getElementById('btn-evolution-action');
-            if(esp.copiasTotales >= 2) {
-                btnEvo.style.display = 'block';
-                btnEvo.innerText = `ADAPTAR AL NIVEL ${Math.min(esp.copiasTotales, 4)}`;
-            } else { btnEvo.style.display = 'none'; }
-
-            const drop = document.getElementById('modal-names-dropdown');
-            limpiarNodo(drop);
-            esp.nombresAlternativosRecogidos.forEach(altName => {
-                const r = document.createElement('div'); r.className = 'name-drop-row'; r.innerText = altName;
-                r.addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('m-title').innerText = altName; drop.style.display='none'; });
-                drop.appendChild(r);
-            });
-
-            document.getElementById('cromo-overlay-modal').style.display = 'flex';
-        };
-
-        window.voltearCartaModal = (event, el) => {
-            // Evita voltear la carta si están interactuando con la ventana de descripción o botones internos
-            if(event.target.id === 'm-desc' || event.target.className === 'modal-desc-poke' || event.target.closest('.modal-body-poke') || event.target.closest('.modal-title-poke-clickable') || event.target.closest('#modal-names-dropdown') || event.target.id === 'btn-evolution-action') return;
-            el.classList.toggle('flipped');
-        };
-
-        window.desplegarNombresAlternativosModal = (event) => {
-            event.stopPropagation(); const d = document.getElementById('modal-names-dropdown');
-            d.style.display = (d.style.display === 'block') ? 'none' : 'block';
-        };
-
-        window.evaluarCierrePorFondo = (event) => {
-            if(event.target.id === 'cromo-overlay-modal' || event.target.className === 'close-modal-txt') {
-                document.getElementById('cromo-overlay-modal').style.display = 'none';
-            }
-        };
 
         window.desplegarToastVictoryInmediata = (msg) => {
             const el = document.getElementById('botanik-toast-victory');
