@@ -1,10 +1,10 @@
 # Firebase y Firestore en BotaniK
 
-BotaniK usa Firebase/Firestore directamente desde el cliente. Esto condiciona la seguridad real de la aplicación: cualquier validación hecha solo en JavaScript debe considerarse insuficiente si no está respaldada por reglas de Firestore adecuadas.
+BotaniK usa Firebase/Firestore directamente desde el cliente para cuentas familiares, perfiles, capturas, recompensas y mensajes. Esto hace que Firestore Rules sean la frontera real de seguridad: los filtros y validaciones en JavaScript ayudan a la interfaz, pero no bastan para proteger datos.
 
 Este documento describe el uso actual detectado en `js/main.js`. No incluye valores reales de configuración, claves, credenciales ni secretos.
 
-## SDK y dependencias detectadas
+## SDK y dependencias
 
 - Firebase cargado desde CDN.
 - Firestore modular cargado desde CDN.
@@ -20,41 +20,39 @@ Este documento describe el uso actual detectado en `js/main.js`. No incluye valo
   - `updateDoc`
   - `onSnapshot`
 
-## Colecciones detectadas
+## Colecciones
 
 ### `cuentas_familia`
 
-Propósito aparente: guardar cuentas familiares usadas para login y registro.
+Propósito: registro y login familiar.
 
-Campos principales detectados:
+Campos principales:
 
 - `email`
 - `pass`
 
-Operaciones detectadas:
+Operaciones:
 
-- Lectura: busqueda por `email` durante el login/registro.
-- Creación: alta de una cuenta familiar nueva.
-- Edición: no detectada.
-- Eliminación: no detectada.
-- Escucha en tiempo real: no detectada.
+- Lectura por `email` durante login/registro.
+- Creación de cuenta familiar.
 
-Funcionalidades relacionadas:
+Riesgos:
 
-- Login familiar.
-- Registro de nueva cuenta familiar.
-- Panel de administración, donde se listan cuentas familiares.
+- El modelo actual no usa Firebase Auth.
+- El campo `pass` se gestiona como dato de aplicación.
+- Si las reglas permiten lecturas amplias, se podrían exponer cuentas.
 
-Notas:
+Expectativa de reglas:
 
-- La gestión de contraseñas como campo de documento es un riesgo documentado en `docs/seguridad.md`.
-- Existen accesos especiales hardcodeados en cliente que no forman parte de esta colección o no siempre dependen de ella.
+- Evitar lectura global de cuentas.
+- Evitar que clientes no autorizados lean campos sensibles.
+- Migrar este flujo a Firebase Auth o backend en una versión futura.
 
 ### `perfiles`
 
-Propósito aparente: guardar los perfiles infantiles o exploradores asociados a una cuenta familiar.
+Propósito: perfiles infantiles o exploradores asociados a una cuenta familiar.
 
-Campos principales detectados:
+Campos principales:
 
 - `nombre`
 - `fechaNacimiento`
@@ -73,35 +71,28 @@ Campos detectados dentro de `base`:
 - `municipio`
 - `queryLabel`
 
-Operaciones detectadas:
+Operaciones:
 
-- Lectura: busqueda por `usuarioEmail` para cargar perfiles de una familia.
-- Lectura global: el panel de administración lee perfiles para estadísticas, listados, mensajes y simulaciones.
-- Creación: alta de un nuevo explorador.
-- Edición: actualización de nombre, fecha de nacimiento, avatar, modo experto y base.
-- Eliminación: borrado de perfiles.
-- Escucha en tiempo real: no detectada.
+- Lectura por `usuarioEmail`.
+- Creación, edición y eliminación de perfiles.
+- Lectura global prevista para panel admin, actualmente deshabilitado hasta tener autorización real.
 
-Funcionalidades relacionadas:
+Riesgos:
 
-- Selector de perfiles.
-- Creación y edición de exploradores.
-- Avatares por emoji o imagen.
-- Configuración de base por GPS o manual.
-- Cabecera con perfil activo.
-- Panel de administración.
-- Segmentación de mensajes por cuenta o explorador.
+- Puede contener datos infantiles o familiares.
+- Puede incluir avatares en base64.
+- La asociación por `usuarioEmail` desde cliente no es autorización real.
 
-Notas:
+Expectativa de reglas:
 
-- La relación entre cuenta familiar y perfil parece depender del campo `usuarioEmail`.
-- La autorización real para leer o modificar perfiles queda pendiente de confirmar con reglas de Firestore.
+- Cada cuenta solo debería leer y modificar sus propios perfiles.
+- Las operaciones admin deben requerir rol, Auth o backend.
 
 ### `capturas`
 
-Propósito aparente: almacenar capturas de plantas, recompensas convertidas en capturas especiales y capturas simuladas desde administración.
+Propósito: capturas de plantas, álbum, XP, rarezas, recompensas y capturas simuladas.
 
-Campos principales detectados:
+Campos principales:
 
 - `nombreComun`
 - `nombreCientifico`
@@ -122,41 +113,33 @@ Campos principales detectados:
 - `origen`
 - `validaParaEvolucion`
 
-Campos usados en capturas especiales o simuladas:
+Operaciones:
 
-- Algunos documentos usan valores administrativos en campos de ubicación.
-- Algunas capturas simuladas pueden no incluir todos los campos de una captura generada por IA. Pendiente de confirmar si esto es intencionado.
+- Lectura por `perfil` para XP, nivel, contador y álbum.
+- Lectura por `perfil` y `nombreCientifico` para controlar especies repetidas.
+- Creación de capturas desde radar/cámara tras análisis serverless con Gemini.
+- Creación de capturas especiales por recompensas.
+- Edición y eliminación previstas en panel admin, que debe permanecer protegido fuera del cliente.
 
-Operaciones detectadas:
+Riesgos:
 
-- Lectura por `perfil`: cálculo de XP, nivel, contador de álbum y carga del álbum.
-- Lectura por `perfil` y `nombreCientifico`: control de especie repetida y bonificaciones.
-- Lectura global: estadísticas, feed de administración y moderación.
-- Creación: captura de planta desde cámara/IA, recompensa de XP entregada como captura especial e inyección simulada desde administración.
-- Edición: cambio de `nombreComun` y `nombreCientifico` desde moderación.
-- Eliminación: borrado desde panel de moderación.
-- Escucha en tiempo real: no detectada directamente sobre esta colección.
+- Puede contener fotos base64.
+- Puede incluir ubicación y datos asociados a perfiles.
+- El XP se calcula desde cliente.
+- Edición o borrado global deben protegerse con autorización real.
 
-Funcionalidades relacionadas:
+Expectativa de reglas:
 
-- Radar/cámara.
-- Análisis de plantas con IA.
-- Sistema de XP, rareza, niveles y anti-farmeo.
-- Álbum de cromos.
-- Modal de detalle de planta.
-- Panel de administración y moderación.
-- Simulador de capturas.
-
-Notas:
-
-- El campo `foto` puede contener imágenes en base64 o datos embebidos. Esto puede afectar rendimiento, costes y privacidad si el volumen crece.
-- La autorización para leer, editar o borrar capturas debe revisarse en reglas de Firestore.
+- Cada cuenta/perfil solo debería leer sus propias capturas.
+- La creación debería validar propietario, perfil y campos permitidos.
+- Moderación y borrado global deben requerir administración real.
+- A futuro, las imágenes deberían moverse a almacenamiento adecuado.
 
 ### `alertas_xp`
 
-Propósito aparente: cola de recompensas o bonus de XP enviados desde administración a un perfil.
+Propósito: recompensas o bonus de XP enviados a perfiles.
 
-Campos principales detectados:
+Campos principales:
 
 - `perfilId`
 - `xp`
@@ -166,43 +149,33 @@ Campos principales detectados:
 - `estado`
 - `timestamp`
 
-Operaciones detectadas:
+Operaciones:
 
-- Creación: el panel de administración crea alertas de XP para un perfil.
-- Escucha en tiempo real: el cliente escucha alertas pendientes por `perfilId` y `estado`.
-- Edición: al entregarse una alerta, se actualiza `estado` a entregado.
-- Lectura: mediante la escucha en tiempo real.
-- Eliminación: no detectada.
+- Escucha en tiempo real de alertas pendientes por `perfilId` y `estado`.
+- Actualización de `estado` al entregarse.
+- Creación prevista desde administración real.
 
-Funcionalidades relacionadas:
+Riesgos:
 
-- Bonificación de XP desde panel de administración.
-- Notificacion de recompensa en vivo.
-- Creación automática de una captura especial asociada a la recompensa.
+- Si un cliente puede crear alertas, puede inyectar XP.
+- Si un cliente puede marcar alertas arbitrarias, puede alterar recompensas.
 
-Notas:
+Expectativa de reglas:
 
-- Pendiente de confirmar si existe limpieza posterior de alertas entregadas.
-- La protección de esta colección es crítica: un usuario no debería poder inyectarse XP a sí mismo desde cliente.
+- Solo administración real debería crear alertas.
+- Cada perfil solo debería leer alertas dirigidas a él.
+- El cambio de estado debería estar limitado y validado.
 
 ### `alertas_comunidad`
 
-Propósito aparente: almacenar comunicados o mensajes segmentados para exploradores, cuentas o zonas geográficas.
+Propósito: comunicados y mensajes segmentados.
 
-Campos principales detectados:
+Campos principales:
 
 - `targetType`
 - `targetValue`
 - `textMessage`
 - `timestamp`
-
-Operaciones detectadas:
-
-- Lectura global: el cliente carga los comunicados y filtra localmente cuáles aplican al perfil activo.
-- Creación: el panel de administración crea comunicados segmentados.
-- Edición: no detectada.
-- Eliminación: no detectada.
-- Escucha en tiempo real: no detectada.
 
 Segmentaciones detectadas:
 
@@ -213,67 +186,71 @@ Segmentaciones detectadas:
 - `cuenta`
 - `explorador`
 
-Funcionalidades relacionadas:
+Operaciones:
 
-- Banner de comunicado satelital.
-- Buzón histórico.
-- Marcado local de leidos mediante `localStorage`.
-- Panel de administración para emitir mensajes.
+- Lectura de comunicados y filtrado en cliente.
+- Estado de lectura local mediante `localStorage`.
+- Creación prevista desde administración real.
 
-Notas:
+Riesgos:
 
-- El filtrado de elegibilidad se hace en cliente después de leer la colección. Pendiente de revisar si las reglas limitan el acceso según usuario o perfil.
-- El estado de lectura no parece guardarse en Firestore; se guarda localmente por perfil en `localStorage`.
+- Si la colección es legible globalmente, pueden verse mensajes no destinados al usuario.
+- La creación de comunicados debe estar restringida.
+
+Expectativa de reglas:
+
+- Limitar lectura según destinatario o diseño de segmentación.
+- Restringir creación a administración real.
+- Tratar el filtrado en cliente como ayuda de interfaz, no como seguridad.
 
 ## Flujos principales
 
 ### Login y registro familiar
 
-El código busca cuentas en `cuentas_familia` por `email`. En modo registro crea un documento nuevo con email y clave. En modo login compara la clave introducida con el dato almacenado o con accesos especiales definidos en cliente.
+El código busca cuentas en `cuentas_familia` por `email`. En registro crea un documento nuevo. En login compara la clave introducida con el dato almacenado.
 
-Pendiente de confirmar: reglas de Firestore que impiden leer cuentas ajenas o manipular registros.
+Pendiente: migrar a Firebase Auth o backend para una autenticación robusta.
 
-### Creación y selección de perfiles
+### Perfiles
 
-Tras el acceso familiar, el código consulta `perfiles` por `usuarioEmail`. Permite crear, editar, seleccionar y eliminar perfiles. La base del perfil se guarda en el campo `base` tras GPS o entrada manual.
+Tras el acceso familiar, el código consulta `perfiles` por `usuarioEmail`. Permite crear, editar, seleccionar y eliminar perfiles. La base del perfil se guarda en `base` tras GPS o entrada manual.
 
-Pendiente de confirmar: reglas que garanticen que una cuenta solo gestiona sus propios perfiles.
+Pendiente: reglas que garanticen que una cuenta solo gestiona sus propios perfiles.
 
-### Capturas de plantas
+### Capturas y álbum
 
-El radar/cámara envía una imagen a una función serverless de análisis con IA. Si se acepta como planta, el cliente crea un documento en `capturas` con datos botánicos, foto, XP, ubicación y perfil asociado.
+El radar/cámara envía una imagen a `/api/analyze-plant`. Si se acepta como planta, el cliente crea un documento en `capturas` con datos botánicos, foto, XP, ubicación y perfil asociado.
 
-Antes de guardar se consulta `capturas` por `perfil` y `nombreCientifico` para calcular si es nueva especie, nuevo territorio o muestra repetida.
+Antes de guardar se consulta `capturas` por `perfil` y `nombreCientifico` para calcular repetición, territorio y bonificaciones.
 
-### XP y recompensas
+### Recompensas
 
-El XP total se calcula leyendo `capturas` del perfil activo y sumando el campo `xp`. Las recompensas administrativas usan `alertas_xp`: el cliente escucha alertas pendientes, las marca como entregadas y crea una captura especial que suma XP.
+El XP total se calcula leyendo `capturas` del perfil activo. Las recompensas usan `alertas_xp`: el cliente escucha alertas pendientes, las marca como entregadas y crea una captura especial que suma XP.
 
-### Mensajes y comunicados
+### Mensajes
 
-Los comunicados se guardan en `alertas_comunidad`. El cliente lee la colección, filtra según `targetType` y `targetValue`, muestra banner/buzón y guarda el estado de lectura en `localStorage`.
+Los comunicados se guardan en `alertas_comunidad`. El cliente filtra según `targetType` y `targetValue`, muestra banner/buzón y guarda lectura en `localStorage`.
 
-### Panel de administración
+### Panel admin
 
-El panel lee `cuentas_familia`, `perfiles` y `capturas` para estadísticas, feed, cuentas y moderación. También crea `alertas_xp`, crea `alertas_comunidad`, edita/borra capturas y genera capturas simuladas.
+El panel admin cliente está deshabilitado hasta tener autorización real. Las operaciones históricas de administración, como lecturas globales, XP, comunicados, edición, borrado o simulaciones, deben protegerse con Auth, reglas, roles o backend antes de reactivarse.
 
-Pendiente de confirmar: protección real de estas operaciones mediante reglas o autenticación. En el código actual hay control de acceso en cliente, pero eso no equivale a autorización segura.
+## Reglas Firestore
 
-## Riesgos o puntos pendientes
+Existe una plantilla orientativa en [`../firestore.rules.example`](../firestore.rules.example).
 
-- No se ven reglas de Firestore en el repositorio.
-- La seguridad real depende de esas reglas.
-- No se debe confiar en validaciones solo de cliente.
-- Hay que revisar permisos por cuenta, perfil y administración.
-- Hay que confirmar si las lecturas globales usadas por administración están restringidas a usuarios autorizados.
-- Hay que confirmar si existen índices necesarios para consultas compuestas como `perfil` + `nombreCientifico` o `perfilId` + `estado`.
-- La guía específica de riesgos y expectativas de seguridad está en `docs/firestore-seguridad.md`.
+Esa plantilla:
+
+- Deniega por defecto.
+- Documenta riesgos por colección.
+- Sirve como referencia para revisar reglas reales.
+- No debe desplegarse sin adaptación, pruebas y una estrategia de autenticación/roles.
 
 ## Recomendaciones futuras
 
-- Documentar las reglas esperadas de Firestore por colección y tipo de usuario.
-- Añadir un archivo de reglas de Firestore al repositorio si procede.
-- Valorar Firebase Auth u otro sistema de autenticación real.
-- Separar configuración sensible y no incluir secretos reales en el cliente ni en documentación.
-- Revisar índices y consultas si el proyecto crece.
-- Definir permisos específicos para cuenta familiar, perfil infantil y administración.
+- Migrar login familiar a Firebase Auth o backend.
+- Definir permisos por cuenta, perfil y administración.
+- Mover acciones admin sensibles a funciones serverless.
+- Versionar reglas reales de Firestore cuando exista un modelo de Auth/roles.
+- Revisar índices para consultas compuestas como `perfil` + `nombreCientifico` o `perfilId` + `estado`.
+- Mover imágenes a Firebase Storage u otro almacenamiento si el proyecto crece.

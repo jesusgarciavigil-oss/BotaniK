@@ -66,10 +66,9 @@ Abrir `index.html` directamente en el navegador también puede funcionar, aunque
 - Firebase/Firestore: [docs/firebase.md](docs/firebase.md)
 - Estructura técnica: [docs/estructura.md](docs/estructura.md)
 - Sistema visual y temas: [docs/temas.md](docs/temas.md)
-- Guía externa de publicación/despliegue: [docs/guia-externa-publicacion.md](docs/guia-externa-publicacion.md)
-- Checklist de publicación pública: [docs/publicacion-publica.md](docs/publicacion-publica.md)
+- Despliegue y operaciones: [docs/despliegue.md](docs/despliegue.md)
 
-Algunos documentos técnicos conservan contexto de preparación y seguridad que se revisará en futuras limpiezas documentales.
+La documentación técnica resume el estado actual y los puntos de mantenimiento más importantes.
 
 ## Seguridad
 

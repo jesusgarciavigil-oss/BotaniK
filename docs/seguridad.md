@@ -1,47 +1,94 @@
 # Seguridad del proyecto BotaniK
 
-BotaniK es actualmente un prototipo funcional de aplicación web estática. Sirve como base de trabajo para validar la experiencia y profesionalizar el proyecto por fases, pero no debe considerarse una aplicación de producción segura en su estado actual.
+BotaniK es una aplicación web en fase pública temprana. La app funciona, pero no debe considerarse producción completamente segura hasta consolidar autenticación, autorización, reglas de datos y revisión operativa externa.
 
-Este documento resume los riesgos visibles en el código actual y propone pasos prácticos para reducirlos sin cambiar todavía la arquitectura ni el comportamiento de la aplicación.
+Este documento centraliza los riesgos de seguridad actuales y las líneas de trabajo recomendadas.
 
-## Riesgos detectados
+## Estado actual
 
-- Claves y API keys expuestas en cliente: la aplicación contiene configuración y claves utilizadas directamente desde JavaScript del navegador. Cualquier persona con acceso a la app servida puede inspeccionar esos valores.
-- Credenciales o accesos hardcodeados en JavaScript: los accesos reales conocidos se han retirado del cliente en la rama de preparación pública, pero cualquier lógica de acceso escrita solo en cliente sigue sin ser una protección real.
-- Login familiar sin Firebase Auth: el flujo de acceso no usa un sistema de autenticación gestionado como Firebase Auth. La validación se hace desde la propia aplicación cliente.
-- Contraseñas gestionadas desde Firestore como datos de aplicación: el código registra y compara claves familiares usando documentos de Firestore. Este modelo expone demasiado la seguridad a las reglas de la base de datos y a la lógica del cliente.
-- Llamadas a Gemini: el análisis de imágenes pasa por una función serverless para evitar que nuevas claves queden expuestas en el cliente. Las claves que ya estuvieron en cliente deben considerarse comprometidas y rotarse antes de publicar el repositorio. Este cambio mejora ese bloque, pero no resuelve los riesgos pendientes de Firestore, panel admin y accesos hardcodeados.
-- Panel admin deshabilitado en rama pública: el acceso admin queda bloqueado hasta que exista autenticación y autorización real mediante reglas, roles o backend.
-- Dependencia crítica de las reglas de Firestore: la seguridad real de cuentas, perfiles, capturas, mensajes y acciones de administración depende de reglas de Firestore que no están documentadas aquí. Si las reglas son permisivas, el cliente no basta para proteger datos ni acciones.
-- Posible riesgo de XSS por HTML dinámico: se han eliminado los usos de `innerHTML` en `js/main.js` y se ha migrado el renderizado a creación de nodos, `textContent` y listeners. Aun así, cualquier nueva plantilla dinámica debe revisarse para no reintroducir HTML interpolado con datos de Firestore, formularios o servicios externos.
-- Fotos en base64 dentro de documentos Firestore: las imágenes se guardan como cadenas base64 en documentos. Esto puede aumentar costes, tamaño de documentos, tiempos de carga y superficie de exposición de datos personales o familiares.
+- Las credenciales visibles conocidas se han retirado del cliente.
+- Gemini se consume mediante la función serverless `api/analyze-plant.js`.
+- La clave real de Gemini debe vivir en Vercel como `GEMINI_API_KEY`.
+- El panel admin cliente está deshabilitado hasta tener autenticación y autorización real.
+- El login familiar sigue sin Firebase Auth.
+- Firestore se usa desde el cliente y depende de reglas reales desplegadas en Firebase Console.
+- `js/main.js` ya no usa `innerHTML`; el renderizado dinámico se migró a creación de nodos, `textContent` y listeners.
+
+## Riesgos principales
+
+### Firestore y reglas reales
+
+La seguridad de cuentas, perfiles, capturas, mensajes, recompensas y operaciones admin depende de Firestore Rules. Cualquier validación hecha solo en JavaScript cliente debe considerarse insuficiente.
+
+Hay una plantilla orientativa en [`../firestore.rules.example`](../firestore.rules.example), pero no sustituye la revisión de las reglas reales en Firebase Console.
+
+### Login familiar
+
+El login familiar usa lógica de cliente y documentos de aplicación. Mientras no exista Firebase Auth o backend equivalente, este flujo no debe considerarse una autenticación robusta.
+
+Riesgos asociados:
+
+- Uso práctico de email como identidad.
+- Contraseñas familiares modeladas como datos de aplicación.
+- Dependencia fuerte de reglas Firestore para limitar lecturas y escrituras.
+
+### Panel admin
+
+El panel admin está deshabilitado en el cliente. No debe reactivarse hasta tener una solución real de autorización.
+
+La protección real debe estar en una o varias capas:
+
+- Firebase Auth.
+- Firestore Rules estrictas.
+- Roles o custom claims.
+- Backend o funciones serverless para acciones sensibles.
+
+Ocultar botones, pantallas o funciones cliente no es una barrera de seguridad.
+
+### Gemini
+
+Gemini ya no debe llamarse directamente desde el navegador. La función serverless reduce la exposición de la clave, pero cualquier clave que haya estado expuesta anteriormente debe considerarse comprometida y revocarse o invalidarse.
+
+### Imágenes y datos familiares
+
+Las capturas y avatares pueden incluir imágenes en base64 dentro de documentos Firestore. Esto puede afectar privacidad, rendimiento, costes y tamaño de documentos.
+
+Si el proyecto crece, conviene mover imágenes a un almacenamiento adecuado, por ejemplo Firebase Storage u otra solución equivalente, y guardar en Firestore solo metadatos y referencias.
+
+### HTML dinámico
+
+`js/main.js` no usa `innerHTML` actualmente. Aun así, cualquier nueva funcionalidad debe evitar reintroducir HTML interpolado con datos de Firestore, formularios o servicios externos.
+
+Regla práctica:
+
+- Usar `textContent` para texto.
+- Usar `createElement` y `appendChild` para nodos.
+- Asignar imágenes con propiedades como `img.src`.
+- Validar clases dinámicas contra listas permitidas.
 
 ## Recomendaciones inmediatas
 
-- No publicar el repositorio sin revisar antes secretos, credenciales, claves y configuraciones sensibles.
-- Si el repositorio ya se ha compartido, revisar, revocar o regenerar las claves afectadas.
-- Revisar las reglas de Firestore antes de considerar seguros los datos o acciones de la aplicación.
-- Revisar la guía específica de Firestore y panel admin: [firestore-seguridad.md](firestore-seguridad.md).
-- Revisar la guía específica de accesos hardcodeados y panel admin cliente: [accesos-admin.md](accesos-admin.md).
-- No añadir nuevos secretos al cliente ni a archivos versionados.
-- Documentar la configuración sensible usando nombres de variables o descripciones, pero sin incluir valores reales.
-- Tratar cualquier protección implementada solo en JavaScript cliente como una ayuda de interfaz, no como una barrera de seguridad.
-- Revisar el checklist de publicación pública antes de abrir el repositorio: [publicacion-publica.md](publicacion-publica.md).
+- Revisar reglas reales de Firestore en Firebase Console.
+- Mantener el panel admin deshabilitado hasta tener Auth, reglas, roles o backend.
+- Mantener `GEMINI_API_KEY` solo como variable de entorno en Vercel.
+- No añadir secretos al cliente ni a archivos versionados.
+- Revisar la guía de despliegue antes de publicar una nueva versión: [despliegue.md](despliegue.md).
+- Revisar el uso actual de Firebase/Firestore en [firebase.md](firebase.md).
 
 ## Recomendaciones futuras
 
-- Mover llamadas sensibles a un backend, función serverless o capa controlada fuera del navegador.
-- Usar Firebase Auth u otro sistema de autenticación real para cuentas familiares y administración.
-- Revisar la autorización por usuario, perfil y rol, especialmente para panel de administración, mensajes, capturas e inyección de XP.
-- Sustituir progresivamente `innerHTML` por creación segura de nodos DOM, asignación con `textContent` o sanitización explícita cuando sea necesario renderizar HTML.
-- Completar la auditoría XSS de las plantillas dinámicas que todavía renderizan datos de Firestore, formularios o respuestas externas.
-- Mover imágenes a un almacenamiento adecuado si el proyecto crece, por ejemplo Firebase Storage u otra solución equivalente, guardando en Firestore solo metadatos y referencias.
-- Documentar colecciones, reglas esperadas y permisos por tipo de usuario antes de ampliar funcionalidades.
+- Migrar login familiar a Firebase Auth o backend.
+- Definir roles reales para cuenta familiar, perfil infantil y administración.
+- Mover acciones admin sensibles a backend o funciones serverless.
+- Versionar y probar reglas Firestore reales cuando exista una estrategia de Auth/roles.
+- Mover imágenes fuera de documentos Firestore si el volumen crece.
+- Revisar responsive, accesibilidad y UX antes de una versión `1.0.0`.
 
-## Qué NO debe hacerse
+## Qué no debe hacerse
 
-- No ocultar claves mediante ofuscación como si eso fuese seguridad real. La ofuscación puede dificultar la lectura, pero no protege un secreto incluido en cliente.
+- No ocultar claves mediante ofuscación como si eso fuese seguridad real.
 - No subir nuevas credenciales al repositorio.
-- No asumir que Firebase es seguro sin revisar y probar las reglas de Firestore.
+- No asumir que Firebase es seguro sin revisar y probar reglas Firestore.
 - No considerar una contraseña admin en cliente como protección real.
-- No presentar el estado actual como producción segura hasta que existan autenticación, autorización, reglas y gestión de secretos adecuadas.
+- No reactivar el panel admin sin autorización real fuera del navegador.
+- No presentar BotaniK como producción completamente segura hasta resolver autenticación, autorización, reglas y gestión de secretos.

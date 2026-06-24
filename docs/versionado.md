@@ -27,4 +27,4 @@ Para publicar una nueva versión:
 
 ## Estado actual
 
-`0.1.0` marca la base pública inicial saneada: estructura separada, Gemini fuera del cliente, documentación de seguridad y publicación pública, y panel admin cliente deshabilitado hasta tener una solución real de autenticación y autorización.
+`0.1.0` marca la base pública inicial saneada: estructura separada, Gemini fuera del cliente, documentación de seguridad y despliegue, y panel admin cliente deshabilitado hasta tener una solución real de autenticación y autorización.
