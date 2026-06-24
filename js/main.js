@@ -8,7 +8,6 @@
             db,
             doc,
             getDocs,
-            onSnapshot,
             query,
             updateDoc,
             where
@@ -17,17 +16,9 @@
             MULTIPLICADORES_RAREZA,
             RANGOS_EXPLORACION
         } from "./core/constants.js";
-        import {
-            crearTexto,
-            limpiarNodo,
-        } from "./core/dom.js";
         import { initializeThemeControls } from "./core/theme.js";
         import { createSwitchPage } from "./core/navigation.js";
-        import {
-            limpiarEscuchaXpLive,
-            setUnsubscribeXpLive,
-            state
-        } from "./core/state.js";
+        import { state } from "./core/state.js";
         import { analyzePlantImage } from "./services/plant-analysis.js";
         import { initializeFamilyAuth } from "./features/auth.js";
         import {
@@ -43,6 +34,13 @@
             abrirVisualizadorDetalleCromo3D,
             initializeCardModal
         } from "./features/card-modal.js";
+        import {
+            activarEscuchaBiomasaEnVivo,
+            desplegarToastVictoryInmediata,
+            initializeRewards,
+            verificarAlertasMisionesComarcales
+        } from "./features/rewards.js";
+        import { initializeMailbox } from "./features/mailbox.js";
         
         /* ==========================================================================
            2. MANEJADORES GLOBALES DE ERROR
@@ -178,8 +176,8 @@
             calculateAge: calcularEdadExacta,
             compressProfileImage: (img) => comprobarImagenProporcional(img, 120, 0.7),
             onProfileSelected: async () => {
-                window.activarEscuchaBiomasaEnVivo();
-                await window.verificarAlertasMisionesComarcales();
+                activarEscuchaBiomasaEnVivo();
+                await verificarAlertasMisionesComarcales();
             },
             onProfileNeedsBase: () => {
                 document.getElementById('setup-base-page').style.display = 'flex';
@@ -190,6 +188,8 @@
         });
         initializeCardModal();
         initializeAlbum({ openCardModal: abrirVisualizadorDetalleCromo3D });
+        initializeRewards({ onStateRefresh: actualizarEstado });
+        initializeMailbox({ onMessageRead: verificarAlertasMisionesComarcales });
         initializeFamilyAuth({ onAccessGranted: mostrarSelectorPerfiles });
 
         /* ==========================================================================
@@ -201,29 +201,6 @@
         /* ==========================================================================
            10. PERFILES Y SELECTOR DE EXPLORADORES
            ========================================================================== */
-
-        /* ==========================================================================
-           11. XP EN TIEMPO REAL Y RECOMPENSAS ENTREGADAS
-           ========================================================================== */
-
-        window.activarEscuchaBiomasaEnVivo = () => {
-            limpiarEscuchaXpLive();
-            const q = query(collection(db, "alertas_xp"), where("perfilId", "==", state.perfilActiveId), where("estado", "==", "pendiente"));
-            setUnsubscribeXpLive(onSnapshot(q, (snapshot) => {
-                snapshot.docs.forEach(async (docSnap) => {
-                    const alerta = docSnap.data(); const idAlerta = docSnap.id;
-                    await updateDoc(doc(db, "alertas_xp", idAlerta), { estado: "entregado" });
-                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento de Biomasa", nombreCientifico: "Bonus Laboratorio Central", rareza: "especial", descripcion: alerta.mensaje || alerta.textMessage, foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2zm0 3.99L18.47 19H5.53L12 5.99z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", comarcaId: "Admin", perfil: state.perfilActiveId, usuarioEmail: state.usuarioEmailActual });
-                    
-                    const alertBox = document.getElementById('live-xp-badge-alert');
-                    if (alertBox) {
-                        document.getElementById('live-xp-amount-txt').innerText = `+${alerta.xp}`;
-                        alertBox.classList.add('show-alert'); actualizarEstado();
-                        setTimeout(() => { alertBox.classList.remove('show-alert'); }, 5000);
-                    }
-                });
-            }));
-        };
 
         /* ==========================================================================
            13. CONFIGURACIÓN DE BASE GPS/MANUAL
@@ -269,7 +246,7 @@
             alert(`¡Base Secreta Establecida en ${municipio} (${comarca})!`);
             
             actualizarEstado();
-            await window.verificarAlertasMisionesComarcales();
+            await verificarAlertasMisionesComarcales();
             recalcularCacheYDesplegable();
         }
 
@@ -407,7 +384,7 @@
 
                         document.getElementById('loading').style.display = 'none';
                         document.getElementById('camera-input').value = ''; // Limpiamos input
-                        window.desplegarToastVictoryInmediata(mensajeToastDesglose);
+                        desplegarToastVictoryInmediata(mensajeToastDesglose);
                         cargarAlbum(); // Recargamos el álbum
 
                         // PREPARACIÓN Y DETONACIÓN DEL CROMO 3D
@@ -436,86 +413,6 @@
                 img.src = readerEvent.target.result;
             };
             reader.readAsDataURL(file);
-        };
-
-        /* ==========================================================================
-           16. BUZÓN, MENSAJES Y COMUNICADOS
-           ========================================================================== */
-
-        window.verificarAlertasMisionesComarcales = async () => {
-            const snap = await getDocs(collection(db, "alertas_comunidad"));
-            state.cacheAlertasGlobales = [];
-            let unreadCount = 0;
-            const leidosList = JSON.parse(localStorage.getItem(`leidos_${state.perfilActiveId}`) || "[]");
-
-            snap.forEach(docSnap => {
-                const a = docSnap.data(); const idA = docSnap.id;
-                let elegible = false;
-
-                if (a.targetType === "global") elegible = true;
-                else if (a.targetType === "pais" && state.perfilActivoBase && a.targetValue === state.perfilActivoBase.pais) elegible = true;
-                else if (a.targetType === "provincial" && state.perfilActivoBase && a.targetValue === state.perfilActivoBase.provincia) elegible = true;
-                else if (a.targetType === "comarcal" && state.perfilActivoBase && a.targetValue === state.perfilActivoBase.comarca) elegible = true;
-                else if (a.targetType === "cuenta" && a.targetValue === state.usuarioEmailActual) elegible = true;
-                else if (a.targetType === "explorador" && a.targetValue === state.perfilActiveId) elegible = true;
-
-                if (elegible) {
-                    state.cacheAlertasGlobales.push({ id: idA, ...a });
-                    if (!leidosList.includes(idA)) unreadCount++;
-                }
-            });
-
-            const banner = document.getElementById('profesor-alert-banner');
-            const msgTxt = document.getElementById('profesor-msg-text');
-            const badge = document.getElementById('box-badge-num');
-
-            if (state.cacheAlertasGlobales.length > 0) {
-                state.cacheAlertasGlobales.sort((a,b) => b.timestamp - a.timestamp);
-                msgTxt.innerText = state.cacheAlertasGlobales[0].textMessage;
-                banner.style.display = 'block';
-            } else { banner.style.display = 'none'; }
-
-            if (unreadCount > 0) { badge.innerText = unreadCount; badge.style.display = 'flex'; }
-            else { badge.style.display = 'none'; }
-        };
-
-        window.abrirBuzonHistoricoModal = () => {
-            const container = document.getElementById('mailbox-list-container');
-            limpiarNodo(container);
-            const leidosList = JSON.parse(localStorage.getItem(`leidos_${state.perfilActiveId}`) || "[]");
-
-            if (state.cacheAlertasGlobales.length === 0) {
-                container.appendChild(crearTexto('div', 'mailbox-empty-state', 'No hay transmisiones archivadas en este cuadrante.'));
-            }
-
-            state.cacheAlertasGlobales.forEach(a => {
-                const esLeido = leidosList.includes(a.id);
-                const dCard = document.createElement('div'); dCard.className = 'mailbox-item-card';
-                dCard.appendChild(crearTexto('div', 'mailbox-item-title', a.textMessage));
-                dCard.appendChild(crearTexto('div', 'mailbox-item-date', new Date(a.timestamp).toLocaleString()));
-                if (!esLeido) {
-                    const unreadDot = document.createElement('div');
-                    unreadDot.className = 'mailbox-unread-dot';
-                    dCard.appendChild(unreadDot);
-                }
-                dCard.onclick = () => { window.abrirLectorMensajeEspecifico(a.id, a.textMessage); };
-                container.appendChild(dCard);
-            });
-            document.getElementById('mailbox-modal').style.display = 'flex';
-        };
-
-        window.abrirLectorMensajeEspecifico = (idMsg, cuerpo) => {
-            document.getElementById('mailbox-modal').style.display = 'none';
-            document.getElementById('m-reader-body').innerText = cuerpo;
-            
-            const btn = document.getElementById('m-reader-btn-action');
-            btn.onclick = () => {
-                let leidosList = JSON.parse(localStorage.getItem(`leidos_${state.perfilActiveId}`) || "[]");
-                if (!leidosList.includes(idMsg)) { leidosList.push(idMsg); localStorage.setItem(`leidos_${state.perfilActiveId}`, JSON.stringify(leidosList)); }
-                document.getElementById('msg-reader-modal').style.display = 'none';
-                window.verificarAlertasMisionesComarcales();
-            };
-            document.getElementById('msg-reader-modal').style.display = 'flex';
         };
 
         /* ==========================================================================
@@ -558,13 +455,6 @@
             if (totalXpMini) totalXpMini.innerText = totalXP;
             if (totalCountMini) totalCountMini.innerText = snap.size;
         }
-
-        window.desplegarToastVictoryInmediata = (msg) => {
-            const el = document.getElementById('botanik-toast-victory');
-            document.getElementById('botanik-toast-msg-txt').innerText = msg;
-            el.classList.add('show-toast');
-            setTimeout(() => { el.classList.remove('show-toast'); }, 4000);
-        };
 
         /* ==========================================================================
            21. INICIALIZACIÓN FINAL
