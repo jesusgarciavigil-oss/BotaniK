@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BotaniK Admin</title>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="./admin.css" />
+  </head>
+  <body>
+    <div id="admin-login-page" class="admin-login-page">
+      <div class="login-card admin-login-card">
+        <h2 class="login-title-main">BotaniK Admin</h2>
+        <p class="admin-login-help">
+          Acceso restringido. La sesión se valida mediante backend serverless y
+          no guarda credenciales en el cliente.
+        </p>
+        <input
+          type="password"
+          id="admin-password-input"
+          class="login-input"
+          placeholder="Contraseña admin"
+          autocomplete="current-password"
+        />
+        <button id="admin-login-btn" class="login-btn">ACCEDER AL PANEL</button>
+        <div id="admin-login-status" class="admin-status-message"></div>
+      </div>
+    </div>
+
+    <div id="god-mode-page" class="admin-standalone-page admin-hidden">
+      <div class="admin-header">
+        <div class="admin-header-brand">
+          <span class="admin-header-icon">🔮</span>
+          <div class="admin-header-copy">
+            <h2 class="admin-header-title">CONSOLA SUPREMA</h2>
+            <span class="admin-header-subtitle"
+              >ENTORNO DE SIMULACIÓN Y CONTROL CENTRAL</span
+            >
+          </div>
+        </div>
+        <button id="admin-exit-btn" class="exit-session-btn admin-exit-btn">
+          CERRAR SESIÓN ADMIN
+        </button>
+      </div>
+
+      <div class="admin-nav-tabs">
+        <button id="admin-tab-macro-btn" class="admin-tab-btn active">
+          📊 MONITOR MACRO
+        </button>
+        <button id="admin-tab-cuentas-btn" class="admin-tab-btn">
+          👥 EXPEDICIONARIOS
+        </button>
+        <button id="admin-tab-moderacion-btn" class="admin-tab-btn">
+          🛡️ TAXONOMÍA REAL
+        </button>
+        <button id="admin-tab-alertas-btn" class="admin-tab-btn">
+          📡 INYECTOR SATELITAL
+        </button>
+      </div>
+
+      <div id="panel-macro" class="admin-view-pane active">
+        <div class="admin-stat-card-row">
+          <div class="admin-card">
+            <h4 id="m-title-c">Terminales</h4>
+            <div class="big-num" id="m-total-cuentas">0</div>
+          </div>
+          <div class="admin-card">
+            <h4>Exploradores</h4>
+            <div class="big-num" id="m-total-exploradores">0</div>
+          </div>
+          <div class="admin-card">
+            <h4>Muestras</h4>
+            <div class="big-num" id="m-total-capturas">0</div>
+          </div>
+        </div>
+        <h3 class="admin-panel-title admin-panel-title-tight">
+          📡 FLUJO EN VIVO DE CAPTURAS FAMILIARES (MMO GEOGRÁFICO)
+        </h3>
+        <div class="live-feed-grid" id="admin-live-feed"></div>
+      </div>
+
+      <div id="panel-cuentas" class="admin-view-pane">
+        <h3 class="admin-panel-title admin-panel-title-spaced">
+          🏘️ MATRIZ DE ENTORNOS FAMILIARES CONECTADOS
+        </h3>
+        <div id="clusters-cuentas-container"></div>
+      </div>
+
+      <div id="panel-moderacion" class="admin-view-pane">
+        <h3 class="admin-panel-title admin-panel-title-tight">
+          🧪 PANEL DE MODERACIÓN Y VINCULACIÓN FILOGENÉTICA DE LA IA
+        </h3>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Muestra</th>
+              <th>Nombre Común</th>
+              <th>Nombre Científico</th>
+              <th>Ubicación</th>
+              <th>Acción Crítica</th>
+            </tr>
+          </thead>
+          <tbody id="table-moderacion-body"></tbody>
+        </table>
+      </div>
+
+      <div id="panel-alertas" class="admin-view-pane">
+        <div class="admin-alerts-grid">
+          <div class="admin-card admin-card-left">
+            <h3 class="admin-alert-card-title">
+              📡 EMISOR DE TRANSMISIONES SEGMENTADAS
+            </h3>
+            <div class="admin-form-group">
+              <div class="admin-form-label">
+                Segmentación del Objetivo / Canal:
+              </div>
+              <select id="alert-target-type" class="admin-select">
+                <option value="global">Global (Toda la Red Unificada)</option>
+                <option value="pais">Por País Ecológico</option>
+                <option value="provincial">Por Provincia</option>
+                <option value="comarcal">
+                  Por Comarca Natural (Radio de Base)
+                </option>
+                <option value="cuenta">Cuenta Familiar Específica</option>
+                <option value="explorador">
+                  Explorador Concreto (Mensaje Directo)
+                </option>
+              </select>
+            </div>
+            <div class="admin-form-group" id="pais-select-row">
+              <div class="admin-form-label">País Destino:</div>
+              <select id="alert-pais-select" class="admin-select"></select>
+            </div>
+            <div class="admin-form-group" id="provincia-select-row">
+              <div class="admin-form-label">Provincia Destino:</div>
+              <select id="alert-provincia-select" class="admin-select"></select>
+            </div>
+            <div class="admin-form-group" id="comarca-select-row">
+              <div class="admin-form-label">Comarca Destino Natural:</div>
+              <select id="alert-comarca-select" class="admin-select"></select>
+            </div>
+            <div class="admin-form-group" id="usuario-select-row">
+              <div class="admin-form-label">Cuenta Familiar Destino:</div>
+              <select id="alert-user-field" class="admin-select"></select>
+            </div>
+            <div class="admin-form-group" id="explorador-select-row">
+              <div class="admin-form-label">Explorador Concreto:</div>
+              <select id="alert-child-field" class="admin-select"></select>
+            </div>
+            <div class="admin-form-group">
+              <div class="admin-form-label">
+                Instrucciones de Campo (Texto del Mensaje):
+              </div>
+              <textarea
+                id="alert-text-msg"
+                class="admin-textarea"
+                placeholder="Escribe la misión, bonus o alerta mitológica..."
+              ></textarea>
+            </div>
+            <button
+              id="admin-alert-submit-btn"
+              class="login-btn admin-alert-submit-btn"
+            >
+              DESPLEGAR COMUNICADO
+            </button>
+          </div>
+
+          <div class="admin-card admin-simulator-card">
+            <h3 class="admin-simulator-title">
+              ¼ INYECTOR DE ENTORNOS DE PRUEBA (SIMULADOR DE CAMPO)
+            </h3>
+            <div class="admin-form-group">
+              <div class="admin-form-label">
+                Explorador de Destino para el Test:
+              </div>
+              <select id="sim-child-field" class="admin-select"></select>
+            </div>
+            <div class="admin-form-group">
+              <div class="admin-form-label">Nombre Común de Planta:</div>
+              <input
+                type="text"
+                id="sim-comun-input"
+                class="admin-select"
+                value="Helecho Real"
+              />
+            </div>
+            <div class="admin-form-group">
+              <div class="admin-form-label">Nombre Científico:</div>
+              <input
+                type="text"
+                id="sim-cien-input"
+                class="admin-select admin-simulator-scientific-input"
+                value="Osmunda regalis"
+              />
+            </div>
+            <div class="admin-form-group">
+              <div class="admin-form-label">Rareza de Muestra:</div>
+              <select id="sim-rareza-select" class="admin-select">
+                <option value="comun">Común</option>
+                <option value="poco">Poco Común</option>
+                <option value="especial">Especial</option>
+                <option value="exotica">Exótica</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <div class="admin-form-label">Ubicación Manual de Campo:</div>
+              <input
+                type="text"
+                id="sim-loc-input"
+                class="admin-select"
+                placeholder="Ej: Ribera del Saja"
+              />
+            </div>
+            <div class="admin-form-group">
+              <div class="admin-form-label">Descripción Científica Base:</div>
+              <textarea
+                id="sim-desc-textarea"
+                class="admin-textarea"
+                placeholder="Muestra botánica inyectada desde la consola central de simulación."
+              ></textarea>
+            </div>
+
+            <div class="admin-simulator-actions">
+              <button
+                id="admin-simulator-single-btn"
+                class="login-btn admin-simulator-action-btn"
+              >
+                ¯ INYECTAR 1
+              </button>
+              <button
+                id="admin-simulator-batch-btn"
+                class="login-btn admin-simulator-action-btn admin-simulator-batch-btn"
+              >
+                ⚡ INYECCIÓN POR LOTES (3)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./admin.js"></script>
+  </body>
+</html>

@@ -75,7 +75,7 @@ Operaciones:
 
 - Lectura por `usuarioEmail`.
 - Creación, edición y eliminación de perfiles.
-- Lectura global prevista para panel admin, actualmente deshabilitado hasta tener autorización real.
+- Lectura global prevista para panel admin separado, accesible tras login serverless.
 
 Riesgos:
 
@@ -233,7 +233,7 @@ Los comunicados se guardan en `alertas_comunidad`. El cliente filtra según `tar
 
 ### Panel admin
 
-El panel admin cliente está deshabilitado hasta tener autorización real. Las operaciones históricas de administración, como lecturas globales, XP, comunicados, edición, borrado o simulaciones, deben protegerse con Auth, reglas, roles o backend antes de reactivarse.
+El panel admin está separado en `/admin/` y requiere login serverless. Aun así, sus operaciones siguen usando Firestore desde cliente, así que las lecturas globales, XP, comunicados, edición, borrado o simulaciones deben protegerse también con Firestore Rules, Auth, roles o backend.
 
 ## Reglas Firestore
 
@@ -250,7 +250,7 @@ Esa plantilla:
 
 - Migrar login familiar a Firebase Auth o backend.
 - Definir permisos por cuenta, perfil y administración.
-- Mover acciones admin sensibles a funciones serverless.
+- Valorar mover acciones admin sensibles a funciones serverless.
 - Versionar reglas reales de Firestore cuando exista un modelo de Auth/roles.
 - Revisar índices para consultas compuestas como `perfil` + `nombreCientifico` o `perfilId` + `estado`.
 - Mover imágenes a Firebase Storage u otro almacenamiento si el proyecto crece.

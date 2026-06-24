@@ -1,0 +1,41 @@
+body {
+    min-height: 100vh;
+    background: var(--admin-surface);
+    color: var(--admin-page-text);
+}
+
+.admin-login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.admin-login-card {
+    max-width: 430px;
+}
+
+.admin-login-help {
+    color: var(--text-muted-semantic);
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 14px 0 18px;
+}
+
+.admin-status-message {
+    min-height: 20px;
+    color: var(--admin-lilac-bright);
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+.admin-hidden {
+    display: none !important;
+}
+
+#god-mode-page.admin-standalone-page {
+    min-height: 100vh;
+    display: flex;
+}

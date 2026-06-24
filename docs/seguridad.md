@@ -9,7 +9,9 @@ Este documento centraliza los riesgos de seguridad actuales y las líneas de tra
 - Las credenciales visibles conocidas se han retirado del cliente.
 - Gemini se consume mediante la función serverless `api/analyze-plant.js`.
 - La clave real de Gemini debe vivir en Vercel como `GEMINI_API_KEY`.
-- El panel admin cliente está deshabilitado hasta tener autenticación y autorización real.
+- El panel admin está separado en `/admin/` y requiere login validado mediante serverless.
+- La contraseña admin debe vivir en Vercel como `ADMIN_PASSWORD`.
+- Las sesiones admin se firman con `ADMIN_SESSION_SECRET`.
 - El login familiar sigue sin Firebase Auth.
 - Firestore se usa desde el cliente y depende de reglas reales desplegadas en Firebase Console.
 - `js/main.js` ya no usa `innerHTML`; el renderizado dinámico se migró a creación de nodos, `textContent` y listeners.
@@ -34,16 +36,16 @@ Riesgos asociados:
 
 ### Panel admin
 
-El panel admin está deshabilitado en el cliente. No debe reactivarse hasta tener una solución real de autorización.
+El panel admin ya no depende de credenciales en cliente. Su acceso se valida mediante funciones serverless y variables de entorno de Vercel.
 
-La protección real debe estar en una o varias capas:
+Esta mejora protege la entrada al panel, pero no sustituye Firestore Rules. La protección completa de datos y acciones debe estar en una o varias capas:
 
 - Firebase Auth.
 - Firestore Rules estrictas.
 - Roles o custom claims.
 - Backend o funciones serverless para acciones sensibles.
 
-Ocultar botones, pantallas o funciones cliente no es una barrera de seguridad.
+Ocultar botones, pantallas o funciones cliente no es una barrera de seguridad. El login serverless tampoco blinda Firestore si las reglas reales permiten lecturas o escrituras no autorizadas.
 
 ### Gemini
 
@@ -69,7 +71,8 @@ Regla práctica:
 ## Recomendaciones inmediatas
 
 - Revisar reglas reales de Firestore en Firebase Console.
-- Mantener el panel admin deshabilitado hasta tener Auth, reglas, roles o backend.
+- Configurar `ADMIN_PASSWORD` y `ADMIN_SESSION_SECRET` en Vercel para Preview y Production.
+- Mantener la contraseña admin fuera del cliente, documentación y commits.
 - Mantener `GEMINI_API_KEY` solo como variable de entorno en Vercel.
 - No añadir secretos al cliente ni a archivos versionados.
 - Revisar la guía de despliegue antes de publicar una nueva versión: [despliegue.md](despliegue.md).
@@ -79,7 +82,7 @@ Regla práctica:
 
 - Migrar login familiar a Firebase Auth o backend.
 - Definir roles reales para cuenta familiar, perfil infantil y administración.
-- Mover acciones admin sensibles a backend o funciones serverless.
+- Valorar mover acciones admin sensibles a endpoints serverless específicos.
 - Versionar y probar reglas Firestore reales cuando exista una estrategia de Auth/roles.
 - Mover imágenes fuera de documentos Firestore si el volumen crece.
 - Revisar responsive, accesibilidad y UX antes de una versión `1.0.0`.
@@ -90,5 +93,5 @@ Regla práctica:
 - No subir nuevas credenciales al repositorio.
 - No asumir que Firebase es seguro sin revisar y probar reglas Firestore.
 - No considerar una contraseña admin en cliente como protección real.
-- No reactivar el panel admin sin autorización real fuera del navegador.
+- No convertir el login serverless en excusa para relajar Firestore Rules.
 - No presentar BotaniK como producción completamente segura hasta resolver autenticación, autorización, reglas y gestión de secretos.

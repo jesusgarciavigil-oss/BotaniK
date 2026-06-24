@@ -2,7 +2,7 @@
 
 BotaniK usará versionado SemVer para controlar la evolución del proyecto de forma clara y revisable.
 
-La versión actual inicial es `0.1.0`.
+La versión actual es `0.2.0`.
 
 ## Criterio general
 
@@ -27,4 +27,4 @@ Para publicar una nueva versión:
 
 ## Estado actual
 
-`0.1.0` marca la base pública inicial saneada: estructura separada, Gemini fuera del cliente, documentación de seguridad y despliegue, y panel admin cliente deshabilitado hasta tener una solución real de autenticación y autorización.
+`0.2.0` marca la incorporación del panel admin separado con acceso validado mediante serverless. Firestore Rules y el endurecimiento completo de operaciones admin siguen pendientes antes de una versión estable `1.0.0`.

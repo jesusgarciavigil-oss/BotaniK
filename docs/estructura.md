@@ -12,7 +12,13 @@ BotaniK es una aplicación web estática organizada en HTML, CSS, JavaScript y u
 ├── js/
 │   └── main.js
 ├── api/
+│   ├── admin-login.js
+│   ├── admin-session.js
 │   └── analyze-plant.js
+├── admin/
+│   ├── admin.css
+│   ├── admin.js
+│   └── index.html
 ├── docs/
 │   ├── despliegue.md
 │   ├── estructura.md
@@ -42,7 +48,6 @@ Contiene la estructura HTML principal:
 - Radar/cámara.
 - Álbum.
 - Buzón y mensajes.
-- Panel admin deshabilitado.
 - Script temprano de tema para aplicar `data-theme` antes de pintar la interfaz.
 - Carga de `css/styles.css` y `js/main.js`.
 
@@ -76,7 +81,6 @@ Centraliza la lógica principal de la app:
 - Llamada a `/api/analyze-plant`.
 - XP, rarezas, niveles y álbum.
 - Buzón y comunicados.
-- Panel admin deshabilitado.
 
 `js/main.js` ya no usa `innerHTML`. El renderizado dinámico se realiza mediante creación de nodos, `textContent`, `replaceChildren`, asignación de propiedades y listeners.
 
@@ -94,6 +98,32 @@ Responsabilidades:
 - Devolver al frontend un resultado compatible con el flujo de capturas.
 
 La clave Gemini no debe estar en el cliente.
+
+### `api/admin-login.js` y `api/admin-session.js`
+
+Funciones serverless de Vercel para acceso admin.
+
+Responsabilidades:
+
+- Leer `ADMIN_PASSWORD` y `ADMIN_SESSION_SECRET` desde variables de entorno.
+- Validar el acceso admin sin exponer la contraseña.
+- Firmar y validar tokens temporales de sesión admin.
+- Responder con errores genéricos ante accesos no autorizados.
+
+### `admin/index.html`, `admin/admin.js` y `admin/admin.css`
+
+Contienen el panel admin separado de la app familiar.
+
+Responsabilidades:
+
+- Mostrar login admin.
+- Validar contraseña mediante `/api/admin-login`.
+- Guardar sesión temporal en `sessionStorage`.
+- Validar sesión mediante `/api/admin-session`.
+- Mostrar monitor, cuentas, moderación, comunicados y simulador solo con sesión válida.
+- Mantener fuera del cliente la contraseña admin y el secreto de firma.
+
+Las operaciones admin siguen usando Firestore desde cliente, por lo que Firestore Rules siguen siendo necesarias para proteger los datos frente a accesos directos.
 
 ### `docs/`
 
@@ -120,5 +150,5 @@ Contiene documentación técnica y operativa:
 - Mantener `js/main.js` como archivo único mientras no haya una razón clara para modularizar.
 - Si se modulariza, hacerlo por dominios pequeños y probables: perfiles, capturas, mensajes, Firebase o administración.
 - Revisar responsive, accesibilidad, focus visible y `prefers-reduced-motion`.
-- Mantener el panel admin deshabilitado hasta tener autenticación y autorización real.
+- Revisar Firestore Rules para que el panel admin separado no dependa solo del control de acceso visual.
 - Evitar reintroducir secretos en cliente o HTML interpolado con datos externos.

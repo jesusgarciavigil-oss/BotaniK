@@ -88,17 +88,6 @@
                 if (modal) modal.style.display = 'none';
             });
 
-            document.getElementById('admin-exit-btn')?.addEventListener('click', () => window.salirModoDiosDefinitivo());
-            document.getElementById('admin-tab-macro-btn')?.addEventListener('click', (event) => window.switchAdminTab('panel-macro', event));
-            document.getElementById('admin-tab-cuentas-btn')?.addEventListener('click', (event) => window.switchAdminTab('panel-cuentas', event));
-            document.getElementById('admin-tab-moderacion-btn')?.addEventListener('click', (event) => window.switchAdminTab('panel-moderacion', event));
-            document.getElementById('admin-tab-alertas-btn')?.addEventListener('click', (event) => window.switchAdminTab('panel-alertas', event));
-
-            document.getElementById('alert-target-type')?.addEventListener('change', (event) => window.gestionarCambioTargetAlerta(event.target.value));
-            document.getElementById('alert-user-field')?.addEventListener('change', (event) => window.filtrarHijosDeCuentaParaMensajeDirecto(event.target.value));
-            document.getElementById('admin-alert-submit-btn')?.addEventListener('click', () => window.emitirAlertaSatelital());
-            document.getElementById('admin-simulator-single-btn')?.addEventListener('click', () => window.inyectarCartaConLocalizacionesSimuladas(false));
-            document.getElementById('admin-simulator-batch-btn')?.addEventListener('click', () => window.inyectarCartaConLocalizacionesSimuladas(true));
         }
          
         /* ==========================================================================
@@ -134,10 +123,6 @@
             "Botánico de Vanguardia", "Cartógrafo de Raíces", "Susurrador de Árboles", "Guardián de la Biomasa",    
             "Maestro de la Clorofila", "Sabio de la Taiga", "Líder del Ecosistema"      
         ];
-
-        const PROVINCIAS_PRECARGADAS = ["Álava","Albacete","Alicante","Almería","Asturias","Ávila","Badajoz","Barcelona","Burgos","Cáceres","Cádiz","Cantabria","Castellón","Ciudad Real","Córdoba","La Coruña","Cuenca","Gerona","Granada","Guadalajara","Guipúzcoa","Huelva","Huesca","Jaén","León","Lérida","Lugo","Madrid","Málaga","Murcia","Navarra","Orense","Palencia","Las Palmas","Pontevedra","La Rioja","Salamanca","Segovia","Sevilla","Soria","Tarragona","Santa Cruz de Tenerife","Teruel","Toledo","Valencia","Valladolid","Vizcaya","Zamora","Zaragoza","Ceuta","Melilla"];
-        const COMARCAS_PRECARGADAS = ["Asón-Agüera","Besaya","Costa Central","Costa Oriental","Liébana","Saja-Nansa","Trasmiera","Valles Pasiegos","Campoo-Los Valles","Sierra de Cazorla","Sierra Mágina","Granada Metropolitana","Axarquía Málaga","Serranía de Ronda","Gran Bilbao","Arratia-Nerbioi"];
-        const PAISES_PRECARGADOS = ["España", "Francia", "Portugal", "Andorra"];
 
         const MULTIPLICADORES_RAREZA = { "comun": 1, "poco": 1.5, "especial": 2.5, "exotica": 5 };
         const TITULOS_ADAPTACION = { 1: "Descubierto", 2: "Adaptado", 3: "Especializado", 4: "Maestro Ecosistema" };
@@ -218,10 +203,10 @@
             return `rare-${rarezaPermitida}`;
         }
 
-        const MENSAJE_PANEL_ADMIN_DESHABILITADO = "Panel admin deshabilitado en esta versión pública. Pendiente de autenticación y autorización real.";
+        const MENSAJE_PANEL_ADMIN_SEPARADO = "El panel admin ahora está separado en /admin/ y requiere acceso validado por servidor.";
 
-        function avisarPanelAdminDeshabilitado() {
-            alert(MENSAJE_PANEL_ADMIN_DESHABILITADO);
+        function avisarPanelAdminSeparado() {
+            alert(MENSAJE_PANEL_ADMIN_SEPARADO);
             return false;
         }
 
@@ -259,7 +244,7 @@
                         document.getElementById('login-page').style.display = 'none';
                         await mostrarSelectorPerfiles();
                     } else if (esIntentoPanelAdminDeshabilitado(email, pass)) {
-                        avisarPanelAdminDeshabilitado();
+                        avisarPanelAdminSeparado();
                     } else { alert("Código de acceso o terminal incorrectos."); }
                 }
             } catch (err) { alert("Error de enlace: " + err.message); }
@@ -314,7 +299,6 @@
             if(event) event.stopPropagation();
             document.getElementById('nav-dropdown-box').style.display = 'none';
             let p = cachePerfilesFamilia.find(item => item.id === idDoc);
-            if(!p && window.cacheGlobalAdminPerfiles) p = window.cacheGlobalAdminPerfiles.find(item => item.id === idDoc);
             if(!p) return;
 
             modoEdicionActivo = true; idPerfilEnEdicionFila = idDoc; selectedAvatarValue = p.avatar || "🧑‍🚀";
@@ -437,7 +421,7 @@
             if(unsuscribeXpLive) { unsuscribeXpLive(); unsuscribeXpLive = null; }
             usuarioEmailActual = ""; perfilActiveId = "";
             document.getElementById('username').value = ""; document.getElementById('password').value = "";
-            document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('nav-dropdown-box').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
+            document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.getElementById('nav-dropdown-box').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
         };
 
         window.seleccionarPerfil = async (idDoc, nombre, fechaNacimiento, avatar, base, esExperto) => {
@@ -556,210 +540,7 @@
         document.addEventListener('click', (e) => { const box = document.getElementById('nav-dropdown-box'); const trigger = document.querySelector('.header-profile-box'); if (box && box.style.display === 'block' && !box.contains(e.target) && !trigger.contains(e.target)) box.style.display = 'none'; });
 
         /* ==========================================================================
-           13. PANEL ADMIN: ACCESO, PESTAÑAS, MONITOR Y MODERACIÓN
-           Nota: este bloque se mantiene antes de otros módulos porque el login
-           puede activar el panel admin y las funciones siguen expuestas en window.
-           ========================================================================== */
-
-        window.activarMandoSupremoGod = async () => { avisarPanelAdminDeshabilitado(); };
-        window.salirModoDiosDefinitivo = () => { usuarioEmailActual = ""; document.getElementById('username').value = ""; document.getElementById('password').value = ""; document.getElementById('god-mode-page').style.display = 'none'; document.getElementById('login-page').style.display = 'flex'; };
-
-        window.switchAdminTab = async (tabId, event) => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active')); document.querySelectorAll('.admin-view-pane').forEach(pane => pane.classList.remove('active'));
-            if (event) event.target.classList.add('active'); document.getElementById(tabId).classList.add('active');
-            if (tabId === 'panel-macro') window.cargarEstadisticasMacro();
-            if (tabId === 'panel-cuentas') window.renderizarCuentasYPerfilesGlobales();
-            if (tabId === 'panel-moderacion') window.cargarMuroModeracionGlobal();
-            if (tabId === 'panel-alertas') { window.cargarSelectorEmailsAlertas(); window.prepararDesplegablesSimulador(); }
-        };
-
-        window.cargarEstadisticasMacro = async () => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles")); const snapCapturas = await getDocs(collection(db, "capturas"));
-            let baseCuentasSize = snapCuentas.size;
-            document.getElementById('m-total-cuentas').innerText = baseCuentasSize; document.getElementById('m-total-exploradores').innerText = snapPerfiles.size; document.getElementById('m-total-capturas').innerText = snapCapturas.size;
-
-            const feedContainer = document.getElementById('admin-live-feed');
-            limpiarNodo(feedContainer);
-            let todas = []; let perfilesMapParaFeed = {};
-            snapPerfiles.forEach(pDoc => { perfilesMapParaFeed[pDoc.id] = pDoc.data(); });
-            snapCapturas.forEach(d => todas.push({ id: d.id, ...d.data() }));
-            todas.sort((a,b) => b.timestamp - a.timestamp);
-
-            todas.slice(0, 12).forEach(c => {
-                if(c.municipioId === "Admin") return; const dataAutor = perfilesMapParaFeed[c.perfil] || { nombre: "Desconocido" };
-                const feedBox = document.createElement('div');
-                feedBox.className = 'feed-box';
-                const feedImg = document.createElement('img');
-                feedImg.className = 'feed-img';
-                feedImg.src = c.foto;
-                feedImg.alt = c.nombreComun || 'Captura botánica';
-                const feedBody = document.createElement('div');
-                feedBody.className = 'feed-body';
-                feedBody.appendChild(crearTexto('div', 'feed-title', c.nombreComun));
-                feedBody.appendChild(crearTexto('div', 'feed-scientific-name', c.nombreCientifico));
-                const feedPlace = document.createElement('div');
-                feedPlace.appendChild(document.createTextNode('📍 Lugar: '));
-                feedPlace.appendChild(crearTexto('b', '', c.loc || 'Campo'));
-                feedBody.appendChild(feedPlace);
-                feedBody.appendChild(crearTexto('div', 'feed-xp', `XP: +${c.xp}`));
-                const feedAuthor = document.createElement('div');
-                feedAuthor.className = 'feed-author-tag';
-                feedAuthor.appendChild(document.createTextNode('👤 '));
-                feedAuthor.appendChild(crearTexto('b', '', dataAutor.nombre));
-                feedBody.appendChild(feedAuthor);
-                feedBox.appendChild(feedImg);
-                feedBox.appendChild(feedBody);
-                feedContainer.appendChild(feedBox);
-            });
-        };
-
-        window.renderizarCuentasYPerfilesGlobales = async () => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const snapCuentas = await getDocs(collection(db, "cuentas_familia")); const snapPerfiles = await getDocs(collection(db, "perfiles"));
-            const mainContainer = document.getElementById('clusters-cuentas-container');
-            limpiarNodo(mainContainer);
-            window.cacheGlobalAdminPerfiles = []; let perfilesMap = {}; let listadoCuentasEmails = [];
-
-            snapCuentas.forEach(docC => { listadoCuentasEmails.push({ email: docC.data().email }); });
-            snapPerfiles.forEach(docSnap => { const p = docSnap.data(); window.cacheGlobalAdminPerfiles.push({ id: docSnap.id, ...p }); if(!perfilesMap[p.usuarioEmail]) perfilesMap[p.usuarioEmail] = []; perfilesMap[p.usuarioEmail].push({ id: docSnap.id, ...p }); });
-
-            listadoCuentasEmails.forEach(c => {
-                const emailFam = c.email; const niñosAsociados = perfilesMap[emailFam] || [];
-                let comarcaBase = "No Calibrada"; const conBase = niñosAsociados.find(n => n.base && n.base.comarca); if(conBase) comarcaBase = conBase.base.comarca;
-                const cardHtml = document.createElement('div');
-                cardHtml.className = 'account-cluster-card';
-                const clusterHeader = document.createElement('div');
-                clusterHeader.className = 'cluster-header';
-                clusterHeader.appendChild(crearTexto('div', 'cluster-email', `📧 Cuenta: ${emailFam}`));
-                clusterHeader.appendChild(crearTexto('div', 'cluster-base', `📡 Sector: ${comarcaBase}`));
-                cardHtml.appendChild(clusterHeader);
-
-                if (niñosAsociados.length === 0) {
-                    cardHtml.appendChild(crearTexto('div', 'cluster-empty-explorers', 'Sin exploradores aún.'));
-                } else {
-                    const tablaHijos = document.createElement('table');
-                    tablaHijos.className = 'admin-table';
-                    const thead = document.createElement('thead');
-                    const headerRow = document.createElement('tr');
-                    ['Explorador', 'Modo Experto', 'Comando'].forEach(texto => {
-                        headerRow.appendChild(crearTexto('th', '', texto));
-                    });
-                    thead.appendChild(headerRow);
-                    const tbody = document.createElement('tbody');
-                    niñosAsociados.forEach(n => {
-                        const row = document.createElement('tr');
-                        const nameCell = document.createElement('td');
-                        nameCell.appendChild(crearTexto('b', '', n.nombre));
-                        const expertCell = document.createElement('td');
-                        expertCell.appendChild(crearTexto('span', 'cluster-expert-status', n.esExperto ? 'ACTIVO' : 'NO'));
-                        const commandCell = document.createElement('td');
-                        const xpButton = document.createElement('button');
-                        xpButton.className = 'admin-btn admin-btn-purple';
-                        xpButton.type = 'button';
-                        xpButton.textContent = '⚡ BONIFICAR XP';
-                        xpButton.addEventListener('click', () => window.inyectarXPMecanico(n.id, n.nombre));
-                        const editButton = document.createElement('button');
-                        editButton.className = 'admin-btn admin-btn-purple';
-                        editButton.type = 'button';
-                        editButton.textContent = '⚙️ EDITAR';
-                        editButton.addEventListener('click', () => window.abrirEditorPerfilSpecifico(null, n.id));
-                        commandCell.appendChild(xpButton);
-                        commandCell.appendChild(editButton);
-                        row.appendChild(nameCell);
-                        row.appendChild(expertCell);
-                        row.appendChild(commandCell);
-                        tbody.appendChild(row);
-                    });
-                    tablaHijos.appendChild(thead);
-                    tablaHijos.appendChild(tbody);
-                    cardHtml.appendChild(tablaHijos);
-                }
-                mainContainer.appendChild(cardHtml);
-            });
-        };
-
-        window.inyectarXPMecanico = async (idPerfil, nombre) => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const cantidad = prompt(`¿Cuánta XP extra quieres inyectarle a ${nombre}?`); if(!cantidad || isNaN(cantidad)) return;
-            try {
-                await addDoc(collection(db, "alertas_xp"), { perfilId: idPerfil, xp: parseInt(cantidad), titulo: "Inyección de Biomasa Central", textMessage: `¡Has recibido +${cantidad} XP enviado por el Profesor!`, estado: "pendiente", timestamp: Date.now() });
-                alert(`⚡ ¡XP enviada al buzón de campo de ${nombre}!`); window.renderizarCuentasYPerfilesGlobales();
-            } catch(e) { alert("Error de satélite central: " + e.message); }
-        };
-
-        window.cargarMuroModeracionGlobal = async () => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const snap = await getDocs(collection(db, "capturas")); const table = document.getElementById('table-moderacion-body'); limpiarNodo(table);
-            snap.forEach(docSnap => {
-                const c = docSnap.data(); const idDoc = docSnap.id; if(c.municipioId === "Admin") return;
-                const tr = document.createElement('tr');
-                const imgCell = document.createElement('td');
-                const thumb = document.createElement('img');
-                thumb.src = c.foto;
-                thumb.className = 'moderation-thumb';
-                thumb.alt = c.nombreComun || 'Captura';
-                imgCell.appendChild(thumb);
-
-                const commonCell = document.createElement('td');
-                const commonInput = document.createElement('input');
-                commonInput.type = 'text';
-                commonInput.value = c.nombreComun || '';
-                commonInput.id = `mod-comun-${idDoc}`;
-                commonInput.className = 'login-input moderation-input';
-                commonCell.appendChild(commonInput);
-
-                const scientificCell = document.createElement('td');
-                const scientificInput = document.createElement('input');
-                scientificInput.type = 'text';
-                scientificInput.value = c.nombreCientifico || '';
-                scientificInput.id = `mod-cien-${idDoc}`;
-                scientificInput.className = 'login-input moderation-input moderation-input-scientific';
-                scientificCell.appendChild(scientificInput);
-
-                const locCell = document.createElement('td');
-                locCell.appendChild(crearTexto('b', '', c.loc || 'Campo'));
-
-                const actionCell = document.createElement('td');
-                const saveButton = document.createElement('button');
-                saveButton.className = 'admin-btn admin-btn-purple';
-                saveButton.type = 'button';
-                saveButton.textContent = '💾 VINCULAR';
-                saveButton.addEventListener('click', () => window.salvarCambiosTaxonomia(idDoc));
-                const deleteButton = document.createElement('button');
-                deleteButton.className = 'admin-btn admin-btn-danger';
-                deleteButton.type = 'button';
-                deleteButton.textContent = '✕ BORRAR';
-                deleteButton.addEventListener('click', () => window.eliminarCapturaInapropiada(idDoc));
-                actionCell.appendChild(saveButton);
-                actionCell.appendChild(deleteButton);
-
-                tr.appendChild(imgCell);
-                tr.appendChild(commonCell);
-                tr.appendChild(scientificCell);
-                tr.appendChild(locCell);
-                tr.appendChild(actionCell);
-                table.appendChild(tr);
-            });
-        };
-
-        window.salvarCambiosTaxonomia = async (idDoc) => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const comun = document.getElementById(`mod-comun-${idDoc}`).value.trim();
-            const cien = document.getElementById(`mod-cien-${idDoc}`).value.trim();
-            await updateDoc(doc(db, "capturas", idDoc), { nombreComun: comun, nombreCientifico: cien });
-            alert("¡Taxonomía vinculada con éxito en los servidores centrales!"); window.cargarMuroModeracionGlobal();
-        };
-
-        window.eliminarCapturaInapropiada = async (idDoc) => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            if(!confirm("¿Borrar esta muestra permanentemente de los registros?")) return;
-            await deleteDoc(doc(db, "capturas", idDoc)); window.cargarMuroModeracionGlobal();
-        };
-
-        /* ==========================================================================
-           14. CONFIGURACIÓN DE BASE GPS/MANUAL
+           13. CONFIGURACIÓN DE BASE GPS/MANUAL
            ========================================================================== */
 
         window.localizarBasePorGPS = async () => {
@@ -1063,121 +844,7 @@
         };
 
         /* ==========================================================================
-           17. PANEL ADMIN: ALERTAS, MENSAJES Y SIMULADOR
-           ========================================================================== */
-
-        window.cargarSelectorEmailsAlertas = async () => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const sUser = document.getElementById('alert-user-field');
-            limpiarNodo(sUser);
-            appendOption(sUser, "", "-- Selecciona Laboratorio Familiar --");
-            const sChild = document.getElementById('sim-child-field');
-            limpiarNodo(sChild);
-            const sDestChild = document.getElementById('alert-child-field');
-            limpiarNodo(sDestChild);
-            appendOption(sDestChild, "", "-- Primero elige Cuenta --");
-
-            const snapU = await getDocs(collection(db, "cuentas_familia"));
-            const emails = [];
-            snapU.forEach(d => {
-                const email = d.data().email;
-                emails.push(email);
-                appendOption(sUser, email, email);
-            });
-
-            const snapP = await getDocs(collection(db, "perfiles"));
-            window.cacheAdminPerfilesCompletos = [];
-            snapP.forEach(d => {
-                window.cacheAdminPerfilesCompletos.push({ id: d.id, ...d.data() });
-                appendOption(sChild, d.id, `${d.data().nombre.toUpperCase()} [${d.data().usuarioEmail}]`);
-            });
-        };
-
-        window.filtrarHijosDeCuentaParaMensajeDirecto = (emailCuenta) => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const sDestChild = document.getElementById('alert-child-field');
-            limpiarNodo(sDestChild);
-            appendOption(sDestChild, "", "-- Todos los exploradores de la cuenta --");
-            if(!emailCuenta) return;
-            const filtrados = window.cacheAdminPerfilesCompletos.filter(p => p.usuarioEmail === emailCuenta);
-            filtrados.forEach(p => { appendOption(sDestChild, p.id, p.nombre.toUpperCase()); });
-        };
-
-        window.gestionarCambioTargetAlerta = (tipo) => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            document.getElementById('pais-select-row').style.display = tipo==='pais'?'flex':'none';
-            document.getElementById('provincia-select-row').style.display = tipo==='provincial'?'flex':'none';
-            document.getElementById('comarca-select-row').style.display = tipo==='comarcal'?'flex':'none';
-            document.getElementById('usuario-select-row').style.display = (tipo==='cuenta'||tipo==='explorador')?'flex':'none';
-            document.getElementById('explorador-select-row').style.display = tipo==='explorador'?'flex':'none';
-        };
-
-        window.prepararDesplegablesSimulador = () => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const pSel = document.getElementById('alert-pais-select');
-            limpiarNodo(pSel);
-            PAISES_PRECARGADOS.forEach(p => appendOption(pSel, p, p));
-            const prSel = document.getElementById('alert-provincia-select');
-            limpiarNodo(prSel);
-            PROVINCIAS_PRECARGADAS.forEach(p => appendOption(prSel, p, p));
-            const cSel = document.getElementById('alert-comarca-select');
-            limpiarNodo(cSel);
-            COMARCAS_PRECARGADAS.forEach(c => appendOption(cSel, c, c));
-        };
-
-        window.emitirAlertaSatelital = async () => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const type = document.getElementById('alert-target-type').value;
-            const msg = document.getElementById('alert-text-msg').value.trim();
-            if(!msg) return alert("Escribe un comunicado de campo.");
-
-            let val = "global";
-            if(type === "pais") val = document.getElementById('alert-pais-select').value;
-            else if(type === "provincial") val = document.getElementById('alert-provincia-select').value;
-            else if(type === "comarcal") val = document.getElementById('alert-comarca-select').value;
-            else if(type === "cuenta") val = document.getElementById('alert-user-field').value;
-            else if(type === "explorador") val = document.getElementById('alert-child-field').value || document.getElementById('alert-user-field').value;
-
-            await addDoc(collection(db, "alertas_comunidad"), { targetType: type, targetValue: val, textMessage: msg, timestamp: Date.now() });
-            alert("📡 ¡Transmisión satelital desplegada en la red global!");
-            document.getElementById('alert-text-msg').value = "";
-            if(perfilActiveId) window.verificarAlertasMisionesComarcales();
-        };
-
-        window.inyectarCartaConLocalizacionesSimuladas = async (esLote) => {
-            if (!avisarPanelAdminDeshabilitado()) return;
-            const perfilDestinoId = document.getElementById('sim-child-field').value;
-            const comun = document.getElementById('sim-comun-input').value.trim();
-            const cien = document.getElementById('sim-cien-input').value.trim();
-            const rareza = document.getElementById('sim-rareza-select').value;
-            const loc = document.getElementById('sim-loc-input').value.trim() || "Entorno de Prueba";
-            const desc = document.getElementById('sim-desc-textarea').value.trim() || "Muestra botánica inyectada desde la consola central.";
-            
-            if(!perfilDestinoId || !comun || !cien) return alert("Rellena los datos de simulación.");
-            const pData = window.cacheAdminPerfilesCompletos.find(x => x.id === perfilDestinoId);
-
-            const mult = MULTIPLICADORES_RAREZA[rareza] || 1;
-            const xpCalculada = Math.floor(20 * mult);
-
-            const plantillaInyeccion = {
-                nombreComun: comun, nombreCientifico: cien, rareza: rareza, descripcion: desc, xp: xpCalculada, loc: loc,
-                foto: "data:image/svg+xml;utf8,<svg xmlns='[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)' width='100' height='100' viewBox='0 0 24 24' fill='%231F6B3A'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z'/></svg>",
-                fecha: new Date().toLocaleDateString(), timestamp: Date.now(),
-                perfil: perfilDestinoId, usuarioEmail: pData.usuarioEmail,
-                municipioId: pData.base ? pData.base.municipio : "Test", comarcaId: pData.base ? pData.base.comarca : "Test", provinciaId: pData.base ? pData.base.provincia : "Test", paisId: pData.base ? pData.base.pais : "España"
-            };
-
-            await addDoc(collection(db, "capturas"), plantillaInyeccion);
-            if(esLote) {
-                await addDoc(collection(db, "capturas"), { ...plantillaInyeccion, nombreComun: comun + " Alfa", timestamp: Date.now()+10 });
-                await addDoc(collection(db, "capturas"), { ...plantillaInyeccion, nombreComun: comun + " Beta", timestamp: Date.now()+20 });
-            }
-            alert("🧪 ¡Inyección de simulación completada de forma síncrona!");
-            window.switchAdminTab('panel-macro');
-        };
-
-        /* ==========================================================================
-           18. NAVEGACIÓN ENTRE VISTAS
+           17. NAVEGACIÓN ENTRE VISTAS
            ========================================================================== */
 
         window.switchPage = (pageId, buttonElement) => {
@@ -1190,7 +857,7 @@
         };
 
         /* ==========================================================================
-           19. XP, NIVELES Y ESTADO DEL RADAR
+           18. XP, NIVELES Y ESTADO DEL RADAR
            ========================================================================== */
 
         async function actualizarEstado() {
@@ -1225,7 +892,7 @@
         }
 
         /* ==========================================================================
-           20. ÁLBUM Y CROMOS
+           19. ÁLBUM Y CROMOS
            ========================================================================== */
 
         async function cargarAlbum() {
@@ -1284,7 +951,7 @@
         };
 
         /* ==========================================================================
-           21. MODAL DE CROMO 3D
+           20. MODAL DE CROMO 3D
            ========================================================================== */
 
         window.abrirVisualizadorDetalleCromo3D = (esp) => {
@@ -1343,7 +1010,7 @@
         };
 
         /* ==========================================================================
-           22. INICIALIZACIÓN FINAL
+           21. INICIALIZACIÓN FINAL
            ========================================================================== */
 
         inicializarEventosEstaticos();

@@ -10,11 +10,11 @@ El proyecto incluye recompensas, niveles, comunicados, buzón de mensajes y tema
 
 ## Estado del proyecto
 
-Versión actual: `0.1.0`
+Versión actual: `0.2.0`
 
 BotaniK está en fase pública temprana. La app es funcional, pero todavía no debe presentarse como producto final ni como producción completamente segura.
 
-El panel admin está deshabilitado hasta implementar autenticación y autorización real. La futura versión `1.0.0` queda reservada para una etapa más estable, con panel admin real, seguridad externa consolidada y pulido visual/UX suficiente.
+El panel admin está separado en `/admin/` y usa login serverless con sesión temporal. La futura versión `1.0.0` queda reservada para una etapa más estable, con reglas Firestore consolidadas, seguridad externa validada y pulido visual/UX suficiente.
 
 ## Funcionalidades
 
@@ -27,7 +27,7 @@ El panel admin está deshabilitado hasta implementar autenticación y autorizaci
 - Sistema de XP, rarezas, niveles y álbum.
 - Comunicados y buzón.
 - Tema claro/oscuro.
-- Panel admin pendiente de autorización real.
+- Panel admin separado con acceso serverless.
 
 ## Tecnologías
 
@@ -74,7 +74,7 @@ La documentación técnica resume el estado actual y los puntos de mantenimiento
 
 Las credenciales visibles conocidas se han retirado del cliente y Gemini se llama mediante una función serverless. Aun así, BotaniK no debe considerarse producción segura completa.
 
-Firestore sigue dependiendo de reglas reales desplegadas fuera del repositorio, y el panel admin sigue pendiente de una solución de autenticación y autorización real. Para más detalle, revisar [docs/seguridad.md](docs/seguridad.md).
+Firestore sigue dependiendo de reglas reales desplegadas fuera del repositorio. El acceso al panel admin se valida mediante serverless, pero las operaciones sobre datos siguen necesitando reglas y revisión externa. Para más detalle, revisar [docs/seguridad.md](docs/seguridad.md).
 
 ## Changelog y versionado
 
