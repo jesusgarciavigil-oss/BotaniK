@@ -31,6 +31,15 @@
             sincronizarSelectorTemaPerfil
         } from "./core/theme.js";
         import { createSwitchPage } from "./core/navigation.js";
+        import {
+            limpiarEscuchaXpLive,
+            resetModoEdicionPerfil,
+            resetSesionFamiliar,
+            setModoEdicionPerfil,
+            setPerfilActivo,
+            setUnsubscribeXpLive,
+            state
+        } from "./core/state.js";
         import { analyzePlantImage } from "./services/plant-analysis.js";
         
         /* ==========================================================================
@@ -110,23 +119,10 @@
            5. ESTADO GLOBAL
            ========================================================================== */
 
-        // Variables Globales de Estado del Sistema de Exploración
-        window.modoRegistro = false;
-        let usuarioEmailActual = "";
-        let perfilActiveId = "";
-        let perfilActivoNombre = "";
-        let perfilActivoNacimiento = "2018-01-01";
-        let perfilActivoAvatar = "🧑‍🚀";
-        let perfilActivoBase = null;
-        let perfilActivoEsExperto = false;
-        let modoEdicionActivo = false;
-        let idPerfilEnEdicionFila = "";
-
-        let selectedAvatarValue = "🧑‍🚀";
-        let albumEspeciesMemoria = {};
-        let cachePerfilesFamilia = [];
-        let cacheAlertasGlobales = [];
-        let unsuscribeXpLive = null;
+        Object.defineProperty(window, 'modoRegistro', {
+            get: () => state.modoRegistro,
+            set: (value) => { state.modoRegistro = value; }
+        });
 
         /* ==========================================================================
            6. CONSTANTES DE JUEGO, RAREZAS, RANGOS Y LOCALIZACIÓN
@@ -199,7 +195,7 @@
                     if (!snap.empty) return alert("Esta cuenta ya existe.");
                     await addDoc(collection(db, "cuentas_familia"), { email: email, pass: pass });
                     alert("¡Cuenta familiar registrada con éxito!");
-                    usuarioEmailActual = email;
+                    state.usuarioEmailActual = email;
                     document.getElementById('login-page').style.display = 'none';
                     await mostrarSelectorPerfiles();
                 } else {
@@ -207,7 +203,7 @@
                     snap.forEach(doc => { if(doc.data().pass === pass) valido = true; });
 
                     if (valido) {
-                        usuarioEmailActual = email;
+                        state.usuarioEmailActual = email;
                         document.getElementById('login-page').style.display = 'none';
                         await mostrarSelectorPerfiles();
                     } else if (esIntentoPanelAdminDeshabilitado(email, pass)) {
@@ -235,7 +231,7 @@
            ========================================================================== */
 
         window.abrirCreadorPerfilModal = () => {
-            modoEdicionActivo = false; idPerfilEnEdicionFila = ""; selectedAvatarValue = "🧑‍🚀";
+            resetModoEdicionPerfil();
             document.getElementById('modal-title-context').innerText = "ALTA DE EXPLORADOR";
             document.getElementById('profile-name-input').value = "";
             document.getElementById('profile-date-input').value = "2018-01-01";
@@ -251,20 +247,20 @@
         window.abrirEditorPerfilSpecifico = (event, idDoc) => {
             if(event) event.stopPropagation();
             document.getElementById('nav-dropdown-box').style.display = 'none';
-            let p = cachePerfilesFamilia.find(item => item.id === idDoc);
+            let p = state.cachePerfilesFamilia.find(item => item.id === idDoc);
             if(!p) return;
 
-            modoEdicionActivo = true; idPerfilEnEdicionFila = idDoc; selectedAvatarValue = p.avatar || "🧑‍🚀";
+            setModoEdicionPerfil({ activo: true, idPerfil: idDoc, avatar: p.avatar || "🧑‍🚀" });
             document.getElementById('modal-title-context').innerText = `MODIFICAR A ${p.nombre.toUpperCase()}`;
             document.getElementById('profile-name-input').value = p.nombre;
             document.getElementById('profile-date-input').value = p.fechaNacimiento || "2018-01-01";
             document.getElementById('expert-toggle-input').checked = p.esExperto || false;
             
-            const esImg = selectedAvatarValue.startsWith("data:image");
-            renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), selectedAvatarValue);
+            const esImg = state.selectedAvatarValue.startsWith("data:image");
+            renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), state.selectedAvatarValue);
             document.querySelectorAll('.avatar-option').forEach(opt => {
                 opt.classList.remove('selected');
-                if(!esImg && opt.getAttribute('data-avatar') === selectedAvatarValue) opt.classList.add('selected');
+                if(!esImg && opt.getAttribute('data-avatar') === state.selectedAvatarValue) opt.classList.add('selected');
             });
             sincronizarSelectorTemaPerfil();
             document.getElementById('avatar-picker-modal').style.display = 'flex';
@@ -272,7 +268,7 @@
 
         window.selectAvatarElement = (el, val) => {
             document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
-            el.classList.add('selected'); selectedAvatarValue = val;
+            el.classList.add('selected'); state.selectedAvatarValue = val;
             renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), val);
         };
 
@@ -284,7 +280,7 @@
                 img.onload = () => {
                     const base64Comprimido = comprobarImagenProporcional(img, 120, 0.7);
                     document.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
-                    selectedAvatarValue = base64Comprimido;
+                    state.selectedAvatarValue = base64Comprimido;
                     renderizarAvatarSeguro(document.getElementById('avatar-preview-circle'), base64Comprimido);
                 };
                 img.src = e.target.result;
@@ -299,20 +295,27 @@
             if(!nombre || !fechaNac) return alert("Por favor, rellena los campos obligatorios.");
 
             try {
-                if (modoEdicionActivo) {
-                    const targetId = idPerfilEnEdicionFila || perfilActiveId;
-                    await updateDoc(doc(db, "perfiles", targetId), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto });
-                    if(targetId === perfilActiveId) {
-                        perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNac; perfilActivoAvatar = selectedAvatarValue; perfilActivoEsExperto = esExperto;
-                        renderizarAvatarSeguro(document.getElementById('head-av-box'), selectedAvatarValue);
+                if (state.modoEdicionActivo) {
+                    const targetId = state.idPerfilEnEdicionFila || state.perfilActiveId;
+                    await updateDoc(doc(db, "perfiles", targetId), { nombre: nombre, fechaNacimiento: fechaNac, avatar: state.selectedAvatarValue, esExperto: esExperto });
+                    if(targetId === state.perfilActiveId) {
+                        setPerfilActivo({
+                            idDoc: state.perfilActiveId,
+                            nombre,
+                            fechaNacimiento: fechaNac,
+                            avatar: state.selectedAvatarValue,
+                            base: state.perfilActivoBase,
+                            esExperto
+                        });
+                        renderizarAvatarSeguro(document.getElementById('head-av-box'), state.selectedAvatarValue);
                         document.getElementById('head-name').innerText = nombre.toUpperCase();
                     }
                     alert("¡Mente de Campo Sincronizada!");
                 } else {
-                    await addDoc(collection(db, "perfiles"), { nombre: nombre, fechaNacimiento: fechaNac, avatar: selectedAvatarValue, esExperto: esExperto, usuarioEmail: usuarioEmailActual, base: null });
+                    await addDoc(collection(db, "perfiles"), { nombre: nombre, fechaNacimiento: fechaNac, avatar: state.selectedAvatarValue, esExperto: esExperto, usuarioEmail: state.usuarioEmailActual, base: null });
                 }
                 document.getElementById('avatar-picker-modal').style.display = 'none';
-                if(perfilActiveId) { await recalcularCacheYDesplegable(); cargarAlbum(); }
+                if(state.perfilActiveId) { await recalcularCacheYDesplegable(); cargarAlbum(); }
                 else { await mostrarSelectorPerfiles(); }
             } catch (err) { alert(err.message); }
         };
@@ -326,11 +329,11 @@
             
             const grid = document.getElementById('perfiles-dinamicos');
             limpiarNodo(grid);
-            const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
-            const snap = await getDocs(q); cachePerfilesFamilia = [];
+            const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", state.usuarioEmailActual));
+            const snap = await getDocs(q); state.cachePerfilesFamilia = [];
             
             snap.forEach(documento => {
-                const dataId = documento.id; const p = documento.data(); cachePerfilesFamilia.push({ id: dataId, ...p });
+                const dataId = documento.id; const p = documento.data(); state.cachePerfilesFamilia.push({ id: dataId, ...p });
                 const edadCalculada = calcularEdadExacta(p.fechaNacimiento);
 
                 const div = document.createElement('div');
@@ -367,18 +370,18 @@
 
         window.eliminarPerfil = async (event, idDoc, nombre) => {
             event.stopPropagation(); if (!confirm(`¿Eliminar perfil de ${nombre}?`)) return;
-            try { await deleteDoc(doc(db, "perfiles", idDoc)); if(perfilActiveId === idDoc) { window.cerrarSesionCompleta(); } else { await mostrarSelectorPerfiles(); if(perfilActiveId) recalcularCacheYDesplegable(); } } catch (err) { alert(err.message); }
+            try { await deleteDoc(doc(db, "perfiles", idDoc)); if(state.perfilActiveId === idDoc) { window.cerrarSesionCompleta(); } else { await mostrarSelectorPerfiles(); if(state.perfilActiveId) recalcularCacheYDesplegable(); } } catch (err) { alert(err.message); }
         };
 
         window.cerrarSesionCompleta = () => {
-            if(unsuscribeXpLive) { unsuscribeXpLive(); unsuscribeXpLive = null; }
-            usuarioEmailActual = ""; perfilActiveId = "";
+            limpiarEscuchaXpLive();
+            resetSesionFamiliar();
             document.getElementById('username').value = ""; document.getElementById('password').value = "";
             document.getElementById('login-page').style.display = 'flex'; document.getElementById('profile-page').style.display = 'none'; document.getElementById('nav-dropdown-box').style.display = 'none'; document.querySelector('header').style.display = 'none'; document.querySelector('nav').style.display = 'none';
         };
 
         window.seleccionarPerfil = async (idDoc, nombre, fechaNacimiento, avatar, base, esExperto) => {
-            perfilActiveId = idDoc; perfilActivoNombre = nombre; perfilActivoNacimiento = fechaNacimiento; perfilActivoAvatar = avatar; perfilActivoBase = base; perfilActivoEsExperto = esExperto;
+            setPerfilActivo({ idDoc, nombre, fechaNacimiento, avatar, base, esExperto });
             const edadCalculada = calcularEdadExacta(fechaNacimiento);
             document.getElementById('profile-page').style.display = 'none'; document.querySelector('header').style.display = 'flex'; document.querySelector('nav').style.display = 'flex';
             
@@ -390,7 +393,7 @@
             await window.verificarAlertasMisionesComarcales();
             recalcularCacheYDesplegable();
 
-            if (!perfilActivoBase) { document.getElementById('setup-base-page').style.display = 'flex'; } else { actualizarEstado(); }
+            if (!state.perfilActivoBase) { document.getElementById('setup-base-page').style.display = 'flex'; } else { actualizarEstado(); }
         };
 
         /* ==========================================================================
@@ -398,13 +401,13 @@
            ========================================================================== */
 
         window.activarEscuchaBiomasaEnVivo = () => {
-            if(unsuscribeXpLive) unsuscribeXpLive();
-            const q = query(collection(db, "alertas_xp"), where("perfilId", "==", perfilActiveId), where("estado", "==", "pendiente"));
-            unsuscribeXpLive = onSnapshot(q, (snapshot) => {
+            limpiarEscuchaXpLive();
+            const q = query(collection(db, "alertas_xp"), where("perfilId", "==", state.perfilActiveId), where("estado", "==", "pendiente"));
+            setUnsubscribeXpLive(onSnapshot(q, (snapshot) => {
                 snapshot.docs.forEach(async (docSnap) => {
                     const alerta = docSnap.data(); const idAlerta = docSnap.id;
                     await updateDoc(doc(db, "alertas_xp", idAlerta), { estado: "entregado" });
-                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento de Biomasa", nombreCientifico: "Bonus Laboratorio Central", rareza: "especial", descripcion: alerta.mensaje || alerta.textMessage, foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2zm0 3.99L18.47 19H5.53L12 5.99z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", comarcaId: "Admin", perfil: perfilActiveId, usuarioEmail: usuarioEmailActual });
+                    await addDoc(collection(db, "capturas"), { nombreComun: alerta.titulo || "Cargamento de Biomasa", nombreCientifico: "Bonus Laboratorio Central", rareza: "especial", descripcion: alerta.mensaje || alerta.textMessage, foto: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 24 24' fill='%2339FF14'><path d='M12 2L2 22h20L12 2zm0 3.99L18.47 19H5.53L12 5.99z'/></svg>", fecha: new Date().toLocaleDateString(), timestamp: Date.now(), xp: parseInt(alerta.xp), loc: "Laboratorio Central", municipioId: "Admin", comarcaId: "Admin", perfil: state.perfilActiveId, usuarioEmail: state.usuarioEmailActual });
                     
                     const alertBox = document.getElementById('live-xp-badge-alert');
                     if (alertBox) {
@@ -413,13 +416,13 @@
                         setTimeout(() => { alertBox.classList.remove('show-alert'); }, 5000);
                     }
                 });
-            });
+            }));
         };
 
         async function recalcularCacheYDesplegable() {
-            const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", usuarioEmailActual));
-            const snap = await getDocs(q); cachePerfilesFamilia = [];
-            snap.forEach(d => cachePerfilesFamilia.push({ id: d.id, ...d.data() }));
+            const q = query(collection(db, "perfiles"), where("usuarioEmail", "==", state.usuarioEmailActual));
+            const snap = await getDocs(q); state.cachePerfilesFamilia = [];
+            snap.forEach(d => state.cachePerfilesFamilia.push({ id: d.id, ...d.data() }));
             buildDropdownDOM();
         }
 
@@ -429,7 +432,7 @@
 
         function buildDropdownDOM() {
             const container = document.getElementById('nav-dropdown-box'); if (!container) return; limpiarNodo(container);
-            const avatarSeguroActivo = perfilActivoAvatar || "🧑‍🚀"; const nombreSeguroActivo = perfilActivoNombre || "Explorador";
+            const avatarSeguroActivo = state.perfilActivoAvatar || "🧑‍🚀"; const nombreSeguroActivo = state.perfilActivoNombre || "Explorador";
             
             const rowActivo = document.createElement('div'); rowActivo.className = 'dropdown-account-item active-user-row';
             const leftActivo = document.createElement('div');
@@ -446,13 +449,13 @@
             editActivo.type = 'button';
             editActivo.title = 'Editar Perfil';
             editActivo.textContent = '⚙️';
-            editActivo.addEventListener('click', (e) => { window.abrirEditorPerfilSpecifico(e, perfilActiveId); });
+            editActivo.addEventListener('click', (e) => { window.abrirEditorPerfilSpecifico(e, state.perfilActiveId); });
             rowActivo.appendChild(leftActivo);
             rowActivo.appendChild(editActivo);
             container.appendChild(rowActivo);
 
-            cachePerfilesFamilia.forEach(p => {
-                if (p.id === perfilActiveId) return;
+            state.cachePerfilesFamilia.forEach(p => {
+                if (p.id === state.perfilActiveId) return;
                 const row = document.createElement('div'); row.className = 'dropdown-account-item';
                 const left = document.createElement('div');
                 left.className = 'dropdown-left-clickable';
@@ -529,9 +532,9 @@
             else if(normal.includes("granada")) { provincia = "Granada"; comarca = "Granada Metropolitana"; municipio = "Granada"; }
 
             const baseObjeto = { lat: lat, lng: lng, pais: pais, provincia: provincia, comarca: comarca, municipio: municipio, queryLabel: queryTxt };
-            await updateDoc(doc(db, "perfiles", perfilActiveId), { base: baseObjeto });
+            await updateDoc(doc(db, "perfiles", state.perfilActiveId), { base: baseObjeto });
             
-            perfilActivoBase = baseObjeto;
+            state.perfilActivoBase = baseObjeto;
             document.getElementById('setup-base-page').style.display = 'none';
             alert(`¡Base Secreta Establecida en ${municipio} (${comarca})!`);
             
@@ -574,15 +577,15 @@
                         }
                         // --------------------------------------------
 
-                        let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
-                        let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
+                        let edadAventurero = calcularEdadExacta(state.perfilActivoNacimiento);
+                        let sectorBaseTxt = state.perfilActivoBase ? `${state.perfilActivoBase.municipio}, en la provincia de ${state.perfilActivoBase.provincia}` : "Desconocido";
 
                         let planta;
                         const respuestaAnalisis = await analyzePlantImage({
                             imageBase64: base64Data,
                             edadAventurero,
                             sectorBaseTxt,
-                            perfilActivoEsExperto
+                            perfilActivoEsExperto: state.perfilActivoEsExperto
                         });
 
                         if (!respuestaAnalisis.ok) {
@@ -614,7 +617,7 @@
 
                         // 1. Consultar el historial del explorador activo para esta especie exacta
                         const qEspecie = query(collection(db, "capturas"), 
-                            where("perfil", "==", perfilActiveId), 
+                            where("perfil", "==", state.perfilActiveId), 
                             where("nombreCientifico", "==", planta.nombreCientifico)
                         );
                         const snapEspecie = await getDocs(qEspecie);
@@ -622,7 +625,7 @@
                         let totalXP = 0;
                         let mensajeToastDesglose = "";
                         let esValidaParaEvolucion = false;
-                        const municipioActual = perfilActivoBase?.municipio || "Desconocido";
+                        const municipioActual = state.perfilActivoBase?.municipio || "Desconocido";
 
                         // 2. Árbol de decisiones matemáticas
                         if (snapEspecie.empty) {
@@ -660,13 +663,13 @@
                             fecha: new Date().toLocaleDateString(),
                             timestamp: Date.now(),
                             xp: totalXP,
-                            loc: perfilActivoBase?.municipio || "Exploración",
+                            loc: state.perfilActivoBase?.municipio || "Exploración",
                             municipioId: municipioActual,
-                            comarcaId: perfilActivoBase?.comarca || "Desconocido",
-                            provinciaId: perfilActivoBase?.provincia || "Desconocido",
-                            paisId: perfilActivoBase?.pais || "España",
-                            perfil: perfilActiveId,
-                            usuarioEmail: usuarioEmailActual,
+                            comarcaId: state.perfilActivoBase?.comarca || "Desconocido",
+                            provinciaId: state.perfilActivoBase?.provincia || "Desconocido",
+                            paisId: state.perfilActivoBase?.pais || "España",
+                            perfil: state.perfilActiveId,
+                            usuarioEmail: state.usuarioEmailActual,
                             tipoHoja: planta.tipoHoja || "No especificado",
                             origen: planta.origen || "Autóctona",
                             validaParaEvolucion: esValidaParaEvolucion
@@ -711,23 +714,23 @@
 
         window.verificarAlertasMisionesComarcales = async () => {
             const snap = await getDocs(collection(db, "alertas_comunidad"));
-            cacheAlertasGlobales = [];
+            state.cacheAlertasGlobales = [];
             let unreadCount = 0;
-            const leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
+            const leidosList = JSON.parse(localStorage.getItem(`leidos_${state.perfilActiveId}`) || "[]");
 
             snap.forEach(docSnap => {
                 const a = docSnap.data(); const idA = docSnap.id;
                 let elegible = false;
 
                 if (a.targetType === "global") elegible = true;
-                else if (a.targetType === "pais" && perfilActivoBase && a.targetValue === perfilActivoBase.pais) elegible = true;
-                else if (a.targetType === "provincial" && perfilActivoBase && a.targetValue === perfilActivoBase.provincia) elegible = true;
-                else if (a.targetType === "comarcal" && perfilActivoBase && a.targetValue === perfilActivoBase.comarca) elegible = true;
-                else if (a.targetType === "cuenta" && a.targetValue === usuarioEmailActual) elegible = true;
-                else if (a.targetType === "explorador" && a.targetValue === perfilActiveId) elegible = true;
+                else if (a.targetType === "pais" && state.perfilActivoBase && a.targetValue === state.perfilActivoBase.pais) elegible = true;
+                else if (a.targetType === "provincial" && state.perfilActivoBase && a.targetValue === state.perfilActivoBase.provincia) elegible = true;
+                else if (a.targetType === "comarcal" && state.perfilActivoBase && a.targetValue === state.perfilActivoBase.comarca) elegible = true;
+                else if (a.targetType === "cuenta" && a.targetValue === state.usuarioEmailActual) elegible = true;
+                else if (a.targetType === "explorador" && a.targetValue === state.perfilActiveId) elegible = true;
 
                 if (elegible) {
-                    cacheAlertasGlobales.push({ id: idA, ...a });
+                    state.cacheAlertasGlobales.push({ id: idA, ...a });
                     if (!leidosList.includes(idA)) unreadCount++;
                 }
             });
@@ -736,9 +739,9 @@
             const msgTxt = document.getElementById('profesor-msg-text');
             const badge = document.getElementById('box-badge-num');
 
-            if (cacheAlertasGlobales.length > 0) {
-                cacheAlertasGlobales.sort((a,b) => b.timestamp - a.timestamp);
-                msgTxt.innerText = cacheAlertasGlobales[0].textMessage;
+            if (state.cacheAlertasGlobales.length > 0) {
+                state.cacheAlertasGlobales.sort((a,b) => b.timestamp - a.timestamp);
+                msgTxt.innerText = state.cacheAlertasGlobales[0].textMessage;
                 banner.style.display = 'block';
             } else { banner.style.display = 'none'; }
 
@@ -749,13 +752,13 @@
         window.abrirBuzonHistoricoModal = () => {
             const container = document.getElementById('mailbox-list-container');
             limpiarNodo(container);
-            const leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
+            const leidosList = JSON.parse(localStorage.getItem(`leidos_${state.perfilActiveId}`) || "[]");
 
-            if (cacheAlertasGlobales.length === 0) {
+            if (state.cacheAlertasGlobales.length === 0) {
                 container.appendChild(crearTexto('div', 'mailbox-empty-state', 'No hay transmisiones archivadas en este cuadrante.'));
             }
 
-            cacheAlertasGlobales.forEach(a => {
+            state.cacheAlertasGlobales.forEach(a => {
                 const esLeido = leidosList.includes(a.id);
                 const dCard = document.createElement('div'); dCard.className = 'mailbox-item-card';
                 dCard.appendChild(crearTexto('div', 'mailbox-item-title', a.textMessage));
@@ -777,8 +780,8 @@
             
             const btn = document.getElementById('m-reader-btn-action');
             btn.onclick = () => {
-                let leidosList = JSON.parse(localStorage.getItem(`leidos_${perfilActiveId}`) || "[]");
-                if (!leidosList.includes(idMsg)) { leidosList.push(idMsg); localStorage.setItem(`leidos_${perfilActiveId}`, JSON.stringify(leidosList)); }
+                let leidosList = JSON.parse(localStorage.getItem(`leidos_${state.perfilActiveId}`) || "[]");
+                if (!leidosList.includes(idMsg)) { leidosList.push(idMsg); localStorage.setItem(`leidos_${state.perfilActiveId}`, JSON.stringify(leidosList)); }
                 document.getElementById('msg-reader-modal').style.display = 'none';
                 window.verificarAlertasMisionesComarcales();
             };
@@ -796,7 +799,7 @@
            ========================================================================== */
 
         async function actualizarEstado() {
-            const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
+            const q = query(collection(db, "capturas"), where("perfil", "==", state.perfilActiveId));
             const snap = await getDocs(q);
             let totalXP = 0;
             snap.forEach(d => totalXP += (d.data().xp || 0));
@@ -831,22 +834,22 @@
            ========================================================================== */
 
         async function cargarAlbum() {
-            const q = query(collection(db, "capturas"), where("perfil", "==", perfilActiveId));
+            const q = query(collection(db, "capturas"), where("perfil", "==", state.perfilActiveId));
             const snap = await getDocs(q);
-            albumEspeciesMemoria = {};
+            state.albumEspeciesMemoria = {};
             
             snap.forEach(documento => {
                 const d = documento.data();
-                if (!albumEspeciesMemoria[d.nombreCientifico]) {
-                    albumEspeciesMemoria[d.nombreCientifico] = {
+                if (!state.albumEspeciesMemoria[d.nombreCientifico]) {
+                    state.albumEspeciesMemoria[d.nombreCientifico] = {
                         nombreComun: d.nombreComun, nombreCientifico: d.nombreCientifico, rareza: d.rareza,
                         descripcion: d.descripcion, foto: d.foto, fecha: d.fecha, loc: d.loc || "Campo",
                         tipoHoja: d.tipoHoja || "No especificado", origen: d.origen || "Autóctona",
                         copiasTotales: 0, nombresAlternativosRecogidos: new Set()
                     };
                 }
-                albumEspeciesMemoria[d.nombreCientifico].copiasTotales++;
-                albumEspeciesMemoria[d.nombreCientifico].nombresAlternativosRecogidos.add(d.nombreComun);
+                state.albumEspeciesMemoria[d.nombreCientifico].copiasTotales++;
+                state.albumEspeciesMemoria[d.nombreCientifico].nombresAlternativosRecogidos.add(d.nombreComun);
             });
             window.filtrarYOrdenarAlbum();
         }
@@ -856,7 +859,7 @@
             limpiarNodo(wrapper);
             const filtroTexto = document.getElementById('search-botanika').value.toLowerCase().trim();
 
-            Object.values(albumEspeciesMemoria).forEach(esp => {
+            Object.values(state.albumEspeciesMemoria).forEach(esp => {
                 if(filtroTexto && !esp.nombreComun.toLowerCase().includes(filtroTexto) && !esp.nombreCientifico.toLowerCase().includes(filtroTexto)) return;
                 
                 const factorEvolutivo = Math.min(esp.copiasTotales, 4);
