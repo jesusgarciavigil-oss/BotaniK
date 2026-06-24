@@ -4,6 +4,18 @@
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import {
+            MENSAJE_PANEL_ADMIN_SEPARADO,
+            MULTIPLICADORES_RAREZA,
+            RANGOS_EXPLORACION,
+            TITULOS_ADAPTACION
+        } from "./core/constants.js";
+        import {
+            crearTexto,
+            limpiarNodo,
+            obtenerClaseRarezaSegura,
+            renderizarAvatarSeguro
+        } from "./core/dom.js";
         
         /* ==========================================================================
            2. MANEJADORES GLOBALES DE ERROR
@@ -116,17 +128,6 @@
            6. CONSTANTES DE JUEGO, RAREZAS, RANGOS Y LOCALIZACIÓN
            ========================================================================== */
 
-        // Configuraciones del Universo BotaniK
-        const RANGOS_EXPLORACION = [
-            "Aspirante de Campo", "Rastreador de Brotes", "Buscador de Raíces", "Herborista Iniciado",      
-            "Explorador de Savias", "Guardián del Musgo", "Cazador de Semillas", "Alquimista del Bosque",    
-            "Botánico de Vanguardia", "Cartógrafo de Raíces", "Susurrador de Árboles", "Guardián de la Biomasa",    
-            "Maestro de la Clorofila", "Sabio de la Taiga", "Líder del Ecosistema"      
-        ];
-
-        const MULTIPLICADORES_RAREZA = { "comun": 1, "poco": 1.5, "especial": 2.5, "exotica": 5 };
-        const TITULOS_ADAPTACION = { 1: "Descubierto", 2: "Adaptado", 3: "Especializado", 4: "Maestro Ecosistema" };
-
         /* ==========================================================================
            7. UTILIDADES GENERALES
            ========================================================================== */
@@ -162,48 +163,10 @@
             return canvas.toDataURL('image/jpeg', calidad);
         }
 
-        function limpiarNodo(elemento) {
-            if (!elemento) return;
-            elemento.replaceChildren();
-        }
-
-        function crearTexto(tag, className, text) {
-            const elemento = document.createElement(tag);
-            if (className) elemento.className = className;
-            elemento.textContent = text ?? "";
-            return elemento;
-        }
-
-        function renderizarAvatarSeguro(container, avatar) {
-            if (!container) return;
-            const valorAvatar = avatar || "🧑‍🚀";
-            limpiarNodo(container);
-
-            if (typeof valorAvatar === "string" && valorAvatar.startsWith("data:image")) {
-                const imagenAvatar = document.createElement('img');
-                imagenAvatar.src = valorAvatar;
-                imagenAvatar.alt = "Avatar";
-                container.appendChild(imagenAvatar);
-                return;
-            }
-
-            container.textContent = valorAvatar;
-        }
-
         function appendOption(select, value, label) {
             if (!select) return;
             select.add(new Option(label ?? "", value ?? ""));
         }
-
-        function obtenerClaseRarezaSegura(rareza) {
-            const rarezaNormalizada = typeof rareza === "string" ? rareza : "comun";
-            const rarezaPermitida = Object.prototype.hasOwnProperty.call(MULTIPLICADORES_RAREZA, rarezaNormalizada)
-                ? rarezaNormalizada
-                : "comun";
-            return `rare-${rarezaPermitida}`;
-        }
-
-        const MENSAJE_PANEL_ADMIN_SEPARADO = "El panel admin ahora está separado en /admin/ y requiere acceso validado por servidor.";
 
         function avisarPanelAdminSeparado() {
             alert(MENSAJE_PANEL_ADMIN_SEPARADO);
