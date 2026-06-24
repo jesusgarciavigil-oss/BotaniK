@@ -1,8 +1,8 @@
 # Estructura del proyecto BotaniK
 
-BotaniK es una aplicación web estática organizada en HTML, CSS, JavaScript y una función serverless para el análisis con Gemini.
+BotaniK es una aplicación web familiar organizada como web estática con módulos JavaScript, estilos CSS, un panel admin separado y endpoints serverless para operaciones de backend.
 
-## Estructura actual del repositorio
+## Estructura general actual
 
 ```text
 /
@@ -10,7 +10,28 @@ BotaniK es una aplicación web estática organizada en HTML, CSS, JavaScript y u
 ├── css/
 │   └── styles.css
 ├── js/
-│   └── main.js
+│   ├── main.js
+│   ├── config/
+│   │   └── firebase.js
+│   ├── core/
+│   │   ├── constants.js
+│   │   ├── dom.js
+│   │   ├── navigation.js
+│   │   ├── state.js
+│   │   ├── theme-bootstrap.js
+│   │   └── theme.js
+│   ├── features/
+│   │   ├── album.js
+│   │   ├── auth.js
+│   │   ├── base.js
+│   │   ├── captures.js
+│   │   ├── card-modal.js
+│   │   ├── mailbox.js
+│   │   ├── profiles.js
+│   │   ├── radar.js
+│   │   └── rewards.js
+│   └── services/
+│       └── plant-analysis.js
 ├── api/
 │   ├── admin-login.js
 │   ├── admin-session.js
@@ -20,12 +41,6 @@ BotaniK es una aplicación web estática organizada en HTML, CSS, JavaScript y u
 │   ├── admin.js
 │   └── index.html
 ├── docs/
-│   ├── despliegue.md
-│   ├── estructura.md
-│   ├── firebase.md
-│   ├── seguridad.md
-│   ├── temas.md
-│   └── versionado.md
 ├── CHANGELOG.md
 ├── VERSION
 ├── firestore.rules.example
@@ -33,13 +48,23 @@ BotaniK es una aplicación web estática organizada en HTML, CSS, JavaScript y u
 └── AGENTS.md
 ```
 
+Resumen de carpetas:
+
+- `admin/`: panel de administración separado.
+- `api/`: endpoints serverless.
+- `css/`: estilos de la app familiar.
+- `docs/`: documentación técnica y operativa.
+- `js/core/`: utilidades transversales sin lógica de negocio pesada.
+- `js/config/`: configuración cliente.
+- `js/services/`: comunicación con servicios externos o backend.
+- `js/features/`: módulos funcionales de la app familiar.
+- `js/main.js`: orquestador principal de la app familiar.
+
 Pueden existir archivos locales o carpetas generadas por herramientas, pero no forman parte de la estructura funcional del proyecto.
 
-## Responsabilidades principales
+## `index.html`
 
-### `index.html`
-
-Contiene la estructura HTML principal:
+Contiene la estructura HTML principal de la app familiar:
 
 - Login y registro familiar.
 - Selección y edición de perfiles.
@@ -48,12 +73,11 @@ Contiene la estructura HTML principal:
 - Radar/cámara.
 - Álbum.
 - Buzón y mensajes.
-- Script temprano de tema para aplicar `data-theme` antes de pintar la interfaz.
-- Carga de `css/styles.css` y `js/main.js`.
+- Carga de `js/core/theme-bootstrap.js`, `css/styles.css` y `js/main.js`.
 
-El HTML no contiene atributos `style="..."` ni eventos inline estáticos `onclick`, `onchange` u `oninput`.
+El bootstrap temprano de tema vive en un archivo externo para evitar scripts inline.
 
-### `css/styles.css`
+## `css/styles.css`
 
 Centraliza el sistema visual:
 
@@ -66,75 +90,115 @@ Centraliza el sistema visual:
 
 El sistema visual se documenta en [temas.md](temas.md).
 
-### `js/main.js`
+## `js/main.js`
 
-Centraliza la lógica principal de la app:
+`js/main.js` es el orquestador principal de la app familiar. Ya no concentra la lógica funcional completa de la aplicación.
 
-- Imports de Firebase desde CDN.
-- Configuración de Firestore.
-- Estado global.
-- Listeners de interfaz.
-- Login y registro.
-- Perfiles.
-- Base GPS/manual.
-- Radar/cámara.
-- Llamada a `/api/analyze-plant`.
-- XP, rarezas, niveles y álbum.
-- Buzón y comunicados.
+Responsabilidades actuales:
 
-`js/main.js` ya no usa `innerHTML`. El renderizado dinámico se realiza mediante creación de nodos, `textContent`, `replaceChildren`, asignación de propiedades y listeners.
+- Importar módulos.
+- Inicializar módulos funcionales.
+- Registrar listeners estáticos de interfaz.
+- Conectar callbacks entre módulos.
+- Mantener puentes de compatibilidad global necesarios para el HTML y el DOM dinámico.
+- Mantener utilidades compartidas que todavía usan varios módulos.
+- Actualizar el estado visual general compartido, como XP, rango y contadores.
+- Arrancar la app.
 
-El archivo sigue siendo grande y no está modularizado. Cualquier separación futura debe hacerse con cuidado para no romper estado global, orden de carga, Firebase, tema, perfiles, capturas o funciones expuestas en `window`.
+Los cruces entre dominios deben pasar por `main.js` siempre que sea razonable. Por ejemplo, capturas puede avisar a álbum, modal y recompensas mediante callbacks configurados desde el orquestador.
 
-### `api/analyze-plant.js`
+## `js/core/`
 
-Función serverless de Vercel para análisis de plantas con Gemini.
+Contiene piezas transversales de la app familiar:
 
-Responsabilidades:
+- `constants.js`: constantes puras compartidas, como rarezas, rangos, títulos y mensajes reutilizados.
+- `dom.js`: helpers DOM compartidos para limpiar nodos, crear texto y renderizar valores seguros.
+- `state.js`: estado mutable compartido de la app familiar.
+- `navigation.js`: navegación principal entre vistas.
+- `theme.js`: lectura, guardado, aplicación y sincronización de tema.
+- `theme-bootstrap.js`: bootstrap mínimo de tema cargado antes del CSS para reducir parpadeo visual.
 
-- Leer `GEMINI_API_KEY` desde variables de entorno.
-- Construir la petición hacia Gemini.
-- Procesar la respuesta.
-- Devolver al frontend un resultado compatible con el flujo de capturas.
+Estos módulos no deben convertirse en contenedores de lógica de negocio pesada.
 
-La clave Gemini no debe estar en el cliente.
+## `js/config/`
 
-### `api/admin-login.js` y `api/admin-session.js`
+### `firebase.js`
 
-Funciones serverless de Vercel para acceso admin.
+Centraliza la configuración pública cliente de Firebase y la inicialización de Firestore para la app familiar.
 
-Responsabilidades:
+También reexporta las funciones de Firestore que usan los módulos del cliente. No debe incluir claves privadas ni secretos.
 
-- Leer `ADMIN_PASSWORD` y `ADMIN_SESSION_SECRET` desde variables de entorno.
-- Validar el acceso admin sin exponer la contraseña.
-- Firmar y validar tokens temporales de sesión admin.
-- Responder con errores genéricos ante accesos no autorizados.
+## `js/services/`
 
-### `admin/index.html`, `admin/admin.js` y `admin/admin.css`
+### `plant-analysis.js`
 
-Contienen el panel admin separado de la app familiar.
+Encapsula la llamada a `/api/analyze-plant`.
 
 Responsabilidades:
 
-- Mostrar login admin.
-- Validar contraseña mediante `/api/admin-login`.
-- Guardar sesión temporal en `sessionStorage`.
-- Validar sesión mediante `/api/admin-session`.
-- Mostrar monitor, cuentas, moderación, comunicados y simulador solo con sesión válida.
-- Mantener fuera del cliente la contraseña admin y el secreto de firma.
+- Construir la petición al endpoint serverless.
+- Mantener el payload esperado por el backend.
+- Devolver al flujo de capturas la respuesta en el formato esperado.
 
-Las operaciones admin siguen usando Firestore desde cliente, por lo que Firestore Rules siguen siendo necesarias para proteger los datos frente a accesos directos.
+## `js/features/`
 
-### `docs/`
+Contiene módulos funcionales de la app familiar:
 
-Contiene documentación técnica y operativa:
+- `auth.js`: login, registro familiar y cierre de sesión.
+- `profiles.js`: perfiles familiares, avatares, edición, selección y selector de cabecera.
+- `album.js`: carga, memoria y renderizado del álbum de cromos botánicos.
+- `card-modal.js`: visualizador de detalle del cromo y acciones del modal.
+- `mailbox.js`: buzón histórico y lectura de comunicados.
+- `rewards.js`: recompensas en vivo, alertas de comunidad y toast de biomasa.
+- `base.js`: base de exploración, GPS, entrada manual y guardado de base del perfil.
+- `radar.js`: disparador del radar/cámara.
+- `captures.js`: procesamiento de foto, compresión, análisis IA, cálculo de XP y guardado de capturas.
 
-- `despliegue.md`: Vercel, Gemini, Firebase y checklist operativa.
-- `firebase.md`: colecciones, flujos y expectativas de reglas Firestore.
-- `seguridad.md`: estado de seguridad y pendientes.
-- `temas.md`: sistema visual y temas.
-- `versionado.md`: política SemVer.
-- `estructura.md`: este documento.
+Los módulos de dominio no deben acoplarse innecesariamente entre sí. Cuando una acción afecta a varios dominios, `main.js` debe coordinarla mediante callbacks o exports claros.
+
+## `api/`
+
+Contiene endpoints serverless:
+
+- `api/analyze-plant.js`: análisis de plantas con Gemini.
+- `api/admin-login.js`: validación de acceso admin.
+- `api/admin-session.js`: validación de sesión admin.
+
+Los endpoints serverless están separados de la app estática. No deben mezclarse con módulos de `js/features/`.
+
+## `admin/`
+
+Contiene el panel admin separado de la app familiar:
+
+- `admin/index.html`
+- `admin/admin.js`
+- `admin/admin.css`
+
+El panel admin mantiene su propia estructura y no debe mezclarse con la modularización de la app familiar.
+
+## Principios de arquitectura
+
+- `main.js` coordina cruces entre módulos.
+- `state.js` centraliza estado mutable compartido.
+- `firebase.js` centraliza la configuración cliente de Firebase.
+- `plant-analysis.js` encapsula la llamada a `/api/analyze-plant`.
+- Los módulos de `features/` deben representar dominios funcionales claros.
+- Los cruces entre perfiles, álbum, recompensas, capturas, base y modal deben pasar por callbacks u orquestación.
+- `admin/` sigue separado y no debe mezclarse con la app familiar.
+- `/api` sigue separado como capa serverless.
+- No se deben añadir claves privadas, tokens ni secretos a la documentación ni al cliente.
+
+## Entorno local
+
+Live Server, Five Server, `python -m http.server` u otros servidores estáticos pueden servir la app familiar, pero no ejecutan endpoints serverless de `/api`.
+
+Para probar `/api/analyze-plant` en local hace falta un entorno compatible con Vercel, por ejemplo:
+
+```bash
+vercel dev
+```
+
+Si la app se sirve desde un servidor estático local y una captura llama a `/api/analyze-plant`, puede aparecer un error como `405 Method Not Allowed` o una respuesta no válida. Ese caso no implica necesariamente un fallo del código de capturas; indica que el servidor local no está ejecutando la función serverless.
 
 ## Archivos de soporte
 
@@ -147,8 +211,7 @@ Contiene documentación técnica y operativa:
 
 ## Próximos pasos estructurales sugeridos
 
-- Mantener `js/main.js` como archivo único mientras no haya una razón clara para modularizar.
-- Si se modulariza, hacerlo por dominios pequeños y probables: perfiles, capturas, mensajes, Firebase o administración.
-- Revisar responsive, accesibilidad, focus visible y `prefers-reduced-motion`.
-- Revisar Firestore Rules para que el panel admin separado no dependa solo del control de acceso visual.
-- Evitar reintroducir secretos en cliente o HTML interpolado con datos externos.
+- Mantener `main.js` como orquestador y evitar devolverle lógica de dominio ya separada.
+- Revisar documentación tras cada fase estructural relevante.
+- Revisar responsive, accesibilidad, focus visible y `prefers-reduced-motion` en fases específicas.
+- Revisar Firestore Rules en una rama o tarea centrada en seguridad.

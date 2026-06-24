@@ -118,9 +118,7 @@ Cuando se extraiga JavaScript, mantén inicialmente las funciones globales neces
 
 Cuando se extraiga CSS, conserva primero los selectores actuales. La limpieza de estilos inline debe hacerse después, en pasos separados.
 
-## Estructura objetivo inicial
-
-La primera profesionalización del proyecto debería tender hacia una estructura sencilla:
+## Estructura actual de referencia
 
 ```text
 /
@@ -128,14 +126,23 @@ La primera profesionalización del proyecto debería tender hacia una estructura
 ├── css/
 │   └── styles.css
 ├── js/
-│   └── main.js
+│   ├── main.js
+│   ├── config/
+│   ├── core/
+│   ├── features/
+│   └── services/
+├── admin/
+├── api/
+├── docs/
 ├── assets/
 │   └── img/
 ├── README.md
 └── AGENTS.md
 ```
 
-Esta estructura puede evolucionar más adelante, pero no debe complicarse al principio.
+`js/main.js` actúa como orquestador de la app familiar. La lógica funcional principal vive en módulos bajo `js/core/`, `js/config/`, `js/services/` y `js/features/`. La estructura detallada se documenta en `docs/estructura.md`.
+
+Evita devolver lógica de dominio a `js/main.js` salvo que sea estrictamente necesario. Mantén `admin/` y `api/` separados de la app familiar.
 
 ## Commits y ramas
 
