@@ -4,6 +4,8 @@ BotaniK todavía es un prototipo funcional y no debe publicarse como producción
 
 Para ejecutar las tareas externas de Vercel, Gemini y Firebase paso a paso, usar la guía operativa: [guia-externa-publicacion.md](guia-externa-publicacion.md).
 
+La publicación pública inicial corresponde a la versión `0.1.0`. La versión `1.0.0` queda pendiente de panel admin con autorización real, seguridad externa consolidada y pulido visual suficiente.
+
 ## Estado actual de preparación pública
 
 Esta sección es el punto central de decisión antes de hacer público el repositorio. Cada punto debe actualizarse en commits posteriores cuando cambie de estado.
@@ -22,6 +24,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [x] Reducción de `innerHTML` ampliada a perfiles, dropdown de perfiles y cromos del álbum.
 - [x] Usos restantes de `innerHTML` eliminados de `js/main.js`, incluido panel admin deshabilitado.
 - [x] Guía externa de publicación creada para Vercel, Gemini y Firebase: [guia-externa-publicacion.md](guia-externa-publicacion.md).
+- [x] Base de versionado SemVer creada con `VERSION`, `CHANGELOG.md` y [versionado.md](versionado.md).
 
 ### Pendiente bloqueante
 
@@ -45,6 +48,7 @@ Esta sección es el punto central de decisión antes de hacer público el reposi
 - [ ] Mover imágenes a Firebase Storage u otro almacenamiento adecuado.
 - [ ] Vigilar que no se reintroduzcan plantillas HTML interpoladas con datos de Firestore, formularios o servicios externos.
 - [ ] Revisar XSS en cualquier plantilla dinámica nueva.
+- [ ] Preparar futura versión `1.0.0` cuando exista admin real, seguridad externa validada y pulido visual suficiente.
 - [ ] Valorar limpieza de historial Git si se quiere una publicación más limpia.
 - [ ] Valorar crear un repositorio público limpio desde cero con el código saneado como primer commit.
 - [ ] Revisar historial Git y ramas antiguas como parte de una auditoría más pulcra, sin bloquear esta rama si no quedan secretos activos.

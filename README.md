@@ -8,6 +8,8 @@ BotaniK es una aplicación web familiar orientada a la exploración botánica. I
 
 El proyecto está en estado de prototipo funcional y en proceso de profesionalización. Actualmente se mantiene como web estática. La estructura ya separa los estilos principales en `css/styles.css` y la lógica principal de la aplicación en `js/main.js`.
 
+Versión actual: `0.1.0`
+
 `index.html` mantiene la estructura HTML principal, carga `css/styles.css` y `js/main.js`, y conserva el script temprano de tema en el `<head>` para aplicar `data-theme` antes de pintar la interfaz. Los eventos inline estáticos (`onclick`, `onchange` y `oninput`) se han sustituido por listeners en `js/main.js`.
 
 `js/main.js` centraliza por ahora imports de Firebase/CDN, configuración, estado global, listeners estáticos, funciones expuestas en `window`, login, perfiles, radar/cámara, álbum, buzón y panel de administración. El análisis con Gemini se realiza mediante una función serverless. Esta extracción es una mejora estructural, pero todavía no implica modularización interna.
@@ -31,6 +33,8 @@ Más detalle: [docs/temas.md](docs/temas.md).
 Antes de hacer público el repositorio, revisar el checklist de seguridad y publicación: [docs/publicacion-publica.md](docs/publicacion-publica.md).
 
 Para las tareas externas de Vercel, Gemini y Firebase, usar la guía operativa: [docs/guia-externa-publicacion.md](docs/guia-externa-publicacion.md).
+
+Historial de versiones: [CHANGELOG.md](CHANGELOG.md). Criterios de versionado: [docs/versionado.md](docs/versionado.md).
 
 ## Funcionalidades principales detectadas
 
@@ -99,7 +103,10 @@ Este README no copia valores reales de claves, contraseñas, tokens ni credencia
 │   ├── firebase.md
 │   ├── guia-externa-publicacion.md
 │   ├── seguridad.md
-│   └── temas.md
+│   ├── temas.md
+│   └── versionado.md
+├── CHANGELOG.md
+├── VERSION
 ├── README.md
 └── AGENTS.md
 ```
