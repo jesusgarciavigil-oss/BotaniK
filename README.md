@@ -6,15 +6,13 @@ BotaniK es una app web familiar para explorar plantas de forma lúdica. La exper
 
 Cada captura puede analizarse con IA mediante una función serverless, y la app transforma el resultado en una ficha con nombre, rareza, XP y progreso. La idea es convertir pequeños paseos y observaciones en una aventura de exploración natural.
 
-El proyecto incluye recompensas, niveles, comunicados, buzón de mensajes y temas claro/oscuro. Está pensado como prototipo avanzado y base pública para seguir profesionalizando seguridad, experiencia visual y mantenimiento.
+El proyecto incluye recompensas, niveles, comunicados y buzón de mensajes.
 
 ## Estado del proyecto
 
-Versión actual: `0.2.0`
+La versión activa del proyecto se mantiene en [`VERSION`](VERSION).
 
-BotaniK está en fase pública temprana. La app es funcional, pero todavía no debe presentarse como producto final ni como producción completamente segura.
-
-El panel admin está separado en `/admin/` y usa login serverless con sesión temporal. La futura versión `1.0.0` queda reservada para una etapa más estable, con reglas Firestore consolidadas, seguridad externa validada y pulido visual/UX suficiente.
+BotaniK está en desarrollo activo y cuenta con una primera versión pública funcional. La app familiar, el análisis mediante IA, el álbum de especies y el panel admin separado ya están integrados.
 
 ## Funcionalidades
 
@@ -27,7 +25,7 @@ El panel admin está separado en `/admin/` y usa login serverless con sesión te
 - Sistema de XP, rarezas, niveles y álbum.
 - Comunicados y buzón.
 - Tema claro/oscuro.
-- Panel admin separado con acceso serverless.
+- Panel admin separado con acceso validado mediante serverless.
 
 ## Tecnologías
 
@@ -58,23 +56,23 @@ http://localhost:8000
 
 Abrir `index.html` directamente en el navegador también puede funcionar, aunque algunas funciones dependen del origen, permisos del navegador, HTTPS, cámara, GPS, Firebase o Vercel.
 
+## Arquitectura y acceso
+
+La app familiar se ejecuta como aplicación web estática. Las operaciones de análisis con Gemini se realizan mediante una función serverless, evitando llamadas directas desde el cliente.
+
+El panel admin está separado en `/admin/` y utiliza validación mediante backend serverless. Las variables sensibles de acceso y firma de sesión se gestionan como variables de entorno en Vercel.
+
+La información técnica de mantenimiento está documentada en los archivos de `docs/`.
+
 ## Documentación
 
 - Historial de versiones: [CHANGELOG.md](CHANGELOG.md)
 - Política de versionado: [docs/versionado.md](docs/versionado.md)
-- Seguridad: [docs/seguridad.md](docs/seguridad.md)
+- Seguridad y mantenimiento: [docs/seguridad.md](docs/seguridad.md)
 - Firebase/Firestore: [docs/firebase.md](docs/firebase.md)
 - Estructura técnica: [docs/estructura.md](docs/estructura.md)
 - Sistema visual y temas: [docs/temas.md](docs/temas.md)
 - Despliegue y operaciones: [docs/despliegue.md](docs/despliegue.md)
-
-La documentación técnica resume el estado actual y los puntos de mantenimiento más importantes.
-
-## Seguridad
-
-Las credenciales visibles conocidas se han retirado del cliente y Gemini se llama mediante una función serverless. Aun así, BotaniK no debe considerarse producción segura completa.
-
-Firestore sigue dependiendo de reglas reales desplegadas fuera del repositorio. El acceso al panel admin se valida mediante serverless, pero las operaciones sobre datos siguen necesitando reglas y revisión externa. Para más detalle, revisar [docs/seguridad.md](docs/seguridad.md).
 
 ## Changelog y versionado
 
