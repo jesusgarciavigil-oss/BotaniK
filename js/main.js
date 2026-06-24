@@ -2,8 +2,18 @@
            1. IMPORTS
            ========================================================================== */
 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, query, where, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import {
+            addDoc,
+            collection,
+            db,
+            deleteDoc,
+            doc,
+            getDocs,
+            onSnapshot,
+            query,
+            updateDoc,
+            where
+        } from "./config/firebase.js";
         import {
             MENSAJE_PANEL_ADMIN_SEPARADO,
             MULTIPLICADORES_RAREZA,
@@ -38,18 +48,6 @@
         /* ==========================================================================
            3. FIREBASE, FIRESTORE Y SERVICIOS EXTERNOS
            ========================================================================== */
-
-        // Inicialización de la Base de Datos Firebase del Entorno Familiar
-        const firebaseConfig = {
-            apiKey: "AIzaSyDReChwrnr6zHLumpR5OLTrNlvfhcAH_BA",
-            authDomain: "plantdex-984e6.firebaseapp.com",
-            projectId: "plantdex-984e6",
-            storageBucket: "plantdex-984e6.firebasestorage.app",
-            messagingSenderId: "247992735441",
-            appId: "1:247992735441:web:91b0ce9ec849c5876457f0"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
 
         /* ==========================================================================
            4. LISTENERS GLOBALES DE INTERFAZ
