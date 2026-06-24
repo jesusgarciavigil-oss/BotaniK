@@ -150,10 +150,11 @@ function cerrarSesionAdmin() {
 }
 
 async function switchAdminTab(tabId, event) {
+    const triggerButton = event?.currentTarget || null;
     if (!(await asegurarSesionAdmin())) return;
     document.querySelectorAll(".admin-tab-btn").forEach(btn => btn.classList.remove("active"));
     document.querySelectorAll(".admin-view-pane").forEach(pane => pane.classList.remove("active"));
-    if (event) event.currentTarget.classList.add("active");
+    if (triggerButton) triggerButton.classList.add("active");
     else {
         const buttonByPanel = {
             "panel-macro": "admin-tab-macro-btn",
