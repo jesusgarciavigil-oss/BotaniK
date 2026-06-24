@@ -30,6 +30,7 @@
             initializeThemeControls,
             sincronizarSelectorTemaPerfil
         } from "./core/theme.js";
+        import { createSwitchPage } from "./core/navigation.js";
         
         /* ==========================================================================
            2. MANEJADORES GLOBALES DE ERROR
@@ -798,14 +799,7 @@
            17. NAVEGACIÓN ENTRE VISTAS
            ========================================================================== */
 
-        window.switchPage = (pageId, buttonElement) => {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-            
-            document.getElementById(pageId).classList.add('active');
-            if(buttonElement) buttonElement.classList.add('active');
-            if(pageId === 'album') cargarAlbum();
-        };
+        window.switchPage = createSwitchPage({ onAlbumSelected: cargarAlbum });
 
         /* ==========================================================================
            18. XP, NIVELES Y ESTADO DEL RADAR
