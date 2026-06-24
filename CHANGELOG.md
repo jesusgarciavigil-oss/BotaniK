@@ -2,6 +2,13 @@
 
 El proyecto sigue versionado con SemVer.
 
+## [0.2.1] - 2026-06-24
+
+### Corregido
+
+- Corregido el cambio de pestañas del panel admin separado.
+- Ajustadas las rutas del panel admin para que cargue correctamente desde `/admin` y `/admin/`.
+
 ## [0.2.0] - 2026-06-24
 
 ### Añadido
