@@ -31,6 +31,7 @@
             sincronizarSelectorTemaPerfil
         } from "./core/theme.js";
         import { createSwitchPage } from "./core/navigation.js";
+        import { analyzePlantImage } from "./services/plant-analysis.js";
         
         /* ==========================================================================
            2. MANEJADORES GLOBALES DE ERROR
@@ -576,32 +577,21 @@
                         let edadAventurero = calcularEdadExacta(perfilActivoNacimiento);
                         let sectorBaseTxt = perfilActivoBase ? `${perfilActivoBase.municipio}, en la provincia de ${perfilActivoBase.provincia}` : "Desconocido";
 
-                        const response = await fetch('/api/analyze-plant', {
-                            method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                imageBase64: base64Data,
-                                edadAventurero,
-                                sectorBaseTxt,
-                                perfilActivoEsExperto
-                            })
+                        let planta;
+                        const respuestaAnalisis = await analyzePlantImage({
+                            imageBase64: base64Data,
+                            edadAventurero,
+                            sectorBaseTxt,
+                            perfilActivoEsExperto
                         });
 
-                        let planta;
-                        let respuestaAnalisis = null;
-                        try {
-                            respuestaAnalisis = await response.json();
-                        } catch (jsonErr) {
-                            respuestaAnalisis = null;
-                        }
-
-                        if (!response.ok) {
-                            alert(`🚨 ERROR CRÍTICO: El satélite botánico no pudo completar el análisis.\nDetalle: ${respuestaAnalisis?.error || 'Error de comunicación con el servidor.'}`);
+                        if (!respuestaAnalisis.ok) {
+                            alert(`🚨 ERROR CRÍTICO: El satélite botánico no pudo completar el análisis.\nDetalle: ${respuestaAnalisis.body?.error || 'Error de comunicación con el servidor.'}`);
                             document.getElementById('loading').style.display = 'none';
                             return;
                         }
 
-                        planta = respuestaAnalisis;
+                        planta = respuestaAnalisis.body;
                         if (!planta || typeof planta !== 'object') {
                             alert("❌ ERROR DE PARSEO BOTÁNICO:\n\nEl servidor no devolvió un análisis válido.");
                             document.getElementById('loading').style.display = 'none';
