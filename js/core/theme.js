@@ -10,14 +10,15 @@ function resolveSystemTheme() {
     try {
         if (
             window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: light)").matches
+            window.matchMedia("(prefers-color-scheme: dark)").matches
         ) {
-            return "light";
+            return "dark";
         }
     } catch (err) {
         // Si el navegador bloquea matchMedia, mantenemos el tema oscuro por defecto.
+        return "dark";
     }
-    return "dark";
+    return window.matchMedia ? "light" : "dark";
 }
 
 export function getBotanikThemePreference() {

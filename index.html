@@ -4,27 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BotaniK - Sistema de Radar de Campo</title>
-    <script>
-      (() => {
-        try {
-          const storedTheme = localStorage.getItem("botanik-theme");
-          const preference = ["dark", "light", "system"].includes(storedTheme)
-            ? storedTheme
-            : "system";
-          const resolvedTheme =
-            preference === "dark" || preference === "light"
-              ? preference
-              : window.matchMedia &&
-                  window.matchMedia("(prefers-color-scheme: light)").matches
-                ? "light"
-                : "dark";
-          document.documentElement.dataset.theme = resolvedTheme;
-        } catch (err) {
-          document.documentElement.dataset.theme = "dark";
-        }
-      })();
-    </script>
+    <script src="/js/core/theme-bootstrap.js"></script>
     <link rel="stylesheet" href="./css/styles.css" />
+    <script type="module" src="/js/main.js"></script>
   </head>
   <body>
     <div id="login-page">
@@ -363,7 +345,5 @@
         <button id="m-reader-btn-action" class="login-btn">ENTENDIDO</button>
       </div>
     </div>
-
-    <script type="module" src="./js/main.js"></script>
   </body>
 </html>
