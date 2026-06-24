@@ -2,6 +2,26 @@
 
 El proyecto sigue versionado con SemVer.
 
+## [0.3.0] - 2026-06-24
+
+### Cambiado
+
+- Modularizada la app familiar para reducir la responsabilidad de `js/main.js`.
+- Separada la lógica cliente en módulos `core`, `config`, `services` y `features`.
+- `js/main.js` queda como orquestador principal de imports, inicialización, listeners, callbacks y estado visual compartido.
+- Separadas responsabilidades de auth familiar, perfiles, álbum, modal de cromo, buzón, recompensas/XP, base GPS/manual, radar y capturas.
+- Encapsulada la comunicación con el análisis IA en `js/services/plant-analysis.js`.
+- Documentada la nueva estructura modular en `docs/estructura.md`.
+
+### Limpieza
+
+- Eliminados restos heredados del archivo monolítico, incluyendo helpers muertos y secciones vacías del orquestador.
+
+### Sin cambios funcionales visibles
+
+- No se prevén cambios visibles para usuarios finales.
+- No se cambia el modelo de datos, endpoints, seguridad, CSS, diseño visual ni panel admin.
+
 ## [0.2.1] - 2026-06-24
 
 ### Corregido
