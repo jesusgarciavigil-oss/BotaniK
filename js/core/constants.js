@@ -1,3 +1,4 @@
+// Constantes puras compartidas por la experiencia familiar de BotaniK.
 export const RANGOS_EXPLORACION = [
     "Aspirante de Campo", "Rastreador de Brotes", "Buscador de Raíces", "Herborista Iniciado",
     "Explorador de Savias", "Guardián del Musgo", "Cazador de Semillas", "Alquimista del Bosque",

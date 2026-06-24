@@ -1,3 +1,4 @@
+// Configuración pública e inicialización Firebase para la app familiar.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
     getFirestore,

@@ -26,6 +26,10 @@
             obtenerClaseRarezaSegura,
             renderizarAvatarSeguro
         } from "./core/dom.js";
+        import {
+            initializeThemeControls,
+            sincronizarSelectorTemaPerfil
+        } from "./core/theme.js";
         
         /* ==========================================================================
            2. MANEJADORES GLOBALES DE ERROR
@@ -222,21 +226,7 @@
            9. TEMA DENTRO DEL MODAL DE PERFIL
            ========================================================================== */
 
-        const sincronizarSelectorTemaPerfil = () => {
-            const themePreferenceSelect = document.getElementById('theme-preference-select');
-            if (!themePreferenceSelect || typeof window.getBotanikThemePreference !== 'function') return;
-            themePreferenceSelect.value = window.getBotanikThemePreference();
-        };
-
-        const themePreferenceSelect = document.getElementById('theme-preference-select');
-        if (themePreferenceSelect) {
-            themePreferenceSelect.addEventListener('change', (event) => {
-                if (typeof window.setBotanikThemePreference === 'function') {
-                    window.setBotanikThemePreference(event.target.value);
-                }
-            });
-            sincronizarSelectorTemaPerfil();
-        }
+        initializeThemeControls();
 
         /* ==========================================================================
            10. PERFILES Y SELECTOR DE EXPLORADORES

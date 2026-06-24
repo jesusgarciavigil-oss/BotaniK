@@ -1,3 +1,4 @@
+// Helpers DOM compartidos por los renderizados seguros de la app familiar.
 import { MULTIPLICADORES_RAREZA } from "./constants.js";
 
 export function limpiarNodo(elemento) {
